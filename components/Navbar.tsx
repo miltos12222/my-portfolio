@@ -20,7 +20,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Keyboard shortcut for Command Menu (Ctrl+K or Cmd+K)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
@@ -63,8 +62,8 @@ export default function Navbar() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className={`w-full max-w-5xl pointer-events-auto transition-all duration-300 rounded-3xl px-6 py-4 flex items-center justify-between ${scrolled
-              ? "bg-[#0c0d14]/85 backdrop-blur-2xl border border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.7)]"
-              : "bg-black/40 backdrop-blur-xl border border-white/10 shadow-lg"
+            ? "bg-[#0c0d14]/85 backdrop-blur-2xl border border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.7)]"
+            : "bg-black/40 backdrop-blur-xl border border-white/10 shadow-lg"
             }`}
         >
           {/* Brand / Monogram */}
