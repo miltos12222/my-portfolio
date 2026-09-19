@@ -2,13 +2,12 @@
 
 import { useRef } from "react";
 import { useScroll } from "framer-motion";
-import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import ScrollyCanvas from "@/components/ScrollyCanvas";
 import Overlay from "@/components/Overlay";
 import PortfolioGrid from "@/components/PortfolioGrid";
 import Footer from "@/components/Footer";
-import { certificateBase64 } from "@/certificates/certificateData";
+import CertificateImage from "@/components/CertificateImage";
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -96,30 +95,8 @@ export default function Home() {
                   Web Designer - Developer / Video Games / Πολυμέσα
                 </p>
 
-                {/* Document Image Preview Frame */}
-                <a
-                  href={certificateBase64}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative block w-full h-64 rounded-xl overflow-hidden border border-white/10 bg-black/40 my-4 transition-all duration-300 hover:border-amber-500/50"
-                >
-                  <Image
-                    src={certificateBase64}
-                    alt="Βεβαίωση Επαγγελματικής Κατάρτισης"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover object-top opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
-                    unoptimized
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end justify-between p-4 opacity-90 group-hover:opacity-100">
-                    <span className="text-xs font-mono text-white flex items-center gap-1.5">
-                      🔍 Κάνε κλικ για πλήρη προβολή
-                    </span>
-                    <span className="text-xs font-mono text-amber-400 underline">
-                      Open Full Size →
-                    </span>
-                  </div>
-                </a>
+                {/* Ενσωματωμένο Component Βεβαίωσης */}
+                <CertificateImage />
               </div>
 
               <div className="flex flex-wrap gap-2 pt-2 border-t border-white/[0.06]">
