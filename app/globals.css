@@ -9,9 +9,9 @@
 }
 
 html {
-  scroll-behavior: smooth;
   color-scheme: dark;
   background-color: #0b0c10;
+  overflow-x: hidden;
 }
 
 body {
