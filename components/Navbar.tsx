@@ -25,9 +25,9 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { label: "Overview", href: "#top" },
-    { label: "About Me", href: "#about" },
-    { label: "Infrastructure", href: "#systems" },
+    { label: "Overview", href: "#overview" },
+    { label: "About Me", href: "#about-me" },
+    { label: "Infrastructure", href: "#infrastructure" },
     { label: "Resilience", href: "#resilience" },
     { label: "Projects", href: "#projects" },
     { label: "Contact", href: "#contact" },
@@ -40,8 +40,8 @@ export default function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className={`w-full max-w-6xl pointer-events-auto transition-all duration-300 rounded-2xl px-4 py-3 md:px-6 md:py-3.5 flex items-center justify-between ${scrolled
-          ? "bg-[#0c0d14]/80 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.6)]"
-          : "bg-black/30 backdrop-blur-md border border-white/5"
+            ? "bg-[#0c0d14]/80 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.6)]"
+            : "bg-black/30 backdrop-blur-md border border-white/5"
           }`}
       >
         {/* Brand / Monogram */}
