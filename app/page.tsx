@@ -5,16 +5,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, Terminal } from "lucide-react";
+import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown } from "lucide-react";
 import { GithubIcon } from "@/components/SocialIcons";
 
 export default function Home() {
-  // States για τα collapsible cards
+  // States gia ola ta collapsible cards & sections
   const [infraOpen, setInfraOpen] = useState(false);
   const [webOpen, setWebOpen] = useState(false);
   const [ethicOpen, setEthicOpen] = useState(false);
   const [project1Open, setProject1Open] = useState(false);
   const [project2Open, setProject2Open] = useState(false);
+  const [stackOpen, setStackOpen] = useState(false);
+  const [resilienceOpen, setResilienceOpen] = useState(false);
 
   return (
     <div className="relative min-h-screen bg-[#0b0c10] text-[#e5e7eb] selection:bg-cyan-500/25 selection:text-white">
@@ -74,7 +76,7 @@ export default function Home() {
                 <span>GitHub Profile</span>
               </a>
               <a
-                href="mailto:miltospapageorgiou@gmail.com"
+                href="mailto:miltospapageorgiou066@gmail.com"
                 className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-xs font-medium text-cyan-300 transition-all"
               >
                 <Mail className="w-4 h-4" />
@@ -148,7 +150,7 @@ export default function Home() {
                   >
                     <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs text-zinc-300">
                       <p>• Αρχιτεκτονική φιλική προς SEO και άμεση απόκριση (zero lags).</p>
-                      <p>• Responsive σχεδίαση με Tailwind CSS και组件 modular λογική.</p>
+                      <p>• Responsive σχεδίαση με Tailwind CSS και modular λογική.</p>
                     </div>
                   </motion.div>
                 )}
@@ -233,26 +235,82 @@ export default function Home() {
           </p>
         </section>
 
-        {/* SECTION: INFRASTRUCTURE (Link 3 target) */}
+        {/* SECTION: INFRASTRUCTURE (Collapsible) */}
         <section id="infrastructure" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 space-y-4">
-          <div className="flex items-center gap-3">
-            <Server className="w-6 h-6 text-cyan-400" />
-            <h2 className="text-xl font-bold text-white">Infrastructure & Homelab Stack</h2>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Server className="w-6 h-6 text-cyan-400" />
+              <h2 className="text-xl font-bold text-white">Infrastructure & Homelab Stack</h2>
+            </div>
+            <button
+              onClick={() => setStackOpen(!stackOpen)}
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium"
+            >
+              <span>{stackOpen ? "Λιγότερα" : "Ανάλυση"}</span>
+              <ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-300 ${stackOpen ? "rotate-180" : ""}`} />
+            </button>
           </div>
+
           <p className="text-sm text-zinc-300 leading-relaxed">
             Ανάπτυξη και διαχείριση εικονικών μηχανών σε Proxmox VE, παραμετροποίηση Docker containers για αυτόματο backup φωτογραφιών και αρχείων με ασφαλή πρόσβαση μέσω Tailscale VPN.
           </p>
+
+          <AnimatePresence>
+            {stackOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="overflow-hidden"
+              >
+                <div className="pt-4 border-t border-white/10 space-y-2 text-xs text-zinc-300">
+                  <p>• **Proxmox VE:** Ρύθμιση αποθηκευτικών χώρων (ext4 mounts) και οργάνωση LXC containers.</p>
+                  <p>• **Nextcloud & MariaDB:** Αυτόματος συγχρονισμός και ασφαλής αποθήκευση πάνω από 6.000 αρχείων και φωτογραφιών.</p>
+                  <p>• **Tailscale Mesh VPN:** Ασφαλής σύνδεση απομακρυσμένης πρόσβασης χωρίςexposed ports.</p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </section>
 
-        {/* SECTION: RESILIENCE (Link 4 target) */}
+        {/* SECTION: RESILIENCE (Collapsible) */}
         <section id="resilience" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 space-y-4">
-          <div className="flex items-center gap-3">
-            <Cpu className="w-6 h-6 text-emerald-400" />
-            <h2 className="text-xl font-bold text-white">Resilience & High Availability</h2>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Cpu className="w-6 h-6 text-emerald-400" />
+              <h2 className="text-xl font-bold text-white">Resilience & High Availability</h2>
+            </div>
+            <button
+              onClick={() => setResilienceOpen(!resilienceOpen)}
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium"
+            >
+              <span>{resilienceOpen ? "Λιγότερα" : "Ανάλυση"}</span>
+              <ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-300 ${resilienceOpen ? "rotate-180" : ""}`} />
+            </button>
           </div>
+
           <p className="text-sm text-zinc-300 leading-relaxed">
             Σχεδιασμός με έμφαση στη συνεχή λειτουργία, τα αυτόματα backups και την ανθεκτικότητα απέναντι σε αστοχίες υλικού ή δικτύου.
           </p>
+
+          <AnimatePresence>
+            {resilienceOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="overflow-hidden"
+              >
+                <div className="pt-4 border-t border-white/10 space-y-2 text-xs text-zinc-300">
+                  <p>• **Αυτόματα Backups:** Τακτικά snapshots και αντίγραφα ασφαλείας κρίσιμων δεδομένων.</p>
+                  <p>• **Fault Tolerance:** Προστασία υποδομής έναντι διακοπών δικτύου και απώλειας πακέτων.</p>
+                  <p>• **Monitoring:** Συνεχής παρακολούθηση υγείας συστημάτων και containers.</p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </section>
 
         {/* SECTION: PROJECTS / SYSTEMS */}
