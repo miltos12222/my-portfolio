@@ -63,7 +63,7 @@ export default function Navbar() {
           initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className={`w-full max-w-5xl pointer-events-auto transition-all duration-300 rounded-3xl px-6 py-4 flex items-center justify-between ${scrolled
+          className={`w-full max-w-6xl pointer-events-auto transition-all duration-300 rounded-3xl px-6 py-4 flex items-center justify-between ${scrolled
             ? "bg-[#0c0d14]/85 backdrop-blur-2xl border border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.7)]"
             : "bg-black/40 backdrop-blur-xl border border-white/10 shadow-lg"
             }`}
@@ -94,8 +94,8 @@ export default function Navbar() {
               </div>
             </a>
 
-            {/* Dynamic Ioannina Location Badge (Hidden on small mobile) */}
-            <div className="hidden md:block border-l border-white/10 pl-3.5">
+            {/* Dynamic Ioannina Location Badge (Εμφανίζεται πάντα σε Laptop/Desktop XL) */}
+            <div className="hidden xl:block border-l border-white/10 pl-3.5">
               <LocationBadge />
             </div>
           </div>
@@ -106,15 +106,19 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-gray-300 hover:text-white px-3.5 py-1.5 rounded-full transition-all hover:bg-white/10 font-medium"
+                className="text-gray-300 hover:text-white px-3 py-1.5 rounded-full transition-all hover:bg-white/10 font-medium"
               >
                 {link.label}
               </a>
             ))}
           </div>
 
-          {/* Right Actions & Command Button trigger */}
+          {/* Right Actions & Location Badge (Για Laptop/Tablet μεγέθη) */}
           <div className="hidden sm:flex items-center gap-2.5">
+            <div className="hidden sm:block xl:hidden">
+              <LocationBadge />
+            </div>
+
             <button
               onClick={() => setCmdOpen(true)}
               className="flex items-center gap-2 px-3 py-2 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-gray-400 hover:text-white text-xs transition-all shadow-sm"
