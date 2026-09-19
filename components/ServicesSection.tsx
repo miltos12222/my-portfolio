@@ -98,8 +98,8 @@ export default function ServicesSection() {
                         <div
                             key={service.id}
                             className={`relative rounded-2xl bg-slate-900/80 border p-8 flex flex-col justify-between backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 ${service.popular
-                                    ? 'border-blue-500 shadow-2xl shadow-blue-500/10 ring-1 ring-blue-500/50'
-                                    : 'border-slate-800 hover:border-slate-700 shadow-xl'
+                                ? 'border-blue-500 shadow-2xl shadow-blue-500/10 ring-1 ring-blue-500/50'
+                                : 'border-slate-800 hover:border-slate-700 shadow-xl'
                                 }`}
                         >
                             {service.popular && (
@@ -137,8 +137,8 @@ export default function ServicesSection() {
                             <button
                                 onClick={() => handleOpenModal(service)}
                                 className={`w-full py-3.5 px-4 rounded-xl font-medium text-sm transition-all flex items-center justify-center gap-2 ${service.popular
-                                        ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30'
-                                        : 'bg-slate-800 hover:bg-slate-700 text-white border border-slate-700'
+                                    ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30'
+                                    : 'bg-slate-800 hover:bg-slate-700 text-white border border-slate-700'
                                     }`}
                             >
                                 <span>Επιλογή & Παραγγελία</span>

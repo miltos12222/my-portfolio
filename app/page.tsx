@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ServicesSection from "@/components/ServicesSection";
 import Image from "next/image";
 import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown } from "lucide-react";
 import { GithubIcon } from "@/components/SocialIcons";
@@ -267,7 +268,7 @@ export default function Home() {
                 <div className="pt-4 border-t border-white/10 space-y-2 text-xs text-zinc-300">
                   <p>• **Proxmox VE:** Ρύθμιση αποθηκευτικών χώρων (ext4 mounts) και οργάνωση LXC containers.</p>
                   <p>• **Nextcloud & MariaDB:** Αυτόματος συγχρονισμός και ασφαλής αποθήκευση πάνω από 6.000 αρχείων και φωτογραφιών.</p>
-                  <p>• **Tailscale Mesh VPN:** Ασφαλής σύνδεση απομακρυσμένης πρόσβασης χωρίςexposed ports.</p>
+                  <p>• **Tailscale Mesh VPN:** Ασφαλής σύνδεση απομακρυσμένης πρόσβασης χωρίς exposed ports.</p>
                 </div>
               </motion.div>
             )}
@@ -409,6 +410,9 @@ export default function Home() {
           </div>
 
         </section>
+
+        {/* SECTION: SERVICES & PACKAGES */}
+        <ServicesSection />
 
         {/* Contact Anchor */}
         <div id="contact" className="h-px w-px" />
