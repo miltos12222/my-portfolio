@@ -7,7 +7,6 @@ import ScrollyCanvas from "@/components/ScrollyCanvas";
 import Overlay from "@/components/Overlay";
 import PortfolioGrid from "@/components/PortfolioGrid";
 import Footer from "@/components/Footer";
-import CertificateImage from "@/components/CertificateImage";
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -37,79 +36,45 @@ export default function Home() {
           </ScrollyCanvas>
         </section>
 
-        {/* SECTION: ABOUT ME & CERTIFICATION DOCUMENT */}
-        <section id="about" className="py-20 max-w-6xl mx-auto px-6">
-          <div className="mb-10">
+        {/* SECTION: ABOUT ME */}
+        <section id="about" className="py-20 max-w-4xl mx-auto px-6">
+          <div className="mb-10 text-center">
             <h2 className="text-3xl font-extrabold text-white tracking-tight mb-2">
               Σχετικά με Εμένα
             </h2>
             <p className="text-zinc-400 text-sm">
-              Επαγγελματικό προφίλ, εργασιακή νοοτροπία και επίσημα έγγραφα κατάρτισης.
+              Επαγγελματικό προφίλ, εργασιακή νοοτροπία και τεχνική κατεύθυνση.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            {/* Κάρτα 1: Προφίλ & Νοοτροπία Εργασίας (5 cols) */}
-            <div className="lg:col-span-5 glass-card glass-card-hover p-8 rounded-2xl flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-2 mb-4 text-amber-400 font-mono text-xs">
-                  <span className="w-2 h-2 rounded-full bg-amber-400"></span>
-                  PROFILE & WORK ETHIC
-                </div>
-                <h3 className="text-xl font-bold text-white mb-3">
-                  Παραγωγικότητα & Προσαρμοστικότητα
-                </h3>
-                <p className="text-sm text-zinc-300 leading-relaxed mb-4">
-                  Διαθέτω υψηλή προσαρμοστικότητα, οργάνωση και αποδεδειγμένη αντοχή σε απαιτητικές συνθήκες εργασίας με αυξημένη πίεση.
-                </p>
-                <p className="text-sm text-zinc-400 leading-relaxed">
-                  Εστιάζω στη συνεχή τεχνική εξέλιξη, τις self-hosted υποδομές, τους αυτοματισμούς Linux/Docker και την ανάπτυξη σύγχρονων web εφαρμογών.
-                </p>
+          {/* Κάρτα Προφίλ & Νοοτροπίας Εργασίας */}
+          <div className="glass-card glass-card-hover p-8 rounded-2xl flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-2 mb-4 text-amber-400 font-mono text-xs">
+                <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+                PROFILE & WORK ETHIC
               </div>
-
-              <div className="flex flex-wrap gap-2 pt-4 mt-6 border-t border-white/[0.06]">
-                <span className="text-xs font-mono bg-white/[0.04] text-zinc-300 px-2.5 py-1 rounded border border-white/[0.05]">
-                  High Productivity
-                </span>
-                <span className="text-xs font-mono bg-white/[0.04] text-zinc-300 px-2.5 py-1 rounded border border-white/[0.05]">
-                  Self-Hosted Workflows
-                </span>
-              </div>
+              <h3 className="text-xl font-bold text-white mb-3">
+                Παραγωγικότητα & Προσαρμοστικότητα
+              </h3>
+              <p className="text-sm text-zinc-300 leading-relaxed mb-4">
+                Διαθέτω υψηλή προσαρμοστικότητα, οργάνωση και αποδεδειγμένη αντοχή σε απαιτητικές συνθήκες εργασίας με αυξημένη πίεση.
+              </p>
+              <p className="text-sm text-zinc-400 leading-relaxed mb-6">
+                Εστιάζω στη συνεχή τεχνική εξέλιξη, τις self-hosted υποδομές, τους αυτοματισμούς Linux/Docker και την ανάπτυξη σύγχρονων web εφαρμογών.
+              </p>
             </div>
 
-            {/* Κάρτα 2: Προβολή Επίσημου Εγγράφου / Βεβαίωσης (7 cols) */}
-            <div className="lg:col-span-7 glass-card glass-card-hover p-8 rounded-2xl flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-mono px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                    Official Certificate
-                  </span>
-                  <span className="text-xs font-mono text-zinc-500">2026</span>
-                </div>
-
-                <h3 className="text-xl font-bold text-white mb-1">
-                  Τεχνικός Εφαρμογών Πληροφορικής
-                </h3>
-                <p className="text-xs font-mono text-amber-400/90 mb-4">
-                  Web Designer - Developer / Video Games / Πολυμέσα
-                </p>
-
-                {/* Ενσωματωμένο Component Βεβαίωσης */}
-                <CertificateImage />
-              </div>
-
-              <div className="flex flex-wrap gap-2 pt-2 border-t border-white/[0.06]">
-                <span className="text-xs font-mono bg-white/[0.04] text-zinc-300 px-2.5 py-1 rounded border border-white/[0.05]">
-                  Ι.Σ.Α.Ε.Κ. ΑΚΜΗ
-                </span>
-                <span className="text-xs font-mono bg-white/[0.04] text-zinc-300 px-2.5 py-1 rounded border border-white/[0.05]">
-                  Web Development
-                </span>
-                <span className="text-xs font-mono bg-white/[0.04] text-zinc-300 px-2.5 py-1 rounded border border-white/[0.05]">
-                  Multimedia
-                </span>
-              </div>
+            <div className="flex flex-wrap gap-2 pt-4 border-t border-white/[0.06]">
+              <span className="text-xs font-mono bg-white/[0.04] text-zinc-300 px-2.5 py-1 rounded border border-white/[0.05]">
+                High Productivity
+              </span>
+              <span className="text-xs font-mono bg-white/[0.04] text-zinc-300 px-2.5 py-1 rounded border border-white/[0.05]">
+                Self-Hosted Workflows
+              </span>
+              <span className="text-xs font-mono bg-white/[0.04] text-zinc-300 px-2.5 py-1 rounded border border-white/[0.05]">
+                Web Development & Infrastructure
+              </span>
             </div>
           </div>
         </section>
