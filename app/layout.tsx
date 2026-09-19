@@ -51,6 +51,18 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} dark antialiased scroll-smooth overflow-x-hidden`}
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('scrollRestoration' in history) {
+                history.scrollRestoration = 'manual';
+              }
+              window.scrollTo(0, 0);
+            `,
+          }}
+        />
+      </head>
       <body className="min-h-screen bg-[#050508] text-gray-100 flex flex-col selection:bg-cyan-500/30 selection:text-white overflow-x-hidden">
         {children}
         {/* Vercel Analytics */}
