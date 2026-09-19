@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Check, Compass, Command, Search, ArrowRight, X } from "lucide-react";
-import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
+import { GithubIcon } from "@/components/SocialIcons";
+import LocationBadge from "@/components/LocationBadge";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -51,7 +52,7 @@ export default function Navbar() {
     { label: "Contact", href: "#contact", category: "Action" },
   ];
 
-  const filteredLinks = navLinks.filter(link =>
+  const filteredLinks = navLinks.filter((link) =>
     link.label.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -67,28 +68,37 @@ export default function Navbar() {
             : "bg-black/40 backdrop-blur-xl border border-white/10 shadow-lg"
             }`}
         >
-          {/* Brand / Monogram */}
-          <a
-            href="#top"
-            className="group flex items-center gap-3.5 text-white transition-opacity hover:opacity-90"
-          >
-            <div className="relative flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-tr from-cyan-500/25 via-white/5 to-purple-500/25 border border-white/20 p-[1px] shadow-md transition-transform duration-300 group-hover:scale-105">
-              <span className="font-mono text-xs font-bold tracking-wider text-cyan-400">MP</span>
-              <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-              </span>
-            </div>
+          {/* Brand / Monogram & Location Badge */}
+          <div className="flex items-center gap-3.5">
+            <a
+              href="#top"
+              className="group flex items-center gap-3.5 text-white transition-opacity hover:opacity-90"
+            >
+              <div className="relative flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-tr from-cyan-500/25 via-white/5 to-purple-500/25 border border-white/20 p-[1px] shadow-md transition-transform duration-300 group-hover:scale-105">
+                <span className="font-mono text-xs font-bold tracking-wider text-cyan-400">
+                  MP
+                </span>
+                <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                </span>
+              </div>
 
-            <div className="flex flex-col">
-              <span className="text-sm font-semibold tracking-tight text-white flex items-center gap-1.5">
-                Miltos Papageorgiou
-              </span>
-              <span className="text-[10px] text-gray-400 font-mono tracking-wider uppercase">
-                Infra & Web Dev
-              </span>
+              <div className="flex flex-col">
+                <span className="text-sm font-semibold tracking-tight text-white flex items-center gap-1.5">
+                  Miltos Papageorgiou
+                </span>
+                <span className="text-[10px] text-gray-400 font-mono tracking-wider uppercase">
+                  Infra & Web Dev
+                </span>
+              </div>
+            </a>
+
+            {/* Dynamic Ioannina Location Badge (Hidden on small mobile) */}
+            <div className="hidden md:block border-l border-white/10 pl-3.5">
+              <LocationBadge />
             </div>
-          </a>
+          </div>
 
           {/* Desktop Links */}
           <div className="hidden lg:flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-full px-4 py-1.5 text-xs shadow-inner">
@@ -111,7 +121,9 @@ export default function Navbar() {
               title="Quick Search (Ctrl+K)"
             >
               <Command className="h-3.5 w-3.5 text-cyan-400" />
-              <span className="font-mono text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-gray-300">Ctrl K</span>
+              <span className="font-mono text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-gray-300">
+                Ctrl K
+              </span>
             </button>
 
             <button
@@ -147,7 +159,10 @@ export default function Navbar() {
               onClick={() => setMenuOpen(!menuOpen)}
               className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-white/10 border border-white/15 text-gray-200 hover:text-white transition-all text-xs font-medium"
             >
-              <Compass className={`h-4 w-4 text-cyan-400 transition-transform duration-500 ${menuOpen ? "rotate-90" : ""}`} />
+              <Compass
+                className={`h-4 w-4 text-cyan-400 transition-transform duration-500 ${menuOpen ? "rotate-90" : ""
+                  }`}
+              />
               <span>Menu</span>
             </button>
           </div>
@@ -183,7 +198,9 @@ export default function Navbar() {
               </div>
 
               <div className="p-2 max-h-72 overflow-y-auto space-y-1">
-                <div className="px-3 py-1.5 text-[10px] font-mono text-gray-500 uppercase tracking-wider">Quick Navigation</div>
+                <div className="px-3 py-1.5 text-[10px] font-mono text-gray-500 uppercase tracking-wider">
+                  Quick Navigation
+                </div>
                 {filteredLinks.map((link) => (
                   <a
                     key={link.href}
@@ -201,16 +218,23 @@ export default function Navbar() {
                   </a>
                 ))}
 
-                <div className="pt-2 px-3 py-1.5 text-[10px] font-mono text-gray-500 uppercase tracking-wider">Actions</div>
+                <div className="pt-2 px-3 py-1.5 text-[10px] font-mono text-gray-500 uppercase tracking-wider">
+                  Actions
+                </div>
                 <button
-                  onClick={() => { copyEmail(); setCmdOpen(false); }}
+                  onClick={() => {
+                    copyEmail();
+                    setCmdOpen(false);
+                  }}
                   className="w-full flex items-center justify-between px-3 py-2.5 rounded-2xl hover:bg-white/[0.08] text-gray-300 hover:text-cyan-400 text-sm transition-all text-left"
                 >
                   <span className="flex items-center gap-2">
                     <Mail className="h-3.5 w-3.5 text-cyan-400" />
                     Copy Email Address
                   </span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400">Quick Action</span>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400">
+                    Quick Action
+                  </span>
                 </button>
               </div>
 
@@ -233,13 +257,20 @@ export default function Navbar() {
             className="fixed top-24 left-4 right-4 max-w-md mx-auto bg-[#0d0e18]/95 backdrop-blur-2xl border border-white/20 rounded-3xl p-6 pointer-events-auto flex flex-col gap-4 shadow-2xl z-50 lg:hidden"
           >
             <div className="flex items-center justify-between pb-3 border-b border-white/10">
-              <span className="text-xs font-mono text-cyan-400 tracking-wider uppercase">Navigation Hub</span>
+              <span className="text-xs font-mono text-cyan-400 tracking-wider uppercase">
+                Navigation Hub
+              </span>
               <button
                 onClick={() => setMenuOpen(false)}
                 className="p-1.5 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white"
               >
                 <X className="h-4 w-4" />
               </button>
+            </div>
+
+            {/* Location Badge inside Mobile Menu */}
+            <div className="flex items-center justify-center py-1">
+              <LocationBadge />
             </div>
 
             <div className="grid grid-cols-2 gap-2">
