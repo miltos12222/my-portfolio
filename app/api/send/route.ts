@@ -16,12 +16,11 @@ export async function POST(req: Request) {
     const resend = new Resend(apiKey);
     const body = await req.json();
 
-    // Τα πεδία ακριβώς όπως τα στέλνει το ServicesSection.tsx
     const { name, email, message, serviceTitle, servicePrice } = body;
 
     const data = await resend.emails.send({
       from: "Portfolio Orders <onboarding@resend.dev>",
-      to: ["miltospapageorgiou066@gmail.com"], // <-- Το email σου
+      to: ["elanaspww@gmail.com"], // <-- ΑΥΤΟ ΕΙΝΑΙ ΤΟ EMAIL ΤΟΥ RESEND ACCOUNT ΣΟΥ!
       replyTo: email ? String(email) : undefined,
       subject: `Νέα Παραγγελία: ${serviceTitle || "Υπηρεσία"} - ${name || "Πελάτης"}`,
       html: `
