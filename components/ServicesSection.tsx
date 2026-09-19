@@ -1,133 +1,118 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Server, Globe, ShieldCheck, Check, Send, X, Sparkles } from 'lucide-react';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Server, Code2, ShieldAlert, Check, X, ArrowRight } from "lucide-react";
 
-interface ServicePackage {
+interface Service {
     id: string;
     badge: string;
+    badgeColor: string;
     title: string;
     price: string;
+    period: string;
     description: string;
-    popular?: boolean;
-    icon: any;
     features: string[];
+    icon: any;
 }
 
-const services: ServicePackage[] = [
+const services: Service[] = [
     {
-        id: 'homelab',
-        badge: 'Basic / Infrastructure',
-        title: 'Homelab & Server Setup',
-        price: '€120',
-        description: 'Πλήρες στήσιμο οικιακού ή μικρού επαγγελματικού server & cloud.',
+        id: "homelab",
+        badge: "BASIC / INFRASTRUCTURE",
+        badgeColor: "bg-cyan-500/10 border-cyan-500/20 text-cyan-400",
+        title: "Homelab & Server Setup",
+        price: "€120",
+        period: "εφάπαξ",
+        description: "Πλήρες στήσιμο οικιακού ή μικρού επαγγελματικού server & cloud.",
+        features: [
+            "Εγκατάσταση Proxmox VE / Docker LXC containers",
+            "Στήσιμο Nextcloud & εξωτερικού αποθηκευτικού χώρου",
+            "Tailscale Mesh VPN για ασφαλή πρόσβαση από παντού",
+        ],
         icon: Server,
-        features: [
-            'Εγκατάσταση Proxmox VE / Docker LXC containers',
-            'Στήσιμο Nextcloud & εξωτερικού αποθηκευτικού χώρου',
-            'Tailscale Mesh VPN για ασφαλή πρόσβαση από παντού',
-            'Βασικές ρυθμίσεις Firewall, Fail2ban & Security Hardening'
-        ]
     },
     {
-        id: 'webdev',
-        badge: 'Web & Cloud Solutions',
-        title: 'Web Dev & Hosting Setup',
-        price: '€250',
-        popular: true,
-        description: 'Δημιουργία Portfolio/Landing page & πλήρης παραμετροποίηση.',
-        icon: Globe,
+        id: "webdev",
+        badge: "WEB & CLOUD SOLUTIONS",
+        badgeColor: "bg-purple-500/10 border-purple-500/20 text-purple-400",
+        title: "Web Dev & Hosting Setup",
+        price: "€250",
+        period: "εφάπαξ",
+        description: "Δημιουργία Portfolio/Landing page & πλήρης παραμετροποίηση.",
         features: [
-            'Custom Modern Landing Page (Next.js / React / Tailwind)',
-            'Σύνδεση Custom Domain & αυτόματα SSL Πιστοποιητικά',
-            'Deployment σε Vercel / Cloudflare / Custom VPS',
-            'Βέλτιστη ταχύτητα, SEO Optimization & Mobile Responsiveness'
-        ]
+            "Custom Modern Landing Page (Next.js / React / Tailwind)",
+            "Σύνδεση Custom Domain & αυτόματα SSL Πιστοποιητικά",
+            "Deployment σε Vercel / Cloudflare / Custom VPS",
+        ],
+        icon: Code2,
     },
     {
-        id: 'security',
-        badge: 'Cybersecurity',
-        title: 'System & Network Security Audit',
-        price: '€180',
-        description: 'Έλεγχος ευπαθειών και θωράκιση δικτύου/υποδομών.',
-        icon: ShieldCheck,
+        id: "security",
+        badge: "CYBERSECURITY",
+        badgeColor: "bg-blue-500/10 border-blue-500/20 text-blue-400",
+        title: "System & Network Security Audit",
+        price: "€180",
+        period: "εφάπαξ",
+        description: "Έλεγχος ευπαθειών και θωράκιση δικτύου/υποδομών.",
         features: [
-            'Vulnerability Scanning & Open Port Analysis (Nmap/Kali)',
-            'Hardening SSH, Firewall & Access Control Rules',
-            'Ρύθμιση Nginx Reverse Proxy & Cloudflare WAF',
-            'Αναλυτικό PDF Report με ευρήματα & οδηγίες θωράκισης'
-        ]
-    }
+            "Vulnerability Scanning & Open Port Analysis (Nmap/Kali)",
+            "Hardening SSH, Firewall & Access Control Rules",
+            "Ρύθμιση Nginx Reverse Proxy & Cloudflare WAF",
+        ],
+        icon: ShieldAlert,
+    },
 ];
 
 export default function ServicesSection() {
-    const [selectedService, setSelectedService] = useState<ServicePackage | null>(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const handleOpenModal = (service: ServicePackage) => {
-        setSelectedService(service);
-        setIsModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-    };
+    const [selectedService, setSelectedService] = useState<Service | null>(null);
 
     return (
-        <section id="services" className="py-20 px-4 max-w-7xl mx-auto relative">
-            {/* SECTION HEADER */}
-            <div className="text-center mb-16">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold mb-4">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>Professional IT Services</span>
-                </div>
-                <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">
-                    Ηλεκτρονικές Υπηρεσίες & Πακέτα
+        <section id="services" className="space-y-6 my-12">
+            <div className="text-center max-w-2xl mx-auto mb-10">
+                <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
+                    Εξειδικευμένες Υπηρεσίες & Πακέτα
                 </h2>
-                <p className="text-slate-400 max-w-2xl mx-auto text-base md:text-lg">
-                    Εξειδικευμένες λύσεις SysAdmin, Virtualization, Web Development & Cybersecurity με απόλυτη διαφάνεια.
+                <p className="text-xs sm:text-sm text-zinc-400">
+                    Επιλέξτε το πακέτο που ταιριάζει στις ανάγκες σας ή επικοινωνήστε για προσαρμοσμένη λύση.
                 </p>
             </div>
 
-            {/* CARDS GRID */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Grid Πακέτων */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {services.map((service) => {
-                    const Icon = service.icon;
+                    const IconComponent = service.icon;
                     return (
                         <div
                             key={service.id}
-                            className={`relative rounded-2xl bg-slate-900/80 border p-8 flex flex-col justify-between backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 ${service.popular
-                                ? 'border-blue-500 shadow-2xl shadow-blue-500/10 ring-1 ring-blue-500/50'
-                                : 'border-slate-800 hover:border-slate-700 shadow-xl'
-                                }`}
+                            className="rounded-3xl bg-white/[0.03] border border-white/10 p-6 flex flex-col justify-between relative overflow-hidden group hover:border-white/20 transition-all duration-300"
                         >
-                            {service.popular && (
-                                <div className="absolute -top-3 right-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
-                                    Δημοφιλες
-                                </div>
-                            )}
-
                             <div>
-                                <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-6">
-                                    <Icon className="w-6 h-6" />
+                                <div className="flex items-center justify-between mb-4">
+                                    <span
+                                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full border text-[10px] font-mono tracking-wider ${service.badgeColor}`}
+                                    >
+                                        {service.badge}
+                                    </span>
+                                    <div className="p-2 rounded-xl bg-white/5 border border-white/10 text-white">
+                                        <IconComponent className="w-5 h-5" />
+                                    </div>
                                 </div>
 
-                                <div className="text-xs font-semibold text-blue-400 uppercase tracking-wider mb-2">
-                                    {service.badge}
-                                </div>
-                                <h3 className="text-2xl font-bold text-white mb-3">{service.title}</h3>
-                                <p className="text-slate-400 text-sm mb-6 leading-relaxed">{service.description}</p>
+                                <h3 className="text-lg font-bold text-white mb-2">{service.title}</h3>
+                                <p className="text-xs text-zinc-400 mb-6 leading-relaxed">
+                                    {service.description}
+                                </p>
 
-                                <div className="mb-6 pb-6 border-b border-slate-800">
-                                    <span className="text-4xl font-extrabold text-white">{service.price}</span>
-                                    <span className="text-slate-500 text-sm font-medium"> / εφάπαξ</span>
+                                <div className="flex items-baseline gap-1 mb-6">
+                                    <span className="text-3xl font-extrabold text-white">{service.price}</span>
+                                    <span className="text-xs text-zinc-400">/ {service.period}</span>
                                 </div>
 
-                                <ul className="space-y-3 mb-8">
+                                <ul className="space-y-3 mb-8 border-t border-white/5 pt-6">
                                     {service.features.map((feature, idx) => (
-                                        <li key={idx} className="flex items-start gap-3 text-sm text-slate-300">
-                                            <Check className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                                        <li key={idx} className="flex items-start gap-2.5 text-xs text-zinc-300">
+                                            <Check className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
                                             <span>{feature}</span>
                                         </li>
                                     ))}
@@ -135,65 +120,77 @@ export default function ServicesSection() {
                             </div>
 
                             <button
-                                onClick={() => handleOpenModal(service)}
-                                className={`w-full py-3.5 px-4 rounded-xl font-medium text-sm transition-all flex items-center justify-center gap-2 ${service.popular
-                                    ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30'
-                                    : 'bg-slate-800 hover:bg-slate-700 text-white border border-slate-700'
-                                    }`}
+                                onClick={() => setSelectedService(service)}
+                                className="w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-semibold text-white transition-all flex items-center justify-center gap-2 group-hover:bg-cyan-500 group-hover:text-black group-hover:border-cyan-400"
                             >
-                                <span>Επιλογή & Παραγγελία</span>
-                                <Send className="w-4 h-4" />
+                                <span>Επιλογή Πακέτου</span>
+                                <ArrowRight className="w-4 h-4" />
                             </button>
                         </div>
                     );
                 })}
             </div>
 
-            {/* MODAL FORM */}
+            {/* Modal Φόρμας Παραγγελίας */}
             <AnimatePresence>
-                {isModalOpen && selectedService && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+                {selectedService && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
-                            className="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-2xl overflow-hidden"
+                            className="relative w-full max-w-lg rounded-3xl bg-[#12141c] border border-white/15 p-6 sm:p-8 shadow-2xl"
                         >
+                            {/* Κουμπί Κλεισίματος */}
                             <button
-                                onClick={handleCloseModal}
-                                className="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors"
+                                onClick={() => setSelectedService(null)}
+                                className="absolute top-5 right-5 p-2 rounded-full bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-all"
                             >
                                 <X className="w-5 h-5" />
                             </button>
 
                             <div className="mb-6">
-                                <span className="text-xs font-semibold text-blue-400 uppercase tracking-wider">
-                                    Αίτημα Παραγγελίας
+                                <span className="text-[10px] font-mono uppercase tracking-wider text-cyan-400 block mb-1">
+                                    ΑΙΤΗΜΑ ΠΑΡΑΓΓΕΛΙΑΣ
                                 </span>
-                                <h3 className="text-xl font-bold text-white mt-1">
+                                <h3 className="text-xl font-bold text-white">
                                     {selectedService.title} ({selectedService.price})
                                 </h3>
                             </div>
 
-                            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" className="space-y-4">
-                                <input type="hidden" name="service" value={selectedService.title} />
-                                <input type="hidden" name="price" value={selectedService.price} />
+                            <form
+                                onSubmit={(e) => {
+                                    e.preventDefault();
+                                    const formData = new FormData(e.currentTarget);
+                                    const name = formData.get("name");
+                                    const email = formData.get("email");
+                                    const message = formData.get("message");
 
+                                    const subject = encodeURIComponent(`Αίτημα Παραγγελίας: ${selectedService.title}`);
+                                    const body = encodeURIComponent(
+                                        `Ονοματεπώνυμο: ${name}\nEmail Επικοινωνίας: ${email}\nΠακέτο: ${selectedService.title} (${selectedService.price})\n\nΛεπτομέρειες / Σημειώσεις:\n${message}`
+                                    );
+
+                                    window.location.href = `mailto:elanaspww@gmail.com?subject=${subject}&body=${body}`;
+                                    setSelectedService(null);
+                                }}
+                                className="space-y-4"
+                            >
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-400 uppercase mb-1">
+                                    <label className="block text-xs font-mono text-zinc-400 mb-1.5 uppercase">
                                         Ονοματεπώνυμο
                                     </label>
                                     <input
                                         type="text"
                                         name="name"
                                         required
-                                        placeholder="Γιάννης Παπαδόπουλος"
-                                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:border-blue-500 focus:outline-none text-sm"
+                                        placeholder="π.χ. Μίλτος Παπαγεωργίου"
+                                        className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/10 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 transition-all"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-400 uppercase mb-1">
+                                    <label className="block text-xs font-mono text-zinc-400 mb-1.5 uppercase">
                                         Email Επικοινωνίας
                                     </label>
                                     <input
@@ -201,32 +198,34 @@ export default function ServicesSection() {
                                         name="email"
                                         required
                                         placeholder="name@example.com"
-                                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:border-blue-500 focus:outline-none text-sm"
+                                        className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/10 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 transition-all"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-400 uppercase mb-1">
+                                    <label className="block text-xs font-mono text-zinc-400 mb-1.5 uppercase">
                                         Λεπτομέρειες / Σημειώσεις
                                     </label>
                                     <textarea
                                         name="message"
                                         rows={3}
-                                        placeholder="Περιγράψτε εν συντομία τι θέλετε να υλοποιήσουμε..."
-                                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:border-blue-500 focus:outline-none text-sm"
+                                        placeholder="Περιγράψτε τι ακριβώς χρειάζεστε..."
+                                        className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/10 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 transition-all resize-none"
                                     ></textarea>
                                 </div>
 
-                                <p className="text-[11px] text-slate-500">
-                                    * Με την αποστολή, θα επικοινωνήσω μαζί σας στο email σας για επιβεβαίωση και στοιχεία πληρωμής (PayPal / Τραπεζική κατάθεση).
+                                <p className="text-[11px] text-zinc-500 pt-1">
+                                    * Πατώντας «Αποστολή Αιτήματος» θα ανοίξει η εφαρμογή email σας για να στείλετε το αίτημα απευθείας στο email μου.
                                 </p>
 
-                                <button
-                                    type="submit"
-                                    className="w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-600/30 text-sm"
-                                >
-                                    Αποστολή Αιτήματος
-                                </button>
+                                <div className="pt-2">
+                                    <button
+                                        type="submit"
+                                        className="w-full py-3 px-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-sm transition-all"
+                                    >
+                                        Αποστολή Αιτήματος
+                                    </button>
+                                </div>
                             </form>
                         </motion.div>
                     </div>
