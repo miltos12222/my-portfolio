@@ -39,11 +39,10 @@ export default function Navbar() {
         initial={{ y: -30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className={`w-full max-w-6xl pointer-events-auto transition-all duration-300 rounded-2xl px-4 py-3 md:px-6 md:py-3.5 flex items-center justify-between ${
-          scrolled
-            ? "bg-[#0c0d14]/80 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.6)]"
-            : "bg-black/30 backdrop-blur-md border border-white/5"
-        }`}
+        className={`w-full max-w-6xl pointer-events-auto transition-all duration-300 rounded-2xl px-4 py-3 md:px-6 md:py-3.5 flex items-center justify-between ${scrolled
+          ? "bg-[#0c0d14]/80 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.6)]"
+          : "bg-black/30 backdrop-blur-md border border-white/5"
+          }`}
       >
         {/* Brand / Monogram */}
         <a
@@ -102,7 +101,7 @@ export default function Navbar() {
           </button>
 
           <a
-            href="https://github.com"
+            href="https://github.com/miltos12222"
             target="_blank"
             rel="noopener noreferrer"
             className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/[0.04] border border-white/10 text-gray-400 hover:text-white hover:bg-white/[0.08] transition-colors"
@@ -112,7 +111,7 @@ export default function Navbar() {
           </a>
 
           <a
-            href="https://linkedin.com"
+            href="https://www.linkedin.com"
             target="_blank"
             rel="noopener noreferrer"
             className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/[0.04] border border-white/10 text-gray-400 hover:text-white hover:bg-white/[0.08] transition-colors"
@@ -166,7 +165,7 @@ export default function Navbar() {
 
               <div className="flex gap-2">
                 <a
-                  href="https://github.com"
+                  href="https://github.com/miltos12222"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-gray-300"
@@ -175,7 +174,7 @@ export default function Navbar() {
                   <GithubIcon className="h-4 w-4" />
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-gray-300"
