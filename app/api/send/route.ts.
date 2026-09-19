@@ -1,4 +1,3 @@
-
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
@@ -10,7 +9,7 @@ export async function POST(req: Request) {
 
     if (!name || !email) {
       return NextResponse.json(
-        { error: "To onoma kai to email einai υποχρεωτικά." },
+        { error: "Name and Email are required." },
         { status: 400 }
       );
     }
@@ -19,20 +18,26 @@ export async function POST(req: Request) {
       from: "Portfolio Contact <onboarding@resend.dev>",
       to: ["elanaspww@gmail.com"],
       replyTo: email,
-      subject: `Neo Aitima Parangelias: ${serviceTitle}`,
+      subject: `New Service Request: ${serviceTitle}`,
       html: `
-        <h2>Neo Aitima Parangelias</h2>
-        <p><strong>Onomateponymo:</strong> ${name}</p>
-        <p><strong>Email Pelati:</strong> ${email}</p>
-        <p><strong>Paketo:</strong> ${serviceTitle} (${servicePrice})</p>
+        <h2>New Order Request</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Client Email:</strong> ${email}</p>
+        <p><strong>Package:</strong> ${serviceTitle} (${servicePrice})</p>
         <hr />
-        <h3>Simeioseis / Leptomereies:</h3>
-        <p>${message || "Den katachorithikan simeioseis."}</p>
+        <h3>Details / Notes:</h3>
+        <p>${message || "No additional notes provided."}</p>
       `,
     });
 
+    if (data.error) {
+      console.error("Resend Error:", data.error);
+      return NextResponse.json({ error: data.error.message || "Failed to send email." }, { status: 400 });
+    }
+
     return NextResponse.json({ success: true, data });
-  } catch (error) {
-    return NextResponse.json({ error: "Apotychia apostolis email" }, { status: 500 });
+  } catch (error: any) {
+    console.error("Server Error:", error);
+    return NextResponse.json({ error: error.message || "Failed to send email." }, { status: 500 });
   }
 }

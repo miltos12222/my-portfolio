@@ -23,12 +23,12 @@ const services: Service[] = [
         badgeColor: "bg-cyan-500/10 border-cyan-500/20 text-cyan-400",
         title: "Homelab & Server Setup",
         price: "€120",
-        period: "efapax",
-        description: "Plires stisimo oikiakou i mikrou epangelmatikou server & cloud.",
+        period: "one-time",
+        description: "Complete setup for home or small business server & cloud infrastructure.",
         features: [
-            "Egkatastasi Proxmox VE / Docker LXC containers",
-            "Stisimo Nextcloud & exoterikou apothikeutikou chorou",
-            "Tailscale Mesh VPN gia asfali prosbasi apo pantou",
+            "Proxmox VE / Docker LXC containers deployment",
+            "Nextcloud & external storage integration",
+            "Tailscale Mesh VPN for secure remote access",
         ],
         icon: Server,
     },
@@ -38,12 +38,12 @@ const services: Service[] = [
         badgeColor: "bg-purple-500/10 border-purple-500/20 text-purple-400",
         title: "Web Dev & Hosting Setup",
         price: "€250",
-        period: "efapax",
-        description: "Dimiourgia Portfolio/Landing page & pliris parametropoisi.",
+        period: "one-time",
+        description: "Custom Portfolio/Landing page development & deployment.",
         features: [
             "Custom Modern Landing Page (Next.js / React / Tailwind)",
-            "Syndesi Custom Domain & automata SSL Pistopointika",
-            "Deployment se Vercel / Cloudflare / Custom VPS",
+            "Custom Domain setup & Automated SSL Certificates",
+            "Deployment on Vercel / Cloudflare / Custom VPS",
         ],
         icon: Code2,
     },
@@ -53,12 +53,12 @@ const services: Service[] = [
         badgeColor: "bg-blue-500/10 border-blue-500/20 text-blue-400",
         title: "System & Network Security Audit",
         price: "€180",
-        period: "efapax",
-        description: "Elenchos eupatheion kai thorakisi diktyou/ypodomon.",
+        period: "one-time",
+        description: "Vulnerability analysis and network/infrastructure hardening.",
         features: [
             "Vulnerability Scanning & Open Port Analysis (Nmap/Kali)",
             "Hardening SSH, Firewall & Access Control Rules",
-            "Rhythmisi Nginx Reverse Proxy & Cloudflare WAF",
+            "Nginx Reverse Proxy & Cloudflare WAF configuration",
         ],
         icon: ShieldAlert,
     },
@@ -68,6 +68,7 @@ export default function ServicesSection() {
     const [selectedService, setSelectedService] = useState<Service | null>(null);
     const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+    const [errorMessage, setErrorMessage] = useState<string>("");
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -75,6 +76,7 @@ export default function ServicesSection() {
 
         setLoading(true);
         setStatus("idle");
+        setErrorMessage("");
 
         const formData = new FormData(e.currentTarget);
         const payload = {
@@ -92,17 +94,21 @@ export default function ServicesSection() {
                 body: JSON.stringify(payload),
             });
 
+            const data = await res.json();
+
             if (res.ok) {
                 setStatus("success");
                 setTimeout(() => {
                     setSelectedService(null);
                     setStatus("idle");
-                }, 2000);
+                }, 2500);
             } else {
                 setStatus("error");
+                setErrorMessage(data.error || "Failed to send request.");
             }
-        } catch (err) {
+        } catch (err: any) {
             setStatus("error");
+            setErrorMessage("Network error or server unreachable.");
         } finally {
             setLoading(false);
         }
@@ -112,10 +118,10 @@ export default function ServicesSection() {
         <section id="services" className="space-y-6 my-12">
             <div className="text-center max-w-2xl mx-auto mb-10">
                 <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
-                    Exeidikeumenes Ypiresies & Paketa
+                    Specialized Services & Packages
                 </h2>
                 <p className="text-xs sm:text-sm text-zinc-400">
-                    Epilexte to paketo pou tairiazei stis anagkes sas i epikoinoniste gia prosarmosmeni lysi.
+                    Choose a package that suits your needs or contact me for a custom solution.
                 </p>
             </div>
 
@@ -163,10 +169,11 @@ export default function ServicesSection() {
                                 onClick={() => {
                                     setSelectedService(service);
                                     setStatus("idle");
+                                    setErrorMessage("");
                                 }}
                                 className="w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-semibold text-white transition-all flex items-center justify-center gap-2 group-hover:bg-cyan-500 group-hover:text-black group-hover:border-cyan-400"
                             >
-                                <span>Epilogi Paketou</span>
+                                <span>Select Package</span>
                                 <ArrowRight className="w-4 h-4" />
                             </button>
                         </div>
@@ -192,7 +199,7 @@ export default function ServicesSection() {
 
                             <div className="mb-6">
                                 <span className="text-[10px] font-mono uppercase tracking-wider text-cyan-400 block mb-1">
-                                    AITIMA PARANGELIAS
+                                    ORDER REQUEST
                                 </span>
                                 <h3 className="text-xl font-bold text-white">
                                     {selectedService.title} ({selectedService.price})
@@ -202,20 +209,20 @@ export default function ServicesSection() {
                             <form onSubmit={handleSubmit} className="space-y-4">
                                 <div>
                                     <label className="block text-xs font-mono text-zinc-400 mb-1.5 uppercase">
-                                        Onomateponymo
+                                        Full Name
                                     </label>
                                     <input
                                         type="text"
                                         name="name"
                                         required
-                                        placeholder="p.ch. Miltos Papageorgiou"
+                                        placeholder="e.g. John Doe"
                                         className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/10 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 transition-all"
                                     />
                                 </div>
 
                                 <div>
                                     <label className="block text-xs font-mono text-zinc-400 mb-1.5 uppercase">
-                                        Email Epikoinonias
+                                        Contact Email
                                     </label>
                                     <input
                                         type="email"
@@ -228,25 +235,25 @@ export default function ServicesSection() {
 
                                 <div>
                                     <label className="block text-xs font-mono text-zinc-400 mb-1.5 uppercase">
-                                        Leptomereies / Simeioseis
+                                        Details / Notes
                                     </label>
                                     <textarea
                                         name="message"
                                         rows={3}
-                                        placeholder="Perigrapste ti akribos chreiazeste..."
+                                        placeholder="Describe what you need..."
                                         className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/10 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 transition-all resize-none"
                                     ></textarea>
                                 </div>
 
                                 {status === "success" && (
                                     <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium text-center">
-                                        ✓ To aitima sas stalthike epitychos!
+                                        ✓ Your request has been sent successfully!
                                     </div>
                                 )}
 
                                 {status === "error" && (
                                     <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium text-center">
-                                        ✕ Apotychia apostolis. Parakaloumedokimaste xana.
+                                        ✕ {errorMessage || "Failed to send request. Please try again."}
                                     </div>
                                 )}
 
@@ -259,10 +266,10 @@ export default function ServicesSection() {
                                         {loading ? (
                                             <>
                                                 <Loader2 className="w-4 h-4 animate-spin" />
-                                                <span>Apostoli...</span>
+                                                <span>Sending...</span>
                                             </>
                                         ) : (
-                                            <span>Apostoli Aitimatos</span>
+                                            <span>Submit Request</span>
                                         )}
                                     </button>
                                 </div>
