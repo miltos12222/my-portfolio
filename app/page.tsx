@@ -17,10 +17,10 @@ export default function Home() {
 
       <main className="relative w-full pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-8">
 
-        {/* SECTION: BENTO GRID HERO */}
-        <section id="hero" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {/* SECTION: BENTO GRID HERO (Overview) */}
+        <section id="overview" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
 
-          {/* 1. Main Profile Card */}
+          {/* 1. Main Profile Card (Spans 2 columns, 2 rows) */}
           <div className="md:col-span-2 md:row-span-2 rounded-3xl bg-white/[0.03] border border-white/10 p-8 flex flex-col justify-between relative overflow-hidden">
             <div className="absolute -right-10 -bottom-10 w-60 h-60 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -108,7 +108,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* 4. Work Ethic Card */}
+          {/* 4. Work Ethic & Productivity Card */}
           <div className="md:col-span-2 lg:col-span-2 rounded-3xl bg-white/[0.03] border border-white/10 p-6 flex flex-col justify-between">
             <div className="flex items-center justify-between text-zinc-400 mb-3">
               <Cpu className="w-5 h-5 text-emerald-400" />
@@ -133,7 +133,7 @@ export default function Home() {
         </section>
 
         {/* SECTION: ABOUT ME */}
-        <section id="about" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8">
+        <section id="about-me" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8">
           <h2 className="text-xl font-bold text-white mb-3">Σχετικά με Εμένα</h2>
           <p className="text-sm text-zinc-300 leading-relaxed mb-3">
             Είμαι απόφοιτος Πληροφορικής με έντονο ενδιαφέρον και πρακτική εμπειρία στις υποδομές δικτύων, τη διαχείριση συστημάτων Linux και την ανάπτυξη λογισμικού.
@@ -143,7 +143,29 @@ export default function Home() {
           </p>
         </section>
 
-        {/* SECTION: PROJECTS */}
+        {/* SECTION: INFRASTRUCTURE (Link 3 target) */}
+        <section id="infrastructure" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 space-y-4">
+          <div className="flex items-center gap-3">
+            <Server className="w-6 h-6 text-cyan-400" />
+            <h2 className="text-xl font-bold text-white">Infrastructure & Homelab Stack</h2>
+          </div>
+          <p className="text-sm text-zinc-300 leading-relaxed">
+            Ανάπτυξη και διαχείριση εικονικών μηχανών σε Proxmox VE, παραμετροποίηση Docker containers για αυτόματο backup φωτογραφιών και αρχείων με ασφαλή πρόσβαση μέσω Tailscale VPN.
+          </p>
+        </section>
+
+        {/* SECTION: RESILIENCE (Link 4 target) */}
+        <section id="resilience" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 space-y-4">
+          <div className="flex items-center gap-3">
+            <Cpu className="w-6 h-6 text-emerald-400" />
+            <h2 className="text-xl font-bold text-white">Resilience & High Availability</h2>
+          </div>
+          <p className="text-sm text-zinc-300 leading-relaxed">
+            Σχεδιασμός με έμφαση στη συνεχή λειτουργία, τα αυτόματα backups και την ανθεκτικότητα απέναντι σε αστοχίες υλικού ή δικτύου.
+          </p>
+        </section>
+
+        {/* SECTION: PROJECTS / SYSTEMS */}
         <section id="projects" className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 flex flex-col justify-between">
             <div>
@@ -181,6 +203,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Contact Anchor */}
+        <div id="contact" className="h-px w-px" />
 
       </main>
 
