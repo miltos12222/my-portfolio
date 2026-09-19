@@ -49,7 +49,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} dark antialiased scroll-smooth overflow-x-hidden`}
+      className={`${geistSans.variable} ${geistMono.variable} dark antialiased overflow-x-hidden`}
     >
       <head>
         <script
@@ -65,7 +65,6 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-[#050508] text-gray-100 flex flex-col selection:bg-cyan-500/30 selection:text-white overflow-x-hidden">
         {children}
-        {/* Vercel Analytics */}
         <Analytics />
       </body>
     </html>
