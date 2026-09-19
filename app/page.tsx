@@ -1,12 +1,21 @@
 "use client";
 
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Mail, Server, Code2, Cpu, CheckCircle2 } from "lucide-react";
+import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, Terminal } from "lucide-react";
 import { GithubIcon } from "@/components/SocialIcons";
 
 export default function Home() {
+  // States για τα collapsible cards
+  const [infraOpen, setInfraOpen] = useState(false);
+  const [webOpen, setWebOpen] = useState(false);
+  const [ethicOpen, setEthicOpen] = useState(false);
+  const [project1Open, setProject1Open] = useState(false);
+  const [project2Open, setProject2Open] = useState(false);
+
   return (
     <div className="relative min-h-screen bg-[#0b0c10] text-[#e5e7eb] selection:bg-cyan-500/25 selection:text-white">
       {/* Top Anchor */}
@@ -74,59 +83,140 @@ export default function Home() {
             </div>
           </div>
 
-          {/* 2. Tech Stack Card */}
+          {/* 2. Tech Stack Card (Collapsible) */}
           <div className="rounded-3xl bg-white/[0.03] border border-white/10 p-6 flex flex-col justify-between">
-            <div className="flex items-center justify-between text-zinc-400 mb-4">
-              <Server className="w-5 h-5 text-cyan-400" />
-              <span className="text-[10px] font-mono uppercase tracking-wider">Infrastructure</span>
-            </div>
             <div>
+              <div className="flex items-center justify-between text-zinc-400 mb-4">
+                <Server className="w-5 h-5 text-cyan-400" />
+                <span className="text-[10px] font-mono uppercase tracking-wider">Infrastructure</span>
+              </div>
               <h3 className="text-lg font-bold text-white mb-1">Self-Hosted</h3>
-              <p className="text-xs text-zinc-400 mb-4">Proxmox VE, Docker containers, Nextcloud & MariaDB orchestration.</p>
+              <p className="text-xs text-zinc-400 mb-3">Proxmox VE, Docker containers, Nextcloud & MariaDB orchestration.</p>
+
+              <AnimatePresence>
+                {infraOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs text-zinc-300">
+                      <p>• Αυτόματος συγχρονισμός και backup 6.000+ φωτογραφιών.</p>
+                      <p>• Διαχείριση δικτύου και ασφαλής πρόσβαση μέσω Tailscale VPN.</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-            <div className="flex flex-wrap gap-1.5 pt-2 border-t border-white/5">
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Proxmox</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Docker</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Tailscale</span>
+
+            <div>
+              <div className="flex flex-wrap gap-1.5 py-2 border-t border-white/5 mb-3">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Proxmox</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Docker</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Tailscale</span>
+              </div>
+              <button
+                onClick={() => setInfraOpen(!infraOpen)}
+                className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium"
+              >
+                <span>{infraOpen ? "Λιγότερα" : "Ανάλυση"}</span>
+                <ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-300 ${infraOpen ? "rotate-180" : ""}`} />
+              </button>
             </div>
           </div>
 
-          {/* 3. Code & Web Dev Card */}
+          {/* 3. Code & Web Dev Card (Collapsible) */}
           <div className="rounded-3xl bg-white/[0.03] border border-white/10 p-6 flex flex-col justify-between">
-            <div className="flex items-center justify-between text-zinc-400 mb-4">
-              <Code2 className="w-5 h-5 text-purple-400" />
-              <span className="text-[10px] font-mono uppercase tracking-wider">Development</span>
-            </div>
             <div>
+              <div className="flex items-center justify-between text-zinc-400 mb-4">
+                <Code2 className="w-5 h-5 text-purple-400" />
+                <span className="text-[10px] font-mono uppercase tracking-wider">Development</span>
+              </div>
               <h3 className="text-lg font-bold text-white mb-1">Modern Stack</h3>
-              <p className="text-xs text-zinc-400 mb-4">Next.js, TypeScript, Tailwind CSS, high-performance web apps.</p>
+              <p className="text-xs text-zinc-400 mb-3">Next.js, TypeScript, Tailwind CSS, high-performance web apps.</p>
+
+              <AnimatePresence>
+                {webOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs text-zinc-300">
+                      <p>• Αρχιτεκτονική φιλική προς SEO και άμεση απόκριση (zero lags).</p>
+                      <p>• Responsive σχεδίαση με Tailwind CSS και组件 modular λογική.</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-            <div className="flex flex-wrap gap-1.5 pt-2 border-t border-white/5">
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Next.js</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">TypeScript</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Tailwind</span>
+
+            <div>
+              <div className="flex flex-wrap gap-1.5 py-2 border-t border-white/5 mb-3">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Next.js</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">TypeScript</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Tailwind</span>
+              </div>
+              <button
+                onClick={() => setWebOpen(!webOpen)}
+                className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium"
+              >
+                <span>{webOpen ? "Λιγότερα" : "Ανάλυση"}</span>
+                <ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-300 ${webOpen ? "rotate-180" : ""}`} />
+              </button>
             </div>
           </div>
 
-          {/* 4. Work Ethic & Productivity Card */}
+          {/* 4. Work Ethic & Productivity Card (Collapsible) */}
           <div className="md:col-span-2 lg:col-span-2 rounded-3xl bg-white/[0.03] border border-white/10 p-6 flex flex-col justify-between">
-            <div className="flex items-center justify-between text-zinc-400 mb-3">
-              <Cpu className="w-5 h-5 text-emerald-400" />
-              <span className="text-[10px] font-mono uppercase tracking-wider">Work Ethic</span>
-            </div>
             <div>
+              <div className="flex items-center justify-between text-zinc-400 mb-3">
+                <Cpu className="w-5 h-5 text-emerald-400" />
+                <span className="text-[10px] font-mono uppercase tracking-wider">Work Ethic</span>
+              </div>
               <h3 className="text-lg font-bold text-white mb-2">Υψηλή Παραγωγικότητα & Αντοχή</h3>
-              <p className="text-xs text-zinc-300 leading-relaxed">
+              <p className="text-xs text-zinc-300 leading-relaxed mb-3">
                 Διαθέτω εξαιρετική οργάνωση, προσαρμοστικότητα και αποδεδειγμένη αντοχή σε απαιτητικά περιβάλλοντα εργασίας με αυξημένη πίεση και σύνθετα τεχνικά ζητήματα.
               </p>
+
+              <AnimatePresence>
+                {ethicOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs text-zinc-300">
+                      <p>• Μεθοδική αντιμετώπιση προβλημάτων σε περιβάλλοντα Linux/Homelab.</p>
+                      <p>• Συνεχής εκμάθηση νέων τεχνολογιών και αυτοματισμών ροών εργασίας.</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-            <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/5 text-xs text-zinc-400">
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Problem Solver
-              </span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Fast Learner
-              </span>
+
+            <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/5">
+              <div className="flex items-center gap-4 text-xs text-zinc-400">
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Problem Solver
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Fast Learner
+                </span>
+              </div>
+              <button
+                onClick={() => setEthicOpen(!ethicOpen)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium"
+              >
+                <span>{ethicOpen ? "Λιγότερα" : "Ανάλυση"}</span>
+                <ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-300 ${ethicOpen ? "rotate-180" : ""}`} />
+              </button>
             </div>
           </div>
 
@@ -167,6 +257,8 @@ export default function Home() {
 
         {/* SECTION: PROJECTS / SYSTEMS */}
         <section id="projects" className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          {/* Project 1 (Collapsible) */}
           <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -174,17 +266,45 @@ export default function Home() {
                 <Server className="w-4 h-4 text-zinc-400" />
               </div>
               <h3 className="text-base font-bold text-white mb-2">Self-Hosted Homelab & Nextcloud</h3>
-              <p className="text-xs text-zinc-300 leading-relaxed mb-4">
+              <p className="text-xs text-zinc-300 leading-relaxed mb-3">
                 Ανάπτυξη και διαχείριση εικονικών μηχανών σε Proxmox VE, παραμετροποίηση Docker containers για αυτόματο backup φωτογραφιών και αρχείων με ασφαλή πρόσβαση μέσω Tailscale VPN.
               </p>
+
+              <AnimatePresence>
+                {project1Open && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs text-zinc-300">
+                      <p>• Υλοποίηση εξωτερικών mounts (ext4) και διαχείριση δικαιωμάτων χρηστών.</p>
+                      <p>• Αποφυγή exposure ports στο internet χάρη στη χρήση Mesh VPN δικτύου.</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-            <div className="flex flex-wrap gap-1.5 pt-4 border-t border-white/5">
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Proxmox</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Docker</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Tailscale</span>
+
+            <div>
+              <div className="flex flex-wrap gap-1.5 py-3 border-t border-white/5 mb-3">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Proxmox</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Docker</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Tailscale</span>
+              </div>
+              <button
+                onClick={() => setProject1Open(!project1Open)}
+                className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium"
+              >
+                <span>{project1Open ? "Λιγότερα" : "Ανάλυση"}</span>
+                <ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-300 ${project1Open ? "rotate-180" : ""}`} />
+              </button>
             </div>
           </div>
 
+          {/* Project 2 (Collapsible) */}
           <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -192,16 +312,44 @@ export default function Home() {
                 <Code2 className="w-4 h-4 text-zinc-400" />
               </div>
               <h3 className="text-base font-bold text-white mb-2">High-Performance Portfolio</h3>
-              <p className="text-xs text-zinc-300 leading-relaxed mb-4">
+              <p className="text-xs text-zinc-300 leading-relaxed mb-3">
                 Σύγχρονο, ελαφρύ και πλήρως βελτιστοποιημένο portfolio κατασκευασμένο με Next.js, Tailwind CSS και TypeScript, σχεδιασμένο για άμεση φόρτωση και μηδενικά lags.
               </p>
+
+              <AnimatePresence>
+                {project2Open && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs text-zinc-300">
+                      <p>• Βελτιστοποίηση εικόνων και assets για κορυφαία επίδοση σε Lighthouse score.</p>
+                      <p>• Αξιοποίηση Server Components και σύγχρονων hooks για ομαλό UX.</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-            <div className="flex flex-wrap gap-1.5 pt-4 border-t border-white/5">
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Next.js</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Tailwind</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">TypeScript</span>
+
+            <div>
+              <div className="flex flex-wrap gap-1.5 py-3 border-t border-white/5 mb-3">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Next.js</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Tailwind</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">TypeScript</span>
+              </div>
+              <button
+                onClick={() => setProject2Open(!project2Open)}
+                className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium"
+              >
+                <span>{project2Open ? "Λιγότερα" : "Ανάλυση"}</span>
+                <ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-300 ${project2Open ? "rotate-180" : ""}`} />
+              </button>
             </div>
           </div>
+
         </section>
 
         {/* Contact Anchor */}
