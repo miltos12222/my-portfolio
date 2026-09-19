@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -19,8 +19,16 @@ export default function Home() {
   const [stackOpen, setStackOpen] = useState(false);
   const [resilienceOpen, setResilienceOpen] = useState(false);
 
+  // Scroll Reset στο Refresh
+  useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <div className="relative min-h-screen bg-[#0b0c10] text-[#e5e7eb] selection:bg-cyan-500/25 selection:text-white">
+    <div className="relative min-h-screen bg-[#0b0c10] text-[#e5e7eb] selection:bg-cyan-500/25 selection:text-white overflow-x-hidden">
       {/* Top Anchor */}
       <div id="top" className="absolute top-0 left-0 h-px w-px pointer-events-none" />
 

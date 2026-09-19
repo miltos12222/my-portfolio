@@ -16,7 +16,8 @@ const geistMono = Geist_Mono({
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 5,
+  maximumScale: 1,
+  userScalable: false,
   themeColor: "#050508",
 };
 
@@ -48,9 +49,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} dark antialiased scroll-smooth`}
+      className={`${geistSans.variable} ${geistMono.variable} dark antialiased scroll-smooth overflow-x-hidden`}
     >
-      <body className="min-h-screen bg-[#050508] text-gray-100 flex flex-col selection:bg-cyan-500/30 selection:text-white">
+      <body className="min-h-screen bg-[#050508] text-gray-100 flex flex-col selection:bg-cyan-500/30 selection:text-white overflow-x-hidden">
         {children}
         {/* Vercel Analytics */}
         <Analytics />
