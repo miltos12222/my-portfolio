@@ -1,0 +1,37 @@
+import { NextResponse } from "next/server";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+export async function POST(req: Request) {
+  try {
+    const { name, email, message, serviceTitle, servicePrice } = await req.json();
+
+    if (!name || !email) {
+      return NextResponse.json(
+        { error: "Το όνομα και το email είναι υποχρεωτικά." },
+        { status: 400 }
+      );
+    }
+
+    const data = await resend.emails.send({
+      from: "Portfolio Contact <onboarding@resend.dev>",
+      to: ["elanaspww@gmail.com"],
+      replyTo: email,
+      subject: `Νέο Αίτημα Παραγγελίας: ${serviceTitle}`,
+      html: `
+        <h2>Νέο Αίτημα Παραγγελίας</h2>
+        <p><strong>Ονοματεπώνυμο:</strong> ${name}</p>
+        <p><strong>Email Πελάτη:</strong> ${email}</p>
+        <p><strong>Πακέτο:</strong> ${serviceTitle} (${servicePrice})</p>
+        <hr />
+        <h3>Σημειώσεις / Λεπτομέρειες:</h3>
+        <p>${message || "Δεν καταχωρήθηκαν σημειώσεις."}</p>
+      `,
+    });
+
+    return NextResponse.json({ success: true, data });
+  } catch (error) {
+    return NextResponse.json({ error: "Αποτυχία αποστολής email" }, { status: 500 });
+  }
+}
