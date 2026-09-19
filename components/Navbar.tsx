@@ -37,7 +37,7 @@ export default function Navbar() {
   }, []);
 
   const copyEmail = () => {
-    navigator.clipboard.writeText("miltospapageorgiou@gmail.com");
+    navigator.clipboard.writeText("miltospapageorgiou066@gmail.com");
     setCopied(true);
     setTimeout(() => setCopied(false), 2200);
   };
