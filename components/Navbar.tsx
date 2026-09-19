@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Check, Compass, Command, Search, ArrowRight, X, Github, Linkedin } from "lucide-react";
+import { Mail, Check, Compass, Command, Search, ArrowRight, X } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 
 export default function Navbar() {
@@ -105,7 +105,6 @@ export default function Navbar() {
 
           {/* Right Actions & Command Button trigger */}
           <div className="hidden sm:flex items-center gap-2.5">
-            {/* Cmd + K Trigger Button */}
             <button
               onClick={() => setCmdOpen(true)}
               className="flex items-center gap-2 px-3 py-2 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-gray-400 hover:text-white text-xs transition-all shadow-sm"
@@ -165,7 +164,6 @@ export default function Navbar() {
               exit={{ opacity: 0, scale: 0.95, y: -20 }}
               className="w-full max-w-lg bg-[#0d0e18] border border-white/20 rounded-3xl shadow-2xl overflow-hidden pointer-events-auto"
             >
-              {/* Search Header */}
               <div className="flex items-center px-4 py-3.5 border-b border-white/10 gap-3">
                 <Search className="h-4 w-4 text-cyan-400 shrink-0" />
                 <input
@@ -184,7 +182,6 @@ export default function Navbar() {
                 </button>
               </div>
 
-              {/* Results List */}
               <div className="p-2 max-h-72 overflow-y-auto space-y-1">
                 <div className="px-3 py-1.5 text-[10px] font-mono text-gray-500 uppercase tracking-wider">Quick Navigation</div>
                 {filteredLinks.map((link) => (
@@ -217,7 +214,6 @@ export default function Navbar() {
                 </button>
               </div>
 
-              {/* Footer */}
               <div className="px-4 py-3 bg-white/[0.02] border-t border-white/10 flex items-center justify-between text-[11px] text-gray-500 font-mono">
                 <span>Use arrows to navigate</span>
                 <span className="text-cyan-400">Miltos Papageorgiou Port 2026</span>
