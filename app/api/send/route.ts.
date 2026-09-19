@@ -1,3 +1,4 @@
+
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
@@ -9,7 +10,7 @@ export async function POST(req: Request) {
 
     if (!name || !email) {
       return NextResponse.json(
-        { error: "Το όνομα και το email είναι υποχρεωτικά." },
+        { error: "To onoma kai to email einai υποχρεωτικά." },
         { status: 400 }
       );
     }
@@ -18,20 +19,20 @@ export async function POST(req: Request) {
       from: "Portfolio Contact <onboarding@resend.dev>",
       to: ["elanaspww@gmail.com"],
       replyTo: email,
-      subject: `Νέο Αίτημα Παραγγελίας: ${serviceTitle}`,
+      subject: `Neo Aitima Parangelias: ${serviceTitle}`,
       html: `
-        <h2>Νέο Αίτημα Παραγγελίας</h2>
-        <p><strong>Ονοματεπώνυμο:</strong> ${name}</p>
-        <p><strong>Email Πελάτη:</strong> ${email}</p>
-        <p><strong>Πακέτο:</strong> ${serviceTitle} (${servicePrice})</p>
+        <h2>Neo Aitima Parangelias</h2>
+        <p><strong>Onomateponymo:</strong> ${name}</p>
+        <p><strong>Email Pelati:</strong> ${email}</p>
+        <p><strong>Paketo:</strong> ${serviceTitle} (${servicePrice})</p>
         <hr />
-        <h3>Σημειώσεις / Λεπτομέρειες:</h3>
-        <p>${message || "Δεν καταχωρήθηκαν σημειώσεις."}</p>
+        <h3>Simeioseis / Leptomereies:</h3>
+        <p>${message || "Den katachorithikan simeioseis."}</p>
       `,
     });
 
     return NextResponse.json({ success: true, data });
   } catch (error) {
-    return NextResponse.json({ error: "Αποτυχία αποστολής email" }, { status: 500 });
+    return NextResponse.json({ error: "Apotychia apostolis email" }, { status: 500 });
   }
 }

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Server, Code2, ShieldAlert, Check, X, ArrowRight } from "lucide-react";
+import { Server, Code2, ShieldAlert, Check, X, ArrowRight, Loader2 } from "lucide-react";
 
 interface Service {
     id: string;
@@ -23,12 +23,12 @@ const services: Service[] = [
         badgeColor: "bg-cyan-500/10 border-cyan-500/20 text-cyan-400",
         title: "Homelab & Server Setup",
         price: "€120",
-        period: "εφάπαξ",
-        description: "Πλήρες στήσιμο οικιακού ή μικρού επαγγελματικού server & cloud.",
+        period: "efapax",
+        description: "Plires stisimo oikiakou i mikrou epangelmatikou server & cloud.",
         features: [
-            "Εγκατάσταση Proxmox VE / Docker LXC containers",
-            "Στήσιμο Nextcloud & εξωτερικού αποθηκευτικού χώρου",
-            "Tailscale Mesh VPN για ασφαλή πρόσβαση από παντού",
+            "Egkatastasi Proxmox VE / Docker LXC containers",
+            "Stisimo Nextcloud & exoterikou apothikeutikou chorou",
+            "Tailscale Mesh VPN gia asfali prosbasi apo pantou",
         ],
         icon: Server,
     },
@@ -38,12 +38,12 @@ const services: Service[] = [
         badgeColor: "bg-purple-500/10 border-purple-500/20 text-purple-400",
         title: "Web Dev & Hosting Setup",
         price: "€250",
-        period: "εφάπαξ",
-        description: "Δημιουργία Portfolio/Landing page & πλήρης παραμετροποίηση.",
+        period: "efapax",
+        description: "Dimiourgia Portfolio/Landing page & pliris parametropoisi.",
         features: [
             "Custom Modern Landing Page (Next.js / React / Tailwind)",
-            "Σύνδεση Custom Domain & αυτόματα SSL Πιστοποιητικά",
-            "Deployment σε Vercel / Cloudflare / Custom VPS",
+            "Syndesi Custom Domain & automata SSL Pistopointika",
+            "Deployment se Vercel / Cloudflare / Custom VPS",
         ],
         icon: Code2,
     },
@@ -53,12 +53,12 @@ const services: Service[] = [
         badgeColor: "bg-blue-500/10 border-blue-500/20 text-blue-400",
         title: "System & Network Security Audit",
         price: "€180",
-        period: "εφάπαξ",
-        description: "Έλεγχος ευπαθειών και θωράκιση δικτύου/υποδομών.",
+        period: "efapax",
+        description: "Elenchos eupatheion kai thorakisi diktyou/ypodomon.",
         features: [
             "Vulnerability Scanning & Open Port Analysis (Nmap/Kali)",
             "Hardening SSH, Firewall & Access Control Rules",
-            "Ρύθμιση Nginx Reverse Proxy & Cloudflare WAF",
+            "Rhythmisi Nginx Reverse Proxy & Cloudflare WAF",
         ],
         icon: ShieldAlert,
     },
@@ -66,19 +66,59 @@ const services: Service[] = [
 
 export default function ServicesSection() {
     const [selectedService, setSelectedService] = useState<Service | null>(null);
+    const [loading, setLoading] = useState(false);
+    const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!selectedService) return;
+
+        setLoading(true);
+        setStatus("idle");
+
+        const formData = new FormData(e.currentTarget);
+        const payload = {
+            name: formData.get("name"),
+            email: formData.get("email"),
+            message: formData.get("message"),
+            serviceTitle: selectedService.title,
+            servicePrice: selectedService.price,
+        };
+
+        try {
+            const res = await fetch("/api/send", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+
+            if (res.ok) {
+                setStatus("success");
+                setTimeout(() => {
+                    setSelectedService(null);
+                    setStatus("idle");
+                }, 2000);
+            } else {
+                setStatus("error");
+            }
+        } catch (err) {
+            setStatus("error");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <section id="services" className="space-y-6 my-12">
             <div className="text-center max-w-2xl mx-auto mb-10">
                 <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
-                    Εξειδικευμένες Υπηρεσίες & Πακέτα
+                    Exeidikeumenes Ypiresies & Paketa
                 </h2>
                 <p className="text-xs sm:text-sm text-zinc-400">
-                    Επιλέξτε το πακέτο που ταιριάζει στις ανάγκες σας ή επικοινωνήστε για προσαρμοσμένη λύση.
+                    Epilexte to paketo pou tairiazei stis anagkes sas i epikoinoniste gia prosarmosmeni lysi.
                 </p>
             </div>
 
-            {/* Grid Πακέτων */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {services.map((service) => {
                     const IconComponent = service.icon;
@@ -120,10 +160,13 @@ export default function ServicesSection() {
                             </div>
 
                             <button
-                                onClick={() => setSelectedService(service)}
+                                onClick={() => {
+                                    setSelectedService(service);
+                                    setStatus("idle");
+                                }}
                                 className="w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-semibold text-white transition-all flex items-center justify-center gap-2 group-hover:bg-cyan-500 group-hover:text-black group-hover:border-cyan-400"
                             >
-                                <span>Επιλογή Πακέτου</span>
+                                <span>Epilogi Paketou</span>
                                 <ArrowRight className="w-4 h-4" />
                             </button>
                         </div>
@@ -131,7 +174,6 @@ export default function ServicesSection() {
                 })}
             </div>
 
-            {/* Modal Φόρμας Παραγγελίας */}
             <AnimatePresence>
                 {selectedService && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
@@ -141,7 +183,6 @@ export default function ServicesSection() {
                             exit={{ opacity: 0, scale: 0.95 }}
                             className="relative w-full max-w-lg rounded-3xl bg-[#12141c] border border-white/15 p-6 sm:p-8 shadow-2xl"
                         >
-                            {/* Κουμπί Κλεισίματος */}
                             <button
                                 onClick={() => setSelectedService(null)}
                                 className="absolute top-5 right-5 p-2 rounded-full bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-all"
@@ -151,47 +192,30 @@ export default function ServicesSection() {
 
                             <div className="mb-6">
                                 <span className="text-[10px] font-mono uppercase tracking-wider text-cyan-400 block mb-1">
-                                    ΑΙΤΗΜΑ ΠΑΡΑΓΓΕΛΙΑΣ
+                                    AITIMA PARANGELIAS
                                 </span>
                                 <h3 className="text-xl font-bold text-white">
                                     {selectedService.title} ({selectedService.price})
                                 </h3>
                             </div>
 
-                            <form
-                                onSubmit={(e) => {
-                                    e.preventDefault();
-                                    const formData = new FormData(e.currentTarget);
-                                    const name = formData.get("name");
-                                    const email = formData.get("email");
-                                    const message = formData.get("message");
-
-                                    const subject = encodeURIComponent(`Αίτημα Παραγγελίας: ${selectedService.title}`);
-                                    const body = encodeURIComponent(
-                                        `Ονοματεπώνυμο: ${name}\nEmail Επικοινωνίας: ${email}\nΠακέτο: ${selectedService.title} (${selectedService.price})\n\nΛεπτομέρειες / Σημειώσεις:\n${message}`
-                                    );
-
-                                    window.location.href = `mailto:elanaspww@gmail.com?subject=${subject}&body=${body}`;
-                                    setSelectedService(null);
-                                }}
-                                className="space-y-4"
-                            >
+                            <form onSubmit={handleSubmit} className="space-y-4">
                                 <div>
                                     <label className="block text-xs font-mono text-zinc-400 mb-1.5 uppercase">
-                                        Ονοματεπώνυμο
+                                        Onomateponymo
                                     </label>
                                     <input
                                         type="text"
                                         name="name"
                                         required
-                                        placeholder="π.χ. Μίλτος Παπαγεωργίου"
+                                        placeholder="p.ch. Miltos Papageorgiou"
                                         className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/10 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 transition-all"
                                     />
                                 </div>
 
                                 <div>
                                     <label className="block text-xs font-mono text-zinc-400 mb-1.5 uppercase">
-                                        Email Επικοινωνίας
+                                        Email Epikoinonias
                                     </label>
                                     <input
                                         type="email"
@@ -204,26 +228,42 @@ export default function ServicesSection() {
 
                                 <div>
                                     <label className="block text-xs font-mono text-zinc-400 mb-1.5 uppercase">
-                                        Λεπτομέρειες / Σημειώσεις
+                                        Leptomereies / Simeioseis
                                     </label>
                                     <textarea
                                         name="message"
                                         rows={3}
-                                        placeholder="Περιγράψτε τι ακριβώς χρειάζεστε..."
+                                        placeholder="Perigrapste ti akribos chreiazeste..."
                                         className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/10 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 transition-all resize-none"
                                     ></textarea>
                                 </div>
 
-                                <p className="text-[11px] text-zinc-500 pt-1">
-                                    * Πατώντας «Αποστολή Αιτήματος» θα ανοίξει η εφαρμογή email σας για να στείλετε το αίτημα απευθείας στο email μου.
-                                </p>
+                                {status === "success" && (
+                                    <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium text-center">
+                                        ✓ To aitima sas stalthike epitychos!
+                                    </div>
+                                )}
+
+                                {status === "error" && (
+                                    <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium text-center">
+                                        ✕ Apotychia apostolis. Parakaloumedokimaste xana.
+                                    </div>
+                                )}
 
                                 <div className="pt-2">
                                     <button
                                         type="submit"
-                                        className="w-full py-3 px-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-sm transition-all"
+                                        disabled={loading}
+                                        className="w-full py-3 px-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-black font-bold text-sm transition-all flex items-center justify-center gap-2"
                                     >
-                                        Αποστολή Αιτήματος
+                                        {loading ? (
+                                            <>
+                                                <Loader2 className="w-4 h-4 animate-spin" />
+                                                <span>Apostoli...</span>
+                                            </>
+                                        ) : (
+                                            <span>Apostoli Aitimatos</span>
+                                        )}
                                     </button>
                                 </div>
                             </form>
