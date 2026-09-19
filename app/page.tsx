@@ -8,6 +8,7 @@ import ScrollyCanvas from "@/components/ScrollyCanvas";
 import Overlay from "@/components/Overlay";
 import PortfolioGrid from "@/components/PortfolioGrid";
 import Footer from "@/components/Footer";
+import { certificateBase64 } from "@/certificates/certificateData";
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -97,13 +98,13 @@ export default function Home() {
 
                 {/* Document Image Preview Frame */}
                 <a
-                  href="/certificates/vevaiosi.jpg"
+                  href={certificateBase64}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative block w-full h-64 rounded-xl overflow-hidden border border-white/10 bg-black/40 my-4 transition-all duration-300 hover:border-amber-500/50"
                 >
                   <Image
-                    src="/certificates/vevaiosi.jpg"
+                    src={certificateBase64}
                     alt="Βεβαίωση Επαγγελματικής Κατάρτισης"
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
