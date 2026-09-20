@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, Star, Send, Check } from "lucide-react";
+import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, Star, Send, Check, Terminal } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 
 export default function Home() {
@@ -17,7 +17,7 @@ export default function Home() {
   const [resilienceOpen, setResilienceOpen] = useState(false);
 
   // States για τη φόρμα επικοινωνίας
-  const [selectedPlan, setSelectedPlan] = useState("Modern Web App");
+  const [selectedPlan, setSelectedPlan] = useState("Homelab Setup");
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -25,6 +25,16 @@ export default function Home() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Λήψη τιμής βάσει επιλεγμένου πακέτου
+  const getPlanPrice = (plan: string) => {
+    switch (plan) {
+      case "Modern Web App": return "Από 350€";
+      case "Homelab Setup": return "Από 150€";
+      case "Custom Consulting": return "35€ / ώρα";
+      default: return "Κατόπιν Συνεννόησης";
+    }
+  };
 
   // Συνάρτηση υποβολής φόρμας
   const handleSubmit = async (e: React.FormEvent) => {
@@ -41,7 +51,7 @@ export default function Home() {
           name: formData.name,
           email: formData.email,
           serviceTitle: selectedPlan,
-          servicePrice: "Custom Quote",
+          servicePrice: getPlanPrice(selectedPlan),
           message: formData.message,
         }),
       });
@@ -245,15 +255,50 @@ export default function Home() {
 
         </section>
 
-        {/* ABOUT ME */}
-        <section id="about-me" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8">
-          <h2 className="text-xl font-bold text-white mb-3">Σχετικά με Εμένα</h2>
-          <p className="text-sm text-zinc-300 leading-relaxed mb-3">
-            Είμαι απόφοιτος Πληροφορικής με έντονο ενδιαφέρον και πρακτική εμπειρία στις υποδομές δικτύων, τη διαχείριση συστημάτων Linux και την ανάπτυξη λογισμικού.
-          </p>
-          <p className="text-sm text-zinc-400 leading-relaxed">
-            Στόχος μου είναι η δημιουργία ασφαλών, γρήγορων και κλιμακούμενων εφαρμογών, αξιοποιώντας σύγχρονα εργαλεία αυτοματισμού και self-hosted αρχιτεκτονικές.
-          </p>
+        {/* FULL EXTRA: ABOUT ME + INTERACTIVE TERMINAL */}
+        <section id="about-me" className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 flex flex-col justify-center">
+            <h2 className="text-xl font-bold text-white mb-4">Σχετικά με Εμένα</h2>
+            <p className="text-sm text-zinc-300 leading-relaxed mb-4">
+              Είμαι απόφοιτος Πληροφορικής με έντονο ενδιαφέρον και πρακτική εμπειρία στις υποδομές δικτύων, τη διαχείριση συστημάτων Linux και την ανάπτυξη λογισμικού.
+            </p>
+            <p className="text-sm text-zinc-400 leading-relaxed">
+              Στόχος μου είναι η δημιουργία ασφαλών, γρήγορων και κλιμακούμενων εφαρμογών, αξιοποιώντας σύγχρονα εργαλεία αυτοματισμού και self-hosted αρχιτεκτονικές. Συνδυάζω το DevOps mindset με το σύγχρονο Web Development.
+            </p>
+          </div>
+
+          {/* Terminal Widget */}
+          <div className="rounded-3xl border border-white/10 bg-[#0a0a0a] p-5 font-mono text-xs shadow-2xl relative overflow-hidden group">
+            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/5">
+              <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+              <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
+              <div className="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+              <span className="ml-2 text-zinc-500 flex items-center gap-1"><Terminal className="w-3 h-3" /> root@miltos-server:~</span>
+            </div>
+            <div className="space-y-2 text-zinc-300">
+              <p><span className="text-emerald-400">miltos@admin:~$</span> neofetch</p>
+              <div className="pl-2 pt-1 flex gap-4">
+                <div className="text-cyan-500 font-bold hidden sm:block">
+                  <pre>{`
+   .---.
+  /     \\
+  \\.@-@./
+  /  _  \\
+ //     \\\\
+                  `}</pre>
+                </div>
+                <div className="space-y-1">
+                  <p><span className="text-cyan-400 font-bold">OS:</span> Debian GNU/Linux 12 (bookworm)</p>
+                  <p><span className="text-cyan-400 font-bold">Host:</span> Proxmox Virtual Environment</p>
+                  <p><span className="text-cyan-400 font-bold">Uptime:</span> 99.9% High Availability</p>
+                  <p><span className="text-cyan-400 font-bold">Stack:</span> Next.js, Tailwind, TypeScript</p>
+                  <p><span className="text-cyan-400 font-bold">Services:</span> Docker, Tailscale, Nextcloud</p>
+                  <p><span className="text-cyan-400 font-bold">Status:</span> <span className="text-emerald-400 bg-emerald-400/10 px-1 py-0.5 rounded">Online & Ready for Hire</span></p>
+                </div>
+              </div>
+              <p className="pt-2"><span className="text-emerald-400">miltos@admin:~$</span> <span className="animate-pulse">_</span></p>
+            </div>
+          </div>
         </section>
 
         {/* INFRASTRUCTURE */}
@@ -439,71 +484,88 @@ export default function Home() {
           </div>
         </section>
 
-        {/* PRICING & SERVICES SECTION */}
-        <section id="services" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 space-y-6">
-          <div>
-            <h2 className="text-xl font-bold text-white mb-1">Υπηρεσίες & Πακέτα</h2>
-            <p className="text-xs text-zinc-400">Επιλέξτε το πακέτο που ταιριάζει στις ανάγκες σας</p>
+        {/* PRICING & SERVICES SECTION (Αναβαθμισμένο) */}
+        <section id="services" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 space-y-8">
+          <div className="text-center max-w-2xl mx-auto">
+            <h2 className="text-2xl font-bold text-white mb-2">Υπηρεσίες & Ανταγωνιστικά Πακέτα</h2>
+            <p className="text-sm text-zinc-400">Καθαρές τιμές, διαφανής συνεργασία και επαγγελματικό αποτέλεσμα προσαρμοσμένο στις ανάγκες σας.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Package 1 */}
-            <div className={`rounded-2xl p-6 border flex flex-col justify-between transition-all ${selectedPlan === "Modern Web App" ? "bg-cyan-500/10 border-cyan-500/40" : "bg-white/[0.03] border-white/10"}`}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            {/* Package 1: Web Apps */}
+            <div className={`relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Modern Web App" ? "bg-cyan-500/5 border-cyan-500/50 shadow-[0_0_30px_-5px_rgba(6,182,212,0.15)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
               <div>
-                <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider">Web Apps</span>
-                <h3 className="text-lg font-bold text-white mt-1 mb-2">Modern Web App</h3>
-                <p className="text-xs text-zinc-400 mb-4">Κατασκευή σύγχρονης, γρήγορης ιστοσελίδας ή web εφαρμογής με Next.js & Tailwind CSS.</p>
-                <ul className="space-y-2 text-xs text-zinc-300 mb-6">
+                <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider font-bold">Web Development</span>
+                <h3 className="text-xl font-bold text-white mt-2">Modern Web App</h3>
+                <div className="my-4 flex items-baseline gap-1">
+                  <span className="text-3xl font-bold text-white">350€</span>
+                  <span className="text-xs text-zinc-400 font-mono">/ από</span>
+                </div>
+                <p className="text-xs text-zinc-400 mb-6">Σύγχρονη, ταχύτατη ιστοσελίδα (Landing Page / Portfolio) με Next.js & Tailwind CSS.</p>
+                <ul className="space-y-3 text-xs text-zinc-300 mb-8">
                   <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400" /> Responsive & Fast Design</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400" /> SEO Optimization</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400" /> Custom Components</li>
+                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400" /> Βασικό SEO Optimization</li>
+                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400" /> Φόρμα Επικοινωνίας & Analytics</li>
                 </ul>
               </div>
               <button
                 onClick={() => setSelectedPlan("Modern Web App")}
-                className={`w-full py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${selectedPlan === "Modern Web App" ? "bg-cyan-500 text-black font-semibold" : "bg-white/10 hover:bg-white/20 text-white"}`}
+                className={`w-full py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${selectedPlan === "Modern Web App" ? "bg-cyan-500 text-black shadow-lg shadow-cyan-500/20" : "bg-white/10 hover:bg-white/20 text-white"}`}
               >
-                {selectedPlan === "Modern Web App" ? "Επιλεγμένο" : "Επιλογή Πακέτου"}
+                {selectedPlan === "Modern Web App" ? "Επιλεγμένο" : "Επιλογή"}
               </button>
             </div>
 
-            {/* Package 2 */}
-            <div className={`rounded-2xl p-6 border flex flex-col justify-between transition-all ${selectedPlan === "Homelab & Infrastructure" ? "bg-purple-500/10 border-purple-500/40" : "bg-white/[0.03] border-white/10"}`}>
+            {/* Package 2: Homelab (Highlighted) */}
+            <div className={`relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Homelab Setup" ? "bg-purple-500/5 border-purple-500/50 shadow-[0_0_30px_-5px_rgba(168,85,247,0.15)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-500 to-cyan-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
+                Most Popular
+              </div>
+
               <div>
-                <span className="text-xs font-mono text-purple-400 uppercase tracking-wider">DevOps / Linux</span>
-                <h3 className="text-lg font-bold text-white mt-1 mb-2">Homelab Setup</h3>
-                <p className="text-xs text-zinc-400 mb-4">Στήσιμο Proxmox VE, Docker containers, Nextcloud & Tailscale VPN.</p>
-                <ul className="space-y-2 text-xs text-zinc-300 mb-6">
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-purple-400" /> Docker Orchestration</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-purple-400" /> Automated Backups</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-purple-400" /> Secure VPN Access</li>
+                <span className="text-xs font-mono text-purple-400 uppercase tracking-wider font-bold">DevOps / Linux</span>
+                <h3 className="text-xl font-bold text-white mt-2">Homelab Setup</h3>
+                <div className="my-4 flex items-baseline gap-1">
+                  <span className="text-3xl font-bold text-white">150€</span>
+                  <span className="text-xs text-zinc-400 font-mono">/ από</span>
+                </div>
+                <p className="text-xs text-zinc-400 mb-6">Στήσιμο server, εικονικών μηχανών & containers για προσωπική ή μικρή επαγγελματική χρήση.</p>
+                <ul className="space-y-3 text-xs text-zinc-300 mb-8">
+                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-purple-400" /> Proxmox & Docker Setup</li>
+                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-purple-400" /> Nextcloud Data Sync</li>
+                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-purple-400" /> Tailscale VPN Access</li>
                 </ul>
               </div>
               <button
-                onClick={() => setSelectedPlan("Homelab & Infrastructure")}
-                className={`w-full py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${selectedPlan === "Homelab & Infrastructure" ? "bg-purple-500 text-black font-semibold" : "bg-white/10 hover:bg-white/20 text-white"}`}
+                onClick={() => setSelectedPlan("Homelab Setup")}
+                className={`w-full py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${selectedPlan === "Homelab Setup" ? "bg-purple-500 text-white shadow-lg shadow-purple-500/20" : "bg-white/10 hover:bg-white/20 text-white"}`}
               >
-                {selectedPlan === "Homelab & Infrastructure" ? "Επιλεγμένο" : "Επιλογή Πακέτου"}
+                {selectedPlan === "Homelab Setup" ? "Επιλεγμένο" : "Επιλογή"}
               </button>
             </div>
 
-            {/* Package 3 */}
-            <div className={`rounded-2xl p-6 border flex flex-col justify-between transition-all ${selectedPlan === "Custom Consulting" ? "bg-emerald-500/10 border-emerald-500/40" : "bg-white/[0.03] border-white/10"}`}>
+            {/* Package 3: Consulting */}
+            <div className={`relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Custom Consulting" ? "bg-emerald-500/5 border-emerald-500/50 shadow-[0_0_30px_-5px_rgba(16,185,129,0.15)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
               <div>
-                <span className="text-xs font-mono text-emerald-400 uppercase tracking-wider">Custom</span>
-                <h3 className="text-lg font-bold text-white mt-1 mb-2">Consulting & Support</h3>
-                <p className="text-xs text-zinc-400 mb-4">Εξατομικευμένες λύσεις, επίλυση τεχνικών προβλημάτων και συμβουλευτική.</p>
-                <ul className="space-y-2 text-xs text-zinc-300 mb-6">
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> System Auditing</li>
+                <span className="text-xs font-mono text-emerald-400 uppercase tracking-wider font-bold">Custom Support</span>
+                <h3 className="text-xl font-bold text-white mt-2">Consulting & Audit</h3>
+                <div className="my-4 flex items-baseline gap-1">
+                  <span className="text-3xl font-bold text-white">35€</span>
+                  <span className="text-xs text-zinc-400 font-mono">/ ώρα</span>
+                </div>
+                <p className="text-xs text-zinc-400 mb-6">Εξατομικευμένες λύσεις, επίλυση τεχνικών προβλημάτων και συμβουλευτική συστημάτων.</p>
+                <ul className="space-y-3 text-xs text-zinc-300 mb-8">
+                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> System Auditing & Security</li>
                   <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> Performance Optimization</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> 1-on-1 Consultation</li>
+                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> 1-on-1 Τεχνική Υποστήριξη</li>
                 </ul>
               </div>
               <button
                 onClick={() => setSelectedPlan("Custom Consulting")}
-                className={`w-full py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${selectedPlan === "Custom Consulting" ? "bg-emerald-500 text-black font-semibold" : "bg-white/10 hover:bg-white/20 text-white"}`}
+                className={`w-full py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${selectedPlan === "Custom Consulting" ? "bg-emerald-500 text-black shadow-lg shadow-emerald-500/20" : "bg-white/10 hover:bg-white/20 text-white"}`}
               >
-                {selectedPlan === "Custom Consulting" ? "Επιλεγμένο" : "Επιλογή Πακέτου"}
+                {selectedPlan === "Custom Consulting" ? "Επιλεγμένο" : "Επιλογή"}
               </button>
             </div>
           </div>
@@ -512,70 +574,78 @@ export default function Home() {
         {/* CONTACT FORM SECTION */}
         <section id="contact" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 space-y-6">
           <div>
-            <h2 className="text-xl font-bold text-white mb-1">Φόρμα Επικοινωνίας</h2>
-            <p className="text-xs text-zinc-400">Στείλτε μου μήνυμα για συνεργασία ή ερωτήσεις</p>
+            <h2 className="text-xl font-bold text-white mb-1">Αίτημα Συνεργασίας</h2>
+            <p className="text-xs text-zinc-400">Επιλέξτε πακέτο από πάνω και στείλτε μου τα στοιχεία σας.</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
-                <label className="block text-xs font-medium text-zinc-300 mb-1.5">Όνομα / Επωνυμία</label>
+                <label className="block text-xs font-medium text-zinc-300 mb-2">Όνομα / Επωνυμία</label>
                 <input
                   type="text"
                   required
                   placeholder="Γιάννης Παπαδόπουλος"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/10 text-white text-xs placeholder:text-zinc-500 focus:outline-none focus:border-cyan-500/50 transition-all"
+                  className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500/50 transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-300 mb-1.5">Email Επικοινωνίας</label>
+                <label className="block text-xs font-medium text-zinc-300 mb-2">Email Επικοινωνίας</label>
                 <input
                   type="email"
                   required
                   placeholder="example@domain.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/10 text-white text-xs placeholder:text-zinc-500 focus:outline-none focus:border-cyan-500/50 transition-all"
+                  className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500/50 transition-all"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-zinc-300 mb-1.5">Επιλεγμένο Υπηρεσία</label>
-              <input
-                type="text"
-                readOnly
-                value={selectedPlan}
-                className="w-full px-4 py-2.5 rounded-xl bg-white/[0.02] border border-white/10 text-cyan-400 font-mono text-xs cursor-not-allowed"
-              />
+              <label className="block text-xs font-medium text-zinc-300 mb-2">Επιλεγμένη Υπηρεσία & Τιμή</label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  readOnly
+                  value={selectedPlan}
+                  className="w-2/3 px-4 py-3 rounded-xl bg-cyan-500/5 border border-cyan-500/20 text-cyan-400 font-mono text-sm cursor-not-allowed"
+                />
+                <input
+                  type="text"
+                  readOnly
+                  value={getPlanPrice(selectedPlan)}
+                  className="w-1/3 px-4 py-3 rounded-xl bg-white/[0.02] border border-white/10 text-zinc-400 font-mono text-sm text-center cursor-not-allowed"
+                />
+              </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-zinc-300 mb-1.5">Μήνυμα</label>
+              <label className="block text-xs font-medium text-zinc-300 mb-2">Μήνυμα / Λεπτομέρειες</label>
               <textarea
                 required
                 rows={4}
-                placeholder="Περιγράψτε εντονότερα το project ή το αίτημά σας..."
+                placeholder="Περιγράψτε το project ή το αίτημά σας..."
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] border border-white/10 text-white text-xs placeholder:text-zinc-500 focus:outline-none focus:border-cyan-500/50 transition-all resize-none"
+                className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500/50 transition-all resize-none"
               />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-black font-semibold text-xs transition-all shadow-lg shadow-cyan-500/10 cursor-pointer"
+              className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-black font-bold text-sm transition-all shadow-[0_0_20px_rgba(6,182,212,0.3)] cursor-pointer"
             >
               <Send className="w-4 h-4" />
-              <span>{isSubmitting ? "Γίνεται αποστολή..." : "Αποστολή Μηνύματος"}</span>
+              <span>{isSubmitting ? "Γίνεται αποστολή..." : "Αποστολή Αιτήματος"}</span>
             </button>
 
             {formSubmitted && (
-              <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs text-center font-medium">
+              <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm text-center font-medium animate-pulse">
                 ✓ Το μήνυμά σας στάλθηκε με επιτυχία! Θα επικοινωνήσω μαζί σας σύντομα.
               </div>
             )}
