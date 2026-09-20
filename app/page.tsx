@@ -205,6 +205,23 @@ export default function Home() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // --- LIVE TELEMETRY STATE ---
+  const [telemetry, setTelemetry] = useState<{
+    status: string;
+    node: string;
+    cpuUsage: string;
+    memoryUsage: string;
+    activeContainers: number;
+    tailscaleMesh: string;
+  } | null>(null);
+
+  useEffect(() => {
+    fetch("/api/telemetry")
+      .then((res) => res.json())
+      .then((data) => setTelemetry(data))
+      .catch((err) => console.error("Failed to load telemetry:", err));
+  }, []);
+
   // --- FAQ SLIDER STATE (6 seconds interval) ---
   const [faqIndex, setFaqIndex] = useState(0);
   const [faqFade, setFaqFade] = useState(true);
@@ -426,11 +443,39 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Self-Hosted Card with Live Telemetry Integration */}
           <div className={`group reveal-from-right rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.15)]`}>
             <div>
-              <div className="flex items-center justify-between opacity-70 mb-4"><Server className="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform duration-300" /><span className="text-[10px] font-mono uppercase tracking-wider">Infrastructure</span></div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <Server className="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform duration-300" />
+                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-mono text-emerald-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    {telemetry ? telemetry.status.toUpperCase() : "ONLINE"}
+                  </span>
+                </div>
+                <span className="text-[10px] font-mono opacity-70 uppercase tracking-wider">Infrastructure</span>
+              </div>
+
               <h3 className="text-lg font-bold mb-1 group-hover:text-cyan-300 transition-colors">Self-Hosted</h3>
               <p className="text-xs opacity-80 mb-3">{t.infraDesc}</p>
+
+              {/* Live Telemetry Mini-Widget */}
+              <div className="my-3 p-3 rounded-2xl bg-white/[0.03] border border-white/10 font-mono text-[11px] space-y-1 text-zinc-300">
+                <div className="flex justify-between">
+                  <span className="text-zinc-500">Node:</span>
+                  <span className="text-cyan-400 font-bold">{telemetry ? telemetry.node : "Proxmox-VE-Main"}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-zinc-500">CPU / RAM:</span>
+                  <span className="text-emerald-400">{telemetry ? `${telemetry.cpuUsage} / ${telemetry.memoryUsage}` : "Loading..."}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-zinc-500">Containers:</span>
+                  <span className="text-purple-400">{telemetry ? `${telemetry.activeContainers} Active` : "6 Active"}</span>
+                </div>
+              </div>
+
               {infraOpen && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.infraList1}</p><p>• {t.infraList2}</p></div>)}
             </div>
             <div>
