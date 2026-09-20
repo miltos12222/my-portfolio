@@ -63,7 +63,7 @@ export default function Footer() {
           </a>
 
           <a
-            href="https://www.linkedin.com/in/miltos-papageorgiou-a58142352/"
+            href="https://www.linkedin.com/in/miltos-papageorgiou-740990438/"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-xs font-medium text-gray-200 transition-all hover:scale-105"
