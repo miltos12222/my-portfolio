@@ -6,8 +6,9 @@ import Footer from "@/components/Footer";
 import Image from "next/image";
 import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, Star, Send, Check, Terminal, Globe, Download } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
+import { toast } from "sonner"; // <--- ΑΥΤΟ ΦΕΡΝΕΙ ΤΑ TOASTS
 
-// --- ΛΕΞΙΚΟ ΜΕΤΑΦΡΑΣΕΩΝ (DICTIONARY) ---
+// --- ΛΕΞΙΚΟ ΜΕΤΑΦΡΑΣΕΩΝ ---
 const translations = {
   gr: {
     available: "AVAILABLE FOR HIRE",
@@ -71,7 +72,9 @@ const translations = {
     formPlaceholder: "Περιγράψτε το project ή το αίτημά σας...",
     submitBtn: "Αποστολή Αιτήματος",
     sending: "Γίνεται αποστολή...",
-    successMsg: "✓ Το μήνυμά σας στάλθηκε με επιτυχία! Θα επικοινωνήσω μαζί σας σύντομα.",
+    successMsg: "Το μήνυμά σας στάλθηκε με επιτυχία! Θα επικοινωνήσω μαζί σας σύντομα.",
+    errorMsg: "Αποτυχία αποστολής. Παρακαλώ δοκιμάστε ξανά.",
+    serverError: "Σφάλμα σύνδεσης με τον διακομιστή."
   },
   en: {
     available: "AVAILABLE FOR HIRE",
@@ -135,7 +138,9 @@ const translations = {
     formPlaceholder: "Describe your project or request...",
     submitBtn: "Send Request",
     sending: "Sending...",
-    successMsg: "✓ Your message was sent successfully! I will contact you soon.",
+    successMsg: "Your message was sent successfully! I will contact you soon.",
+    errorMsg: "Failed to send. Please try again.",
+    serverError: "Server connection error."
   }
 };
 
@@ -154,7 +159,6 @@ export default function Home() {
   const [selectedPlan, setSelectedPlan] = useState("Homelab Setup");
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
 
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
@@ -189,15 +193,14 @@ export default function Home() {
       });
       const data = await res.json();
       if (res.ok && !data.error) {
-        setFormSubmitted(true);
+        toast.success(t.successMsg);
         setFormData({ name: "", email: "", message: "" });
-        setTimeout(() => setFormSubmitted(false), 5000);
       } else {
-        alert(`Error: ${data.error || "Failed to send."}`);
+        toast.error(`${t.errorMsg} (${data.error || "Unknown Error"})`);
       }
     } catch (error) {
       console.error(error);
-      alert("Server connection error.");
+      toast.error(t.serverError);
     } finally {
       setIsSubmitting(false);
     }
@@ -360,8 +363,31 @@ export default function Home() {
           </div>
         </section>
 
+        {/* --- ΑΥΤΟ ΕΙΝΑΙ ΤΟ ΝΕΟ ΚΟΜΜΑΤΙ: TECH MARQUEE (ΚΥΛΙΟΜΕΝΗ ΤΑΙΝΙΑ) --- */}
+        <div className="relative w-full overflow-hidden border-y border-white/5 bg-white/[0.01] py-5 my-8 animate-fade-in-up delay-100 flex items-center">
+          <div className="absolute left-0 top-0 z-10 w-24 h-full bg-gradient-to-r from-[#0b0c10] to-transparent pointer-events-none"></div>
+          <div className="absolute right-0 top-0 z-10 w-24 h-full bg-gradient-to-l from-[#0b0c10] to-transparent pointer-events-none"></div>
+
+          <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
+            {[...Array(2)].map((_, i) => (
+              <div key={i} className="flex gap-10 items-center justify-around whitespace-nowrap px-5 text-sm font-mono text-zinc-500 uppercase tracking-widest">
+                <span className="text-white hover:text-cyan-400 transition-colors">Next.js</span> <span className="text-cyan-500/30">•</span>
+                <span className="text-white hover:text-purple-400 transition-colors">TypeScript</span> <span className="text-cyan-500/30">•</span>
+                <span className="text-white hover:text-cyan-300 transition-colors">Tailwind CSS</span> <span className="text-cyan-500/30">•</span>
+                <span className="text-white hover:text-orange-400 transition-colors">Proxmox VE</span> <span className="text-cyan-500/30">•</span>
+                <span className="text-white hover:text-blue-400 transition-colors">Docker</span> <span className="text-cyan-500/30">•</span>
+                <span className="text-white hover:text-emerald-400 transition-colors">Linux</span> <span className="text-cyan-500/30">•</span>
+                <span className="text-white hover:text-zinc-300 transition-colors">Tailscale</span> <span className="text-cyan-500/30">•</span>
+                <span className="text-white hover:text-blue-300 transition-colors">Nextcloud</span> <span className="text-cyan-500/30">•</span>
+                <span className="text-white hover:text-red-400 transition-colors">MariaDB</span> <span className="text-cyan-500/30">•</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* --- ΤΕΛΟΣ TECH MARQUEE --- */}
+
         {/* ABOUT ME + INTERACTIVE TERMINAL */}
-        <section id="about-me" className="grid grid-cols-1 lg:grid-cols-2 gap-4 animate-fade-in-up delay-100">
+        <section id="about-me" className="grid grid-cols-1 lg:grid-cols-2 gap-4 animate-fade-in-up delay-200">
           <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 flex flex-col justify-center">
             <h2 className="text-xl font-bold text-white mb-4">{t.aboutTitle}</h2>
             <p className="text-sm text-zinc-300 leading-relaxed mb-4">
@@ -454,7 +480,7 @@ export default function Home() {
         </section>
 
         {/* PROJECTS */}
-        <section id="projects" className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in-up delay-200">
+        <section id="projects" className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in-up delay-300">
           <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -551,7 +577,7 @@ export default function Home() {
         </section>
 
         {/* PRICING SECTION */}
-        <section id="services" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 space-y-8 animate-fade-in-up delay-300">
+        <section id="services" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 space-y-8 animate-fade-in-up delay-400">
           <div className="text-center max-w-2xl mx-auto">
             <h2 className="text-2xl font-bold text-white mb-2">{t.priceTitle}</h2>
             <p className="text-sm text-zinc-400">{t.priceSub}</p>
@@ -624,7 +650,7 @@ export default function Home() {
         </section>
 
         {/* CONTACT FORM */}
-        <section id="contact" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 space-y-6 animate-fade-in-up delay-400">
+        <section id="contact" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 space-y-6 animate-fade-in-up delay-500">
           <div>
             <h2 className="text-xl font-bold text-white mb-1">{t.contactTitle}</h2>
             <p className="text-xs text-zinc-400 mb-6">{t.contactSub}</p>
@@ -659,12 +685,6 @@ export default function Home() {
               <Send className="w-4 h-4" />
               <span>{isSubmitting ? t.sending : t.submitBtn}</span>
             </button>
-
-            {formSubmitted && (
-              <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm text-center font-medium animate-pulse">
-                {t.successMsg}
-              </div>
-            )}
           </form>
         </section>
 
