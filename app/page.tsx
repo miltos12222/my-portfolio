@@ -51,16 +51,45 @@ const translations = {
     revSub: "Συνεργασίες, feedback και εμπειρία εργασίας",
     rev1: '"Άψογη παραμετροποίηση Homelab και Docker υποδομών. Μεθοδικός, γρήγορος και με εξαιρετική κατανόηση της ασφάλειας δικτύων."',
     rev2: '"Εξαιρετικό αποτέλεσμα στο Next.js web application. Άμεση ανταπόκριση, καθαρός κώδικας και προσοχή στη λεπτομέρεια."',
-    priceTitle: "Υπηρεσίες & Ανταγωνιστικά Πακέτα",
-    priceSub: "Καθαρές τιμές, διαφανής συνεργασία και επαγγελματικό αποτέλεσμα προσαρμοσμένο στις ανάγκες σας.",
+
+    // -- ΝΕΑ ΕΠΕΚΤΑΣΗ ΤΙΜΩΝ & ΥΠΗΡΕΣΙΩΝ (GR) --
+    priceTitle: "Υπηρεσίες & Ολοκληρωμένα Πακέτα",
+    priceSub: "Επαγγελματικές λύσεις υψηλής απόδοσης, προσαρμοσμένες στις τεχνικές και επιχειρηματικές σας ανάγκες.",
     from: "από",
     hour: "ώρα",
-    pack1Desc: "Σύγχρονη, ταχύτατη ιστοσελίδα (Landing Page / Portfolio) με Next.js & Tailwind CSS.",
-    pack1F2: "Βασικό SEO Optimization",
-    pack1F3: "Φόρμα Επικοινωνίας & Analytics",
-    pack2Desc: "Στήσιμο server, εικονικών μηχανών & containers για προσωπική ή μικρή επαγγελματική χρήση.",
-    pack3Desc: "Εξατομικευμένες λύσεις, επίλυση τεχνικών προβλημάτων και συμβουλευτική συστημάτων.",
-    pack3F3: "1-on-1 Τεχνική Υποστήριξη",
+
+    pack1Cat: "WEB DEVELOPMENT",
+    pack1Title: "Modern Web App",
+    pack1Desc: "Ολοκληρωμένη, αστραπιαία ιστοσελίδα (Landing Page / Portfolio) με Next.js, Tailwind CSS & TypeScript.",
+    pack1F1: "Responsive & High-End Design",
+    pack1F2: "Advanced SEO Optimization",
+    pack1F3: "Φόρμα Επικοινωνίας & Resend API",
+    pack1F4: "Vercel Analytics & Speed Insights",
+
+    pack2Cat: "DEVOPS / LINUX",
+    pack2Title: "Homelab Setup",
+    pack2Desc: "Πλήρης παραμετροποίηση server, εικονικών μηχανών και containers για προσωπική ή οικιακή χρήση.",
+    pack2F1: "Proxmox VE & LXC Containers",
+    pack2F2: "Nextcloud & Auto Backup (6k+ Photos)",
+    pack2F3: "Tailscale Secure Mesh VPN",
+    pack2F4: "Εξωτερικά ext4 Mounts & Permissions",
+
+    pack3Cat: "INFRASTRUCTURE",
+    pack3Title: "Advanced Cloud & Docker",
+    pack3Desc: "Ανάπτυξη και ενορχήστρωση σύνθετων self-hosted εφαρμογών και βάσεων δεδομένων.",
+    pack3F1: "Docker & Docker Compose Stack",
+    pack3F2: "MariaDB / PostgreSQL Setup",
+    pack3F3: "Reverse Proxy & SSL Certificates",
+    pack3F4: "Automated Cron Backups & Monitoring",
+
+    pack4Cat: "EXPERT SUPPORT",
+    pack4Title: "Consulting & Audit",
+    pack4Desc: "Εξατομικευμένες λύσεις, επίλυση σύνθετων τεχνικών προβλημάτων και αρχιτεκτονικός έλεγχος.",
+    pack4F1: "System Auditing & Security Check",
+    pack4F2: "Performance & Code Optimization",
+    pack4F3: "1-on-1 Live Τεχνική Υποστήριξη",
+    pack4F4: "Architecture & DevOps Consulting",
+
     selected: "Επιλεγμένο",
     select: "Επιλογή",
     contactTitle: "Αίτημα Συνεργασίας",
@@ -117,16 +146,45 @@ const translations = {
     revSub: "Collaborations, feedback, and work experience",
     rev1: '"Flawless Homelab and Docker infrastructure configuration. Methodical, fast, and with excellent understanding of network security."',
     rev2: '"Excellent result on the Next.js web application. Prompt response, clean code, and attention to detail."',
+
+    // -- ΝΕΑ ΕΠΕΚΤΑΣΗ ΤΙΜΩΝ & ΥΠΗΡΕΣΙΩΝ (EN) --
     priceTitle: "Services & Pricing Packages",
-    priceSub: "Clear pricing, transparent collaboration, and professional results tailored to your needs.",
+    priceSub: "Clear pricing, transparent collaboration, and professional results tailored to your technical needs.",
     from: "from",
     hour: "hour",
-    pack1Desc: "Modern, ultra-fast website (Landing Page / Portfolio) with Next.js & Tailwind CSS.",
-    pack1F2: "Basic SEO Optimization",
-    pack1F3: "Contact Form & Analytics",
-    pack2Desc: "Server setup, virtual machines & containers for personal or small business use.",
-    pack3Desc: "Custom solutions, technical troubleshooting, and systems consulting.",
-    pack3F3: "1-on-1 Technical Support",
+
+    pack1Cat: "WEB DEVELOPMENT",
+    pack1Title: "Modern Web App",
+    pack1Desc: "Modern, ultra-fast website (Landing Page / Portfolio) with Next.js, Tailwind CSS & TypeScript.",
+    pack1F1: "Responsive & High-End Design",
+    pack1F2: "Advanced SEO Optimization",
+    pack1F3: "Contact Form & Resend API",
+    pack1F4: "Vercel Analytics & Speed Insights",
+
+    pack2Cat: "DEVOPS / LINUX",
+    pack2Title: "Homelab Setup",
+    pack2Desc: "Full server setup, virtual machines & containers for personal or small business use.",
+    pack2F1: "Proxmox VE & LXC Containers",
+    pack2F2: "Nextcloud & Auto Backup (6k+ Photos)",
+    pack2F3: "Tailscale Secure Mesh VPN",
+    pack2F4: "External ext4 Mounts & Permissions",
+
+    pack3Cat: "INFRASTRUCTURE",
+    pack3Title: "Advanced Cloud & Docker",
+    pack3Desc: "Deployment and orchestration of advanced self-hosted apps and databases.",
+    pack3F1: "Docker & Docker Compose Stack",
+    pack3F2: "MariaDB / PostgreSQL Setup",
+    pack3F3: "Reverse Proxy & SSL Certificates",
+    pack3F4: "Automated Cron Backups & Monitoring",
+
+    pack4Cat: "EXPERT SUPPORT",
+    pack4Title: "Consulting & Audit",
+    pack4Desc: "Custom solutions, technical troubleshooting, and systems consulting.",
+    pack4F1: "System Auditing & Security Check",
+    pack4F2: "Performance & Code Optimization",
+    pack4F3: "1-on-1 Live Technical Support",
+    pack4F4: "Architecture & DevOps Consulting",
+
     selected: "Selected",
     select: "Select",
     contactTitle: "Collaboration Request",
@@ -201,7 +259,8 @@ export default function Home() {
     switch (plan) {
       case "Modern Web App": return lang === "gr" ? "Από 350€" : "From 350€";
       case "Homelab Setup": return lang === "gr" ? "Από 150€" : "From 150€";
-      case "Custom Consulting": return lang === "gr" ? "35€ / ώρα" : "35€ / hour";
+      case "Advanced Cloud & Docker": return lang === "gr" ? "Από 250€" : "From 250€";
+      case "Consulting & Audit": return lang === "gr" ? "35€ / ώρα" : "35€ / hour";
       default: return "Custom Quote";
     }
   };
@@ -671,76 +730,106 @@ export default function Home() {
           </div>
         </section>
 
-        {/* PRICING SECTION */}
-        <section id="services" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 space-y-8 animate-fade-in-up delay-400">
-          <div className="text-center max-w-2xl mx-auto">
-            <h2 className="text-2xl font-bold text-white mb-2">{t.priceTitle}</h2>
-            <p className="text-sm text-zinc-400">{t.priceSub}</p>
+        {/* PRICING SECTION - 4 ΑΝΑΒΑΘΜΙΣΜΕΝΑ & EXPANDED ΠΑΚΕΤΑ */}
+        <section id="services" className="rounded-3xl border border-white/10 bg-white/[0.02] p-6 sm:p-10 space-y-10 animate-fade-in-up delay-400">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">{t.priceTitle}</h2>
+            <p className="text-sm text-zinc-400 leading-relaxed">{t.priceSub}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className={`relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Modern Web App" ? "bg-cyan-500/5 border-cyan-500/50 shadow-[0_0_30px_-5px_rgba(6,182,212,0.15)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            {/* 1. Modern Web App */}
+            <div className={`relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Modern Web App" ? "bg-cyan-500/5 border-cyan-500/50 shadow-[0_0_35px_-5px_rgba(6,182,212,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
               <div>
-                <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider font-bold">Web Development</span>
-                <h3 className="text-xl font-bold text-white mt-2">Modern Web App</h3>
+                <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider font-bold">{t.pack1Cat}</span>
+                <h3 className="text-lg font-bold text-white mt-2">{t.pack1Title}</h3>
                 <div className="my-4 flex items-baseline gap-1">
                   <span className="text-3xl font-bold text-white">350€</span>
                   <span className="text-xs text-zinc-400 font-mono">/ {t.from}</span>
                 </div>
-                <p className="text-xs text-zinc-400 mb-6">{t.pack1Desc}</p>
+                <p className="text-xs text-zinc-400 mb-6 leading-relaxed">{t.pack1Desc}</p>
                 <ul className="space-y-3 text-xs text-zinc-300 mb-8">
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400" /> Responsive & Fast Design</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400" /> {t.pack1F2}</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400" /> {t.pack1F3}</li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" /> <span>{t.pack1F1}</span></li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" /> <span>{t.pack1F2}</span></li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" /> <span>{t.pack1F3}</span></li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" /> <span>{t.pack1F4}</span></li>
                 </ul>
               </div>
-              <button onClick={() => setSelectedPlan("Modern Web App")} className={`w-full py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${selectedPlan === "Modern Web App" ? "bg-cyan-500 text-black shadow-lg shadow-cyan-500/20" : "bg-white/10 hover:bg-white/20 text-white"}`}>
+              <button onClick={() => setSelectedPlan("Modern Web App")} className={`w-full py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${selectedPlan === "Modern Web App" ? "bg-cyan-500 text-black shadow-lg shadow-cyan-500/20 font-bold" : "bg-white/10 hover:bg-white/20 text-white"}`}>
                 {selectedPlan === "Modern Web App" ? t.selected : t.select}
               </button>
             </div>
 
-            <div className={`relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Homelab Setup" ? "bg-purple-500/5 border-purple-500/50 shadow-[0_0_30px_-5px_rgba(168,85,247,0.15)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
+            {/* 2. Homelab Setup (Most Popular) */}
+            <div className={`relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Homelab Setup" ? "bg-purple-500/5 border-purple-500/50 shadow-[0_0_35px_-5px_rgba(168,85,247,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-500 to-cyan-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
                 Most Popular
               </div>
               <div>
-                <span className="text-xs font-mono text-purple-400 uppercase tracking-wider font-bold">DevOps / Linux</span>
-                <h3 className="text-xl font-bold text-white mt-2">Homelab Setup</h3>
+                <span className="text-xs font-mono text-purple-400 uppercase tracking-wider font-bold">{t.pack2Cat}</span>
+                <h3 className="text-lg font-bold text-white mt-2">{t.pack2Title}</h3>
                 <div className="my-4 flex items-baseline gap-1">
                   <span className="text-3xl font-bold text-white">150€</span>
                   <span className="text-xs text-zinc-400 font-mono">/ {t.from}</span>
                 </div>
-                <p className="text-xs text-zinc-400 mb-6">{t.pack2Desc}</p>
+                <p className="text-xs text-zinc-400 mb-6 leading-relaxed">{t.pack2Desc}</p>
                 <ul className="space-y-3 text-xs text-zinc-300 mb-8">
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-purple-400" /> Proxmox & Docker Setup</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-purple-400" /> Nextcloud Data Sync</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-purple-400" /> Tailscale VPN Access</li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" /> <span>{t.pack2F1}</span></li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" /> <span>{t.pack2F2}</span></li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" /> <span>{t.pack2F3}</span></li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" /> <span>{t.pack2F4}</span></li>
                 </ul>
               </div>
-              <button onClick={() => setSelectedPlan("Homelab Setup")} className={`w-full py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${selectedPlan === "Homelab Setup" ? "bg-purple-500 text-white shadow-lg shadow-purple-500/20" : "bg-white/10 hover:bg-white/20 text-white"}`}>
+              <button onClick={() => setSelectedPlan("Homelab Setup")} className={`w-full py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${selectedPlan === "Homelab Setup" ? "bg-purple-500 text-white shadow-lg shadow-purple-500/20 font-bold" : "bg-white/10 hover:bg-white/20 text-white"}`}>
                 {selectedPlan === "Homelab Setup" ? t.selected : t.select}
               </button>
             </div>
 
-            <div className={`relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Custom Consulting" ? "bg-emerald-500/5 border-emerald-500/50 shadow-[0_0_30px_-5px_rgba(16,185,129,0.15)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
+            {/* 3. Advanced Cloud & Docker */}
+            <div className={`relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Advanced Cloud & Docker" ? "bg-blue-500/5 border-blue-500/50 shadow-[0_0_35px_-5px_rgba(59,130,246,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
               <div>
-                <span className="text-xs font-mono text-emerald-400 uppercase tracking-wider font-bold">Custom Support</span>
-                <h3 className="text-xl font-bold text-white mt-2">Consulting & Audit</h3>
+                <span className="text-xs font-mono text-blue-400 uppercase tracking-wider font-bold">{t.pack3Cat}</span>
+                <h3 className="text-lg font-bold text-white mt-2">{t.pack3Title}</h3>
+                <div className="my-4 flex items-baseline gap-1">
+                  <span className="text-3xl font-bold text-white">250€</span>
+                  <span className="text-xs text-zinc-400 font-mono">/ {t.from}</span>
+                </div>
+                <p className="text-xs text-zinc-400 mb-6 leading-relaxed">{t.pack3Desc}</p>
+                <ul className="space-y-3 text-xs text-zinc-300 mb-8">
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" /> <span>{t.pack3F1}</span></li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" /> <span>{t.pack3F2}</span></li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" /> <span>{t.pack3F3}</span></li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" /> <span>{t.pack3F4}</span></li>
+                </ul>
+              </div>
+              <button onClick={() => setSelectedPlan("Advanced Cloud & Docker")} className={`w-full py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${selectedPlan === "Advanced Cloud & Docker" ? "bg-blue-500 text-white shadow-lg shadow-blue-500/20 font-bold" : "bg-white/10 hover:bg-white/20 text-white"}`}>
+                {selectedPlan === "Advanced Cloud & Docker" ? t.selected : t.select}
+              </button>
+            </div>
+
+            {/* 4. Consulting & Audit */}
+            <div className={`relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Consulting & Audit" ? "bg-emerald-500/5 border-emerald-500/50 shadow-[0_0_35px_-5px_rgba(16,185,129,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
+              <div>
+                <span className="text-xs font-mono text-emerald-400 uppercase tracking-wider font-bold">{t.pack4Cat}</span>
+                <h3 className="text-lg font-bold text-white mt-2">{t.pack4Title}</h3>
                 <div className="my-4 flex items-baseline gap-1">
                   <span className="text-3xl font-bold text-white">35€</span>
                   <span className="text-xs text-zinc-400 font-mono">/ {t.hour}</span>
                 </div>
-                <p className="text-xs text-zinc-400 mb-6">{t.pack3Desc}</p>
+                <p className="text-xs text-zinc-400 mb-6 leading-relaxed">{t.pack4Desc}</p>
                 <ul className="space-y-3 text-xs text-zinc-300 mb-8">
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> System Auditing & Security</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> Performance Optimization</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> {t.pack3F3}</li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" /> <span>{t.pack4F1}</span></li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" /> <span>{t.pack4F2}</span></li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" /> <span>{t.pack4F3}</span></li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" /> <span>{t.pack4F4}</span></li>
                 </ul>
               </div>
-              <button onClick={() => setSelectedPlan("Custom Consulting")} className={`w-full py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${selectedPlan === "Custom Consulting" ? "bg-emerald-500 text-black shadow-lg shadow-emerald-500/20" : "bg-white/10 hover:bg-white/20 text-white"}`}>
-                {selectedPlan === "Custom Consulting" ? t.selected : t.select}
+              <button onClick={() => setSelectedPlan("Consulting & Audit")} className={`w-full py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${selectedPlan === "Consulting & Audit" ? "bg-emerald-500 text-black shadow-lg shadow-emerald-500/20 font-bold" : "bg-white/10 hover:bg-white/20 text-white"}`}>
+                {selectedPlan === "Consulting & Audit" ? t.selected : t.select}
               </button>
             </div>
+
           </div>
         </section>
 
