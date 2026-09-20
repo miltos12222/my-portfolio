@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -17,23 +16,48 @@ export default function Home() {
   const [stackOpen, setStackOpen] = useState(false);
   const [resilienceOpen, setResilienceOpen] = useState(false);
 
-  // Form states
+  // States για τη φόρμα και το Resend API
   const [selectedPlan, setSelectedPlan] = useState("Web Development");
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Σύνδεση με το Resend API route (/api/contact)
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Εδώ μπορεί να συνδεθεί με API / Resend / Formspree
-    setFormSubmitted(true);
-    setTimeout(() => {
-      setFormSubmitted(false);
-      setFormData({ name: "", email: "", message: "" });
-    }, 5000);
+    setIsSubmitting(true);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          service: selectedPlan,
+          message: formData.message,
+        }),
+      });
+
+      if (res.ok) {
+        setFormSubmitted(true);
+        setFormData({ name: "", email: "", message: "" });
+        setTimeout(() => setFormSubmitted(false), 5000);
+      } else {
+        alert("Κάτι πήγε λάθος κατά την αποστολή. Παρακαλώ δοκιμάστε ξανά.");
+      }
+    } catch (error) {
+      console.error("Σφάλμα αποστολής:", error);
+      alert("Σφάλμα σύνδεσης. Δοκιμάστε ξανά σε λίγο.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -434,7 +458,7 @@ export default function Home() {
               </div>
               <button
                 onClick={() => setSelectedPlan("Web Development")}
-                className={`w-full py-2 rounded-xl text-xs font-medium transition-all ${selectedPlan === "Web Development" ? "bg-cyan-500 text-black font-semibold" : "bg-white/10 hover:bg-white/20 text-white"}`}
+                className={`w-full py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${selectedPlan === "Web Development" ? "bg-cyan-500 text-black font-semibold" : "bg-white/10 hover:bg-white/20 text-white"}`}
               >
                 {selectedPlan === "Web Development" ? "Επιλεγμένο" : "Επιλογή Πακέτου"}
               </button>
@@ -454,7 +478,7 @@ export default function Home() {
               </div>
               <button
                 onClick={() => setSelectedPlan("Homelab & Infrastructure")}
-                className={`w-full py-2 rounded-xl text-xs font-medium transition-all ${selectedPlan === "Homelab & Infrastructure" ? "bg-purple-500 text-black font-semibold" : "bg-white/10 hover:bg-white/20 text-white"}`}
+                className={`w-full py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${selectedPlan === "Homelab & Infrastructure" ? "bg-purple-500 text-black font-semibold" : "bg-white/10 hover:bg-white/20 text-white"}`}
               >
                 {selectedPlan === "Homelab & Infrastructure" ? "Επιλεγμένο" : "Επιλογή Πακέτου"}
               </button>
@@ -474,7 +498,7 @@ export default function Home() {
               </div>
               <button
                 onClick={() => setSelectedPlan("Custom Consulting")}
-                className={`w-full py-2 rounded-xl text-xs font-medium transition-all ${selectedPlan === "Custom Consulting" ? "bg-emerald-500 text-black font-semibold" : "bg-white/10 hover:bg-white/20 text-white"}`}
+                className={`w-full py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${selectedPlan === "Custom Consulting" ? "bg-emerald-500 text-black font-semibold" : "bg-white/10 hover:bg-white/20 text-white"}`}
               >
                 {selectedPlan === "Custom Consulting" ? "Επιλεγμένο" : "Επιλογή Πακέτου"}
               </button>
@@ -540,10 +564,11 @@ export default function Home() {
 
             <button
               type="submit"
-              className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-semibold text-xs transition-all shadow-lg shadow-cyan-500/10"
+              disabled={isSubmitting}
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-black font-semibold text-xs transition-all shadow-lg shadow-cyan-500/10 cursor-pointer"
             >
               <Send className="w-4 h-4" />
-              <span>Αποστολή Μηνύματος</span>
+              <span>{isSubmitting ? "Γίνεται αποστολή..." : "Αποστολή Μηνύματος"}</span>
             </button>
 
             {formSubmitted && (
