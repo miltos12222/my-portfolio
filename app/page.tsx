@@ -205,7 +205,7 @@ export default function Home() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // --- LIVE TELEMETRY STATE ---
+  // --- LIVE TELEMETRY STATE WITH UPTIME ---
   const [telemetry, setTelemetry] = useState<{
     status: string;
     node: string;
@@ -213,6 +213,7 @@ export default function Home() {
     memoryUsage: string;
     activeContainers: number;
     tailscaleMesh: string;
+    uptime: string;
   } | null>(null);
 
   useEffect(() => {
@@ -265,7 +266,7 @@ export default function Home() {
         <div className="space-y-1">
           <p><span className="text-cyan-400 font-bold">OS:</span> Debian GNU/Linux 12 (bookworm)</p>
           <p><span className="text-cyan-400 font-bold">Host:</span> Proxmox Virtual Environment</p>
-          <p><span className="text-cyan-400 font-bold">Uptime:</span> 99.9% High Availability</p>
+          <p><span className="text-cyan-400 font-bold">Uptime:</span> 14d 7h (99.9% High Availability)</p>
           <p><span className="text-cyan-400 font-bold">Stack:</span> Next.js, Tailwind, TypeScript</p>
           <p><span className="text-cyan-400 font-bold">Services:</span> Docker, Tailscale, Nextcloud</p>
           <p><span className="text-emerald-400 bg-emerald-400/10 px-1 py-0.5 rounded">Online & Ready for Hire</span></p>
@@ -443,7 +444,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Self-Hosted Card with Live Telemetry Integration */}
+          {/* Self-Hosted Card with Live Telemetry & Uptime Integration */}
           <div className={`group reveal-from-right rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.15)]`}>
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -460,7 +461,7 @@ export default function Home() {
               <h3 className="text-lg font-bold mb-1 group-hover:text-cyan-300 transition-colors">Self-Hosted</h3>
               <p className="text-xs opacity-80 mb-3">{t.infraDesc}</p>
 
-              {/* Live Telemetry Mini-Widget */}
+              {/* Live Telemetry Mini-Widget with Uptime */}
               <div className="my-3 p-3 rounded-2xl bg-white/[0.03] border border-white/10 font-mono text-[11px] space-y-1 text-zinc-300">
                 <div className="flex justify-between">
                   <span className="text-zinc-500">Node:</span>
@@ -473,6 +474,10 @@ export default function Home() {
                 <div className="flex justify-between">
                   <span className="text-zinc-500">Containers:</span>
                   <span className="text-purple-400">{telemetry ? `${telemetry.activeContainers} Active` : "6 Active"}</span>
+                </div>
+                <div className="flex justify-between pt-1 border-t border-white/5">
+                  <span className="text-zinc-500">Uptime:</span>
+                  <span className="text-amber-400 font-bold">{telemetry ? telemetry.uptime : "14d 7h"}</span>
                 </div>
               </div>
 
