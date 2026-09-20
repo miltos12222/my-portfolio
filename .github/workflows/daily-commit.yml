@@ -1,0 +1,27 @@
+name: Daily Activity Streak
+
+on:
+  schedule:
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+
+jobs:
+  auto-commit:
+  runs-on: ubuntu-latest
+  permissions:
+    contents: write
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Git config
+      run: |
+        git config --global user.name "Miltos Bot"
+        git config --global user.email "miltos@bot.internal"
+
+    - name: Update timestamp file & commit
+      run: |
+        date -u > .github-activity-log.txt
+        git add .github-activity-log.txt
+        git commit -m "chore: automated daily activity ping 🤖"
+        git push
