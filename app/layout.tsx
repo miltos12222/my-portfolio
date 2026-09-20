@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import LiveChatWidget from "@/components/LiveChatWidget";
 
 const inter = Inter({ subsets: ["latin", "greek"] });
 
@@ -38,6 +39,7 @@ export default function RootLayout({
     <html lang="el" className="scroll-smooth">
       <body className={`${inter.className} bg-[#0b0c10] text-[#e5e7eb] antialiased min-h-screen`}>
         {children}
+        <LiveChatWidget />
         <Analytics />
         <SpeedInsights />
       </body>
