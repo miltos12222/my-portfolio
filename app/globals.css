@@ -95,7 +95,7 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* --- ΕΓΓΥΗΜΕΝΑ MOBILE & DESKTOP ANIMATIONS --- */
+/* --- ANIMATIONS ΓΙΑ MOBILE & DESKTOP --- */
 @layer utilities {
   .animate-fade-in-up {
     animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -109,7 +109,7 @@ body {
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(25px);
+    transform: translateY(30px);
   }
 
   to {
@@ -129,14 +129,32 @@ body {
 }
 
 /* 
-  ΔΙΟΡΘΩΣΗ ΓΙΑ ΚΙΝΗΤΑ: 
-  Αντί να περιμένουμε JavaScript observer που συχνά κολλάει στα mobile browsers, 
-  δίνουμε άμεσο, ομαλό fade-in-up σε κάθε `.reveal-on-scroll` μολις φορτώνει η σελίδα ή γίνεται scroll.
+  ΕΓΓΥΗΜΕΝΟ SCROLL REVEAL ΓΙΑ ΚΙΝΗΤΑ:
+  Χρησιμοποιούμε CSS scroll-timeline/animation όπου υποστηρίζεται ή fallback σε fadeInUp,
+  ώστε να χτίζεται η σελίδα ομαλά σε κάθε συσκευή χωρίς να κολλάει ο observer.
 */
-.reveal-on-scroll,
-.reveal-from-left,
-.reveal-from-right {
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(35px);
   animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+}
+
+.reveal-from-left {
+  opacity: 0;
+  transform: translateX(-35px);
+  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+}
+
+.reveal-from-right {
+  opacity: 0;
+  transform: translateX(35px);
+  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
 }
 
 /* Mobile Touch Active Feedback */

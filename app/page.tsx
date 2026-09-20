@@ -205,30 +205,6 @@ export default function Home() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // --- SCROLL OBSERVER HOOK ΓΙΑ DYNAMIC BACK-AND-FORTH REVEAL ---
-  useEffect(() => {
-    const observerCallback: IntersectionObserverCallback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-        } else {
-          entry.target.classList.remove("is-visible");
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(observerCallback, {
-      root: null,
-      rootMargin: "0px 0px -40px 0px",
-      threshold: 0.1,
-    });
-
-    const elements = document.querySelectorAll(".reveal-on-scroll, .reveal-from-left, .reveal-from-right");
-    elements.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
-
   // --- FAQ SLIDER STATE (6 seconds interval) ---
   const [faqIndex, setFaqIndex] = useState(0);
   const [faqFade, setFaqFade] = useState(true);
