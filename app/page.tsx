@@ -182,6 +182,7 @@ export default function Home() {
     )
   }]);
 
+  // Εξασφάλιση ότι κατά το φόρτωση η σελίδα ξεκινάει από την κορυφή
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
@@ -189,9 +190,9 @@ export default function Home() {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, []);
 
-  // Auto-scroll Terminal
+  // Auto-scroll Terminal ΜΟΝΟ όταν ο χρήστης πληκτρολογεί νέα εντολή (όχι στο αρχικό load)
   useEffect(() => {
-    if (terminalEndRef.current) {
+    if (termHistory.length > 1 && terminalEndRef.current) {
       terminalEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [termHistory]);
