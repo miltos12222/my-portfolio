@@ -205,12 +205,14 @@ export default function Home() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // --- SCROLL OBSERVER HOOK ΓΙΑ DYNAMIC REVEAL ---
+  // --- SCROLL OBSERVER HOOK ΓΙΑ DYNAMIC BACK-AND-FORTH REVEAL ---
   useEffect(() => {
     const observerCallback: IntersectionObserverCallback = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("is-visible");
+        } else {
+          entry.target.classList.remove("is-visible");
         }
       });
     };
@@ -383,7 +385,7 @@ export default function Home() {
 
       <main className="relative w-full pt-28 sm:pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12">
 
-        {/* Top Controls: Centered & Wrapped nicely for Mobile */}
+        {/* Top Controls: Perfectly Centered & Wrapped for Mobile */}
         <div className="flex flex-wrap justify-center items-center gap-2.5 sm:gap-3 mb-6 reveal-on-scroll">
           <div className="flex items-center gap-1 bg-white/[0.05] border border-white/10 p-1 rounded-xl shadow">
             <button onClick={() => setTheme('dark')} title="Dark Mode" className={`p-2 rounded-lg text-xs transition-all cursor-pointer ${theme === 'dark' ? 'bg-cyan-500 text-black font-bold shadow' : 'opacity-60 hover:opacity-100'}`}><Moon className="w-3.5 h-3.5" /></button>
