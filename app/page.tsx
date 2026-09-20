@@ -205,6 +205,28 @@ export default function Home() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // --- SCROLL OBSERVER HOOK ΓΙΑ DYNAMIC REVEAL ---
+  useEffect(() => {
+    const observerCallback: IntersectionObserverCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      root: null,
+      rootMargin: "0px 0px -40px 0px",
+      threshold: 0.1,
+    });
+
+    const elements = document.querySelectorAll(".reveal-on-scroll, .reveal-from-left, .reveal-from-right");
+    elements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
+
   // --- FAQ SLIDER STATE (6 seconds interval) ---
   const [faqIndex, setFaqIndex] = useState(0);
   const [faqFade, setFaqFade] = useState(true);
@@ -251,7 +273,7 @@ export default function Home() {
           <p><span className="text-cyan-400 font-bold">Uptime:</span> 99.9% High Availability</p>
           <p><span className="text-cyan-400 font-bold">Stack:</span> Next.js, Tailwind, TypeScript</p>
           <p><span className="text-cyan-400 font-bold">Services:</span> Docker, Tailscale, Nextcloud</p>
-          <p><span className="text-cyan-400 font-bold">Status:</span> <span className="text-emerald-400 bg-emerald-400/10 px-1 py-0.5 rounded">Online & Ready for Hire</span></p>
+          <p><span className="text-emerald-400 bg-emerald-400/10 px-1 py-0.5 rounded">Online & Ready for Hire</span></p>
         </div>
       </div>
     )
@@ -359,11 +381,11 @@ export default function Home() {
 
       <Navbar />
 
-      <main className="relative w-full pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12">
+      <main className="relative w-full pt-28 sm:pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12">
 
-        {/* Top Controls */}
-        <div className="flex flex-wrap justify-end gap-3 mb-4 animate-fade-in-up">
-          <div className="flex items-center gap-1 bg-white/[0.05] border border-white/10 p-1 rounded-xl">
+        {/* Top Controls: Centered & Wrapped nicely for Mobile */}
+        <div className="flex flex-wrap justify-center items-center gap-2.5 sm:gap-3 mb-6 reveal-on-scroll">
+          <div className="flex items-center gap-1 bg-white/[0.05] border border-white/10 p-1 rounded-xl shadow">
             <button onClick={() => setTheme('dark')} title="Dark Mode" className={`p-2 rounded-lg text-xs transition-all cursor-pointer ${theme === 'dark' ? 'bg-cyan-500 text-black font-bold shadow' : 'opacity-60 hover:opacity-100'}`}><Moon className="w-3.5 h-3.5" /></button>
             <button onClick={() => setTheme('cyberpunk')} title="Cyberpunk Matrix Mode" className={`p-2 rounded-lg text-xs transition-all cursor-pointer ${theme === 'cyberpunk' ? 'bg-[#00ff66] text-black font-bold shadow' : 'opacity-60 hover:opacity-100'}`}><Zap className="w-3.5 h-3.5" /></button>
             <button onClick={() => setTheme('light')} title="Light Mode" className={`p-2 rounded-lg text-xs transition-all cursor-pointer ${theme === 'light' ? 'bg-blue-600 text-white font-bold shadow' : 'opacity-60 hover:opacity-100'}`}><Sun className="w-3.5 h-3.5" /></button>
@@ -376,18 +398,17 @@ export default function Home() {
 
           <button onClick={() => window.dispatchEvent(new Event("open-command-palette"))} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all shadow-lg cursor-pointer group">
             <Terminal className="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform" />
-            <span className="hidden sm:inline">Μενού (⌘K)</span>
-            <span className="sm:hidden">Μενού</span>
+            <span>Μενού (⌘K)</span>
           </button>
 
           <button onClick={() => setLang(lang === "gr" ? "en" : "gr")} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all shadow-lg cursor-pointer">
             <Globe className="w-4 h-4 text-cyan-400" />
-            {lang === "gr" ? "🇬🇧 EN" : "🇬🇷 GR"}
+            <span>{lang === "gr" ? "🇬🇧 EN" : "🇬🇷 GR"}</span>
           </button>
         </div>
 
         {/* Navigation Switcher Tabs */}
-        <div className="flex justify-center items-center gap-3 mb-6">
+        <div className="flex justify-center items-center gap-3 mb-6 reveal-on-scroll">
           <a href="/" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500 text-black text-xs font-bold transition-all shadow-lg shadow-cyan-500/20 cursor-pointer">
             <Briefcase className="w-3.5 h-3.5" />
             <span>Βιογραφικό & Projects (Active)</span>
@@ -398,9 +419,9 @@ export default function Home() {
           </a>
         </div>
 
-        {/* OVERVIEW SECTION WITH HOVER ANIMATIONS */}
-        <section id="overview" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 animate-fade-in-up">
-          <div className={`group md:col-span-2 md:row-span-2 rounded-3xl ${cardBg} p-8 flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-500/50 hover:shadow-[0_15px_40px_-15px_rgba(6,182,212,0.2)]`}>
+        {/* OVERVIEW SECTION WITH SCROLL REVEAL */}
+        <section id="overview" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className={`group reveal-from-left md:col-span-2 md:row-span-2 rounded-3xl ${cardBg} p-8 flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-500/50 hover:shadow-[0_15px_40px_-15px_rgba(6,182,212,0.2)]`}>
             <div className="flex items-center justify-between z-10 mb-6">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono">
                 <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
@@ -427,7 +448,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.15)]`}>
+          <div className={`group reveal-from-right rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.15)]`}>
             <div>
               <div className="flex items-center justify-between opacity-70 mb-4"><Server className="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform duration-300" /><span className="text-[10px] font-mono uppercase tracking-wider">Infrastructure</span></div>
               <h3 className="text-lg font-bold mb-1 group-hover:text-cyan-300 transition-colors">Self-Hosted</h3>
@@ -440,7 +461,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-purple-500/50 hover:shadow-[0_10px_30px_-10px_rgba(168,85,247,0.15)]`}>
+          <div className={`group reveal-from-right rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-purple-500/50 hover:shadow-[0_10px_30px_-10px_rgba(168,85,247,0.15)]`}>
             <div>
               <div className="flex items-center justify-between opacity-70 mb-4"><Code2 className="w-5 h-5 text-purple-400 group-hover:scale-110 transition-transform duration-300" /><span className="text-[10px] font-mono uppercase tracking-wider">Development</span></div>
               <h3 className="text-lg font-bold mb-1 group-hover:text-purple-300 transition-colors">Modern Stack</h3>
@@ -453,7 +474,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className={`group md:col-span-2 lg:col-span-2 rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-emerald-500/50 hover:shadow-[0_10px_30px_-10px_rgba(16,185,129,0.15)]`}>
+          <div className={`group reveal-on-scroll md:col-span-2 lg:col-span-2 rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-emerald-500/50 hover:shadow-[0_10px_30px_-10px_rgba(16,185,129,0.15)]`}>
             <div>
               <div className="flex items-center justify-between opacity-70 mb-3"><Cpu className="w-5 h-5 text-emerald-400 group-hover:scale-110 transition-transform duration-300" /><span className="text-[10px] font-mono uppercase tracking-wider">Work Ethic</span></div>
               <h3 className="text-lg font-bold mb-2 group-hover:text-emerald-300 transition-colors">{t.ethicTitle}</h3>
@@ -468,7 +489,7 @@ export default function Home() {
         </section>
 
         {/* LIVE LEARNING & ROADMAP HISTORY */}
-        <section className={`rounded-3xl border border-purple-500/30 bg-purple-500/[0.03] p-6 sm:p-8 space-y-4 animate-fade-in-up`}>
+        <section className={`reveal-on-scroll rounded-3xl border border-purple-500/30 bg-purple-500/[0.03] p-6 sm:p-8 space-y-4`}>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center shrink-0">
               <History className="w-5 h-5 text-purple-400 animate-pulse" />
@@ -490,7 +511,7 @@ export default function Home() {
         </section>
 
         {/* LINK TO COMMERCIAL SERVICES PAGE */}
-        <section className="group rounded-3xl border border-cyan-500/40 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 p-8 flex flex-col sm:flex-row items-center justify-between gap-6 animate-fade-in-up text-center sm:text-left transition-all duration-300 hover:border-cyan-400 hover:shadow-[0_15px_40px_-15px_rgba(6,182,212,0.25)]">
+        <section className="reveal-on-scroll group rounded-3xl border border-cyan-500/40 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left transition-all duration-300 hover:border-cyan-400 hover:shadow-[0_15px_40px_-15px_rgba(6,182,212,0.25)]">
           <div className="space-y-2">
             <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider font-bold">Commercial Hub</span>
             <h2 className="text-xl sm:text-2xl font-bold text-white">{t.servicesBannerTitle}</h2>
@@ -502,7 +523,7 @@ export default function Home() {
         </section>
 
         {/* TECH MARQUEE */}
-        <div className="relative w-full overflow-hidden border-y border-white/5 bg-white/[0.01] py-5 my-8 animate-fade-in-up delay-100 flex items-center">
+        <div className="reveal-on-scroll relative w-full overflow-hidden border-y border-white/5 bg-white/[0.01] py-5 my-8 flex items-center">
           <div className="absolute left-0 top-0 z-10 w-24 h-full bg-gradient-to-r from-[#0b0c10] to-transparent pointer-events-none"></div>
           <div className="absolute right-0 top-0 z-10 w-24 h-full bg-gradient-to-l from-[#0b0c10] to-transparent pointer-events-none"></div>
 
@@ -524,14 +545,14 @@ export default function Home() {
         </div>
 
         {/* ABOUT ME + TERMINAL */}
-        <section id="about-me" className="grid grid-cols-1 lg:grid-cols-2 gap-4 animate-fade-in-up delay-200">
-          <div className={`group rounded-3xl ${cardBg} p-8 flex flex-col justify-center transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.15)]`}>
+        <section id="about-me" className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className={`group reveal-from-left rounded-3xl ${cardBg} p-8 flex flex-col justify-center transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.15)]`}>
             <h2 className="text-xl font-bold mb-4 group-hover:text-cyan-300 transition-colors">{t.aboutTitle}</h2>
             <p className="text-sm opacity-90 leading-relaxed mb-4">{t.aboutP1}</p>
             <p className="text-sm opacity-80 leading-relaxed">{t.aboutP2}</p>
           </div>
 
-          <div className="rounded-3xl border border-white/10 bg-[#0a0a0a] p-5 font-mono text-xs shadow-2xl relative overflow-hidden group flex flex-col h-[350px] hover:border-purple-500/50 transition-all duration-300">
+          <div className="reveal-from-right rounded-3xl border border-white/10 bg-[#0a0a0a] p-5 font-mono text-xs shadow-2xl relative overflow-hidden group flex flex-col h-[350px] hover:border-purple-500/50 transition-all duration-300">
             <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/5 shrink-0">
               <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
               <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
@@ -557,7 +578,7 @@ export default function Home() {
         </section>
 
         {/* INFRASTRUCTURE */}
-        <section id="infrastructure" className={`group rounded-3xl ${cardBg} p-8 space-y-4 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.15)]`}>
+        <section id="infrastructure" className={`reveal-from-left group rounded-3xl ${cardBg} p-8 space-y-4 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.15)]`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3"><Server className="w-6 h-6 text-cyan-400 group-hover:scale-110 transition-transform duration-300" /><h2 className="text-xl font-bold group-hover:text-cyan-300 transition-colors">Infrastructure & Homelab Stack</h2></div>
             <button onClick={() => setStackOpen(!stackOpen)} className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer"><span>{stackOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${stackOpen ? "rotate-180" : ""}`} /></button>
@@ -567,7 +588,7 @@ export default function Home() {
         </section>
 
         {/* RESILIENCE */}
-        <section id="resilience" className={`group rounded-3xl ${cardBg} p-8 space-y-4 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/50 hover:shadow-[0_10px_30px_-10px_rgba(16,185,129,0.15)]`}>
+        <section id="resilience" className={`reveal-from-right group rounded-3xl ${cardBg} p-8 space-y-4 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/50 hover:shadow-[0_10px_30px_-10px_rgba(16,185,129,0.15)]`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3"><Cpu className="w-6 h-6 text-emerald-400 group-hover:scale-110 transition-transform duration-300" /><h2 className="text-xl font-bold group-hover:text-emerald-300 transition-colors">{t.resTitle}</h2></div>
             <button onClick={() => setResilienceOpen(!resilienceOpen)} className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer"><span>{resilienceOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${resilienceOpen ? "rotate-180" : ""}`} /></button>
@@ -577,8 +598,8 @@ export default function Home() {
         </section>
 
         {/* PROJECTS */}
-        <section id="projects" className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in-up delay-300">
-          <div className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.15)]`}>
+        <section id="projects" className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className={`group reveal-from-left rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.15)]`}>
             <div>
               <div className="flex items-center justify-between mb-4"><span className="text-xs font-mono text-cyan-400">Infrastructure</span><Server className="w-4 h-4 opacity-70 group-hover:scale-110 transition-transform duration-300" /></div>
               <h3 className="text-base font-bold mb-2 group-hover:text-cyan-300 transition-colors">Self-Hosted Homelab & Nextcloud</h3>
@@ -591,7 +612,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-purple-500/50 hover:shadow-[0_10px_30px_-10px_rgba(168,85,247,0.15)]`}>
+          <div className={`group reveal-from-right rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-purple-500/50 hover:shadow-[0_10px_30px_-10px_rgba(168,85,247,0.15)]`}>
             <div>
               <div className="flex items-center justify-between mb-4"><span className="text-xs font-mono text-purple-400">Web App</span><Code2 className="w-4 h-4 opacity-70 group-hover:scale-110 transition-transform duration-300" /></div>
               <h3 className="text-base font-bold mb-2 group-hover:text-purple-300 transition-colors">High-Performance Portfolio</h3>
@@ -609,13 +630,13 @@ export default function Home() {
         </section>
 
         {/* TECH STACK GUARANTEE BAR */}
-        <section className="rounded-2xl border border-cyan-500/20 bg-cyan-500/[0.03] p-4 flex items-center justify-center gap-3 text-center animate-fade-in-up hover:border-cyan-400 transition-all duration-300">
+        <section className="reveal-on-scroll rounded-2xl border border-cyan-500/20 bg-cyan-500/[0.03] p-4 flex items-center justify-center gap-3 text-center hover:border-cyan-400 transition-all duration-300">
           <ShieldCheck className="w-5 h-5 text-cyan-400 shrink-0" />
           <span className="text-xs font-mono font-medium tracking-wide opacity-90">{t.guaranteeText}</span>
         </section>
 
         {/* REVIEWS SECTION & 4 ANONYMOUS TESTIMONIALS */}
-        <section id="reviews" className={`rounded-3xl ${cardBg} p-8 space-y-6 transition-colors`}>
+        <section id="reviews" className={`reveal-on-scroll rounded-3xl ${cardBg} p-8 space-y-6 transition-colors`}>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h2 className="text-xl font-bold mb-1">{t.revTitle}</h2>
@@ -643,7 +664,7 @@ export default function Home() {
         </section>
 
         {/* FAQ SLIDER SECTION */}
-        <section className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 transition-colors relative overflow-hidden hover:border-cyan-500/40 transition-all duration-300`}>
+        <section className={`reveal-on-scroll rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 transition-colors relative overflow-hidden hover:border-cyan-500/40 transition-all duration-300`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <HelpCircle className="w-6 h-6 text-cyan-400" />
@@ -695,7 +716,7 @@ export default function Home() {
         </section>
 
         {/* CONTACT FORM */}
-        <section id="contact" className={`rounded-3xl ${cardBg} p-8 space-y-6 transition-colors hover:border-cyan-500/40 transition-all duration-300`}>
+        <section id="contact" className={`reveal-on-scroll rounded-3xl ${cardBg} p-8 space-y-6 transition-colors hover:border-cyan-500/40 transition-all duration-300`}>
           <div>
             <h2 className="text-xl font-bold mb-1">{t.contactTitle}</h2>
             <p className="text-xs opacity-70 mb-6">{t.contactSub}</p>
