@@ -1,70 +1,42 @@
-import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-  themeColor: "#050508",
-};
+const inter = Inter({ subsets: ["latin", "greek"] });
 
 export const metadata: Metadata = {
-  title: "Miltos Papageorgiou | Infrastructure & Web Developer",
-  description:
-    "Portfolio & interactive resume of Miltos Papageorgiou. Computer Science Graduate specializing in self-hosted Linux systems, Proxmox VE, Docker, and modern reactive web development.",
-  keywords: [
-    "Miltos Papageorgiou",
-    "Infrastructure Developer",
-    "Web Developer",
-    "Computer Science Graduate",
-    "Proxmox VE",
-    "Docker LXC",
-    "Linux Systems",
-    "Nextcloud Private Cloud",
-    "Next.js",
-    "Tailscale WireGuard",
-    "ZFS Storage",
-  ],
+  title: "Miltos Papageorgiou | Infrastructure & Web Development",
+  description: "Computer Science Graduate & Infrastructure Enthusiast. Εξειδίκευση σε self-hosted υποδομές (Proxmox, Docker) και μοντέρνες Next.js εφαρμογές.",
+  keywords: ["Miltos Papageorgiou", "Next.js", "Proxmox", "Homelab", "React", "Docker", "Tailscale", "Web Developer Greece", "DevOps"],
   authors: [{ name: "Miltos Papageorgiou" }],
+  openGraph: {
+    title: "Miltos Papageorgiou | Tech Portfolio",
+    description: "Δείτε το portfolio μου με σύγχρονες Web Εφαρμογές (Next.js) & Self-Hosted Υποδομές (Proxmox/Docker).",
+    url: "https://www.miltospapageorgiou.com/",
+    siteName: "Miltos Papageorgiou Portfolio",
+    images: [
+      {
+        url: "https://www.miltospapageorgiou.com/profile.jpg",
+        width: 800,
+        height: 600,
+        alt: "Miltos Papageorgiou Profile",
+      },
+    ],
+    locale: "el_GR",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} dark antialiased overflow-x-hidden`}
-    >
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              if ('scrollRestoration' in history) {
-                history.scrollRestoration = 'manual';
-              }
-              window.scrollTo(0, 0);
-            `,
-          }}
-        />
-      </head>
-      <body className="min-h-screen bg-[#050508] text-gray-100 flex flex-col selection:bg-cyan-500/30 selection:text-white overflow-x-hidden">
+    <html lang="el" className="scroll-smooth">
+      <body className={`${inter.className} bg-[#0b0c10] text-[#e5e7eb] antialiased min-h-screen`}>
         {children}
         <Analytics />
         <SpeedInsights />
