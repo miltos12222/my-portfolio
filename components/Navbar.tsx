@@ -2,14 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Terminal, Mail, Briefcase, ShoppingBag, Cpu, Server, X, Search, ArrowRight } from "lucide-react";
+import { Terminal, Mail, Briefcase, ShoppingBag, Cpu, Server, X, Search, ArrowRight, Coffee } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
   const isServicesPage = pathname === "/services";
   const isHardwarePage = pathname === "/hardware";
   const isDevopsPage = pathname === "/devops";
-  const isSubPage = isServicesPage || isHardwarePage || isDevopsPage;
+  const isDonatePage = pathname === "/donate";
+  const isSubPage = isServicesPage || isHardwarePage || isDevopsPage || isDonatePage;
 
   const [isCmdOpen, setIsCmdOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -68,6 +69,7 @@ export default function Navbar() {
     { name: "Agency Web", href: "/services" },
     { name: "DevOps & Cloud", href: "/devops" },
     { name: "Custom PC & Hardware", href: "/hardware" },
+    { name: "Support & Donate ☕", href: "/donate" },
     { name: "Overview", href: getHref("#overview") },
     { name: "Infrastructure", href: getHref("#infrastructure") },
     { name: "Contact", href: getHref("#contact") },
@@ -100,6 +102,7 @@ export default function Navbar() {
             <a href="/services" className={`px-3 py-1 rounded-full transition-colors ${isServicesPage ? "bg-cyan-500/20 text-cyan-400 font-bold" : "text-zinc-400 hover:text-white"}`}>Web Agency</a>
             <a href="/devops" className={`px-3 py-1 rounded-full transition-colors ${isDevopsPage ? "bg-purple-500/20 text-purple-400 font-bold" : "text-zinc-400 hover:text-white"}`}>DevOps</a>
             <a href="/hardware" className={`px-3 py-1 rounded-full transition-colors ${isHardwarePage ? "bg-emerald-500/20 text-emerald-400 font-bold" : "text-zinc-400 hover:text-white"}`}>Hardware</a>
+            <a href="/donate" className={`px-3 py-1 rounded-full transition-colors flex items-center gap-1 ${isDonatePage ? "bg-pink-500/20 text-pink-400 font-bold" : "text-zinc-400 hover:text-pink-300"}`}><Coffee className="w-3.5 h-3.5" /> Donate</a>
           </nav>
 
           {/* Right Actions */}
