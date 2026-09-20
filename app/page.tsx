@@ -52,13 +52,11 @@ const translations = {
     rev1: '"Άψογη παραμετροποίηση Homelab και Docker υποδομών. Μεθοδικός, γρήγορος και με εξαιρετική κατανόηση της ασφάλειας δικτύων."',
     rev2: '"Εξαιρετικό αποτέλεσμα στο Next.js web application. Άμεση ανταπόκριση, καθαρός κώδικας και προσοχή στη λεπτομέρεια."',
 
-    // -- 8 ΚΛΙΜΑΚΩΤΑ ΠΑΚΕΤΑ (GR) --
     priceTitle: "Υπηρεσίες & Κλιμακωτά Πακέτα",
-    priceSub: "Επιλέξτε τη λύση που ταιριάζει ακριβώς στο budget και στις απαιτήσεις του project σας.",
+    priceSub: "Επιλέξτε τη λύση που ταιριάζει ακριβώς στο budget και στις απαιτήσεις του project σας. (Swipe δεξιά/αριστερά για περισσότερα)",
     from: "από",
     hour: "ώρα",
 
-    // 1. Landing Page
     p1Cat: "WEB DEVELOPMENT",
     p1Title: "Landing Page",
     p1Desc: "Μοντέρνα, αστραπιαία ιστοσελίδα μίας σελίδας για επαγγελματική προβολή και γρήγορα αποτελέσματα.",
@@ -67,7 +65,6 @@ const translations = {
     p1F3: "Βασικό SEO & Fast Loading",
     p1F4: "Φόρμα Επικοινωνίας",
 
-    // 2. Personal Portfolio / Blog
     p2Cat: "WEB DEVELOPMENT",
     p2Title: "Personal Portfolio / Blog",
     p2Desc: "Προσωπικός ιστότοπος ή blog με πολλαπλές σελίδες, παρουσίαση έργων και άρθρα.",
@@ -76,7 +73,6 @@ const translations = {
     p2F3: "Dark/Light Theme Toggle",
     p2F4: "Social & Analytics Integration",
 
-    // 3. Business E-shop / Dynamic App
     p3Cat: "WEB DEVELOPMENT",
     p3Title: "Business App / E-shop",
     p3Desc: "Πλήρης επαγγελματική δυναμική εφαρμογή ή ηλεκτρονικό κατάστημα υψηλών επιδόσεων.",
@@ -85,7 +81,6 @@ const translations = {
     p3F3: "Ασφαλείς Πληρωμές & E-shop Cart",
     p3F4: "Custom API Integrations",
 
-    // 4. Custom Full-Stack Web App
     p4Cat: "WEB DEVELOPMENT",
     p4Title: "Custom Full-Stack App",
     p4Desc: "Προηγμένη web εφαρμογή κομμένη και ραμμένη στις ειδικές επιχειρηματικές σας ανάγκες.",
@@ -94,7 +89,6 @@ const translations = {
     p4F3: "Complex Database Design",
     p4F4: "High Security & Zero Lags",
 
-    // 5. Basic Homelab Setup
     p5Cat: "DEVOPS / LINUX",
     p5Title: "Basic Homelab Setup",
     p5Desc: "Βασικό στήσιμο εικονικών μηχανών και ασφαλούς δικτύου για οικιακή χρήση.",
@@ -103,7 +97,6 @@ const translations = {
     p5F3: "Βασική Ρύθμιση Storage (ext4)",
     p5F4: "Uptime & Health Monitoring",
 
-    // 6. Enterprise Homelab
     p6Cat: "DEVOPS / LINUX",
     p6Title: "Full Enterprise Homelab",
     p6Desc: "Προηγμένη αρχιτεκτονική με αυτόματα backups και ιδιωτικό cloud αποθήκευσης.",
@@ -112,7 +105,6 @@ const translations = {
     p6F3: "Advanced User Rights & Mounts",
     p6F4: "High Availability Optimization",
 
-    // 7. Advanced Cloud & Docker
     p7Cat: "INFRASTRUCTURE",
     p7Title: "Advanced Cloud & Docker",
     p7Desc: "Ανάπτυξη και ενορχήστρωση σύνθετων self-hosted εφαρμογών και βάσεων δεδομένων.",
@@ -121,7 +113,6 @@ const translations = {
     p7F3: "Reverse Proxy & SSL Certificates",
     p7F4: "Automated Cron Backups",
 
-    // 8. Consulting & Audit
     p8Cat: "EXPERT SUPPORT",
     p8Title: "Consulting & Audit",
     p8Desc: "Εξατομικευμένες λύσεις, επίλυση σύνθετων τεχνικών προβλημάτων και security check.",
@@ -187,9 +178,8 @@ const translations = {
     rev1: '"Flawless Homelab and Docker infrastructure configuration. Methodical, fast, and with excellent understanding of network security."',
     rev2: '"Excellent result on the Next.js web application. Prompt response, clean code, and attention to detail."',
 
-    // -- 8 CLASSIFIED TIERS (EN) --
     priceTitle: "Services & Scaled Packages",
-    priceSub: "Choose the exact solution that fits your project budget and technical requirements.",
+    priceSub: "Choose the exact solution that fits your project budget and technical requirements. (Swipe horizontally for more)",
     from: "from",
     hour: "hour",
 
@@ -798,17 +788,18 @@ export default function Home() {
           </div>
         </section>
 
-        {/* PRICING SECTION - 8 ΚΛΙΜΑΚΩΤΑ ΠΑΚΕΤΑ */}
-        <section id="services" className="rounded-3xl border border-white/10 bg-white/[0.02] p-6 sm:p-10 space-y-10 animate-fade-in-up delay-400">
+        {/* PRICING SECTION - HORIZONTAL SWIPE ON MOBILE */}
+        <section id="services" className="rounded-3xl border border-white/10 bg-white/[0.02] p-6 sm:p-10 space-y-8 animate-fade-in-up delay-400">
           <div className="text-center max-w-3xl mx-auto space-y-3">
             <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">{t.priceTitle}</h2>
             <p className="text-sm text-zinc-400 leading-relaxed">{t.priceSub}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Οριζόντιο swipe σε κινητά (flex overflow-x-auto), κανονικό grid σε desktop (lg:grid-cols-3) */}
+          <div className="flex lg:grid lg:grid-cols-3 overflow-x-auto snap-x snap-mandatory gap-6 pb-4 pt-2 no-scrollbar scroll-smooth">
 
             {/* 1. Landing Page */}
-            <div className={`relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Landing Page" ? "bg-cyan-500/5 border-cyan-500/50 shadow-[0_0_35px_-5px_rgba(6,182,212,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
+            <div className={`min-w-[280px] sm:min-w-[320px] lg:min-w-0 snap-center relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Landing Page" ? "bg-cyan-500/5 border-cyan-500/50 shadow-[0_0_35px_-5px_rgba(6,182,212,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
               <div>
                 <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider font-bold">{t.p1Cat}</span>
                 <h3 className="text-lg font-bold text-white mt-2">{t.p1Title}</h3>
@@ -830,7 +821,7 @@ export default function Home() {
             </div>
 
             {/* 2. Personal Portfolio / Blog */}
-            <div className={`relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Personal Portfolio / Blog" ? "bg-indigo-500/5 border-indigo-500/50 shadow-[0_0_35px_-5px_rgba(99,102,241,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
+            <div className={`min-w-[280px] sm:min-w-[320px] lg:min-w-0 snap-center relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Personal Portfolio / Blog" ? "bg-indigo-500/5 border-indigo-500/50 shadow-[0_0_35px_-5px_rgba(99,102,241,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
               <div>
                 <span className="text-xs font-mono text-indigo-400 uppercase tracking-wider font-bold">{t.p2Cat}</span>
                 <h3 className="text-lg font-bold text-white mt-2">{t.p2Title}</h3>
@@ -852,7 +843,7 @@ export default function Home() {
             </div>
 
             {/* 3. Business App / E-shop */}
-            <div className={`relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Business App / E-shop" ? "bg-purple-500/5 border-purple-500/50 shadow-[0_0_35px_-5px_rgba(168,85,247,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
+            <div className={`min-w-[280px] sm:min-w-[320px] lg:min-w-0 snap-center relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Business App / E-shop" ? "bg-purple-500/5 border-purple-500/50 shadow-[0_0_35px_-5px_rgba(168,85,247,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-500 to-cyan-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
                 Recommended
               </div>
@@ -877,7 +868,7 @@ export default function Home() {
             </div>
 
             {/* 4. Custom Full-Stack App */}
-            <div className={`relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Custom Full-Stack App" ? "bg-pink-500/5 border-pink-500/50 shadow-[0_0_35px_-5px_rgba(236,72,153,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
+            <div className={`min-w-[280px] sm:min-w-[320px] lg:min-w-0 snap-center relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Custom Full-Stack App" ? "bg-pink-500/5 border-pink-500/50 shadow-[0_0_35px_-5px_rgba(236,72,153,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
               <div>
                 <span className="text-xs font-mono text-pink-400 uppercase tracking-wider font-bold">WEB DEVELOPMENT</span>
                 <h3 className="text-lg font-bold text-white mt-2">Custom Full-Stack App</h3>
@@ -899,7 +890,7 @@ export default function Home() {
             </div>
 
             {/* 5. Basic Homelab Setup */}
-            <div className={`relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Basic Homelab Setup" ? "bg-blue-500/5 border-blue-500/50 shadow-[0_0_35px_-5px_rgba(59,130,246,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
+            <div className={`min-w-[280px] sm:min-w-[320px] lg:min-w-0 snap-center relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Basic Homelab Setup" ? "bg-blue-500/5 border-blue-500/50 shadow-[0_0_35px_-5px_rgba(59,130,246,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
               <div>
                 <span className="text-xs font-mono text-blue-400 uppercase tracking-wider font-bold">{t.p5Cat}</span>
                 <h3 className="text-lg font-bold text-white mt-2">{t.p5Title}</h3>
@@ -921,7 +912,7 @@ export default function Home() {
             </div>
 
             {/* 6. Full Enterprise Homelab */}
-            <div className={`relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Full Enterprise Homelab" ? "bg-emerald-500/5 border-emerald-500/50 shadow-[0_0_35px_-5px_rgba(16,185,129,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
+            <div className={`min-w-[280px] sm:min-w-[320px] lg:min-w-0 snap-center relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Full Enterprise Homelab" ? "bg-emerald-500/5 border-emerald-500/50 shadow-[0_0_35px_-5px_rgba(16,185,129,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-500 text-black text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
                 Most Popular
               </div>
@@ -946,7 +937,7 @@ export default function Home() {
             </div>
 
             {/* 7. Advanced Cloud & Docker */}
-            <div className={`relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Advanced Cloud & Docker" ? "bg-amber-500/5 border-amber-500/50 shadow-[0_0_35px_-5px_rgba(245,158,11,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
+            <div className={`min-w-[280px] sm:min-w-[320px] lg:min-w-0 snap-center relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Advanced Cloud & Docker" ? "bg-amber-500/5 border-amber-500/50 shadow-[0_0_35px_-5px_rgba(245,158,11,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
               <div>
                 <span className="text-xs font-mono text-amber-400 uppercase tracking-wider font-bold">{t.p7Cat}</span>
                 <h3 className="text-lg font-bold text-white mt-2">{t.p7Title}</h3>
@@ -968,7 +959,7 @@ export default function Home() {
             </div>
 
             {/* 8. Consulting & Audit */}
-            <div className={`relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Consulting & Audit" ? "bg-rose-500/5 border-rose-500/50 shadow-[0_0_35px_-5px_rgba(244,63,94,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
+            <div className={`min-w-[280px] sm:min-w-[320px] lg:min-w-0 snap-center relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${selectedPlan === "Consulting & Audit" ? "bg-rose-500/5 border-rose-500/50 shadow-[0_0_35px_-5px_rgba(244,63,94,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/5 hover:border-white/10"}`}>
               <div>
                 <span className="text-xs font-mono text-rose-400 uppercase tracking-wider font-bold">{t.p8Cat}</span>
                 <h3 className="text-lg font-bold text-white mt-2">{t.p8Title}</h3>
