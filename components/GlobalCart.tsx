@@ -20,23 +20,35 @@ export default function GlobalCart() {
     const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
-        const saved = localStorage.getItem("miltos_agency_cart");
-        if (saved) {
-            try {
-                setItems(JSON.parse(saved));
-            } catch (e) {
-                console.error(e);
+        const loadCart = () => {
+            const saved = localStorage.getItem("miltos_agency_cart");
+            if (saved) {
+                try {
+                    setItems(JSON.parse(saved));
+                } catch (e) {
+                    console.error(e);
+                }
             }
-        }
+        };
+
+        loadCart();
 
         const handleOpenCart = () => setIsOpen(true);
+        const handleStorageUpdate = () => loadCart();
+
         window.addEventListener("open-global-cart", handleOpenCart);
-        return () => window.removeEventListener("open-global-cart", handleOpenCart);
+        window.addEventListener("storage-updated", handleStorageUpdate);
+
+        return () => {
+            window.removeEventListener("open-global-cart", handleOpenCart);
+            window.removeEventListener("storage-updated", handleStorageUpdate);
+        };
     }, []);
 
     const saveCart = (newItems: CartItem[]) => {
         setItems(newItems);
         localStorage.setItem("miltos_agency_cart", JSON.stringify(newItems));
+        window.dispatchEvent(new Event("storage-updated"));
     };
 
     const updateQuantity = (id: string, delta: number) => {
@@ -89,6 +101,7 @@ export default function GlobalCart() {
                 setIsCheckingOut(false);
                 setIsOpen(false);
                 setFormData({ name: "", email: "", phone: "", notes: "" });
+                window.dispatchEvent(new Event("storage-updated"));
             } else {
                 toast.error("Σφάλμα αποστολής παραγγελίας.");
             }
