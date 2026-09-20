@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Check, Terminal, Globe, Download, Calendar, Calculator, Sparkles, Sun, Moon, Zap, History, ShieldCheck, HelpCircle } from "lucide-react";
+import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Check, Terminal, Globe, Download, Calendar, Calculator, Sparkles, Sun, Moon, Zap, History, ShieldCheck, HelpCircle, Palette, ArrowRight } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
 
@@ -42,6 +42,25 @@ const translations = {
     ],
 
     guaranteeText: "Zero downtime deployment • SEO-optimized • Fast delivery (5-7 days)",
+
+    // -- NEW VISUAL CONFIGURATOR (GR) --
+    configTitle: "Visual Style Configurator",
+    configSub: "Επιλέξτε το στυλ και την αισθητική που ταιριάζει στο brand σας:",
+    style1Name: "Minimal Corporate",
+    style1Desc: "Καθαρό λευκό/γκρι design, επαγγελματικό και απόλυτα σοβαρό για επιχειρήσεις.",
+    style2Name: "Cyberpunk / Tech",
+    style2Desc: "Σκοτεινό φόντο, νέον αποχρώσεις, τερματικά και high-tech αισθητική.",
+    style3Name: "E-shop High-Conversion",
+    style3Desc: "Έμφαση σε γρήγορα καλάθια, πειστικά call-to-actions και αύξηση πωλήσεων.",
+    selectThisStyle: "Επιλογή Στυλ & Συνέχεια",
+
+    // -- NEW MICRO-SERVICE AUDIT (GR) --
+    auditTitle: "Express Micro-Service Audit",
+    auditSub: "Θέλετε άμεσο έλεγχο; Αποκτήστε γρήγορα ένα τεχνικό report.",
+    auditName: "Express SEO & Speed Audit",
+    auditDesc: "Πλήρης έλεγχος ταχύτητας (Lighthouse), διορθώσεις SEO και προτάσεις βελτίωσης σε 24 ώρες.",
+    auditPrice: "49€",
+    buyAudit: "Αγορά Service",
 
     faqTitle: "Συχνές Ερωτήσεις (FAQ)",
     faqSub: "Όλες οι απαντήσεις σχετικά με τη διαδικασία συνεργασίας και τις τεχνικές λεπτομέρειες.",
@@ -208,6 +227,23 @@ const translations = {
 
     guaranteeText: "Zero downtime deployment • SEO-optimized • Fast delivery (5-7 days)",
 
+    configTitle: "Visual Style Configurator",
+    configSub: "Choose the style and aesthetic that best fits your brand:",
+    style1Name: "Minimal Corporate",
+    style1Desc: "Clean white/grey design, professional and strictly formal for businesses.",
+    style2Name: "Cyberpunk / Tech",
+    style2Desc: "Dark background, neon accents, terminal aesthetics and high-tech vibe.",
+    style3Name: "E-shop High-Conversion",
+    style3Desc: "Focused on fast carts, persuasive calls-to-action and sales boosting.",
+    selectThisStyle: "Select Style & Proceed",
+
+    auditTitle: "Express Micro-Service Audit",
+    auditSub: "Need a fast assessment? Get a concise technical report quickly.",
+    auditName: "Express SEO & Speed Audit",
+    auditDesc: "Complete Lighthouse speed test, SEO fixes, and optimization roadmap within 24 hours.",
+    auditPrice: "49€",
+    buyAudit: "Order Service",
+
     faqTitle: "Frequently Asked Questions (FAQ)",
     faqSub: "Everything you need to know about our collaboration process and technical details.",
     faqList: [
@@ -321,7 +357,7 @@ const translations = {
     p8Desc: "Custom solutions, technical troubleshooting, and systems consulting.",
     p8F1: "System Auditing & Security Check",
     p8F2: "Performance & Code Optimization",
-    p8F3: "1-on-1 Live Technical Support",
+    p8F3: "1-on-1 Live Τεχνική Υποστήριξη",
     p8F4: "Architecture & DevOps Consulting",
 
     selected: "Selected",
@@ -367,6 +403,9 @@ export default function Home() {
   const [calcAddonVpn, setCalcAddonVpn] = useState(false);
 
   const calculatedTotal = calcBasePrice + (calcAddonSeo ? 70 : 0) + (calcAddonVpn ? 100 : 0);
+
+  // --- CONFIGURATOR STATE ---
+  const [selectedStyle, setSelectedStyle] = useState("Minimal Corporate");
 
   // --- FAQ SLIDER STATE ---
   const [faqIndex, setFaqIndex] = useState(0);
@@ -446,6 +485,7 @@ export default function Home() {
       case "Full Enterprise Homelab": return lang === "gr" ? "Από 280€" : "From 280€";
       case "Advanced Cloud & Docker": return lang === "gr" ? "Από 250€" : "From 250€";
       case "Consulting & Audit": return lang === "gr" ? "35€ / ώρα" : "35€ / hour";
+      case "Express SEO & Speed Audit": return "49€";
       default: return `Από ${calculatedTotal}€`;
     }
   };
@@ -542,56 +582,26 @@ export default function Home() {
 
       <main className="relative w-full pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12">
 
-        {/* Κουμπιά Κορυφής (Theme Switcher, Calendly, Command Menu, Γλώσσα) */}
+        {/* Top Controls */}
         <div className="flex flex-wrap justify-end gap-3 mb-4 animate-fade-in-up">
-
           <div className="flex items-center gap-1 bg-white/[0.05] border border-white/10 p-1 rounded-xl">
-            <button
-              onClick={() => setTheme('dark')}
-              title="Dark Mode"
-              className={`p-2 rounded-lg text-xs transition-all cursor-pointer ${theme === 'dark' ? 'bg-cyan-500 text-black font-bold shadow' : 'opacity-60 hover:opacity-100'}`}
-            >
-              <Moon className="w-3.5 h-3.5" />
-            </button>
-            <button
-              onClick={() => setTheme('cyberpunk')}
-              title="Cyberpunk Matrix Mode"
-              className={`p-2 rounded-lg text-xs transition-all cursor-pointer ${theme === 'cyberpunk' ? 'bg-[#00ff66] text-black font-bold shadow' : 'opacity-60 hover:opacity-100'}`}
-            >
-              <Zap className="w-3.5 h-3.5" />
-            </button>
-            <button
-              onClick={() => setTheme('light')}
-              title="Light Mode"
-              className={`p-2 rounded-lg text-xs transition-all cursor-pointer ${theme === 'light' ? 'bg-blue-600 text-white font-bold shadow' : 'opacity-60 hover:opacity-100'}`}
-            >
-              <Sun className="w-3.5 h-3.5" />
-            </button>
+            <button onClick={() => setTheme('dark')} title="Dark Mode" className={`p-2 rounded-lg text-xs transition-all cursor-pointer ${theme === 'dark' ? 'bg-cyan-500 text-black font-bold shadow' : 'opacity-60 hover:opacity-100'}`}><Moon className="w-3.5 h-3.5" /></button>
+            <button onClick={() => setTheme('cyberpunk')} title="Cyberpunk Matrix Mode" className={`p-2 rounded-lg text-xs transition-all cursor-pointer ${theme === 'cyberpunk' ? 'bg-[#00ff66] text-black font-bold shadow' : 'opacity-60 hover:opacity-100'}`}><Zap className="w-3.5 h-3.5" /></button>
+            <button onClick={() => setTheme('light')} title="Light Mode" className={`p-2 rounded-lg text-xs transition-all cursor-pointer ${theme === 'light' ? 'bg-blue-600 text-white font-bold shadow' : 'opacity-60 hover:opacity-100'}`}><Sun className="w-3.5 h-3.5" /></button>
           </div>
 
-          <a
-            href="https://calendly.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-xs font-bold text-emerald-300 transition-all shadow-lg cursor-pointer"
-          >
+          <a href="https://calendly.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-xs font-bold text-emerald-300 transition-all shadow-lg cursor-pointer">
             <Calendar className="w-4 h-4 text-emerald-400" />
             <span>{t.bookCall}</span>
           </a>
 
-          <button
-            onClick={() => window.dispatchEvent(new Event("open-command-palette"))}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all shadow-lg cursor-pointer group"
-          >
+          <button onClick={() => window.dispatchEvent(new Event("open-command-palette"))} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all shadow-lg cursor-pointer group">
             <Terminal className="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform" />
             <span className="hidden sm:inline">Μενού (⌘K)</span>
             <span className="sm:hidden">Μενού</span>
           </button>
 
-          <button
-            onClick={() => setLang(lang === "gr" ? "en" : "gr")}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all shadow-lg cursor-pointer"
-          >
+          <button onClick={() => setLang(lang === "gr" ? "en" : "gr")} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all shadow-lg cursor-pointer">
             <Globe className="w-4 h-4 text-cyan-400" />
             {lang === "gr" ? "🇬🇧 EN" : "🇬🇷 GR"}
           </button>
@@ -613,124 +623,60 @@ export default function Home() {
                 <Image src="/profile.jpg" alt="Miltos Papageorgiou" fill className="object-cover object-center" priority />
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">
-                  Miltos Papageorgiou
-                </h1>
-                <p className="text-sm opacity-90 leading-relaxed">
-                  {t.roleDesc}
-                </p>
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">Miltos Papageorgiou</h1>
+                <p className="text-sm opacity-90 leading-relaxed">{t.roleDesc}</p>
               </div>
             </div>
 
             <div className="z-10 flex flex-wrap items-center gap-3 mt-8 pt-6 border-t border-white/10">
-              <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-medium transition-all">
-                <GithubIcon className="w-4 h-4" />
-                <span>GitHub</span>
-              </a>
-              <a href="https://www.linkedin.com/in/miltos-papageorgiou-740990438" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A66C2]/20 hover:bg-[#0A66C2]/30 border border-[#0A66C2]/40 text-xs font-medium text-blue-300 transition-all">
-                <LinkedinIcon className="w-4 h-4 text-[#0A66C2]" />
-                <span>LinkedIn</span>
-              </a>
-
-              <a href="/cv.pdf" download="Miltos_Papageorgiou_CV.pdf" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-xs font-medium text-purple-300 transition-all">
-                <Download className="w-4 h-4" />
-                <span>{t.cvBtn}</span>
-              </a>
-
-              <a href="#contact" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-xs font-medium text-cyan-300 transition-all">
-                <Mail className="w-4 h-4" />
-                <span>{t.contactBtn}</span>
-              </a>
+              <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-medium transition-all"><GithubIcon className="w-4 h-4" /><span>GitHub</span></a>
+              <a href="https://www.linkedin.com/in/miltos-papageorgiou-740990438" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A66C2]/20 hover:bg-[#0A66C2]/30 border border-[#0A66C2]/40 text-xs font-medium text-blue-300 transition-all"><LinkedinIcon className="w-4 h-4 text-[#0A66C2]" /><span>LinkedIn</span></a>
+              <a href="/cv.pdf" download="Miltos_Papageorgiou_CV.pdf" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-xs font-medium text-purple-300 transition-all"><Download className="w-4 h-4" /><span>{t.cvBtn}</span></a>
+              <a href="#contact" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-xs font-medium text-cyan-300 transition-all"><Mail className="w-4 h-4" /><span>{t.contactBtn}</span></a>
             </div>
           </div>
 
           <div className={`rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-colors`}>
             <div>
-              <div className="flex items-center justify-between opacity-70 mb-4">
-                <Server className="w-5 h-5 text-cyan-400" />
-                <span className="text-[10px] font-mono uppercase tracking-wider">Infrastructure</span>
-              </div>
+              <div className="flex items-center justify-between opacity-70 mb-4"><Server className="w-5 h-5 text-cyan-400" /><span className="text-[10px] font-mono uppercase tracking-wider">Infrastructure</span></div>
               <h3 className="text-lg font-bold mb-1">Self-Hosted</h3>
               <p className="text-xs opacity-80 mb-3">{t.infraDesc}</p>
-              {infraOpen && (
-                <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90">
-                  <p>• {t.infraList1}</p>
-                  <p>• {t.infraList2}</p>
-                </div>
-              )}
+              {infraOpen && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.infraList1}</p><p>• {t.infraList2}</p></div>)}
             </div>
             <div>
-              <div className="flex flex-wrap gap-1.5 py-2 border-t border-white/5 mb-3">
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Proxmox</span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Docker</span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailscale</span>
-              </div>
-              <button onClick={() => setInfraOpen(!infraOpen)} className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer">
-                <span>{infraOpen ? t.less : t.more}</span>
-                <ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${infraOpen ? "rotate-180" : ""}`} />
-              </button>
+              <div className="flex flex-wrap gap-1.5 py-2 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Proxmox</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Docker</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailscale</span></div>
+              <button onClick={() => setInfraOpen(!infraOpen)} className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer"><span>{infraOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${infraOpen ? "rotate-180" : ""}`} /></button>
             </div>
           </div>
 
           <div className={`rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-colors`}>
             <div>
-              <div className="flex items-center justify-between opacity-70 mb-4">
-                <Code2 className="w-5 h-5 text-purple-400" />
-                <span className="text-[10px] font-mono uppercase tracking-wider">Development</span>
-              </div>
+              <div className="flex items-center justify-between opacity-70 mb-4"><Code2 className="w-5 h-5 text-purple-400" /><span className="text-[10px] font-mono uppercase tracking-wider">Development</span></div>
               <h3 className="text-lg font-bold mb-1">Modern Stack</h3>
               <p className="text-xs opacity-80 mb-3">{t.webDesc}</p>
-              {webOpen && (
-                <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90">
-                  <p>• {t.webList1}</p>
-                  <p>• {t.webList2}</p>
-                </div>
-              )}
+              {webOpen && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.webList1}</p><p>• {t.webList2}</p></div>)}
             </div>
             <div>
-              <div className="flex flex-wrap gap-1.5 py-2 border-t border-white/5 mb-3">
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Next.js</span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">TypeScript</span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailwind</span>
-              </div>
-              <button onClick={() => setWebOpen(!webOpen)} className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer">
-                <span>{webOpen ? t.less : t.more}</span>
-                <ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-200 ${webOpen ? "rotate-180" : ""}`} />
-              </button>
+              <div className="flex flex-wrap gap-1.5 py-2 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Next.js</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">TypeScript</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailwind</span></div>
+              <button onClick={() => setWebOpen(!webOpen)} className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer"><span>{webOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-200 ${webOpen ? "rotate-180" : ""}`} /></button>
             </div>
           </div>
 
           <div className={`md:col-span-2 lg:col-span-2 rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-colors`}>
             <div>
-              <div className="flex items-center justify-between opacity-70 mb-3">
-                <Cpu className="w-5 h-5 text-emerald-400" />
-                <span className="text-[10px] font-mono uppercase tracking-wider">Work Ethic</span>
-              </div>
+              <div className="flex items-center justify-between opacity-70 mb-3"><Cpu className="w-5 h-5 text-emerald-400" /><span className="text-[10px] font-mono uppercase tracking-wider">Work Ethic</span></div>
               <h3 className="text-lg font-bold mb-2">{t.ethicTitle}</h3>
-              <p className="text-xs opacity-90 leading-relaxed mb-3">
-                {t.ethicDesc}
-              </p>
-              {ethicOpen && (
-                <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90">
-                  <p>• {t.ethicList1}</p>
-                  <p>• {t.ethicList2}</p>
-                </div>
-              )}
+              <p className="text-xs opacity-90 leading-relaxed mb-3">{t.ethicDesc}</p>
+              {ethicOpen && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.ethicList1}</p><p>• {t.ethicList2}</p></div>)}
             </div>
             <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/5">
-              <div className="flex items-center gap-4 text-xs opacity-80">
-                <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Problem Solver</span>
-                <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Fast Learner</span>
-              </div>
-              <button onClick={() => setEthicOpen(!ethicOpen)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer">
-                <span>{ethicOpen ? t.less : t.more}</span>
-                <ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${ethicOpen ? "rotate-180" : ""}`} />
-              </button>
+              <div className="flex items-center gap-4 text-xs opacity-80"><span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Problem Solver</span><span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Fast Learner</span></div>
+              <button onClick={() => setEthicOpen(!ethicOpen)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer"><span>{ethicOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${ethicOpen ? "rotate-180" : ""}`} /></button>
             </div>
           </div>
         </section>
 
-        {/* LIVE LEARNING & ROADMAP HISTORY TIMELINE */}
+        {/* LIVE LEARNING & ROADMAP HISTORY */}
         <section className={`rounded-3xl border border-purple-500/30 bg-purple-500/[0.03] p-6 sm:p-8 space-y-4 animate-fade-in-up`}>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center shrink-0">
@@ -745,12 +691,8 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
             {t.learningItems.map((item, idx) => (
               <div key={idx} className="rounded-2xl bg-white/[0.03] border border-white/10 p-4 flex flex-col justify-between hover:border-purple-500/40 transition-all">
-                <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 w-fit mb-2 font-bold">
-                  {item.date}
-                </span>
-                <p className="text-xs opacity-90 leading-relaxed">
-                  {item.text}
-                </p>
+                <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 w-fit mb-2 font-bold">{item.date}</span>
+                <p className="text-xs opacity-90 leading-relaxed">{item.text}</p>
               </div>
             ))}
           </div>
@@ -782,12 +724,8 @@ export default function Home() {
         <section id="about-me" className="grid grid-cols-1 lg:grid-cols-2 gap-4 animate-fade-in-up delay-200">
           <div className={`rounded-3xl ${cardBg} p-8 flex flex-col justify-center transition-colors`}>
             <h2 className="text-xl font-bold mb-4">{t.aboutTitle}</h2>
-            <p className="text-sm opacity-90 leading-relaxed mb-4">
-              {t.aboutP1}
-            </p>
-            <p className="text-sm opacity-80 leading-relaxed">
-              {t.aboutP2}
-            </p>
+            <p className="text-sm opacity-90 leading-relaxed mb-4">{t.aboutP1}</p>
+            <p className="text-sm opacity-80 leading-relaxed">{t.aboutP2}</p>
           </div>
 
           <div className="rounded-3xl border border-white/10 bg-[#0a0a0a] p-5 font-mono text-xs shadow-2xl relative overflow-hidden group flex flex-col h-[350px]">
@@ -808,15 +746,7 @@ export default function Home() {
 
               <form onSubmit={handleTerminalSubmit} className="flex items-center gap-2 mt-2">
                 <span className="text-emerald-400 shrink-0">miltos@admin:~$</span>
-                <input
-                  id="term-input"
-                  type="text"
-                  value={termInput}
-                  onChange={(e) => setTermInput(e.target.value)}
-                  className="flex-1 bg-transparent outline-none border-none text-white focus:ring-0 p-0 m-0 min-w-0"
-                  autoComplete="off"
-                  spellCheck="false"
-                />
+                <input id="term-input" type="text" value={termInput} onChange={(e) => setTermInput(e.target.value)} className="flex-1 bg-transparent outline-none border-none text-white focus:ring-0 p-0 m-0 min-w-0" autoComplete="off" spellCheck="false" />
               </form>
               <div ref={terminalEndRef} />
             </div>
@@ -826,116 +756,50 @@ export default function Home() {
         {/* INFRASTRUCTURE */}
         <section id="infrastructure" className={`rounded-3xl ${cardBg} p-8 space-y-4 transition-colors`}>
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Server className="w-6 h-6 text-cyan-400" />
-              <h2 className="text-xl font-bold">Infrastructure & Homelab Stack</h2>
-            </div>
-            <button onClick={() => setStackOpen(!stackOpen)} className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer">
-              <span>{stackOpen ? t.less : t.more}</span>
-              <ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${stackOpen ? "rotate-180" : ""}`} />
-            </button>
+            <div className="flex items-center gap-3"><Server className="w-6 h-6 text-cyan-400" /><h2 className="text-xl font-bold">Infrastructure & Homelab Stack</h2></div>
+            <button onClick={() => setStackOpen(!stackOpen)} className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer"><span>{stackOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${stackOpen ? "rotate-180" : ""}`} /></button>
           </div>
-          <p className="text-sm opacity-90 leading-relaxed">
-            {t.stackDesc}
-          </p>
-          {stackOpen && (
-            <div className="pt-4 border-t border-white/10 space-y-2 text-xs opacity-90">
-              <p>• {t.stackList1}</p>
-              <p>• {t.stackList2}</p>
-              <p>• {t.stackList3}</p>
-            </div>
-          )}
+          <p className="text-sm opacity-90 leading-relaxed">{t.stackDesc}</p>
+          {stackOpen && (<div className="pt-4 border-t border-white/10 space-y-2 text-xs opacity-90"><p>• {t.stackList1}</p><p>• {t.stackList2}</p><p>• {t.stackList3}</p></div>)}
         </section>
 
         {/* RESILIENCE */}
         <section id="resilience" className={`rounded-3xl ${cardBg} p-8 space-y-4 transition-colors`}>
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Cpu className="w-6 h-6 text-emerald-400" />
-              <h2 className="text-xl font-bold">{t.resTitle}</h2>
-            </div>
-            <button onClick={() => setResilienceOpen(!resilienceOpen)} className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer">
-              <span>{resilienceOpen ? t.less : t.more}</span>
-              <ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${resilienceOpen ? "rotate-180" : ""}`} />
-            </button>
+            <div className="flex items-center gap-3"><Cpu className="w-6 h-6 text-emerald-400" /><h2 className="text-xl font-bold">{t.resTitle}</h2></div>
+            <button onClick={() => setResilienceOpen(!resilienceOpen)} className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer"><span>{resilienceOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${resilienceOpen ? "rotate-180" : ""}`} /></button>
           </div>
-          <p className="text-sm opacity-90 leading-relaxed">
-            {t.resDesc}
-          </p>
-          {resilienceOpen && (
-            <div className="pt-4 border-t border-white/10 space-y-2 text-xs opacity-90">
-              <p>• {t.resList1}</p>
-              <p>• {t.resList2}</p>
-              <p>• {t.resList3}</p>
-            </div>
-          )}
+          <p className="text-sm opacity-90 leading-relaxed">{t.resDesc}</p>
+          {resilienceOpen && (<div className="pt-4 border-t border-white/10 space-y-2 text-xs opacity-90"><p>• {t.resList1}</p><p>• {t.resList2}</p><p>• {t.resList3}</p></div>)}
         </section>
 
         {/* PROJECTS */}
         <section id="projects" className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in-up delay-300">
           <div className={`rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-colors`}>
             <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-xs font-mono text-cyan-400">Infrastructure</span>
-                <Server className="w-4 h-4 opacity-70" />
-              </div>
+              <div className="flex items-center justify-between mb-4"><span className="text-xs font-mono text-cyan-400">Infrastructure</span><Server className="w-4 h-4 opacity-70" /></div>
               <h3 className="text-base font-bold mb-2">Self-Hosted Homelab & Nextcloud</h3>
-              <p className="text-xs opacity-90 leading-relaxed mb-3">
-                {t.proj1Desc}
-              </p>
-              {project1Open && (
-                <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90">
-                  <p>• {t.proj1List1}</p>
-                  <p>• {t.proj1List2}</p>
-                </div>
-              )}
+              <p className="text-xs opacity-90 leading-relaxed mb-3">{t.proj1Desc}</p>
+              {project1Open && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.proj1List1}</p><p>• {t.proj1List2}</p></div>)}
             </div>
             <div>
-              <div className="flex flex-wrap gap-1.5 py-3 border-t border-white/5 mb-3">
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Proxmox</span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Docker</span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailscale</span>
-              </div>
-              <button onClick={() => setProject1Open(!project1Open)} className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer">
-                <span>{project1Open ? t.less : t.more}</span>
-                <ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${project1Open ? "rotate-180" : ""}`} />
-              </button>
+              <div className="flex flex-wrap gap-1.5 py-3 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Proxmox</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Docker</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailscale</span></div>
+              <button onClick={() => setProject1Open(!project1Open)} className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer"><span>{project1Open ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${project1Open ? "rotate-180" : ""}`} /></button>
             </div>
           </div>
 
           <div className={`rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-colors`}>
             <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-xs font-mono text-purple-400">Web App</span>
-                <Code2 className="w-4 h-4 opacity-70" />
-              </div>
+              <div className="flex items-center justify-between mb-4"><span className="text-xs font-mono text-purple-400">Web App</span><Code2 className="w-4 h-4 opacity-70" /></div>
               <h3 className="text-base font-bold mb-2">High-Performance Portfolio</h3>
-              <p className="text-xs opacity-90 leading-relaxed mb-3">
-                {t.proj2Desc}
-              </p>
-              {project2Open && (
-                <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90">
-                  <p>• {t.proj2List1}</p>
-                  <p>• {t.proj2List2}</p>
-                </div>
-              )}
+              <p className="text-xs opacity-90 leading-relaxed mb-3">{t.proj2Desc}</p>
+              {project2Open && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.proj2List1}</p><p>• {t.proj2List2}</p></div>)}
             </div>
             <div>
-              <div className="flex flex-wrap gap-1.5 py-3 border-t border-white/5 mb-3">
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Next.js</span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailwind</span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">TypeScript</span>
-              </div>
-
+              <div className="flex flex-wrap gap-1.5 py-3 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Next.js</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailwind</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">TypeScript</span></div>
               <div className="flex gap-2">
-                <button onClick={() => setProject2Open(!project2Open)} className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer">
-                  <span>{project2Open ? t.less : t.more}</span>
-                  <ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-200 ${project2Open ? "rotate-180" : ""}`} />
-                </button>
-                <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs transition-all">
-                  <GithubIcon className="w-3.5 h-3.5" />
-                  <span>Code</span>
-                </a>
+                <button onClick={() => setProject2Open(!project2Open)} className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer"><span>{project2Open ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-200 ${project2Open ? "rotate-180" : ""}`} /></button>
+                <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs transition-all"><GithubIcon className="w-3.5 h-3.5" /><span>Code</span></a>
               </div>
             </div>
           </div>
@@ -945,6 +809,82 @@ export default function Home() {
         <section className="rounded-2xl border border-cyan-500/20 bg-cyan-500/[0.03] p-4 flex items-center justify-center gap-3 text-center animate-fade-in-up">
           <ShieldCheck className="w-5 h-5 text-cyan-400 shrink-0" />
           <span className="text-xs font-mono font-medium tracking-wide opacity-90">{t.guaranteeText}</span>
+        </section>
+
+        {/* VISUAL STYLE CONFIGURATOR (NEW SMART BUSINESS FEATURE) */}
+        <section className={`rounded-3xl border border-blue-500/30 bg-blue-500/[0.02] p-6 sm:p-8 space-y-6 animate-fade-in-up`}>
+          <div className="flex items-center gap-3">
+            <Palette className="w-6 h-6 text-blue-400" />
+            <div>
+              <h2 className="text-lg font-bold">{t.configTitle}</h2>
+              <p className="text-xs opacity-70">{t.configSub}</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              { name: t.style1Name, desc: t.style1Desc, tag: "Corporate" },
+              { name: t.style2Name, desc: t.style2Desc, tag: "Tech / Cyber" },
+              { name: t.style3Name, desc: t.style3Desc, tag: "E-commerce" },
+            ].map((st, i) => (
+              <div
+                key={i}
+                onClick={() => {
+                  setSelectedStyle(st.name);
+                  toast.success(`Επιλέχθηκε το στυλ: ${st.name}`);
+                }}
+                className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${selectedStyle === st.name ? "bg-blue-500/10 border-blue-500 shadow-lg shadow-blue-500/10" : "bg-white/[0.02] border-white/10 hover:border-white/20"}`}
+              >
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold">{st.tag}</span>
+                    {selectedStyle === st.name && <Check className="w-4 h-4 text-blue-400" />}
+                  </div>
+                  <h3 className="text-sm font-bold">{st.name}</h3>
+                  <p className="text-xs opacity-70 leading-relaxed">{st.desc}</p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs font-mono text-blue-400">
+                  <span>Preview Active</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex justify-end pt-2">
+            <button
+              onClick={() => {
+                setSelectedPlan(`Custom Design Style: ${selectedStyle}`);
+                toast.success(`Το στυλ "${selectedStyle}" προστέθηκε στην παραγγελία σας!`);
+                window.location.href = "#contact";
+              }}
+              className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs transition-all shadow-lg shadow-blue-600/20 cursor-pointer"
+            >
+              {t.selectThisStyle}
+            </button>
+          </div>
+        </section>
+
+        {/* EXPRESS MICRO-SERVICE AUDIT (NEW INSTANT MONETIZATION FEATURE) */}
+        <section className={`rounded-3xl border border-emerald-500/30 bg-emerald-500/[0.02] p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 animate-fade-in-up`}>
+          <div className="space-y-2 text-center sm:text-left">
+            <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold uppercase tracking-wider">Instant Service</span>
+            <h2 className="text-lg font-bold">{t.auditName}</h2>
+            <p className="text-xs opacity-80 max-w-xl">{t.auditDesc}</p>
+          </div>
+          <div className="flex flex-col items-center sm:items-end gap-3 shrink-0">
+            <div className="text-2xl font-bold font-mono text-emerald-400">{t.auditPrice}</div>
+            <button
+              onClick={() => {
+                setSelectedPlan("Express SEO & Speed Audit");
+                toast.success("Επιλέχθηκε το Express Audit (49€)");
+                window.location.href = "#contact";
+              }}
+              className="px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs transition-all shadow-lg shadow-emerald-500/20 cursor-pointer"
+            >
+              {t.buyAudit}
+            </button>
+          </div>
         </section>
 
         {/* REVIEWS SECTION & REAL TESTIMONIALS */}
@@ -1241,7 +1181,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* FAQ SLIDER SECTION (SINGLE RECTANGLE CARD WITH AUTO-SLIDE, FADE ANIMATION & ARROWS) */}
+        {/* FAQ SLIDER SECTION */}
         <section className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 transition-colors relative overflow-hidden`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
