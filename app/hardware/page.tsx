@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Check, Cpu, ArrowRight, ArrowLeft, Send, ShoppingBag, Briefcase, Sliders, Monitor, HardDrive, MemoryStick, Terminal, Wrench, ShieldAlert } from "lucide-react";
+import { Check, Cpu, ArrowRight, ArrowLeft, Send, ShoppingBag, Briefcase, Sliders, Monitor, HardDrive, MemoryStick, Terminal, Wrench, ShieldAlert, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 
 export default function HardwarePage() {
@@ -47,10 +47,10 @@ export default function HardwarePage() {
     }, [buildCategory]);
 
     const repairServices = [
-        { title: "Γενική Διάγνωση & Troubleshooting", price: 30, desc: "Εντοπισμός βλάβης σε hardware ή software, έλεγχος τροφοδοτικού, μητρικής και μνημών." },
-        { title: "Service Λαπτοπ & Desktop (Καθαρισμός + Πάστα)", price: 45, desc: "Βαθύς καθαρισμός από σκόνες, αλλαγή κορυφαίας θερμοαγώγιμης πάστας και έλεγχος θερμοκρασιών." },
-        { title: "Format & Εγκατάσταση Λογισμικού / Drivers", price: 40, desc: "Καθαρή εγκατάσταση Windows/Linux, πέρασμα όλων των τελευταίων drivers και optimization." },
-        { title: "Αναβάθμιση Υλικού (Hardware Upgrade)", price: 35, desc: "Τοποθέτηση νέου SSD, προσθήκη RAM ή αλλαγή κάρτας γραφικών με ελέγχους συμβατότητας." }
+        { id: "rep-1", title: "Γενική Διάγνωση & Troubleshooting", price: 30, desc: "Εντοπισμός βλάβης σε hardware ή software, έλεγχος τροφοδοτικού, μητρικής και μνημών." },
+        { id: "rep-2", title: "Service Λαπτοπ & Desktop (Καθαρισμός + Πάστα)", price: 45, desc: "Βαθύς καθαρισμός από σκόνες, αλλαγή κορυφαίας θερμοαγώγιμης πάστας και έλεγχος θερμοκρασιών." },
+        { id: "rep-3", title: "Format & Εγκατάσταση Λογισμικού / Drivers", price: 40, desc: "Καθαρή εγκατάσταση Windows/Linux, πέρασμα όλων των τελευταίων drivers και optimization." },
+        { id: "rep-4", title: "Αναβάθμιση Υλικού (Hardware Upgrade)", price: 35, desc: "Τοποθέτηση νέου SSD, προσθήκη RAM ή αλλαγή κάρτας γραφικών με ελέγχους συμβατότητας." }
     ];
 
     // Realistic Price Calculation Algorithm
@@ -75,6 +75,48 @@ export default function HardwarePage() {
     const buildSummaryText = mode === "builder"
         ? `Custom PC Build (${buildCategory.toUpperCase()}) | RAM: ${selectedRam}GB | Storage: ${selectedStorage}TB NVMe | GPU: ${selectedGpuTier} | Monitor: ${selectedMonitor} | Software: ${selectedSoftware} | Total: ${estimatedPrice}€`
         : `Repair Service: ${selectedRepair}`;
+
+    // Add Custom PC Build to Global Cart
+    const handleAddBuildToCart = () => {
+        const saved = localStorage.getItem("miltos_agency_cart");
+        let cart = saved ? JSON.parse(saved) : [];
+        const buildTitle = `Custom PC (${buildCategory.toUpperCase()} - ${selectedRam}GB RAM)`;
+
+        cart.push({
+            id: `build-${Date.now()}`,
+            title: buildTitle,
+            price: estimatedPrice,
+            quantity: 1,
+            category: "CUSTOM HARDWARE"
+        });
+
+        localStorage.setItem("miltos_agency_cart", JSON.stringify(cart));
+        window.dispatchEvent(new Event("storage-updated"));
+        toast.success(`Προστέθηκε στο καλάθι: ${buildTitle}`);
+    };
+
+    // Add Repair Service to Global Cart
+    const handleAddRepairToCart = (rep: { id: string; title: string; price: number }) => {
+        const saved = localStorage.getItem("miltos_agency_cart");
+        let cart = saved ? JSON.parse(saved) : [];
+        const existing = cart.find((i: any) => i.id === rep.id);
+
+        if (existing) {
+            existing.quantity += 1;
+        } else {
+            cart.push({
+                id: rep.id,
+                title: rep.title,
+                price: rep.price,
+                quantity: 1,
+                category: "REPAIR SERVICE"
+            });
+        }
+
+        localStorage.setItem("miltos_agency_cart", JSON.stringify(cart));
+        window.dispatchEvent(new Event("storage-updated"));
+        toast.success(`Προστέθηκε στο καλάθι: ${rep.title}`);
+    };
 
     const handleSubmitOrder = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -301,20 +343,30 @@ export default function HardwarePage() {
 
                                     </div>
 
-                                    {/* Live Price Estimation Banner */}
+                                    {/* Live Price Estimation & Add to Cart / Checkout */}
                                     <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 bg-emerald-500/5 p-4 rounded-2xl border border-emerald-500/20">
                                         <div>
                                             <span className="text-xs font-mono text-zinc-400 block">Εκτιμώμενο Συνολικό Κόστος:</span>
                                             <span className="text-2xl font-bold font-mono text-emerald-400">{estimatedPrice}€</span>
                                         </div>
-                                        <button
-                                            type="button"
-                                            onClick={() => setStep(2)}
-                                            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs transition-all shadow cursor-pointer flex items-center justify-center gap-2"
-                                        >
-                                            <span>Συνέχεια στην Υποβολή</span>
-                                            <ArrowRight className="w-4 h-4" />
-                                        </button>
+                                        <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+                                            <button
+                                                type="button"
+                                                onClick={handleAddBuildToCart}
+                                                className="flex-1 sm:flex-none px-5 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs transition-all shadow cursor-pointer flex items-center justify-center gap-2"
+                                            >
+                                                <ShoppingCart className="w-4 h-4" />
+                                                <span>Προσθήκη στο Καλάθι</span>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => setStep(2)}
+                                                className="flex-1 sm:flex-none px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs transition-all shadow cursor-pointer flex items-center justify-center gap-2"
+                                            >
+                                                <span>Συνέχεια στην Υποβολή</span>
+                                                <ArrowRight className="w-4 h-4" />
+                                            </button>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -382,13 +434,12 @@ export default function HardwarePage() {
                                 return (
                                     <div
                                         key={idx}
-                                        onClick={() => {
+                                        className={`p-6 rounded-3xl border transition-all flex flex-col justify-between ${isSelected ? "bg-cyan-500/10 border-cyan-500 shadow-[0_0_25px_-5px_rgba(6,182,212,0.2)]" : "bg-white/[0.02] border-white/10 hover:border-white/20"}`}
+                                    >
+                                        <div onClick={() => {
                                             setSelectedRepair(`${rep.title} (${rep.price}€)`);
                                             toast.success(`Επιλέχθηκε υπηρεσία: ${rep.title}`);
-                                        }}
-                                        className={`p-6 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between ${isSelected ? "bg-cyan-500/10 border-cyan-500 shadow-[0_0_25px_-5px_rgba(6,182,212,0.2)]" : "bg-white/[0.02] border-white/10 hover:border-white/20"}`}
-                                    >
-                                        <div>
+                                        }} className="cursor-pointer">
                                             <div className="flex justify-between items-center mb-2">
                                                 <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-wider font-bold">HARDWARE LAB / SERVICE</span>
                                                 {isSelected && <span className="text-xs font-mono bg-cyan-500 text-black px-2 py-0.5 rounded-full font-bold flex items-center gap-1"><Check className="w-3 h-3" /> Επιλεγμένο</span>}
@@ -398,9 +449,18 @@ export default function HardwarePage() {
                                         </div>
                                         <div className="flex items-center justify-between pt-4 border-t border-white/5">
                                             <span className="text-xl font-bold font-mono text-white">Κόστος: {rep.price}€</span>
-                                            <span className={`text-xs px-3 py-1.5 rounded-xl font-medium transition-all ${isSelected ? "bg-cyan-500 text-black font-bold" : "bg-white/10 text-white"}`}>
-                                                {isSelected ? "Επιλεγμένο" : "Επιλογή"}
-                                            </span>
+                                            <div className="flex items-center gap-2">
+                                                <button
+                                                    onClick={() => handleAddRepairToCart(rep)}
+                                                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs transition-all shadow cursor-pointer"
+                                                >
+                                                    <ShoppingCart className="w-3.5 h-3.5" />
+                                                    <span>Καλάθι</span>
+                                                </button>
+                                                <span onClick={() => setSelectedRepair(`${rep.title} (${rep.price}€)`)} className={`text-xs px-3 py-2 rounded-xl font-medium transition-all cursor-pointer ${isSelected ? "bg-cyan-500 text-black font-bold" : "bg-white/10 text-white"}`}>
+                                                    {isSelected ? "Επιλεγμένο" : "Επιλογή"}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 );
