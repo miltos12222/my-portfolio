@@ -74,7 +74,7 @@ export default function Home() {
               </a>
 
               <a
-                href="https://www.linkedin.com/in/miltos-papageorgiou"
+                href="https://www.linkedin.com/in/miltos-papageorgiou-740990438"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A66C2]/20 hover:bg-[#0A66C2]/30 border border-[#0A66C2]/40 text-xs font-medium text-blue-300 transition-all"
