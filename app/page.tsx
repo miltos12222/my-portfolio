@@ -20,30 +20,9 @@ export default function Home() {
   const [stackOpen, setStackOpen] = useState(false);
   const [resilienceOpen, setResilienceOpen] = useState(false);
 
-  // 100% Instant Scroll Reset στο Refresh
+  // Ασφαλές Scroll Reset κατά το αρχικό mount
   useEffect(() => {
-    // Απενεργοποίηση της διατήρησης θέσης του browser
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual";
-    }
-
-    // Πρόσκαιρη απενεργοποίηση του smooth scroll στο root στοιχείο
-    document.documentElement.style.scrollBehavior = "auto";
-
-    // Ακαριαία μεταφορά στην κορυφή
     window.scrollTo(0, 0);
-
-    // Δεύερο πέρασμα μόλις ολοκληρωθεί το render/layout του DOM
-    const timer = setTimeout(() => {
-      window.scrollTo(0, 0);
-      // Επαναφορά φυσιολογικής συμπεριφοράς
-      document.documentElement.style.scrollBehavior = "";
-    }, 50);
-
-    return () => {
-      clearTimeout(timer);
-      document.documentElement.style.scrollBehavior = "";
-    };
   }, []);
 
   return (
