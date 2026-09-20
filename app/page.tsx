@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, Star, Send, Check, Terminal, Globe } from "lucide-react";
+import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, Star, Send, Check, Terminal, Globe, Download } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 
 // --- ΛΕΞΙΚΟ ΜΕΤΑΦΡΑΣΕΩΝ (DICTIONARY) ---
@@ -13,6 +13,7 @@ const translations = {
     available: "AVAILABLE FOR HIRE",
     location: "ATHENS, GR",
     roleDesc: "Computer Science Graduate & Infrastructure Enthusiast. Εξειδίκευση σε self-hosted υποδομές, αυτοματισμούς Linux/Docker και σύγχρονη ανάπτυξη web εφαρμογών.",
+    cvBtn: "Λήψη CV",
     contactBtn: "Επικοινωνία",
     more: "Ανάλυση",
     less: "Λιγότερα",
@@ -76,6 +77,7 @@ const translations = {
     available: "AVAILABLE FOR HIRE",
     location: "ATHENS, GR",
     roleDesc: "Computer Science Graduate & Infrastructure Enthusiast. Specialized in self-hosted infrastructure, Linux/Docker automation, and modern web applications.",
+    cvBtn: "Download CV",
     contactBtn: "Contact Me",
     more: "Details",
     less: "Less",
@@ -138,8 +140,8 @@ const translations = {
 };
 
 export default function Home() {
-  const [lang, setLang] = useState<"gr" | "en">("gr"); // State για τη γλώσσα
-  const t = translations[lang]; // Το ενεργό λεξικό
+  const [lang, setLang] = useState<"gr" | "en">("gr");
+  const t = translations[lang];
 
   const [infraOpen, setInfraOpen] = useState(false);
   const [webOpen, setWebOpen] = useState(false);
@@ -149,7 +151,6 @@ export default function Home() {
   const [stackOpen, setStackOpen] = useState(false);
   const [resilienceOpen, setResilienceOpen] = useState(false);
 
-  // States για τη φόρμα επικοινωνίας
   const [selectedPlan, setSelectedPlan] = useState("Homelab Setup");
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -162,7 +163,6 @@ export default function Home() {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, []);
 
-  // Λήψη τιμής βάσει επιλεγμένου πακέτου
   const getPlanPrice = (plan: string) => {
     switch (plan) {
       case "Modern Web App": return lang === "gr" ? "Από 350€" : "From 350€";
@@ -211,11 +211,11 @@ export default function Home() {
 
       <main className="relative w-full pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12">
 
-        {/* Διακόπτης Γλώσσας (Language Toggle) */}
+        {/* Διακόπτης Γλώσσας */}
         <div className="flex justify-end mb-4 animate-fade-in-up">
           <button
             onClick={() => setLang(lang === "gr" ? "en" : "gr")}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold text-white transition-all shadow-lg"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold text-white transition-all shadow-lg cursor-pointer"
           >
             <Globe className="w-4 h-4 text-cyan-400" />
             {lang === "gr" ? "🇬🇧 ENGLISH" : "🇬🇷 ΕΛΛΗΝΙΚΑ"}
@@ -257,6 +257,13 @@ export default function Home() {
                 <LinkedinIcon className="w-4 h-4 text-[#0A66C2]" />
                 <span>LinkedIn</span>
               </a>
+
+              {/* ΚΟΥΜΠΙ CV */}
+              <a href="/cv.pdf" download="Miltos_Papageorgiou_CV.pdf" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-xs font-medium text-purple-300 transition-all">
+                <Download className="w-4 h-4" />
+                <span>{t.cvBtn}</span>
+              </a>
+
               <a href="#contact" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-xs font-medium text-cyan-300 transition-all">
                 <Mail className="w-4 h-4" />
                 <span>{t.contactBtn}</span>
@@ -286,7 +293,7 @@ export default function Home() {
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Docker</span>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Tailscale</span>
               </div>
-              <button onClick={() => setInfraOpen(!infraOpen)} className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium">
+              <button onClick={() => setInfraOpen(!infraOpen)} className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium cursor-pointer">
                 <span>{infraOpen ? t.less : t.more}</span>
                 <ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${infraOpen ? "rotate-180" : ""}`} />
               </button>
@@ -315,7 +322,7 @@ export default function Home() {
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">TypeScript</span>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Tailwind</span>
               </div>
-              <button onClick={() => setWebOpen(!webOpen)} className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium">
+              <button onClick={() => setWebOpen(!webOpen)} className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium cursor-pointer">
                 <span>{webOpen ? t.less : t.more}</span>
                 <ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-200 ${webOpen ? "rotate-180" : ""}`} />
               </button>
@@ -345,7 +352,7 @@ export default function Home() {
                 <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Problem Solver</span>
                 <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Fast Learner</span>
               </div>
-              <button onClick={() => setEthicOpen(!ethicOpen)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium">
+              <button onClick={() => setEthicOpen(!ethicOpen)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium cursor-pointer">
                 <span>{ethicOpen ? t.less : t.more}</span>
                 <ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${ethicOpen ? "rotate-180" : ""}`} />
               </button>
@@ -405,7 +412,7 @@ export default function Home() {
               <Server className="w-6 h-6 text-cyan-400" />
               <h2 className="text-xl font-bold text-white">Infrastructure & Homelab Stack</h2>
             </div>
-            <button onClick={() => setStackOpen(!stackOpen)} className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium">
+            <button onClick={() => setStackOpen(!stackOpen)} className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium cursor-pointer">
               <span>{stackOpen ? t.less : t.more}</span>
               <ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${stackOpen ? "rotate-180" : ""}`} />
             </button>
@@ -429,7 +436,7 @@ export default function Home() {
               <Cpu className="w-6 h-6 text-emerald-400" />
               <h2 className="text-xl font-bold text-white">{t.resTitle}</h2>
             </div>
-            <button onClick={() => setResilienceOpen(!resilienceOpen)} className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium">
+            <button onClick={() => setResilienceOpen(!resilienceOpen)} className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium cursor-pointer">
               <span>{resilienceOpen ? t.less : t.more}</span>
               <ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${resilienceOpen ? "rotate-180" : ""}`} />
             </button>
@@ -471,7 +478,7 @@ export default function Home() {
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Docker</span>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Tailscale</span>
               </div>
-              <button onClick={() => setProject1Open(!project1Open)} className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium">
+              <button onClick={() => setProject1Open(!project1Open)} className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium cursor-pointer">
                 <span>{project1Open ? t.less : t.more}</span>
                 <ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${project1Open ? "rotate-180" : ""}`} />
               </button>
@@ -501,7 +508,7 @@ export default function Home() {
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Tailwind</span>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">TypeScript</span>
               </div>
-              <button onClick={() => setProject2Open(!project2Open)} className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium">
+              <button onClick={() => setProject2Open(!project2Open)} className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium cursor-pointer">
                 <span>{project2Open ? t.less : t.more}</span>
                 <ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-200 ${project2Open ? "rotate-180" : ""}`} />
               </button>
