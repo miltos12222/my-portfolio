@@ -14,6 +14,30 @@ export default function Navbar() {
   const [isCmdOpen, setIsCmdOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
+  // --- GLOBAL SCROLL REVEAL OBSERVER HOOK ---
+  useEffect(() => {
+    const observerCallback: IntersectionObserverCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+        } else {
+          entry.target.classList.remove("is-visible");
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      root: null,
+      rootMargin: "0px 0px -30px 0px",
+      threshold: 0.05,
+    });
+
+    const elements = document.querySelectorAll(".reveal-on-scroll, .reveal-from-left, .reveal-from-right");
+    elements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [pathname]);
+
   useEffect(() => {
     const handleOpen = () => setIsCmdOpen(true);
     window.addEventListener("open-command-palette", handleOpen);

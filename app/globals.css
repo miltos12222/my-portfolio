@@ -95,7 +95,7 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* --- ANIMATIONS ΓΙΑ MOBILE & DESKTOP --- */
+/* --- ANIMATIONS & SCROLL REVEAL (MOBILE & DESKTOP) --- */
 @layer utilities {
   .animate-fade-in-up {
     animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -129,32 +129,32 @@ body {
 }
 
 /* 
-  ΕΓΓΥΗΜΕΝΟ SCROLL REVEAL ΓΙΑ ΚΙΝΗΤΑ:
-  Χρησιμοποιούμε CSS scroll-timeline/animation όπου υποστηρίζεται ή fallback σε fadeInUp,
-  ώστε να χτίζεται η σελίδα ομαλά σε κάθε συσκευή χωρίς να κολλάει ο observer.
+  ΕΓΓΥΗΜΕΝΑ SCROLL REVEAL (BACK-AND-FORTH):
+  Όταν προστίθεται η κλάση .is-visible από τον Observer, η κάρτα εμφανίζεται. 
+  Όταν φεύγει, κρύβεται απαλά για να ξαναπαιχτεί το animation.
 */
-.reveal-on-scroll {
+.reveal-on-scroll,
+.reveal-from-left,
+.reveal-from-right {
   opacity: 0;
-  transform: translateY(35px);
-  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-timeline: view();
-  animation-range: entry 0% cover 30%;
+  transform: translateY(40px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
 .reveal-from-left {
-  opacity: 0;
-  transform: translateX(-35px);
-  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-timeline: view();
-  animation-range: entry 0% cover 30%;
+  transform: translateX(-40px);
 }
 
 .reveal-from-right {
-  opacity: 0;
-  transform: translateX(35px);
-  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-timeline: view();
-  animation-range: entry 0% cover 30%;
+  transform: translateX(40px);
+}
+
+.reveal-on-scroll.is-visible,
+.reveal-from-left.is-visible,
+.reveal-from-right.is-visible {
+  opacity: 1;
+  transform: translateY(0) translateX(0);
 }
 
 /* Mobile Touch Active Feedback */
