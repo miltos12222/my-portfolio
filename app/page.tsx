@@ -234,6 +234,20 @@ export default function Home() {
         setTermHistory([]);
         setTermInput("");
         return;
+      case "sudo":
+      case "sudo su":
+        output = <div className="text-amber-400">Permission denied: Nice try, but root access is strictly reserved for Miltos! 🛡️</div>;
+        break;
+      case "rm -rf /":
+      case "rm":
+        output = <div className="text-red-500 font-bold animate-bounce">Nice try! System is protected by Proxmox High Availability & Automated Backups. 🚨</div>;
+        break;
+      case "matrix":
+        output = <div className="text-emerald-500 font-mono">Wake up, Neo... The Matrix has you. Follow the white rabbit 🐇</div>;
+        break;
+      case "ping":
+        output = <div className="text-cyan-300">64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.041 ms (Uptime: 99.9%)</div>;
+        break;
       default:
         output = <div className="text-red-400">Command not found: {cmd}. Type 'help' for a list of commands.</div>;
     }
@@ -608,10 +622,17 @@ export default function Home() {
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">Tailwind</span>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-zinc-300">TypeScript</span>
               </div>
-              <button onClick={() => setProject2Open(!project2Open)} className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium cursor-pointer">
-                <span>{project2Open ? t.less : t.more}</span>
-                <ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-200 ${project2Open ? "rotate-180" : ""}`} />
-              </button>
+
+              <div className="flex gap-2">
+                <button onClick={() => setProject2Open(!project2Open)} className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium cursor-pointer">
+                  <span>{project2Open ? t.less : t.more}</span>
+                  <ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-200 ${project2Open ? "rotate-180" : ""}`} />
+                </button>
+                <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs text-white transition-all">
+                  <GithubIcon className="w-3.5 h-3.5" />
+                  <span>Code</span>
+                </a>
+              </div>
             </div>
           </div>
         </section>
