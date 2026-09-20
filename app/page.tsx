@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, Star, Send, Check, Terminal, Globe, Download } from "lucide-react";
+import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, Star, Send, Check, Terminal, Globe, Download, Calendar, Calculator } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
 
@@ -16,6 +16,7 @@ const translations = {
     roleDesc: "Computer Science Graduate & Infrastructure Enthusiast. Εξειδίκευση σε self-hosted υποδομές, αυτοματισμούς Linux/Docker και σύγχρονη ανάπτυξη web εφαρμογών.",
     cvBtn: "Λήψη CV",
     contactBtn: "Επικοινωνία",
+    bookCall: "Κλείστε Ραντεβού",
     more: "Ανάλυση",
     less: "Λιγότερα",
     infraDesc: "Proxmox VE, Docker containers, Nextcloud & MariaDB orchestration.",
@@ -51,6 +52,13 @@ const translations = {
     revSub: "Συνεργασίες, feedback και εμπειρία εργασίας",
     rev1: '"Άψογη παραμετροποίηση Homelab και Docker υποδομών. Μεθοδικός, γρήγορος και με εξαιρετική κατανόηση της ασφάλειας δικτύων."',
     rev2: '"Εξαιρετικό αποτέλεσμα στο Next.js web application. Άμεση ανταπόκριση, καθαρός κώδικας και προσοχή στη λεπτομέρεια."',
+
+    calcTitle: "Διαδραστικός Υπολογιστής Έργου",
+    calcSub: "Υπολογίστε κατά προσέγγιση το κόστος και στείλτε το αίτημά σας άμεσα.",
+    calcType: "Είδος Project:",
+    calcAddon: "Επιπρόσθετες Υπηρεσίες:",
+    estPrice: "Εκτιμώμενο Κόστος:",
+    selectThis: "Επιλογή αυτού του πακέτου",
 
     priceTitle: "Υπηρεσίες & Κλιμακωτά Πακέτα",
     priceSub: "Επιλέξτε τη λύση που ταιριάζει ακριβώς στο budget και στις απαιτήσεις του project σας. (Swipe δεξιά/αριστερά για περισσότερα)",
@@ -124,7 +132,7 @@ const translations = {
     selected: "Επιλεγμένο",
     select: "Επιλογή",
     contactTitle: "Αίτημα Συνεργασίας",
-    contactSub: "Επιλέξτε πακέτο από πάνω και στείλτε μου τα στοιχεία σας.",
+    contactSub: "Επιλέξτε πακέτο από πάνω ή υπολογίστε το project σας και στείλτε μου τα στοιχεία σας.",
     formName: "Όνομα / Επωνυμία",
     formEmail: "Email Επικοινωνίας",
     formService: "Επιλεγμένη Υπηρεσία & Τιμή",
@@ -142,6 +150,7 @@ const translations = {
     roleDesc: "Computer Science Graduate & Infrastructure Enthusiast. Specialized in self-hosted infrastructure, Linux/Docker automation, and modern web applications.",
     cvBtn: "Download CV",
     contactBtn: "Contact Me",
+    bookCall: "Book a Call",
     more: "Details",
     less: "Less",
     infraDesc: "Proxmox VE, Docker containers, Nextcloud & MariaDB orchestration.",
@@ -177,6 +186,13 @@ const translations = {
     revSub: "Collaborations, feedback, and work experience",
     rev1: '"Flawless Homelab and Docker infrastructure configuration. Methodical, fast, and with excellent understanding of network security."',
     rev2: '"Excellent result on the Next.js web application. Prompt response, clean code, and attention to detail."',
+
+    calcTitle: "Interactive Project Calculator",
+    calcSub: "Estimate your project cost instantly and submit your request.",
+    calcType: "Project Type:",
+    calcAddon: "Extra Options:",
+    estPrice: "Estimated Cost:",
+    selectThis: "Select this package",
 
     priceTitle: "Services & Scaled Packages",
     priceSub: "Choose the exact solution that fits your project budget and technical requirements. (Swipe horizontally for more)",
@@ -249,7 +265,7 @@ const translations = {
     selected: "Selected",
     select: "Select",
     contactTitle: "Collaboration Request",
-    contactSub: "Select a package above and send me your details.",
+    contactSub: "Select a package above or calculate your project and send me your details.",
     formName: "Name / Company",
     formEmail: "Contact Email",
     formService: "Selected Service & Price",
@@ -278,6 +294,14 @@ export default function Home() {
   const [selectedPlan, setSelectedPlan] = useState("Full Enterprise Homelab");
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // --- CALCULATOR STATES ---
+  const [calcBasePrice, setCalcBasePrice] = useState(199);
+  const [calcBaseName, setCalcBaseName] = useState("Landing Page");
+  const [calcAddonSeo, setCalcAddonSeo] = useState(false);
+  const [calcAddonVpn, setCalcAddonVpn] = useState(false);
+
+  const calculatedTotal = calcBasePrice + (calcAddonSeo ? 70 : 0) + (calcAddonVpn ? 100 : 0);
 
   // --- TERMINAL STATES ---
   const terminalEndRef = useRef<HTMLDivElement>(null);
@@ -324,7 +348,7 @@ export default function Home() {
       case "Full Enterprise Homelab": return lang === "gr" ? "Από 280€" : "From 280€";
       case "Advanced Cloud & Docker": return lang === "gr" ? "Από 250€" : "From 250€";
       case "Consulting & Audit": return lang === "gr" ? "35€ / ώρα" : "35€ / hour";
-      default: return "Custom Quote";
+      default: return `Από ${calculatedTotal}€`;
     }
   };
 
@@ -416,8 +440,18 @@ export default function Home() {
 
       <main className="relative w-full pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12">
 
-        {/* Κουμπιά Κορυφής */}
-        <div className="flex justify-end gap-3 mb-4 animate-fade-in-up">
+        {/* Κουμπιά Κορυφής (Command Menu, Γλώσσα & Book Call) */}
+        <div className="flex flex-wrap justify-end gap-3 mb-4 animate-fade-in-up">
+          <a
+            href="https://calendly.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-xs font-bold text-emerald-300 transition-all shadow-lg cursor-pointer"
+          >
+            <Calendar className="w-4 h-4 text-emerald-400" />
+            <span>{t.bookCall}</span>
+          </a>
+
           <button
             onClick={() => window.dispatchEvent(new Event("open-command-palette"))}
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold text-white transition-all shadow-lg cursor-pointer group"
@@ -785,6 +819,79 @@ export default function Home() {
               </div>
               <p className="text-xs text-zinc-300 leading-relaxed">{t.rev2}</p>
             </div>
+          </div>
+        </section>
+
+        {/* INTERACTIVE COST CALCULATOR (NEW SMART WIDGET) */}
+        <section className="rounded-3xl border border-cyan-500/30 bg-cyan-500/[0.02] p-6 sm:p-8 space-y-6 animate-fade-in-up">
+          <div className="flex items-center gap-3">
+            <Calculator className="w-6 h-6 text-cyan-400" />
+            <div>
+              <h2 className="text-lg font-bold text-white">{t.calcTitle}</h2>
+              <p className="text-xs text-zinc-400">{t.calcSub}</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+            <div>
+              <label className="block text-xs font-mono text-zinc-300 mb-2">{t.calcType}</label>
+              <select
+                value={calcBasePrice}
+                onChange={(e) => {
+                  const val = Number(e.target.value);
+                  setCalcBasePrice(val);
+                  if (val === 199) setCalcBaseName("Landing Page");
+                  if (val === 290) setCalcBaseName("Personal Portfolio / Blog");
+                  if (val === 450) setCalcBaseName("Business App / E-shop");
+                  if (val === 650) setCalcBaseName("Custom Full-Stack App");
+                  if (val === 150) setCalcBaseName("Basic Homelab Setup");
+                  if (val === 280) setCalcBaseName("Full Enterprise Homelab");
+                  if (val === 250) setCalcBaseName("Advanced Cloud & Docker");
+                  setSelectedPlan(calcBaseName);
+                }}
+                className="w-full px-4 py-3 rounded-xl bg-white/[0.05] border border-white/10 text-white text-xs font-mono focus:outline-none focus:border-cyan-500 transition-all cursor-pointer"
+              >
+                <option value={199} className="bg-zinc-900">Landing Page (199€)</option>
+                <option value={290} className="bg-zinc-900">Personal Portfolio / Blog (290€)</option>
+                <option value={450} className="bg-zinc-900">Business App / E-shop (450€)</option>
+                <option value={650} className="bg-zinc-900">Custom Full-Stack App (650€)</option>
+                <option value={150} className="bg-zinc-900">Basic Homelab Setup (150€)</option>
+                <option value={280} className="bg-zinc-900">Full Enterprise Homelab (280€)</option>
+                <option value={250} className="bg-zinc-900">Advanced Cloud & Docker (250€)</option>
+              </select>
+            </div>
+
+            <div className="space-y-3">
+              <label className="block text-xs font-mono text-zinc-300">{t.calcAddon}</label>
+              <div className="flex flex-col sm:flex-row gap-4 text-xs text-zinc-300">
+                <label className="flex items-center gap-2 cursor-pointer bg-white/[0.03] px-3 py-2 rounded-xl border border-white/5 hover:border-white/10">
+                  <input type="checkbox" checked={calcAddonSeo} onChange={(e) => setCalcAddonSeo(e.target.checked)} className="rounded bg-black border-white/20 text-cyan-500 focus:ring-0" />
+                  <span>Advanced SEO (+70€)</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer bg-white/[0.03] px-3 py-2 rounded-xl border border-white/5 hover:border-white/10">
+                  <input type="checkbox" checked={calcAddonVpn} onChange={(e) => setCalcAddonVpn(e.target.checked)} className="rounded bg-black border-white/20 text-cyan-500 focus:ring-0" />
+                  <span>Tailscale Mesh VPN Setup (+100€)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/10">
+            <div>
+              <span className="text-xs text-zinc-400 font-mono">{t.estPrice}</span>
+              <div className="text-3xl font-bold text-cyan-400 font-mono">{calculatedTotal}€</div>
+            </div>
+            <button
+              onClick={() => {
+                const desc = `${calcBaseName} ${calcAddonSeo ? "+ SEO" : ""} ${calcAddonVpn ? "+ VPN" : ""}`;
+                setSelectedPlan(desc);
+                toast.success(`Επιλέχθηκε το πακέτο: ${desc} (${calculatedTotal}€)`);
+                window.location.href = "#contact";
+              }}
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs transition-all shadow-lg shadow-cyan-500/20 cursor-pointer"
+            >
+              {t.selectThis}
+            </button>
           </div>
         </section>
 
