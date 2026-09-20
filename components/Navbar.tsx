@@ -1,14 +1,15 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Terminal, Mail } from "lucide-react";
+import { Terminal, Mail, Briefcase, ShoppingBag, Cpu } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
   const isServicesPage = pathname === "/services";
+  const isHardwarePage = pathname === "/hardware";
 
   const getHref = (id: string) => {
-    return isServicesPage ? `/${id}` : id;
+    return (isServicesPage || isHardwarePage) ? `/${id}` : id;
   };
 
   return (
@@ -28,15 +29,21 @@ export default function Navbar() {
           </div>
         </a>
 
-        {/* Navigation Links */}
-        <nav className="hidden md:flex items-center gap-1 bg-white/[0.03] border border-white/10 px-4 py-2 rounded-full shadow-inner">
-          <a href={getHref("#overview")} className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Overview</a>
-          <a href={getHref("#about-me")} className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">About Me</a>
-          <a href={getHref("#infrastructure")} className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Infrastructure</a>
-          <a href={getHref("#resilience")} className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Resilience</a>
-          <a href={getHref("#projects")} className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Projects</a>
-          <a href={getHref("#contact")} className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Contact</a>
-        </nav>
+        {/* Navigation Links (Conditional based on active page) */}
+        {!isServicesPage && !isHardwarePage ? (
+          <nav className="hidden md:flex items-center gap-1 bg-white/[0.03] border border-white/10 px-4 py-2 rounded-full shadow-inner">
+            <a href="#overview" className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Overview</a>
+            <a href="#about-me" className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">About Me</a>
+            <a href="#infrastructure" className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Infrastructure</a>
+            <a href="#resilience" className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Resilience</a>
+            <a href="#projects" className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Projects</a>
+            <a href="#contact" className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Contact</a>
+          </nav>
+        ) : (
+          <nav className="hidden md:flex items-center gap-2 bg-white/[0.03] border border-white/10 px-4 py-1.5 rounded-full text-xs font-mono">
+            <a href="/" className="px-3 py-1 text-zinc-400 hover:text-white transition-colors">← Επιστροφή στο CV</a>
+          </nav>
+        )}
 
         {/* Right Actions */}
         <div className="flex items-center gap-3">
@@ -49,7 +56,7 @@ export default function Navbar() {
           </button>
 
           <a
-            href={isServicesPage ? "/#contact" : "#contact"}
+            href={isServicesPage || isHardwarePage ? "/#contact" : "#contact"}
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs transition-all shadow-lg shadow-cyan-500/20 cursor-pointer"
           >
             <Mail className="w-3.5 h-3.5" />
