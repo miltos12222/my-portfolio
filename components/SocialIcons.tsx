@@ -17,3 +17,42 @@ export function LinkedinIcon({ className = "h-4 w-4" }: { className?: string }) 
     </svg>
   );
 }
+
+export default function ActionButtons() {
+  return (
+    <div className="flex flex-wrap items-center gap-3 mt-4">
+      {/* GitHub Profile Button */}
+      <a
+        href="https://github.com/miltospapageorgiou"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-200 bg-zinc-800/80 hover:bg-zinc-700/80 border border-zinc-700/50 rounded-xl transition-all"
+      >
+        <GithubIcon className="w-4 h-4 text-gray-200" />
+        GitHub Profile
+      </a>
+
+      {/* LinkedIn Profile Button */}
+      <a
+        href="https://www.linkedin.com/in/miltos-papageorgiou-a58142352/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-200 bg-zinc-800/80 hover:bg-zinc-700/80 border border-zinc-700/50 rounded-xl transition-all"
+      >
+        <LinkedinIcon className="w-4 h-4 text-[#0A66C2]" />
+        LinkedIn Profile
+      </a>
+
+      {/* Get in Touch Button */}
+      <a
+        href="mailto:elanaspww@gmail.com"
+        className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-cyan-300 bg-cyan-950/40 hover:bg-cyan-900/50 border border-cyan-800/50 rounded-xl transition-all"
+      >
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+        </svg>
+        Get in Touch
+      </a>
+    </div>
+  );
+}
