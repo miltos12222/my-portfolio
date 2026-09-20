@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, Star, Send, Check, Terminal, Globe, Download } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
-import { toast } from "sonner"; // <--- ΑΥΤΟ ΦΕΡΝΕΙ ΤΑ TOASTS
+import { toast } from "sonner";
 
 // --- ΛΕΞΙΚΟ ΜΕΤΑΦΡΑΣΕΩΝ ---
 const translations = {
@@ -160,12 +160,41 @@ export default function Home() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // --- TERMINAL STATES ---
+  const terminalEndRef = useRef<HTMLDivElement>(null);
+  const [termInput, setTermInput] = useState("");
+  const [termHistory, setTermHistory] = useState<{ cmd: string, output: React.ReactNode }[]>([{
+    cmd: "neofetch",
+    output: (
+      <div className="pl-2 pt-1 flex gap-4">
+        <div className="text-cyan-500 font-bold hidden sm:block">
+          <pre>{`   .---.\n  /     \\\n  \\.@-@./\n  /  _  \\\n //     \\\\`}</pre>
+        </div>
+        <div className="space-y-1">
+          <p><span className="text-cyan-400 font-bold">OS:</span> Debian GNU/Linux 12 (bookworm)</p>
+          <p><span className="text-cyan-400 font-bold">Host:</span> Proxmox Virtual Environment</p>
+          <p><span className="text-cyan-400 font-bold">Uptime:</span> 99.9% High Availability</p>
+          <p><span className="text-cyan-400 font-bold">Stack:</span> Next.js, Tailwind, TypeScript</p>
+          <p><span className="text-cyan-400 font-bold">Services:</span> Docker, Tailscale, Nextcloud</p>
+          <p><span className="text-cyan-400 font-bold">Status:</span> <span className="text-emerald-400 bg-emerald-400/10 px-1 py-0.5 rounded">Online & Ready for Hire</span></p>
+        </div>
+      </div>
+    )
+  }]);
+
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, []);
+
+  // Auto-scroll Terminal
+  useEffect(() => {
+    if (terminalEndRef.current) {
+      terminalEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [termHistory]);
 
   const getPlanPrice = (plan: string) => {
     switch (plan) {
@@ -176,7 +205,43 @@ export default function Home() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleTerminalSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const cmd = termInput.trim().toLowerCase();
+    if (!cmd) return;
+
+    let output: React.ReactNode = "";
+
+    switch (cmd) {
+      case "help":
+        output = <div className="text-zinc-300">Available commands: <br /><span className="text-cyan-400">whoami</span>, <span className="text-cyan-400">stack</span>, <span className="text-cyan-400">hire</span>, <span className="text-cyan-400">clear</span>, <span className="text-cyan-400">neofetch</span></div>;
+        break;
+      case "whoami":
+        output = <div className="text-zinc-300">Miltos Papageorgiou - Cloud Infrastructure & Full Stack Web Developer.</div>;
+        break;
+      case "stack":
+        output = <div className="text-zinc-300">Proxmox, Docker, Next.js, React, Tailscale, MariaDB, Linux.</div>;
+        break;
+      case "hire":
+        output = <div className="text-emerald-400 animate-pulse">Redirecting to contact form...</div>;
+        setTimeout(() => window.location.href = "#contact", 800);
+        break;
+      case "neofetch":
+        output = termHistory[0].output;
+        break;
+      case "clear":
+        setTermHistory([]);
+        setTermInput("");
+        return;
+      default:
+        output = <div className="text-red-400">Command not found: {cmd}. Type 'help' for a list of commands.</div>;
+    }
+
+    setTermHistory([...termHistory, { cmd, output }]);
+    setTermInput("");
+  };
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
@@ -214,14 +279,23 @@ export default function Home() {
 
       <main className="relative w-full pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12">
 
-        {/* Διακόπτης Γλώσσας */}
-        <div className="flex justify-end mb-4 animate-fade-in-up">
+        {/* Κουμπιά Κορυφής (Command Menu & Γλώσσα) */}
+        <div className="flex justify-end gap-3 mb-4 animate-fade-in-up">
+          <button
+            onClick={() => window.dispatchEvent(new Event("open-command-palette"))}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold text-white transition-all shadow-lg cursor-pointer group"
+          >
+            <Terminal className="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform" />
+            <span className="hidden sm:inline">Μενού (⌘K)</span>
+            <span className="sm:hidden">Μενού</span>
+          </button>
+
           <button
             onClick={() => setLang(lang === "gr" ? "en" : "gr")}
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold text-white transition-all shadow-lg cursor-pointer"
           >
             <Globe className="w-4 h-4 text-cyan-400" />
-            {lang === "gr" ? "🇬🇧 ENGLISH" : "🇬🇷 ΕΛΛΗΝΙΚΑ"}
+            {lang === "gr" ? "🇬🇧 EN" : "🇬🇷 GR"}
           </button>
         </div>
 
@@ -363,14 +437,14 @@ export default function Home() {
           </div>
         </section>
 
-        {/* --- ΑΥΤΟ ΕΙΝΑΙ ΤΟ ΝΕΟ ΚΟΜΜΑΤΙ: TECH MARQUEE (ΚΥΛΙΟΜΕΝΗ ΤΑΙΝΙΑ) --- */}
+        {/* TECH MARQUEE (ΚΥΛΙΟΜΕΝΗ ΤΑΙΝΙΑ) */}
         <div className="relative w-full overflow-hidden border-y border-white/5 bg-white/[0.01] py-5 my-8 animate-fade-in-up delay-100 flex items-center">
           <div className="absolute left-0 top-0 z-10 w-24 h-full bg-gradient-to-r from-[#0b0c10] to-transparent pointer-events-none"></div>
           <div className="absolute right-0 top-0 z-10 w-24 h-full bg-gradient-to-l from-[#0b0c10] to-transparent pointer-events-none"></div>
 
           <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
             {[...Array(2)].map((_, i) => (
-              <div key={i} className="flex gap-10 items-center justify-around whitespace-nowrap px-5 text-sm font-mono text-zinc-500 uppercase tracking-widest">
+              <div key={i} className="flex gap-10 items-center justify-around whitespace-nowrap px-5 text-sm font-mono text-zinc-500 uppercase tracking-widest cursor-default">
                 <span className="text-white hover:text-cyan-400 transition-colors">Next.js</span> <span className="text-cyan-500/30">•</span>
                 <span className="text-white hover:text-purple-400 transition-colors">TypeScript</span> <span className="text-cyan-500/30">•</span>
                 <span className="text-white hover:text-cyan-300 transition-colors">Tailwind CSS</span> <span className="text-cyan-500/30">•</span>
@@ -384,7 +458,6 @@ export default function Home() {
             ))}
           </div>
         </div>
-        {/* --- ΤΕΛΟΣ TECH MARQUEE --- */}
 
         {/* ABOUT ME + INTERACTIVE TERMINAL */}
         <section id="about-me" className="grid grid-cols-1 lg:grid-cols-2 gap-4 animate-fade-in-up delay-200">
@@ -398,35 +471,35 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="rounded-3xl border border-white/10 bg-[#0a0a0a] p-5 font-mono text-xs shadow-2xl relative overflow-hidden group">
-            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/5">
+          <div className="rounded-3xl border border-white/10 bg-[#0a0a0a] p-5 font-mono text-xs shadow-2xl relative overflow-hidden group flex flex-col h-[350px]">
+            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/5 shrink-0">
               <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
               <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
               <div className="w-3 h-3 rounded-full bg-emerald-500/80"></div>
               <span className="ml-2 text-zinc-500 flex items-center gap-1"><Terminal className="w-3 h-3" /> root@miltos-server:~</span>
             </div>
-            <div className="space-y-2 text-zinc-300">
-              <p><span className="text-emerald-400">miltos@admin:~$</span> neofetch</p>
-              <div className="pl-2 pt-1 flex gap-4">
-                <div className="text-cyan-500 font-bold hidden sm:block">
-                  <pre>{`
-   .---.
-  /     \\
-  \\.@-@./
-  /  _  \\
- //     \\\\
-                  `}</pre>
+
+            <div className="flex-1 overflow-y-auto space-y-3 text-zinc-300 pr-2 pb-4 scrollbar-thin scrollbar-thumb-white/10" onClick={() => document.getElementById('term-input')?.focus()}>
+              {termHistory.map((item, i) => (
+                <div key={i} className="space-y-1">
+                  <p><span className="text-emerald-400">miltos@admin:~$</span> {item.cmd}</p>
+                  {item.output}
                 </div>
-                <div className="space-y-1">
-                  <p><span className="text-cyan-400 font-bold">OS:</span> Debian GNU/Linux 12 (bookworm)</p>
-                  <p><span className="text-cyan-400 font-bold">Host:</span> Proxmox Virtual Environment</p>
-                  <p><span className="text-cyan-400 font-bold">Uptime:</span> 99.9% High Availability</p>
-                  <p><span className="text-cyan-400 font-bold">Stack:</span> Next.js, Tailwind, TypeScript</p>
-                  <p><span className="text-cyan-400 font-bold">Services:</span> Docker, Tailscale, Nextcloud</p>
-                  <p><span className="text-cyan-400 font-bold">Status:</span> <span className="text-emerald-400 bg-emerald-400/10 px-1 py-0.5 rounded">{t.termStatus}</span></p>
-                </div>
-              </div>
-              <p className="pt-2"><span className="text-emerald-400">miltos@admin:~$</span> <span className="animate-pulse">_</span></p>
+              ))}
+
+              <form onSubmit={handleTerminalSubmit} className="flex items-center gap-2 mt-2">
+                <span className="text-emerald-400 shrink-0">miltos@admin:~$</span>
+                <input
+                  id="term-input"
+                  type="text"
+                  value={termInput}
+                  onChange={(e) => setTermInput(e.target.value)}
+                  className="flex-1 bg-transparent outline-none border-none text-white focus:ring-0 p-0 m-0 min-w-0"
+                  autoComplete="off"
+                  spellCheck="false"
+                />
+              </form>
+              <div ref={terminalEndRef} />
             </div>
           </div>
         </section>
@@ -656,7 +729,7 @@ export default function Home() {
             <p className="text-xs text-zinc-400 mb-6">{t.contactSub}</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleContactSubmit} className="space-y-5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
                 <label className="block text-xs font-medium text-zinc-300 mb-2">{t.formName}</label>

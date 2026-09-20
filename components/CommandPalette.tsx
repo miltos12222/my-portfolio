@@ -7,7 +7,6 @@ import { toast } from "sonner";
 
 export default function CommandPalette() {
     const [open, setOpen] = useState(false);
-    // ΤΟ ΣΩΣΤΟ EMAIL ΣΟΥ
     const EMAIL = "miltospapageorgiu066@gmail.com";
 
     useEffect(() => {
