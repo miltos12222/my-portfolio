@@ -16,8 +16,8 @@ export default function Home() {
   const [stackOpen, setStackOpen] = useState(false);
   const [resilienceOpen, setResilienceOpen] = useState(false);
 
-  // States για τη φόρμα και το Resend API
-  const [selectedPlan, setSelectedPlan] = useState("Web Development");
+  // States για τη φόρμα επικοινωνίας
+  const [selectedPlan, setSelectedPlan] = useState("Modern Web App");
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -26,7 +26,7 @@ export default function Home() {
     window.scrollTo(0, 0);
   }, []);
 
-  // Σύνδεση με το Resend API route (/api/contact)
+  // Συνάρτηση υποβολής φόρμας
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -40,21 +40,24 @@ export default function Home() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          service: selectedPlan,
+          serviceTitle: selectedPlan,
+          servicePrice: "Custom Quote",
           message: formData.message,
         }),
       });
 
-      if (res.ok) {
+      const data = await res.json();
+
+      if (res.ok && !data.error) {
         setFormSubmitted(true);
         setFormData({ name: "", email: "", message: "" });
         setTimeout(() => setFormSubmitted(false), 5000);
       } else {
-        alert("Κάτι πήγε λάθος κατά την αποστολή. Παρακαλώ δοκιμάστε ξανά.");
+        alert(`Σφάλμα: ${data.error || "Αποτυχία αποστολής."}`);
       }
     } catch (error) {
-      console.error("Σφάλμα αποστολής:", error);
-      alert("Σφάλμα σύνδεσης. Δοκιμάστε ξανά σε λίγο.");
+      console.error("Σφάλμα δικτύου:", error);
+      alert("Σφάλμα σύνδεσης με τον διακομιστή.");
     } finally {
       setIsSubmitting(false);
     }
@@ -445,7 +448,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Package 1 */}
-            <div className={`rounded-2xl p-6 border flex flex-col justify-between transition-all ${selectedPlan === "Web Development" ? "bg-cyan-500/10 border-cyan-500/40" : "bg-white/[0.03] border-white/10"}`}>
+            <div className={`rounded-2xl p-6 border flex flex-col justify-between transition-all ${selectedPlan === "Modern Web App" ? "bg-cyan-500/10 border-cyan-500/40" : "bg-white/[0.03] border-white/10"}`}>
               <div>
                 <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider">Web Apps</span>
                 <h3 className="text-lg font-bold text-white mt-1 mb-2">Modern Web App</h3>
@@ -457,10 +460,10 @@ export default function Home() {
                 </ul>
               </div>
               <button
-                onClick={() => setSelectedPlan("Web Development")}
-                className={`w-full py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${selectedPlan === "Web Development" ? "bg-cyan-500 text-black font-semibold" : "bg-white/10 hover:bg-white/20 text-white"}`}
+                onClick={() => setSelectedPlan("Modern Web App")}
+                className={`w-full py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${selectedPlan === "Modern Web App" ? "bg-cyan-500 text-black font-semibold" : "bg-white/10 hover:bg-white/20 text-white"}`}
               >
-                {selectedPlan === "Web Development" ? "Επιλεγμένο" : "Επιλογή Πακέτου"}
+                {selectedPlan === "Modern Web App" ? "Επιλεγμένο" : "Επιλογή Πακέτου"}
               </button>
             </div>
 

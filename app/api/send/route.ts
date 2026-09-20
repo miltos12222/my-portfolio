@@ -20,7 +20,7 @@ export async function POST(req: Request) {
 
     const data = await resend.emails.send({
       from: "Portfolio Orders <onboarding@resend.dev>",
-      to: ["elanaspww@gmail.com"], // <-- ΑΥΤΟ ΕΙΝΑΙ ΤΟ EMAIL ΤΟΥ RESEND ACCOUNT ΣΟΥ!
+      to: ["elanaspww@gmail.com"],
       replyTo: email ? String(email) : undefined,
       subject: `Νέα Παραγγελία: ${serviceTitle || "Υπηρεσία"} - ${name || "Πελάτης"}`,
       html: `
