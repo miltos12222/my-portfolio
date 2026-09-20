@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Check, ShoppingBag, ArrowRight, ArrowLeft, Send, Briefcase, Cpu } from "lucide-react";
+import { Check, ShoppingBag, ArrowRight, ArrowLeft, Send, Briefcase, Cpu, Server } from "lucide-react";
 import { toast } from "sonner";
 
 export default function ServicesPage() {
@@ -70,7 +70,6 @@ export default function ServicesPage() {
     }, 0);
 
     const grandTotal = servicesTotal + addonsTotal;
-
     const summaryText = [...selectedServices, ...selectedAddons.map(id => addonsList.find(a => a.id === id)?.name || "")].filter(Boolean).join(" + ");
 
     const handleOrderSubmit = async (e: React.FormEvent) => {
@@ -90,14 +89,14 @@ export default function ServicesPage() {
             });
             const data = await res.json();
             if (res.ok && !data.error) {
-                toast.success("Το αίτημά σας στάλθηκε με επιτυχία! Θα επικοινωνήσω μαζί σας άμεσα.");
+                toast.success("Το αίτημά σας στάλθηκε με επιτυχία!");
                 setFormData({ name: "", email: "", message: "" });
             } else {
                 toast.error(`Αποτυχία αποστολής (${data.error || "Unknown"})`);
             }
         } catch (err) {
             console.error(err);
-            toast.error("Σφάλμα σύνδεσης με τον διακομιστή.");
+            toast.error("Σφάλμα σύνδεσης.");
         } finally {
             setIsSubmitting(false);
         }
@@ -109,7 +108,7 @@ export default function ServicesPage() {
 
             <main className="relative w-full pt-32 pb-32 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-10">
 
-                {/* Navigation Switcher Tabs */}
+                {/* Unified Hub Switcher */}
                 <div className="flex flex-wrap justify-center items-center gap-2 mb-6">
                     <a href="/" className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all cursor-pointer">
                         <Briefcase className="w-3.5 h-3.5 text-purple-400" />
@@ -117,197 +116,100 @@ export default function ServicesPage() {
                     </a>
                     <a href="/services" className="flex items-center gap-2 px-3 py-2 rounded-xl bg-cyan-500 text-black text-xs font-bold transition-all shadow-lg shadow-cyan-500/20 cursor-pointer">
                         <ShoppingBag className="w-3.5 h-3.5" />
-                        <span>Agency & Υπηρεσίες (Active)</span>
+                        <span>Agency Web (Active)</span>
+                    </a>
+                    <a href="/devops" className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all cursor-pointer">
+                        <Server className="w-3.5 h-3.5 text-purple-400" />
+                        <span>DevOps & Cloud</span>
                     </a>
                     <a href="/hardware" className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all cursor-pointer">
                         <Cpu className="w-3.5 h-3.5 text-emerald-400" />
-                        <span>Custom PC & Hardware</span>
+                        <span>Hardware Lab</span>
                     </a>
                 </div>
 
-                {/* Header */}
                 <div className="text-center max-w-2xl mx-auto space-y-3">
                     <span className="text-xs font-mono px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
-                        Miltos Papageorgiou • Commercial Hub
+                        Commercial Hub • Web Agency
                     </span>
                     <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
-                        Εμπορικός Κατάλογος & Service Builder
+                        Εμπορικός Κατάλογος Υπηρεσιών
                     </h1>
-                    <p className="text-sm text-zinc-400">
-                        Διαμορφώστε το δικό σας πακέτο, δείτε το κόστος ζωντανά και στείλτε το αίτημά σας.
-                    </p>
+                    <p className="text-sm text-zinc-400">Διαμορφώστε το δικό σας πακέτο και ζητήστε προσφορά.</p>
                 </div>
 
-                {/* Wizard Steps Bar */}
                 <div className="flex justify-center items-center gap-2 sm:gap-4 text-xs font-mono">
-                    <button onClick={() => setStep(1)} className={`px-3 sm:px-4 py-2 rounded-xl border cursor-pointer ${step === 1 ? "bg-cyan-500 text-black font-bold border-cyan-500" : "bg-white/[0.03] border-white/10 text-zinc-400"}`}>
-                        1. Κατάλογος
-                    </button>
-                    <button onClick={() => setStep(2)} className={`px-3 sm:px-4 py-2 rounded-xl border cursor-pointer ${step === 2 ? "bg-cyan-500 text-black font-bold border-cyan-500" : "bg-white/[0.03] border-white/10 text-zinc-400"}`}>
-                        2. Add-ons
-                    </button>
-                    <button onClick={() => setStep(3)} className={`px-3 sm:px-4 py-2 rounded-xl border cursor-pointer ${step === 3 ? "bg-cyan-500 text-black font-bold border-cyan-500" : "bg-white/[0.03] border-white/10 text-zinc-400"}`}>
-                        3. Υποβολή
-                    </button>
+                    <button onClick={() => setStep(1)} className={`px-4 py-2 rounded-xl border cursor-pointer ${step === 1 ? "bg-cyan-500 text-black font-bold border-cyan-500" : "bg-white/[0.03] border-white/10 text-zinc-400"}`}>1. Κατάλογος</button>
+                    <button onClick={() => setStep(2)} className={`px-4 py-2 rounded-xl border cursor-pointer ${step === 2 ? "bg-cyan-500 text-black font-bold border-cyan-500" : "bg-white/[0.03] border-white/10 text-zinc-400"}`}>2. Add-ons</button>
+                    <button onClick={() => setStep(3)} className={`px-4 py-2 rounded-xl border cursor-pointer ${step === 3 ? "bg-cyan-500 text-black font-bold border-cyan-500" : "bg-white/[0.03] border-white/10 text-zinc-400"}`}>3. Υποβολή</button>
                 </div>
 
-                {/* STEP 1: SELECT SERVICES */}
                 {step === 1 && (
                     <div className="space-y-6 animate-fade-in">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {catalog.map((item, i) => {
                                 const isSelected = selectedServices.includes(item.title);
                                 return (
-                                    <div
-                                        key={i}
-                                        onClick={() => toggleService(item.title)}
-                                        className={`p-6 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between ${isSelected ? "bg-cyan-500/10 border-cyan-500 shadow-[0_0_25px_-5px_rgba(6,182,212,0.2)]" : "bg-white/[0.02] border-white/10 hover:border-white/20"}`}
-                                    >
+                                    <div key={i} onClick={() => toggleService(item.title)} className={`p-6 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between ${isSelected ? "bg-cyan-500/10 border-cyan-500 shadow-lg" : "bg-white/[0.02] border-white/10 hover:border-white/20"}`}>
                                         <div>
                                             <div className="flex justify-between items-center mb-2">
-                                                <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-wider font-bold">{item.cat}</span>
-                                                {isSelected && <span className="text-xs font-mono bg-cyan-500 text-black px-2 py-0.5 rounded-full font-bold flex items-center gap-1"><Check className="w-3 h-3" /> Επιλεγμένο</span>}
+                                                <span className="text-[10px] font-mono text-cyan-400 font-bold">{item.cat}</span>
+                                                {isSelected && <span className="text-xs font-mono bg-cyan-500 text-black px-2 py-0.5 rounded-full font-bold">Επιλεγμένο</span>}
                                             </div>
                                             <h3 className="text-lg font-bold text-white">{item.title}</h3>
-                                            <p className="text-xs text-zinc-400 mt-1 mb-4 leading-relaxed">{item.desc}</p>
+                                            <p className="text-xs text-zinc-400 mt-1 mb-4">{item.desc}</p>
                                         </div>
                                         <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                                            <span className="text-xl font-bold font-mono text-white">{item.price}€ <span className="text-xs text-zinc-500 font-normal">{item.hourly ? '/ ώρα' : 'από'}</span></span>
-                                            <span className={`text-xs px-3 py-1.5 rounded-xl font-medium transition-all ${isSelected ? "bg-cyan-500 text-black font-bold" : "bg-white/10 text-white"}`}>
-                                                {isSelected ? "Επιλεγμένο" : "Προσθήκη"}
-                                            </span>
+                                            <span className="text-xl font-bold font-mono text-white">{item.price}€</span>
+                                            <span className={`text-xs px-3 py-1.5 rounded-xl font-medium ${isSelected ? "bg-cyan-500 text-black font-bold" : "bg-white/10 text-white"}`}>{isSelected ? "Επιλεγμένο" : "Προσθήκη"}</span>
                                         </div>
                                     </div>
                                 );
                             })}
                         </div>
-
                         <div className="flex justify-between items-center pt-6 border-t border-white/10">
-                            <div className="text-sm font-mono">
-                                Επιλεγμένες: <span className="text-cyan-400 font-bold">{selectedServices.length}</span> | Σύνολο: <span className="text-cyan-400 font-bold text-xl">{grandTotal}€</span>
-                            </div>
-                            <button
-                                onClick={() => setStep(2)}
-                                className="flex items-center gap-2 px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs transition-all cursor-pointer"
-                            >
-                                <span>Συνέχεια (Add-ons)</span>
-                                <ArrowRight className="w-4 h-4" />
-                            </button>
+                            <span className="text-sm font-mono text-cyan-400 font-bold">Σύνολο: {grandTotal}€</span>
+                            <button onClick={() => setStep(2)} className="px-6 py-3 rounded-xl bg-cyan-500 text-black font-bold text-xs cursor-pointer flex items-center gap-2"><span>Συνέχεια</span><ArrowRight className="w-4 h-4" /></button>
                         </div>
                     </div>
                 )}
 
-                {/* STEP 2: SELECT ADD-ONS */}
                 {step === 2 && (
-                    <div className="space-y-6 animate-fade-in max-w-2xl mx-auto">
+                    <div className="space-y-6 max-w-2xl mx-auto">
                         <div className="bg-white/[0.02] border border-white/10 p-8 rounded-3xl space-y-4">
-                            <h2 className="text-lg font-bold text-white">Πρόσθετα Εργαλεία & Add-ons</h2>
-                            <p className="text-xs text-zinc-400">Επιλέξτε επιπλέον δυνατότητες για την αναβάθμιση του project σας.</p>
-
-                            <div className="space-y-3 pt-2">
-                                {addonsList.map((addon) => {
-                                    const isChecked = selectedAddons.includes(addon.id);
-                                    return (
-                                        <div
-                                            key={addon.id}
-                                            onClick={() => toggleAddon(addon.id)}
-                                            className={`p-4 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${isChecked ? "bg-purple-500/10 border-purple-500" : "bg-white/[0.02] border-white/10 hover:border-white/20"}`}
-                                        >
-                                            <div className="flex items-center gap-3">
-                                                <div className={`w-5 h-5 rounded-lg border flex items-center justify-center ${isChecked ? "bg-purple-500 border-purple-500 text-black" : "border-white/20"}`}>
-                                                    {isChecked && <Check className="w-3.5 h-3.5 font-bold" />}
-                                                </div>
-                                                <span className="text-sm font-medium text-white">{addon.name}</span>
-                                            </div>
-                                            <span className="text-sm font-mono font-bold text-purple-400">+{addon.price}€</span>
-                                        </div>
-                                    );
-                                })}
-                            </div>
+                            <h2 className="text-lg font-bold text-white">Πρόσθετα Add-ons</h2>
+                            {addonsList.map((addon) => {
+                                const isChecked = selectedAddons.includes(addon.id);
+                                return (
+                                    <div key={addon.id} onClick={() => toggleAddon(addon.id)} className={`p-4 rounded-2xl border cursor-pointer flex items-center justify-between ${isChecked ? "bg-purple-500/10 border-purple-500" : "bg-white/[0.02] border-white/10"}`}>
+                                        <span className="text-sm font-medium text-white">{addon.name}</span>
+                                        <span className="text-sm font-mono font-bold text-purple-400">+{addon.price}€</span>
+                                    </div>
+                                );
+                            })}
                         </div>
-
-                        <div className="flex justify-between items-center pt-4">
-                            <button onClick={() => setStep(1)} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-xs transition-all cursor-pointer">
-                                <ArrowLeft className="w-4 h-4" />
-                                <span>Πίσω</span>
-                            </button>
-                            <button onClick={() => setStep(3)} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs transition-all cursor-pointer">
-                                <span>Επισκόπηση & Αίτηση</span>
-                                <ArrowRight className="w-4 h-4" />
-                            </button>
+                        <div className="flex justify-between">
+                            <button onClick={() => setStep(1)} className="px-6 py-3 rounded-xl bg-white/10 text-white text-xs cursor-pointer">Πίσω</button>
+                            <button onClick={() => setStep(3)} className="px-6 py-3 rounded-xl bg-cyan-500 text-black font-bold text-xs cursor-pointer">Επισκόπηση</button>
                         </div>
                     </div>
                 )}
 
-                {/* STEP 3: SUMMARY & CONTACT FORM */}
                 {step === 3 && (
-                    <div className="space-y-6 animate-fade-in max-w-2xl mx-auto">
-                        <div className="bg-white/[0.03] border border-cyan-500/30 p-6 rounded-3xl space-y-4">
-                            <div className="flex justify-between items-center pb-3 border-b border-white/10">
-                                <h3 className="text-sm font-bold text-cyan-400 uppercase tracking-wider font-mono">Σύνοψη Καλαθιού</h3>
-                                <button onClick={() => setStep(1)} className="text-xs text-zinc-400 hover:text-white underline cursor-pointer">[ Edit Επιλογών ]</button>
-                            </div>
-                            <div className="space-y-2 text-xs text-zinc-300">
-                                {selectedServices.map((sTitle, idx) => {
-                                    const f = catalog.find(c => c.title === sTitle);
-                                    return (
-                                        <div key={idx} className="flex justify-between">
-                                            <span>• {sTitle}</span>
-                                            <span className="font-mono">{f?.price || 0}€</span>
-                                        </div>
-                                    );
-                                })}
-                                {selectedAddons.map((id, idx) => {
-                                    const f = addonsList.find(a => a.id === id);
-                                    return f ? (
-                                        <div key={idx} className="flex justify-between text-purple-300">
-                                            <span>+ {f.name}</span>
-                                            <span className="font-mono">{f.price}€</span>
-                                        </div>
-                                    ) : null;
-                                })}
-                            </div>
-                            <div className="pt-3 border-t border-white/10 flex justify-between items-center">
-                                <span className="text-sm font-bold text-white">Τελικό Κόστος:</span>
-                                <span className="text-2xl font-bold font-mono text-cyan-400">{grandTotal}€</span>
-                            </div>
-                        </div>
-
+                    <div className="space-y-6 max-w-2xl mx-auto">
                         <div className="bg-white/[0.02] border border-white/10 p-8 rounded-3xl space-y-6">
                             <h2 className="text-xl font-bold text-white">Ολοκλήρωση Αιτήματος</h2>
                             <form onSubmit={handleOrderSubmit} className="space-y-5">
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                    <div>
-                                        <label className="block text-xs font-medium text-zinc-300 mb-2">Όνομα / Επωνυμία</label>
-                                        <input type="text" required placeholder="Γιάννης Παπαδόπουλος" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-xs font-medium text-zinc-300 mb-2">Email Επικοινωνίας</label>
-                                        <input type="email" required placeholder="example@domain.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-medium text-zinc-300 mb-2">Επιλεγμένες Υπηρεσίες</label>
-                                    <input type="text" readOnly value={summaryText} className="w-full px-4 py-3 rounded-xl bg-cyan-500/5 border border-cyan-500/20 text-cyan-400 font-mono text-xs cursor-not-allowed" />
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-medium opacity-80 mb-2">Σχόλια / Λεπτομέρειες</label>
-                                    <textarea rows={3} placeholder="Περιγράψτε τυχόν πρόσθετες απαιτήσεις..." value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-sm focus:outline-none focus:border-cyan-500 resize-none" />
-                                </div>
-                                <div className="flex gap-3">
-                                    <button type="button" onClick={() => setStep(2)} className="px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-xs cursor-pointer">Πίσω</button>
-                                    <button type="submit" disabled={isSubmitting} className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-black font-bold text-sm shadow cursor-pointer">
-                                        <Send className="w-4 h-4" />
-                                        <span>{isSubmitting ? "Αποστολή..." : "Αποστολή Ολοκληρωμένου Αιτήματος"}</span>
-                                    </button>
-                                </div>
+                                <input type="text" required placeholder="Όνομα" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm" />
+                                <input type="email" required placeholder="Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm" />
+                                <textarea rows={3} placeholder="Σχόλια..." value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-sm resize-none" />
+                                <button type="submit" disabled={isSubmitting} className="w-full py-3.5 rounded-xl bg-cyan-500 text-black font-bold text-sm cursor-pointer">Αποστολή</button>
                             </form>
                         </div>
                     </div>
                 )}
 
             </main>
-
             <Footer />
         </div>
     );

@@ -70,7 +70,7 @@ export default function Navbar() {
             </div>
           </a>
 
-          {/* Navigation Links / Hub Switcher */}
+          {/* Navigation Hub Switcher */}
           <nav className="hidden lg:flex items-center gap-1 bg-white/[0.03] border border-white/10 px-3 py-1.5 rounded-full shadow-inner text-xs font-mono">
             <a href="/" className={`px-3 py-1 rounded-full transition-colors ${pathname === "/" ? "bg-white/10 text-white font-bold" : "text-zinc-400 hover:text-white"}`}>CV</a>
             <a href="/services" className={`px-3 py-1 rounded-full transition-colors ${isServicesPage ? "bg-cyan-500/20 text-cyan-400 font-bold" : "text-zinc-400 hover:text-white"}`}>Web Agency</a>
