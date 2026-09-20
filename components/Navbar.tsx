@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Terminal, Mail, Briefcase, ShoppingBag, Cpu, Server, X, Search, ArrowRight, Coffee } from "lucide-react";
+import { Terminal, Mail, Briefcase, ShoppingBag, Cpu, Server, X, Search, ArrowRight, Coffee, Zap } from "lucide-react";
+import { toast } from "sonner";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -14,6 +15,54 @@ export default function Navbar() {
 
   const [isCmdOpen, setIsCmdOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [hackerMode, setHackerMode] = useState(false);
+
+  // --- KONAMI CODE EASTER EGG LISTENER ---
+  useEffect(() => {
+    const konamiKeys = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+    let cursor = 0;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Command + K for Command Palette
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setIsCmdOpen(prev => !prev);
+      }
+      if (e.key === "Escape") {
+        setIsCmdOpen(false);
+      }
+
+      // Konami Code Sequence Check
+      const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+      const expected = konamiKeys[cursor].toLowerCase();
+
+      if (key === expected) {
+        cursor++;
+        if (cursor === konamiKeys.length) {
+          setHackerMode(prev => !prev);
+          toast.success("🔓 KONAMI CODE UNLOCKED: Matrix Hacker Mode Activated!", {
+            description: "Root privileges granted. Welcome to the core system, Miltos.",
+            duration: 5000,
+          });
+          cursor = 0;
+        }
+      } else {
+        cursor = 0;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // Ενεργοποίηση/Απενεργοποίηση Hacker Mode στο root document class
+  useEffect(() => {
+    if (hackerMode) {
+      document.documentElement.classList.add("matrix-hacker-mode");
+    } else {
+      document.documentElement.classList.remove("matrix-hacker-mode");
+    }
+  }, [hackerMode]);
 
   // --- GLOBAL SCROLL REVEAL OBSERVER HOOK ---
   useEffect(() => {
@@ -38,27 +87,6 @@ export default function Navbar() {
 
     return () => observer.disconnect();
   }, [pathname]);
-
-  useEffect(() => {
-    const handleOpen = () => setIsCmdOpen(true);
-    window.addEventListener("open-command-palette", handleOpen);
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        setIsCmdOpen(prev => !prev);
-      }
-      if (e.key === "Escape") {
-        setIsCmdOpen(false);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("open-command-palette", handleOpen);
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
 
   const getHref = (id: string) => {
     return isSubPage ? `/${id}` : id;
@@ -107,6 +135,11 @@ export default function Navbar() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-3">
+            {hackerMode && (
+              <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-[10px] font-mono text-emerald-400 animate-pulse">
+                <Zap className="w-3 h-3" /> ROOT MODE
+              </span>
+            )}
             <button
               onClick={() => setIsCmdOpen(true)}
               className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-mono text-zinc-300 transition-all cursor-pointer"
