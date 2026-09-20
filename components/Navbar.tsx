@@ -29,15 +29,15 @@ export default function Navbar() {
           </div>
         </a>
 
-        {/* Navigation Links (Conditional based on active page) */}
+        {/* Navigation Links */}
         {!isServicesPage && !isHardwarePage ? (
           <nav className="hidden md:flex items-center gap-1 bg-white/[0.03] border border-white/10 px-4 py-2 rounded-full shadow-inner">
-            <a href="#overview" className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Overview</a>
-            <a href="#about-me" className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">About Me</a>
-            <a href="#infrastructure" className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Infrastructure</a>
-            <a href="#resilience" className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Resilience</a>
-            <a href="#projects" className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Projects</a>
-            <a href="#contact" className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Contact</a>
+            <a href={getHref("#overview")} className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Overview</a>
+            <a href={getHref("#about-me")} className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">About Me</a>
+            <a href={getHref("#infrastructure")} className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Infrastructure</a>
+            <a href={getHref("#resilience")} className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Resilience</a>
+            <a href={getHref("#projects")} className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Projects</a>
+            <a href={getHref("#contact")} className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Contact</a>
           </nav>
         ) : (
           <nav className="hidden md:flex items-center gap-2 bg-white/[0.03] border border-white/10 px-4 py-1.5 rounded-full text-xs font-mono">
