@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ServicesSection from "@/components/ServicesSection";
+import Testimonials from "@/components/Testimonials";
 import Image from "next/image";
 import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown } from "lucide-react";
 import { GithubIcon } from "@/components/SocialIcons";
@@ -439,6 +440,9 @@ export default function Home() {
 
         {/* SECTION: SERVICES & PACKAGES */}
         <ServicesSection />
+
+        {/* SECTION: TESTIMONIALS & RATINGS */}
+        <Testimonials />
 
         {/* Contact Anchor */}
         <div id="contact" className="h-px w-px" />
