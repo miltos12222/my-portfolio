@@ -8,7 +8,7 @@ import ServicesSection from "@/components/ServicesSection";
 import Testimonials from "@/components/Testimonials";
 import Image from "next/image";
 import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown } from "lucide-react";
-import { GithubIcon } from "@/components/SocialIcons";
+import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 
 export default function Home() {
   // States για όλα τα collapsible cards & sections
@@ -82,6 +82,18 @@ export default function Home() {
                 <GithubIcon className="w-4 h-4" />
                 <span>GitHub Profile</span>
               </a>
+
+              {/* LinkedIn Button */}
+              <a
+                href="https://www.linkedin.com/in/miltos-papageorgiou"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A66C2]/20 hover:bg-[#0A66C2]/30 border border-[#0A66C2]/40 text-xs font-medium text-blue-300 transition-all"
+              >
+                <LinkedinIcon className="w-4 h-4 text-[#0A66C2]" />
+                <span>LinkedIn</span>
+              </a>
+
               <a
                 href="mailto:miltospapageorgiou066@gmail.com"
                 className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-xs font-medium text-cyan-300 transition-all"
