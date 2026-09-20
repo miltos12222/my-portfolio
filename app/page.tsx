@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag, Moon, Zap, Sun, Coffee } from "lucide-react";
+import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag, Moon, Zap, Sun, Coffee, Network, HardDrive, Shield, Database } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
 
@@ -47,6 +47,9 @@ const translations = {
     servicesBannerTitle: "Ψάχνετε Υπηρεσίες Web Development & Homelab?",
     servicesBannerDesc: "Επισκεφθείτε τον εμπορικό μας κατάλογο, επιλέξτε πολλαπλές υπηρεσίες και φτιάξτε το custom πακέτο σας ζωντανά.",
     servicesBannerBtn: "Μετάβαση στον Κατάλογο Υπηρεσιών ➔",
+
+    topoTitle: "Interactive Homelab Architecture Topology",
+    topoSub: "Κάντε κλικ σταnodes της υποδομής για να δείτε τα live specs και τους ρόλους τους.",
 
     faqTitle: "Συχνές Ερωτήσεις (FAQ)",
     faqSub: "Όλες οι απαντήσεις σχετικά με τη διαδικασία συνεργασίας και τις τεχνικές λεπτομέρειες.",
@@ -137,6 +140,9 @@ const translations = {
     servicesBannerDesc: "Visit our commercial catalog, select multiple services, and build your custom package live.",
     servicesBannerBtn: "Go to Services Catalog ➔",
 
+    topoTitle: "Interactive Homelab Architecture Topology",
+    topoSub: "Click on infrastructure nodes to view live specs and roles.",
+
     faqTitle: "Frequently Asked Questions (FAQ)",
     faqSub: "Everything you need to know about our collaboration process and technical details.",
     faqList: [
@@ -204,6 +210,21 @@ export default function Home() {
   const [stackOpen, setStackOpen] = useState(false);
   const [resilienceOpen, setResilienceOpen] = useState(false);
 
+  // --- TOPOLOGY INTERACTIVE STATE ---
+  const [selectedNode, setSelectedNode] = useState<{ name: string; type: string; specs: string; desc: string } | null>({
+    name: "Proxmox VE Hypervisor",
+    type: "Core Host",
+    specs: "Intel Xeon / 64GB RAM / ZFS RAID-1",
+    desc: "Κεντρικός hypervisor που τρέχει όλα τα virtual machines, LXC containers και υπηρεσίες υψηλής διαθεσιμότητας."
+  });
+
+  const topologyNodes = [
+    { name: "Proxmox VE", type: "Hypervisor", icon: <Server className="w-5 h-5 text-cyan-400" />, specs: "64GB RAM / ZFS RAID-1", desc: "Κεντρικός hypervisor που διαχειρίζεται τα VMs και τα containers." },
+    { name: "Tailscale Mesh", type: "Virtual Network", icon: <Network className="w-5 h-5 text-emerald-400" />, specs: "Encrypted WireGuard VPN", desc: "Ασφαλής διασύνδεση όλων των nodes χωρίς public port exposure." },
+    { name: "Nextcloud", type: "Storage & Sync", icon: <HardDrive className="w-5 h-5 text-blue-400" />, specs: "Unlimited Photo / File Sync", desc: "Private cloud αποθήκευσης και αυτόματου συγχρονισμού αρχείων." },
+    { name: "MariaDB & Docker", type: "Database & Containers", icon: <Database className="w-5 h-5 text-purple-400" />, specs: "Containerized Microservices", desc: "Οργάνωση υπηρεσιών σε Docker containers με αυτόνομα persistent volumes." },
+  ];
+
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -217,7 +238,6 @@ export default function Home() {
       const gain = ctx.createGain();
 
       osc.type = "triangle";
-      // Mechanical switch pitch simulation
       osc.frequency.setValueAtTime(120 + Math.random() * 80, ctx.currentTime);
 
       gain.gain.setValueAtTime(0.08, ctx.currentTime);
@@ -547,6 +567,51 @@ export default function Home() {
               <button onClick={() => setEthicOpen(!ethicOpen)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer"><span>{ethicOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${ethicOpen ? "rotate-180" : ""}`} /></button>
             </div>
           </div>
+        </section>
+
+        {/* INTERACTIVE HOMELAB ARCHITECTURE TOPOLOGY SECTION */}
+        <section className={`reveal-on-scroll rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 transition-colors`}>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center shrink-0">
+              <Network className="w-5 h-5 text-cyan-400" />
+            </div>
+            <div>
+              <h2 className="text-lg sm:text-xl font-bold">{t.topoTitle}</h2>
+              <p className="text-xs opacity-70">{t.topoSub}</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+            {topologyNodes.map((node, i) => (
+              <button
+                key={i}
+                onClick={() => setSelectedNode(node)}
+                className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between space-y-3 ${selectedNode?.name === node.name
+                    ? "bg-cyan-500/15 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.15)] scale-[1.02]"
+                    : "bg-white/[0.02] border-white/10 hover:bg-white/[0.05]"
+                  }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="p-2 rounded-xl bg-black/40 border border-white/10">{node.icon}</div>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-cyan-300">{node.type}</span>
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-white mb-1">{node.name}</h3>
+                  <p className="text-[11px] font-mono text-cyan-400">{node.specs}</p>
+                </div>
+              </button>
+            ))}
+          </div>
+
+          {selectedNode && (
+            <div className="p-5 rounded-2xl bg-black/40 border border-cyan-500/30 flex items-start gap-4 animate-fade-in font-mono text-xs">
+              <Shield className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <span className="text-cyan-400 font-bold uppercase tracking-wider">&gt; node_inspect --target={selectedNode.name}</span>
+                <p className="text-zinc-300 font-sans leading-relaxed pt-1">{selectedNode.desc}</p>
+              </div>
+            </div>
+          )}
         </section>
 
         {/* LIVE LEARNING & ROADMAP HISTORY */}
