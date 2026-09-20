@@ -2,17 +2,17 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Terminal, Mail, Briefcase, ShoppingBag, Cpu, X, Search, ArrowRight } from "lucide-react";
+import { Terminal, Mail, Briefcase, ShoppingBag, Cpu, Server, X, Search, ArrowRight } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
   const isServicesPage = pathname === "/services";
   const isHardwarePage = pathname === "/hardware";
+  const isDevopsPage = pathname === "/devops";
 
   const [isCmdOpen, setIsCmdOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Listen for global command palette trigger (Ctrl+K or button click)
   useEffect(() => {
     const handleOpen = () => setIsCmdOpen(true);
     window.addEventListener("open-command-palette", handleOpen);
@@ -35,12 +35,13 @@ export default function Navbar() {
   }, []);
 
   const getHref = (id: string) => {
-    return (isServicesPage || isHardwarePage) ? `/${id}` : id;
+    return (isServicesPage || isHardwarePage || isDevopsPage) ? `/${id}` : id;
   };
 
   const navLinks = [
     { name: "Βιογραφικό & Projects", href: "/" },
-    { name: "Agency & Υπηρεσίες", href: "/services" },
+    { name: "Agency Web", href: "/services" },
+    { name: "DevOps & Cloud", href: "/devops" },
     { name: "Custom PC & Hardware", href: "/hardware" },
     { name: "Overview", href: getHref("#overview") },
     { name: "Infrastructure", href: getHref("#infrastructure") },
@@ -69,14 +70,14 @@ export default function Navbar() {
           </a>
 
           {/* Navigation Links */}
-          {!isServicesPage && !isHardwarePage ? (
+          {!isServicesPage && !isHardwarePage && !isDevopsPage ? (
             <nav className="hidden md:flex items-center gap-1 bg-white/[0.03] border border-white/10 px-4 py-2 rounded-full shadow-inner">
-              <a href="#overview" className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Overview</a>
-              <a href="#about-me" className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">About Me</a>
-              <a href="#infrastructure" className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Infrastructure</a>
-              <a href="#resilience" className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Resilience</a>
-              <a href="#projects" className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Projects</a>
-              <a href="#contact" className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Contact</a>
+              <a href={getHref("#overview")} className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Overview</a>
+              <a href={getHref("#about-me")} className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">About Me</a>
+              <a href={getHref("#infrastructure")} className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Infrastructure</a>
+              <a href={getHref("#resilience")} className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Resilience</a>
+              <a href={getHref("#projects")} className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Projects</a>
+              <a href={getHref("#contact")} className="px-3 py-1 text-xs text-zinc-300 hover:text-white transition-colors">Contact</a>
             </nav>
           ) : (
             <nav className="hidden md:flex items-center gap-2 bg-white/[0.03] border border-white/10 px-4 py-1.5 rounded-full text-xs font-mono">
@@ -95,7 +96,7 @@ export default function Navbar() {
             </button>
 
             <a
-              href={isServicesPage || isHardwarePage ? "/#contact" : "#contact"}
+              href={isServicesPage || isHardwarePage || isDevopsPage ? "/#contact" : "#contact"}
               className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs transition-all shadow-lg shadow-cyan-500/20 cursor-pointer"
             >
               <Mail className="w-3.5 h-3.5" />
@@ -106,14 +107,13 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Command Palette Modal (Blur Background) */}
+      {/* Command Palette Modal */}
       {isCmdOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
           <div
             className="w-full max-w-lg bg-[#12131c] border border-white/15 rounded-3xl shadow-2xl overflow-hidden flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Search Input Bar */}
             <div className="flex items-center gap-3 px-5 py-4 border-b border-white/10">
               <Search className="w-4 h-4 text-zinc-400" />
               <input
@@ -132,7 +132,6 @@ export default function Navbar() {
               </button>
             </div>
 
-            {/* Results List */}
             <div className="p-3 max-h-72 overflow-y-auto space-y-1">
               {navLinks.length > 0 ? (
                 navLinks.map((link, idx) => (
@@ -153,7 +152,6 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Footer hint */}
             <div className="px-5 py-3 border-t border-white/5 bg-white/[0.01] flex justify-between items-center text-[10px] font-mono text-zinc-500">
               <span>Πλοήγηση με ταχύτητα</span>
               <span>ESC για κλείσιμο</span>
