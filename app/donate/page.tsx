@@ -10,7 +10,7 @@ export default function DonatePage() {
     const [copiedSol, setCopiedSol] = useState(false);
     const [customAmount, setCustomAmount] = useState("10");
 
-    const solAddress = "MiltosSolanaHardwareWalletAddressPlaceholder12345"; // Μπορείς να βάλεις τη δική σου διεύθυνση
+    const solAddress = "GSQm3QX5rpTBGacp9SSdmnyP7FX7U2ciUAF95FYRaMiJ";
 
     const handleCopySol = () => {
         navigator.clipboard.writeText(solAddress);
@@ -56,7 +56,7 @@ export default function DonatePage() {
                         </div>
 
                         <div className="space-y-3 pt-4 border-t border-white/10">
-                            <label className="block text-[11px] font-mono text-zinc-500">Solana Wallet Address:</label>
+                            <label className="block text-[11px] font-mono text-zinc-500">Solana Wallet Address (OKX):</label>
                             <div className="flex items-center gap-2 p-2.5 rounded-xl bg-black/40 border border-white/10 font-mono text-xs text-cyan-300">
                                 <span className="truncate flex-1">{solAddress}</span>
                                 <button
@@ -100,7 +100,7 @@ export default function DonatePage() {
                             </div>
 
                             <a
-                                href={`https://revolut.me/miltospap`} // Αντικατάστησε με το δικό σου revolut link
+                                href={`https://revolut.me/miltospap`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer"
