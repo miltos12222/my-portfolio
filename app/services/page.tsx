@@ -3,11 +3,11 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Check, ShoppingBag, ArrowRight, ArrowLeft, Trash2, Send, HelpCircle, ShieldCheck } from "lucide-react";
+import { Check, ShoppingBag, ArrowRight, ArrowLeft, Send, HelpCircle, ShieldCheck, FileText, Briefcase } from "lucide-react";
 import { toast } from "sonner";
 
 export default function ServicesPage() {
-    const [step, setStep] = useState<1 | 2 | 3>(1); // Step 1: Catalog, Step 2: Addons/Config, Step 3: Summary & Form
+    const [step, setStep] = useState<1 | 2 | 3>(1);
     const [selectedServices, setSelectedServices] = useState<{ title: string; price: number; hourly?: boolean }[]>([
         { title: "Full Enterprise Homelab", price: 280 }
     ]);
@@ -104,32 +104,50 @@ export default function ServicesPage() {
         <div className="relative min-h-screen bg-[#0b0c10] text-[#e5e7eb] selection:bg-cyan-500/25 selection:text-white w-full overflow-x-hidden">
             <Navbar />
 
-            <main className="relative w-full pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-10">
+            <main className="relative w-full pt-32 pb-32 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-10">
+
+                {/* Navigation Switcher Tabs (Χειροκίνητη εναλλαγή σελίδων) */}
+                <div className="flex justify-center items-center gap-3 mb-6">
+                    <a
+                        href="/"
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all cursor-pointer"
+                    >
+                        <Briefcase className="w-3.5 h-3.5 text-purple-400" />
+                        <span>Βιογραφικό & Projects</span>
+                    </a>
+                    <a
+                        href="/services"
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500 text-black text-xs font-bold transition-all shadow-lg shadow-cyan-500/20 cursor-pointer"
+                    >
+                        <ShoppingBag className="w-3.5 h-3.5" />
+                        <span>Agency & Υπηρεσίες (Active)</span>
+                    </a>
+                </div>
 
                 {/* Header */}
                 <div className="text-center max-w-2xl mx-auto space-y-3">
                     <span className="text-xs font-mono px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
-                        Miltos Papageorgiou • Agency Services
+                        Miltos Papageorgiou • Commercial Hub
                     </span>
                     <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
-                        Εμπορικός Κατάλογος Υπηρεσιών
+                        Εμπορικός Κατάλογος & Service Builder
                     </h1>
                     <p className="text-sm text-zinc-400">
-                        Φτιάξτε το δικό σας custom πακέτο υπηρεσιών, προσθέστε τα επιθυμητά addons και προχωρήστε σε αίτημα συνεργασίας.
+                        Διαμορφώστε το δικό σας πακέτο, δείτε το κόστος ζωντανά και στείλτε το αίτημά σας.
                     </p>
                 </div>
 
                 {/* Wizard Steps Bar */}
-                <div className="flex justify-center items-center gap-4 text-xs font-mono">
-                    <div className={`px-4 py-2 rounded-xl border ${step === 1 ? "bg-cyan-500 text-black font-bold border-cyan-500" : "bg-white/[0.03] border-white/10 text-zinc-400"}`}>
-                        1. Επιλογή Υπηρεσιών
-                    </div>
-                    <div className={`px-4 py-2 rounded-xl border ${step === 2 ? "bg-cyan-500 text-black font-bold border-cyan-500" : "bg-white/[0.03] border-white/10 text-zinc-400"}`}>
-                        2. Πρόσθετα (Add-ons)
-                    </div>
-                    <div className={`px-4 py-2 rounded-xl border ${step === 3 ? "bg-cyan-500 text-black font-bold border-cyan-500" : "bg-white/[0.03] border-white/10 text-zinc-400"}`}>
-                        3. Σύνοψη & Αίτηση
-                    </div>
+                <div className="flex justify-center items-center gap-2 sm:gap-4 text-xs font-mono">
+                    <button onClick={() => setStep(1)} className={`px-3 sm:px-4 py-2 rounded-xl border cursor-pointer ${step === 1 ? "bg-cyan-500 text-black font-bold border-cyan-500" : "bg-white/[0.03] border-white/10 text-zinc-400"}`}>
+                        1. Κατάλογος
+                    </button>
+                    <button onClick={() => setStep(2)} className={`px-3 sm:px-4 py-2 rounded-xl border cursor-pointer ${step === 2 ? "bg-cyan-500 text-black font-bold border-cyan-500" : "bg-white/[0.03] border-white/10 text-zinc-400"}`}>
+                        2. Add-ons
+                    </button>
+                    <button onClick={() => setStep(3)} className={`px-3 sm:px-4 py-2 rounded-xl border cursor-pointer ${step === 3 ? "bg-cyan-500 text-black font-bold border-cyan-500" : "bg-white/[0.03] border-white/10 text-zinc-400"}`}>
+                        3. Υποβολή
+                    </button>
                 </div>
 
                 {/* STEP 1: SELECT SERVICES */}
@@ -165,13 +183,13 @@ export default function ServicesPage() {
 
                         <div className="flex justify-between items-center pt-6 border-t border-white/10">
                             <div className="text-sm font-mono">
-                                Συνολικό Κόστος: <span className="text-cyan-400 font-bold text-xl">{grandTotal}€</span>
+                                Επιλεγμένες: <span className="text-cyan-400 font-bold">{selectedServices.length}</span> | Σύνολο: <span className="text-cyan-400 font-bold text-xl">{grandTotal}€</span>
                             </div>
                             <button
                                 onClick={() => setStep(2)}
                                 className="flex items-center gap-2 px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs transition-all cursor-pointer"
                             >
-                                <span>Συνέχεια στα Add-ons</span>
+                                <span>Συνέχεια (Add-ons)</span>
                                 <ArrowRight className="w-4 h-4" />
                             </button>
                         </div>
@@ -182,8 +200,8 @@ export default function ServicesPage() {
                 {step === 2 && (
                     <div className="space-y-6 animate-fade-in max-w-2xl mx-auto">
                         <div className="bg-white/[0.02] border border-white/10 p-8 rounded-3xl space-y-4">
-                            <h2 className="text-lg font-bold text-white">Επιλέξτε Επιπρόσθετες Υπηρεσίες (Optional)</h2>
-                            <p className="text-xs text-zinc-400">Ενισχύστε το πακέτο σας με επαγγελματικά εργαλεία.</p>
+                            <h2 className="text-lg font-bold text-white">Πρόσθετα Εργαλεία & Add-ons</h2>
+                            <p className="text-xs text-zinc-400">Επιλέξτε επιπλέον δυνατότητες για την αναβάθμιση του project σας.</p>
 
                             <div className="space-y-3 pt-2">
                                 {addonsList.map((addon) => {
@@ -213,28 +231,28 @@ export default function ServicesPage() {
                                 className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-xs transition-all cursor-pointer"
                             >
                                 <ArrowLeft className="w-4 h-4" />
-                                <span>Προηγούμενο</span>
+                                <span>Πίσω</span>
                             </button>
 
                             <button
                                 onClick={() => setStep(3)}
                                 className="flex items-center gap-2 px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs transition-all cursor-pointer"
                             >
-                                <span>Επισκόπηση & Υποβολή</span>
+                                <span>Επισκόπηση & Αίτηση</span>
                                 <ArrowRight className="w-4 h-4" />
                             </button>
                         </div>
                     </div>
                 )}
 
-                {/* STEP 3: SUMMARY, EDIT & CONTACT FORM */}
+                {/* STEP 3: SUMMARY & CONTACT FORM */}
                 {step === 3 && (
                     <div className="space-y-6 animate-fade-in max-w-2xl mx-auto">
 
-                        {/* Summary Box (Απόδειξη / Κουτάκι Επιλογών) */}
+                        {/* Summary Box */}
                         <div className="bg-white/[0.03] border border-cyan-500/30 p-6 rounded-3xl space-y-4">
                             <div className="flex justify-between items-center pb-3 border-b border-white/10">
-                                <h3 className="text-sm font-bold text-cyan-400 uppercase tracking-wider font-mono">Σύνοψη Επιλογών (Summary)</h3>
+                                <h3 className="text-sm font-bold text-cyan-400 uppercase tracking-wider font-mono">Σύνοψη Καλαθιού (Cart Summary)</h3>
                                 <button
                                     onClick={() => setStep(1)}
                                     className="text-xs text-zinc-400 hover:text-white underline cursor-pointer"
@@ -262,14 +280,14 @@ export default function ServicesPage() {
                             </div>
 
                             <div className="pt-3 border-t border-white/10 flex justify-between items-center">
-                                <span className="text-sm font-bold text-white">Τελικό Εκτιμώμενο Κόστος:</span>
+                                <span className="text-sm font-bold text-white">Τελικό Κόστος:</span>
                                 <span className="text-2xl font-bold font-mono text-cyan-400">{grandTotal}€</span>
                             </div>
                         </div>
 
-                        {/* Application Form */}
+                        {/* Form */}
                         <div className="bg-white/[0.02] border border-white/10 p-8 rounded-3xl space-y-6">
-                            <h2 className="text-xl font-bold text-white">Ολοκλήρωση Αιτήματος Συνεργασίας</h2>
+                            <h2 className="text-xl font-bold text-white">Ολοκλήρωση Αιτήματος</h2>
 
                             <form onSubmit={handleOrderSubmit} className="space-y-5">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -289,7 +307,7 @@ export default function ServicesPage() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-medium opacity-80 mb-2">Επιπλέον Σχόλια / Λεπτομέρειες</label>
+                                    <label className="block text-xs font-medium opacity-80 mb-2">Σχόλια / Λεπτομέρειες</label>
                                     <textarea rows={3} placeholder="Περιγράψτε τυχόν πρόσθετες απαιτήσεις..." value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-sm placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 transition-all resize-none" />
                                 </div>
 
@@ -318,6 +336,37 @@ export default function ServicesPage() {
                 )}
 
             </main>
+
+            {/* Floating Quick Action Bar (Μόνιμη μπάρα καλαθιού κάτω-κάτω) */}
+            <div className="fixed bottom-0 left-0 w-full bg-[#0b0c10]/95 backdrop-blur-md border-t border-white/10 py-3 px-4 z-50 shadow-2xl flex items-center justify-between max-w-4xl mx-auto sm:rounded-t-2xl sm:left-1/2 sm:-translate-x-1/2 sm:w-[90%]">
+                <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
+                        <ShoppingBag className="w-4 h-4" />
+                    </div>
+                    <div className="text-xs">
+                        <span className="text-zinc-400 block">Επιλεγμένες: <strong className="text-white">{selectedServices.length} υπηρεσίες</strong></span>
+                        <span className="text-cyan-400 font-mono font-bold text-sm">Σύνολο: {grandTotal}€</span>
+                    </div>
+                </div>
+
+                <div className="flex gap-2">
+                    {step !== 3 ? (
+                        <button
+                            onClick={() => setStep(3)}
+                            className="px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs transition-all shadow cursor-pointer"
+                        >
+                            Ολοκλήρωση ➔
+                        </button>
+                    ) : (
+                        <a
+                            href="#contact"
+                            className="px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs transition-all shadow cursor-pointer"
+                        >
+                            Φόρμα Αίτησης ↓
+                        </a>
+                    )}
+                </div>
+            </div>
 
             <Footer />
         </div>

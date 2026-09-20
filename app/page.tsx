@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Check, Terminal, Globe, Download, Calendar, Calculator, Sparkles, Sun, Moon, Zap, History, ShieldCheck, HelpCircle, Palette, ArrowRight, ShoppingBag } from "lucide-react";
+import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, Sparkles, Sun, Moon, Zap, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
 
@@ -397,6 +397,24 @@ export default function Home() {
           </button>
         </div>
 
+        {/* Navigation Switcher Tabs (Χειροκίνητη εναλλαγή σελίδων) */}
+        <div className="flex justify-center items-center gap-3 mb-6">
+          <a
+            href="/"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500 text-black text-xs font-bold transition-all shadow-lg shadow-cyan-500/20 cursor-pointer"
+          >
+            <Briefcase className="w-3.5 h-3.5" />
+            <span>Βιογραφικό & Projects (Active)</span>
+          </a>
+          <a
+            href="/services"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all cursor-pointer"
+          >
+            <ShoppingBag className="w-3.5 h-3.5 text-cyan-400" />
+            <span>Agency & Υπηρεσίες</span>
+          </a>
+        </div>
+
         {/* OVERVIEW SECTION */}
         <section id="overview" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 animate-fade-in-up">
           <div className={`md:col-span-2 md:row-span-2 rounded-3xl ${cardBg} p-8 flex flex-col justify-between relative overflow-hidden transition-colors`}>
@@ -488,7 +506,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* LINK TO COMMERCIAL SERVICES PAGE (NEW CLEAN 2-PAGE ARCHITECTURE) */}
+        {/* LINK TO COMMERCIAL SERVICES PAGE */}
         <section className="rounded-3xl border border-cyan-500/40 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 p-8 flex flex-col sm:flex-row items-center justify-between gap-6 animate-fade-in-up text-center sm:text-left">
           <div className="space-y-2">
             <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider font-bold">Commercial Hub</span>
