@@ -43,22 +43,9 @@ const translations = {
 
     guaranteeText: "Zero downtime deployment • SEO-optimized • Fast delivery (5-7 days)",
 
-    configTitle: "Visual Style Configurator",
-    configSub: "Επιλέξτε το στυλ και την αισθητική που ταιριάζει στο brand σας:",
-    style1Name: "Minimal Corporate",
-    style1Desc: "Καθαρό λευκό/γκρι design, επαγγελματικό και απόλυτα σοβαρό για επιχειρήσεις.",
-    style2Name: "Cyberpunk / Tech",
-    style2Desc: "Σκοτεινό φόντο, νέον αποχρώσεις, τερματικά και high-tech αισθητική.",
-    style3Name: "E-shop High-Conversion",
-    style3Desc: "Έμφαση σε γρήγορα καλάθια, πειστικά call-to-actions και αύξηση πωλήσεων.",
-    selectThisStyle: "Επιλογή Στυλ & Συνέχεια",
-
-    auditTitle: "Express Micro-Service Audit",
-    auditSub: "Θέλετε άμεσο έλεγχο; Αποκτήστε γρήγορα ένα τεχνικό report.",
-    auditName: "Express SEO & Speed Audit",
-    auditDesc: "Πλήρης έλεγχος ταχύτητας (Lighthouse), διορθώσεις SEO και προτάσεις βελτίωσης σε 24 ώρες.",
-    auditPrice: "49€",
-    buyAudit: "Αγορά Service",
+    servicesBannerTitle: "Ψάχνετε Υπηρεσίες Web Development & Homelab;",
+    servicesBannerDesc: "Επισκεφθείτε τον εμπορικό μας κατάλογο, επιλέξτε πολλαπλές υπηρεσίες και φτιάξτε το custom πακέτο σας ζωντανά.",
+    servicesBannerBtn: "Μετάβαση στον Κατάλογο Υπηρεσιών ➔",
 
     faqTitle: "Συχνές Ερωτήσεις (FAQ)",
     faqSub: "Όλες οι απαντήσεις σχετικά με τη διαδικασία συνεργασίας και τις τεχνικές λεπτομέρειες.",
@@ -101,104 +88,18 @@ const translations = {
     rev1: '"Άψογη παραμετροποίηση Homelab και Docker υποδομών. Μεθοδικός, γρήγορος και με εξαιρετική κατανόηση της ασφάλειας δικτύων."',
     rev2: '"Εξαιρετικό αποτέλεσμα στο Next.js web application. Άμεση ανταπόκριση, καθαρός κώδικας και προσοχή στη λεπτομέρεια."',
 
-    calcTitle: "Διαδραστικός Υπολογιστής Έργου",
-    calcSub: "Υπολογίστε κατά προσέγγιση το κόστος και στείλτε το αίτημά σας άμεσα.",
-    calcType: "Είδος Project:",
-    calcAddon: "Επιπρόσθετες Υπηρεσίες:",
-    estPrice: "Εκτιμώμενο Κόστος:",
-    selectThis: "Επιλογή αυτού του πακέτου",
-
-    priceTitle: "Υπηρεσίες & Κατάλογος Πακέτων",
-    priceSub: "Επιλέξτε μία ή περισσότερες υπηρεσίες (Multi-select) για να φτιάξετε το δικό σας custom πακέτο συνεργασίας.",
-    from: "από",
-    hour: "ώρα",
-
-    p1Cat: "WEB DEVELOPMENT",
-    p1Title: "Landing Page",
-    p1Desc: "Μοντέρνα, αστραπιαία ιστοσελίδα μίας σελίδας για επαγγελματική προβολή και γρήγορα αποτελέσματα.",
-    p1Price: 199,
-    p1F1: "Next.js & Tailwind CSS",
-    p1F2: "Responsive Mobile Design",
-    p1F3: "Βασικό SEO & Fast Loading",
-    p1F4: "Φόρμα Επικοινωνίας",
-
-    p2Cat: "WEB DEVELOPMENT",
-    p2Title: "Personal Portfolio / Blog",
-    p2Desc: "Προσωπικός ιστότοπος ή blog με πολλαπλές σελίδες, παρουσίαση έργων και άρθρα.",
-    p2Price: 290,
-    p2F1: "Custom Portfolio Layout",
-    p2F2: "Dynamic Blog / Markdown Support",
-    p2F3: "Dark/Light Theme Toggle",
-    p2F4: "Social & Analytics Integration",
-
-    p3Cat: "WEB DEVELOPMENT",
-    p3Title: "Business App / E-shop",
-    p3Desc: "Πλήρης επαγγελματική δυναμική εφαρμογή ή ηλεκτρονικό κατάστημα υψηλών επιδόσεων.",
-    p3Price: 450,
-    p3F1: "Database & Admin Dashboard",
-    p3F2: "Advanced SEO & Performance",
-    p3F3: "Ασφαλείς Πληρωμές & E-shop Cart",
-    p3F4: "Custom API Integrations",
-
-    p4Cat: "WEB DEVELOPMENT",
-    p4Title: "Custom Full-Stack App",
-    p4Desc: "Προηγμένη web εφαρμογή κομμένη και ραμμένη στις ειδικές επιχειρηματικές σας ανάγκες.",
-    p4Price: 650,
-    p4F1: "Full-Stack Architecture (Next.js/Node)",
-    p4F2: "User Authentication & Roles",
-    p4F3: "Complex Database Design",
-    p4F4: "High Security & Zero Lags",
-
-    p5Cat: "DEVOPS / LINUX",
-    p5Title: "Basic Homelab Setup",
-    p5Desc: "Βασικό στήσιμο εικονικών μηχανών και ασφαλούς δικτύου για οικιακή χρήση.",
-    p5Price: 150,
-    p5F1: "Proxmox VE & LXC Containers",
-    p5F2: "Tailscale Secure Mesh VPN",
-    p5F3: "Βασική Ρύθμιση Storage (ext4)",
-    p5F4: "Uptime & Health Monitoring",
-
-    p6Cat: "DEVOPS / LINUX",
-    p6Title: "Full Enterprise Homelab",
-    p6Desc: "Προηγμένη αρχιτεκτονική με αυτόματα backups και ιδιωτικό cloud αποθήκευσης.",
-    p6Price: 280,
-    p6F1: "Nextcloud & Auto Backup (Unlimited Photos)",
-    p6F2: "Automated Snapshots & Recovery",
-    p6F3: "Advanced User Rights & Mounts",
-    p6F4: "High Availability Optimization",
-
-    p7Cat: "INFRASTRUCTURE",
-    p7Title: "Advanced Cloud & Docker",
-    p7Desc: "Ανάπτυξη και ενορχήστρωση σύνθετων self-hosted εφαρμογών και βάσεων δεδομένων.",
-    p7Price: 250,
-    p7F1: "Docker & Docker Compose Stack",
-    p7F2: "MariaDB / PostgreSQL Setup",
-    p7F3: "Reverse Proxy & SSL Certificates",
-    p7F4: "Automated Cron Backups",
-
-    p8Cat: "EXPERT SUPPORT",
-    p8Title: "Consulting & Audit",
-    p8Desc: "Εξατομικευμένες λύσεις, επίλυση σύνθετων τεχνικών προβλημάτων και security check.",
-    p8Price: 35,
-    p8F1: "System Auditing & Security Check",
-    p8F2: "Performance & Code Optimization",
-    p8F3: "1-on-1 Live Τεχνική Υποστήριξη",
-    p8F4: "Architecture & DevOps Consulting",
-
-    selected: "Επιλεγμένο",
-    select: "Προσθήκη στο Αίτημα",
-    contactTitle: "Συνολικό Αίτημα & Απόδειξη Υπηρεσιών",
-    contactSub: "Οι υπηρεσίες που επιλέξατε παραπάνω εμφανίζονται αυτόματα παρακάτω για την αποστολή του αιτήματός σας.",
+    contactTitle: "Άμεση Επικοινωνία",
+    contactSub: "Στείλτε μου το μήνυμά σας και θα επικοινωνήσω μαζί σας άμεσα.",
     formName: "Όνομα / Επωνυμία",
     formEmail: "Email Επικοινωνίας",
-    formService: "Επιλεγμένες Υπηρεσίες & Συνολικό Κόστος",
+    formService: "Θέμα / Υπηρεσία",
     formMsg: "Μήνυμα / Λεπτομέρειες",
-    formPlaceholder: "Περιγράψτε τυχόν επιπλέον απαιτήσεις...",
-    submitBtn: "Αποστολή Ολοκληρωμένου Αιτήματος",
+    formPlaceholder: "Περιγράψτε το αίτημά σας...",
+    submitBtn: "Αποστολή Μηνύματος",
     sending: "Γίνεται αποστολή...",
-    successMsg: "Το αίτημά σας στάλθηκε με επιτυχία! Θα επικοινωνήσω μαζί σας σύντομα.",
-    errorMsg: "Αποτυχία αποστολής. Παρακαλώ δοκιμάστε ξανά.",
-    serverError: "Σφάλμα σύνδεσης με τον διακομιστή."
+    successMsg: "Το μήνυμά σας στάλθηκε με επιτυχία!",
+    errorMsg: "Αποτυχία αποστολής.",
+    serverError: "Σφάλμα σύνδεσης."
   },
   en: {
     available: "AVAILABLE FOR HIRE",
@@ -233,22 +134,9 @@ const translations = {
 
     guaranteeText: "Zero downtime deployment • SEO-optimized • Fast delivery (5-7 days)",
 
-    configTitle: "Visual Style Configurator",
-    configSub: "Choose the style and aesthetic that best fits your brand:",
-    style1Name: "Minimal Corporate",
-    style1Desc: "Clean white/grey design, professional and strictly formal for businesses.",
-    style2Name: "Cyberpunk / Tech",
-    style2Desc: "Dark background, neon accents, terminal aesthetics and high-tech vibe.",
-    style3Name: "E-shop High-Conversion",
-    style3Desc: "Focused on fast carts, persuasive calls-to-action and sales boosting.",
-    selectThisStyle: "Select Style & Proceed",
-
-    auditTitle: "Express Micro-Service Audit",
-    auditSub: "Need a fast assessment? Get a concise technical report quickly.",
-    auditName: "Express SEO & Speed Audit",
-    auditDesc: "Complete Lighthouse speed test, SEO fixes, and optimization roadmap within 24 hours.",
-    auditPrice: "49€",
-    buyAudit: "Order Service",
+    servicesBannerTitle: "Looking for Web Development & Homelab Services?",
+    servicesBannerDesc: "Visit our commercial catalog, select multiple services, and build your custom package live.",
+    servicesBannerBtn: "Go to Services Catalog ➔",
 
     faqTitle: "Frequently Asked Questions (FAQ)",
     faqSub: "Everything you need to know about our collaboration process and technical details.",
@@ -291,103 +179,17 @@ const translations = {
     rev1: '"Flawless Homelab and Docker infrastructure configuration. Methodical, fast, and with excellent understanding of network security."',
     rev2: '"Excellent result on the Next.js web application. Prompt response, clean code, and attention to detail."',
 
-    calcTitle: "Interactive Project Calculator",
-    calcSub: "Estimate your project cost instantly and submit your request.",
-    calcType: "Project Type:",
-    calcAddon: "Extra Options:",
-    estPrice: "Estimated Cost:",
-    selectThis: "Select this package",
-
-    priceTitle: "Services & Catalog Packages",
-    priceSub: "Select multiple services to build your custom package proposal instantly.",
-    from: "from",
-    hour: "hour",
-
-    p1Cat: "WEB DEVELOPMENT",
-    p1Title: "Landing Page",
-    p1Desc: "Modern, ultra-fast single-page website for professional branding and fast results.",
-    p1Price: 199,
-    p1F1: "Next.js & Tailwind CSS",
-    p1F2: "Responsive Mobile Design",
-    p1F3: "Basic SEO & Fast Loading",
-    p1F4: "Contact Form Integration",
-
-    p2Cat: "WEB DEVELOPMENT",
-    p2Title: "Personal Portfolio / Blog",
-    p2Desc: "Multi-page personal website or blog featuring project galleries and articles.",
-    p2Price: 290,
-    p2F1: "Custom Portfolio Layout",
-    p2F2: "Dynamic Blog / Markdown Support",
-    p2F3: "Dark/Light Theme Toggle",
-    p2F4: "Social & Analytics Integration",
-
-    p3Cat: "WEB DEVELOPMENT",
-    p3Title: "Business App / E-shop",
-    p3Desc: "Full professional dynamic web application or high-performance e-commerce store.",
-    p3Price: 450,
-    p3F1: "Database & Admin Dashboard",
-    p3F2: "Advanced SEO & Performance",
-    p3F3: "Secure Payments & E-shop Cart",
-    p3F4: "Custom API Integrations",
-
-    p4Cat: "WEB DEVELOPMENT",
-    p4Title: "Custom Full-Stack App",
-    p4Desc: "Advanced web application tailored precisely to your specific business needs.",
-    p4Price: 650,
-    p4F1: "Full-Stack Architecture (Next.js/Node)",
-    p4F2: "User Authentication & Roles",
-    p4F3: "Complex Database Design",
-    p4F4: "High Security & Zero Lags",
-
-    p5Cat: "DEVOPS / LINUX",
-    p5Title: "Basic Homelab Setup",
-    p5Desc: "Essential virtual machines and secure network setup for personal or local use.",
-    p5Price: 150,
-    p5F1: "Proxmox VE & LXC Containers",
-    p5F2: "Tailscale Secure Mesh VPN",
-    p5F3: "Basic Storage Setup (ext4)",
-    p5F4: "Uptime & Health Monitoring",
-
-    p6Cat: "DEVOPS / LINUX",
-    p6Title: "Full Enterprise Homelab",
-    p6Desc: "Advanced architecture featuring automated backups and private cloud storage.",
-    p6Price: 280,
-    p6F1: "Nextcloud & Auto Backup (Unlimited Photos)",
-    p6F2: "Automated Snapshots & Recovery",
-    p6F3: "Advanced User Rights & Mounts",
-    p6F4: "High Availability Optimization",
-
-    p7Cat: "INFRASTRUCTURE",
-    p7Title: "Advanced Cloud & Docker",
-    p7Desc: "Deployment and orchestration of advanced self-hosted apps and databases.",
-    p7Price: 250,
-    p7F1: "Docker & Docker Compose Stack",
-    p7F2: "MariaDB / PostgreSQL Setup",
-    p7F3: "Reverse Proxy & SSL Certificates",
-    p7F4: "Automated Cron Backups",
-
-    p8Cat: "EXPERT SUPPORT",
-    p8Title: "Consulting & Audit",
-    p8Desc: "Custom solutions, technical troubleshooting, and systems consulting.",
-    p8Price: 35,
-    p8F1: "System Auditing & Security Check",
-    p8F2: "Performance & Code Optimization",
-    p8F3: "1-on-1 Live Technical Support",
-    p8F4: "Architecture & DevOps Consulting",
-
-    selected: "Selected",
-    select: "Select",
-    contactTitle: "Total Request & Service Invoice",
-    contactSub: "The services you selected above are automatically listed below for your inquiry.",
+    contactTitle: "Direct Contact",
+    contactSub: "Send me a message and I will get back to you promptly.",
     formName: "Name / Company",
     formEmail: "Contact Email",
-    formService: "Selected Services & Total Cost",
+    formService: "Subject / Service",
     formMsg: "Message / Details",
-    formPlaceholder: "Describe any extra requirements...",
-    submitBtn: "Send Complete Request",
+    formPlaceholder: "Describe your inquiry...",
+    submitBtn: "Send Message",
     sending: "Sending...",
-    successMsg: "Your request was sent successfully! I will contact you soon.",
-    errorMsg: "Failed to send. Please try again.",
+    successMsg: "Your message was sent successfully!",
+    errorMsg: "Failed to send.",
     serverError: "Server connection error."
   }
 };
@@ -409,43 +211,6 @@ export default function Home() {
 
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // --- MULTI-SELECT CART / SERVICES STATE ---
-  const [selectedServices, setSelectedServices] = useState<string[]>(["Full Enterprise Homelab (280€)"]);
-
-  const toggleService = (title: string, price: number | string, isHourly: boolean = false) => {
-    const itemStr = `${title} (${price}${isHourly ? (lang === "gr" ? "€/ώρα" : "€/hr") : "€"})`;
-    if (selectedServices.includes(itemStr)) {
-      if (selectedServices.length === 1) {
-        toast.error(lang === "gr" ? "Πρέπει να έχετε τουλάχιστον μία υπηρεσία επιλεγμένη." : "You must keep at least one service selected.");
-        return;
-      }
-      setSelectedServices(selectedServices.filter(s => s !== itemStr));
-      toast.info(lang === "gr" ? `Αφαιρέθηκε: ${title}` : `Removed: ${title}`);
-    } else {
-      setSelectedServices([...selectedServices, itemStr]);
-      toast.success(lang === "gr" ? `Προστέθηκε: ${title}` : `Added: ${title}`);
-    }
-  };
-
-  // Calculate total price dynamically
-  const calculatedCartTotal = selectedServices.reduce((sum, item) => {
-    const match = item.match(/\((\d+)€/);
-    return sum + (match ? parseInt(match[1], 10) : 0);
-  }, 0);
-
-  const cartSummaryText = selectedServices.join(" + ");
-
-  // --- CALCULATOR STATES ---
-  const [calcBasePrice, setCalcBasePrice] = useState(199);
-  const [calcBaseName, setCalcBaseName] = useState("Landing Page");
-  const [calcAddonSeo, setCalcAddonSeo] = useState(false);
-  const [calcAddonVpn, setCalcAddonVpn] = useState(false);
-
-  const calculatedTotal = calcBasePrice + (calcAddonSeo ? 70 : 0) + (calcAddonVpn ? 100 : 0);
-
-  // --- CONFIGURATOR STATE ---
-  const [selectedStyle, setSelectedStyle] = useState("Minimal Corporate");
 
   // --- FAQ SLIDER STATE ---
   const [faqIndex, setFaqIndex] = useState(0);
@@ -515,21 +280,6 @@ export default function Home() {
     }
   }, [termHistory]);
 
-  const getPlanPrice = (plan: string) => {
-    switch (plan) {
-      case "Landing Page": return lang === "gr" ? "Από 199€" : "From 199€";
-      case "Personal Portfolio / Blog": return lang === "gr" ? "Από 290€" : "From 290€";
-      case "Business App / E-shop": return lang === "gr" ? "Από 450€" : "From 450€";
-      case "Custom Full-Stack App": return lang === "gr" ? "Από 650€" : "From 650€";
-      case "Basic Homelab Setup": return lang === "gr" ? "Από 150€" : "From 150€";
-      case "Full Enterprise Homelab": return lang === "gr" ? "Από 280€" : "From 280€";
-      case "Advanced Cloud & Docker": return lang === "gr" ? "Από 250€" : "From 250€";
-      case "Consulting & Audit": return lang === "gr" ? "35€ / ώρα" : "35€ / hour";
-      case "Express SEO & Speed Audit": return "49€";
-      default: return `Από ${calculatedTotal}€`;
-    }
-  };
-
   const handleTerminalSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const cmd = termInput.trim().toLowerCase();
@@ -590,8 +340,8 @@ export default function Home() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          serviceTitle: cartSummaryText,
-          servicePrice: `${calculatedCartTotal}€`,
+          serviceTitle: formData.name,
+          servicePrice: "General Inquiry",
           message: formData.message,
         }),
       });
@@ -738,6 +488,21 @@ export default function Home() {
           </div>
         </section>
 
+        {/* LINK TO COMMERCIAL SERVICES PAGE (NEW CLEAN 2-PAGE ARCHITECTURE) */}
+        <section className="rounded-3xl border border-cyan-500/40 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 p-8 flex flex-col sm:flex-row items-center justify-between gap-6 animate-fade-in-up text-center sm:text-left">
+          <div className="space-y-2">
+            <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider font-bold">Commercial Hub</span>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">{t.servicesBannerTitle}</h2>
+            <p className="text-xs sm:text-sm text-zinc-300 max-w-xl">{t.servicesBannerDesc}</p>
+          </div>
+          <a
+            href="/services"
+            className="px-6 py-3.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs sm:text-sm transition-all shadow-lg shadow-cyan-500/25 shrink-0 flex items-center gap-2 cursor-pointer"
+          >
+            <span>{t.servicesBannerBtn}</span>
+          </a>
+        </section>
+
         {/* TECH MARQUEE */}
         <div className="relative w-full overflow-hidden border-y border-white/5 bg-white/[0.01] py-5 my-8 animate-fade-in-up delay-100 flex items-center">
           <div className="absolute left-0 top-0 z-10 w-24 h-full bg-gradient-to-r from-[#0b0c10] to-transparent pointer-events-none"></div>
@@ -851,88 +616,6 @@ export default function Home() {
           <span className="text-xs font-mono font-medium tracking-wide opacity-90">{t.guaranteeText}</span>
         </section>
 
-        {/* VISUAL STYLE CONFIGURATOR */}
-        <section className={`rounded-3xl border border-blue-500/30 bg-blue-500/[0.02] p-6 sm:p-8 space-y-6 animate-fade-in-up`}>
-          <div className="flex items-center gap-3">
-            <Palette className="w-6 h-6 text-blue-400" />
-            <div>
-              <h2 className="text-lg font-bold">{t.configTitle}</h2>
-              <p className="text-xs opacity-70">{t.configSub}</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {[
-              { name: t.style1Name, desc: t.style1Desc, tag: "Corporate" },
-              { name: t.style2Name, desc: t.style2Desc, tag: "Tech / Cyber" },
-              { name: t.style3Name, desc: t.style3Desc, tag: "E-commerce" },
-            ].map((st, i) => (
-              <div
-                key={i}
-                onClick={() => {
-                  setSelectedStyle(st.name);
-                  toast.success(`Επιλέχθηκε το στυλ: ${st.name}`);
-                }}
-                className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${selectedStyle === st.name ? "bg-blue-500/10 border-blue-500 shadow-lg shadow-blue-500/10" : "bg-white/[0.02] border-white/10 hover:border-white/20"}`}
-              >
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold">{st.tag}</span>
-                    {selectedStyle === st.name && <Check className="w-4 h-4 text-blue-400" />}
-                  </div>
-                  <h3 className="text-sm font-bold">{st.name}</h3>
-                  <p className="text-xs opacity-70 leading-relaxed">{st.desc}</p>
-                </div>
-                <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs font-mono text-blue-400">
-                  <span>Preview Active</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex justify-end pt-2">
-            <button
-              onClick={() => {
-                const styleItem = `Custom Design Style: ${selectedStyle}`;
-                if (!selectedServices.includes(styleItem)) {
-                  setSelectedServices([...selectedServices, styleItem]);
-                }
-                toast.success(`Το στυλ "${selectedStyle}" προστέθηκε στην παραγγελία σας!`);
-                window.location.href = "#contact";
-              }}
-              className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs transition-all shadow-lg shadow-blue-600/20 cursor-pointer"
-            >
-              {t.selectThisStyle}
-            </button>
-          </div>
-        </section>
-
-        {/* EXPRESS MICRO-SERVICE AUDIT */}
-        <section className={`rounded-3xl border border-emerald-500/30 bg-emerald-500/[0.02] p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 animate-fade-in-up`}>
-          <div className="space-y-2 text-center sm:text-left">
-            <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold uppercase tracking-wider">Instant Service</span>
-            <h2 className="text-lg font-bold">{t.auditName}</h2>
-            <p className="text-xs opacity-80 max-w-xl">{t.auditDesc}</p>
-          </div>
-          <div className="flex flex-col items-center sm:items-end gap-3 shrink-0">
-            <div className="text-2xl font-bold font-mono text-emerald-400">{t.auditPrice}</div>
-            <button
-              onClick={() => {
-                const auditItem = `Express SEO & Speed Audit (49€)`;
-                if (!selectedServices.includes(auditItem)) {
-                  setSelectedServices([...selectedServices, auditItem]);
-                }
-                toast.success("Προστέθηκε το Express Audit (49€)");
-                window.location.href = "#contact";
-              }}
-              className="px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs transition-all shadow-lg shadow-emerald-500/20 cursor-pointer"
-            >
-              {t.buyAudit}
-            </button>
-          </div>
-        </section>
-
         {/* REVIEWS SECTION & REAL TESTIMONIALS */}
         <section id="reviews" className={`rounded-3xl ${cardBg} p-8 space-y-6 transition-colors`}>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -957,139 +640,6 @@ export default function Home() {
               <p className="text-xs opacity-90 leading-relaxed">{t.test2Text}</p>
               <span className="text-[11px] font-mono text-purple-400 block font-semibold">— {t.test2Author}</span>
             </div>
-          </div>
-        </section>
-
-        {/* INTERACTIVE COST CALCULATOR */}
-        <section className={`rounded-3xl border border-cyan-500/30 bg-cyan-500/[0.02] p-6 sm:p-8 space-y-6 animate-fade-in-up`}>
-          <div className="flex items-center gap-3">
-            <Calculator className="w-6 h-6 text-cyan-400" />
-            <div>
-              <h2 className="text-lg font-bold">{t.calcTitle}</h2>
-              <p className="text-xs opacity-70">{t.calcSub}</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-            <div>
-              <label className="block text-xs font-mono opacity-80 mb-2">{t.calcType}</label>
-              <select
-                value={calcBasePrice}
-                onChange={(e) => {
-                  const val = Number(e.target.value);
-                  setCalcBasePrice(val);
-                  if (val === 199) setCalcBaseName("Landing Page");
-                  if (val === 290) setCalcBaseName("Personal Portfolio / Blog");
-                  if (val === 450) setCalcBaseName("Business App / E-shop");
-                  if (val === 650) setCalcBaseName("Custom Full-Stack App");
-                  if (val === 150) setCalcBaseName("Basic Homelab Setup");
-                  if (val === 280) setCalcBaseName("Full Enterprise Homelab");
-                  if (val === 250) setCalcBaseName("Advanced Cloud & Docker");
-                }}
-                className="w-full px-4 py-3 rounded-xl bg-white/[0.05] border border-white/10 text-xs font-mono focus:outline-none focus:border-cyan-500 transition-all cursor-pointer"
-              >
-                <option value={199} className="bg-zinc-900 text-white">Landing Page (199€)</option>
-                <option value={290} className="bg-zinc-900 text-white">Personal Portfolio / Blog (290€)</option>
-                <option value={450} className="bg-zinc-900 text-white">Business App / E-shop (450€)</option>
-                <option value={650} className="bg-zinc-900 text-white">Custom Full-Stack App (650€)</option>
-                <option value={150} className="bg-zinc-900 text-white">Basic Homelab Setup (150€)</option>
-                <option value={280} className="bg-zinc-900 text-white">Full Enterprise Homelab (280€)</option>
-                <option value={250} className="bg-zinc-900 text-white">Advanced Cloud & Docker (250€)</option>
-              </select>
-            </div>
-
-            <div className="space-y-3">
-              <label className="block text-xs font-mono opacity-80">{t.calcAddon}</label>
-              <div className="flex flex-col sm:flex-row gap-4 text-xs opacity-90">
-                <label className="flex items-center gap-2 cursor-pointer bg-white/[0.03] px-3 py-2 rounded-xl border border-white/5 hover:border-white/10">
-                  <input type="checkbox" checked={calcAddonSeo} onChange={(e) => setCalcAddonSeo(e.target.checked)} className="rounded bg-black border-white/20 text-cyan-500 focus:ring-0" />
-                  <span>Advanced SEO (+70€)</span>
-                </label>
-                <label className="flex items-center gap-2 cursor-pointer bg-white/[0.03] px-3 py-2 rounded-xl border border-white/5 hover:border-white/10">
-                  <input type="checkbox" checked={calcAddonVpn} onChange={(e) => setCalcAddonVpn(e.target.checked)} className="rounded bg-black border-white/20 text-cyan-500 focus:ring-0" />
-                  <span>Tailscale Mesh VPN Setup (+100€)</span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/10">
-            <div>
-              <span className="text-xs opacity-70 font-mono">{t.estPrice}</span>
-              <div className="text-3xl font-bold text-cyan-400 font-mono">{calculatedTotal}€</div>
-            </div>
-            <button
-              onClick={() => {
-                const desc = `${calcBaseName} ${calcAddonSeo ? "+ SEO" : ""} ${calcAddonVpn ? "+ VPN" : ""}`;
-                const calcItem = `${desc} (${calculatedTotal}€)`;
-                if (!selectedServices.includes(calcItem)) {
-                  setSelectedServices([...selectedServices, calcItem]);
-                }
-                toast.success(`Προστέθηκε στο αίτημα: ${calcItem}`);
-                window.location.href = "#contact";
-              }}
-              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs transition-all shadow-lg shadow-cyan-500/20 cursor-pointer"
-            >
-              {t.selectThis}
-            </button>
-          </div>
-        </section>
-
-        {/* PRICING SECTION - MULTI-SELECT CATALOG & CART BUILDER */}
-        <section id="services" className={`rounded-3xl ${cardBg} p-6 sm:p-10 space-y-8 animate-fade-in-up delay-400 transition-colors`}>
-          <div className="text-center max-w-3xl mx-auto space-y-3">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{t.priceTitle}</h2>
-            <p className="text-sm opacity-70 leading-relaxed">{t.priceSub}</p>
-          </div>
-
-          <div className="flex lg:grid lg:grid-cols-3 overflow-x-auto snap-x snap-mandatory gap-6 pb-4 pt-2 no-scrollbar scroll-smooth">
-
-            {[
-              { title: t.p1Title, cat: t.p1Cat, desc: t.p1Desc, price: t.p1Price, f: [t.p1F1, t.p1F2, t.p1F3, t.p1F4] },
-              { title: t.p2Title, cat: t.p2Cat, desc: t.p2Desc, price: t.p2Price, f: [t.p2F1, t.p2F2, t.p2F3, t.p2F4] },
-              { title: t.p3Title, cat: t.p3Cat, desc: t.p3Desc, price: t.p3Price, f: [t.p3F1, t.p3F2, t.p3F3, t.p3F4] },
-              { title: "Custom Full-Stack App", cat: "WEB DEVELOPMENT", desc: "Προηγμένη web εφαρμογή κομμένη και ραμμένη στις ειδικές επιχειρηματικές σας ανάγκες.", price: t.p4Price, f: ["Full-Stack Architecture (Next.js/Node)", "User Authentication & Roles", "Complex Database Design", "High Security & Zero Lags"] },
-              { title: t.p5Title, cat: t.p5Cat, desc: t.p5Desc, price: t.p5Price, f: [t.p5F1, t.p5F2, t.p5F3, t.p5F4] },
-              { title: t.p6Title, cat: t.p6Cat, desc: t.p6Desc, price: t.p6Price, f: [t.p6F1, t.p6F2, t.p6F3, t.p6F4] },
-              { title: t.p7Title, cat: t.p7Cat, desc: t.p7Desc, price: t.p7Price, f: [t.p7F1, t.p7F2, t.p7F3, t.p7F4] },
-              { title: t.p8Title, cat: t.p8Cat, desc: t.p8Desc, price: t.p8Price, hourly: true, f: [t.p8F1, t.p8F2, t.p8F3, t.p8F4] }
-            ].map((pkg, idx) => {
-              const itemStr = `${pkg.title} (${pkg.price}${pkg.hourly ? (lang === "gr" ? "€/ώρα" : "€/hr") : "€"})`;
-              const isSelected = selectedServices.some(s => s.startsWith(pkg.title));
-
-              return (
-                <div key={idx} className={`min-w-[280px] sm:min-w-[320px] lg:min-w-0 snap-center relative rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 border-2 ${isSelected ? "bg-cyan-500/10 border-cyan-500 shadow-[0_0_35px_-5px_rgba(6,182,212,0.2)] scale-[1.02]" : "bg-white/[0.02] border-white/10 hover:border-white/20"}`}>
-                  <div>
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider font-bold">{pkg.cat}</span>
-                      {isSelected && <span className="flex items-center gap-1 text-[10px] font-mono bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded-full font-bold"><Check className="w-3 h-3" /> {t.selected}</span>}
-                    </div>
-                    <h3 className="text-lg font-bold mt-2">{pkg.title}</h3>
-                    <div className="my-4 flex items-baseline gap-1">
-                      <span className="text-3xl font-bold">{pkg.price}€</span>
-                      <span className="text-xs opacity-70 font-mono">/ {pkg.hourly ? t.hour : t.from}</span>
-                    </div>
-                    <p className="text-xs opacity-80 mb-6 leading-relaxed">{pkg.desc}</p>
-                    <ul className="space-y-3 text-xs opacity-90 mb-8">
-                      {pkg.f.map((feat, fIdx) => (
-                        <li key={fIdx} className="flex items-start gap-2">
-                          <Check className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
-                          <span>{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <button
-                    onClick={() => toggleService(pkg.title, pkg.price, pkg.hourly)}
-                    className={`w-full py-3 rounded-xl text-sm font-medium transition-all cursor-pointer flex items-center justify-center gap-2 ${isSelected ? "bg-cyan-500 text-black font-bold shadow-lg shadow-cyan-500/20" : "bg-white/10 hover:bg-white/20"}`}
-                  >
-                    <ShoppingBag className="w-4 h-4" />
-                    <span>{isSelected ? t.selected : t.select}</span>
-                  </button>
-                </div>
-              );
-            })}
-
           </div>
         </section>
 
@@ -1177,10 +727,7 @@ export default function Home() {
 
             <div>
               <label className="block text-xs font-medium opacity-80 mb-2">{t.formService}</label>
-              <div className="flex flex-col sm:flex-row gap-2">
-                <input type="text" readOnly value={cartSummaryText} className="w-full sm:w-2/3 px-4 py-3 rounded-xl bg-cyan-500/5 border border-cyan-500/20 text-cyan-400 font-mono text-xs sm:text-sm cursor-not-allowed" />
-                <input type="text" readOnly value={`${calculatedCartTotal}€`} className="w-full sm:w-1/3 px-4 py-3 rounded-xl bg-white/[0.02] border border-white/15 text-cyan-300 font-bold font-mono text-sm text-center cursor-not-allowed" />
-              </div>
+              <input type="text" required placeholder="Θέμα επικοινωνίας" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-sm placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 transition-all" />
             </div>
 
             <div>
