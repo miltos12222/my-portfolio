@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, Sparkles, Sun, Moon, Zap, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag } from "lucide-react";
+import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag, Moon, Zap, Sun } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
 
@@ -43,7 +43,7 @@ const translations = {
 
     guaranteeText: "Zero downtime deployment • SEO-optimized • Fast delivery (5-7 days)",
 
-    servicesBannerTitle: "Ψάχνετε Υπηρεσίες Web Development & Homelab;",
+    servicesBannerTitle: "Ψάχνετε Υπηρεσίες Web Development & Homelab?",
     servicesBannerDesc: "Επισκεφθείτε τον εμπορικό μας κατάλογο, επιλέξτε πολλαπλές υπηρεσίες και φτιάξτε το custom πακέτο σας ζωντανά.",
     servicesBannerBtn: "Μετάβαση στον Κατάλογο Υπηρεσιών ➔",
 
@@ -398,9 +398,9 @@ export default function Home() {
           </a>
         </div>
 
-        {/* OVERVIEW SECTION */}
+        {/* OVERVIEW SECTION WITH HOVER ANIMATIONS */}
         <section id="overview" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 animate-fade-in-up">
-          <div className={`md:col-span-2 md:row-span-2 rounded-3xl ${cardBg} p-8 flex flex-col justify-between relative overflow-hidden transition-colors`}>
+          <div className={`group md:col-span-2 md:row-span-2 rounded-3xl ${cardBg} p-8 flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-500/50 hover:shadow-[0_15px_40px_-15px_rgba(6,182,212,0.2)]`}>
             <div className="flex items-center justify-between z-10 mb-6">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono">
                 <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
@@ -410,7 +410,7 @@ export default function Home() {
             </div>
 
             <div className="z-10 flex flex-col sm:flex-row items-center gap-6 my-auto">
-              <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-white/15 shadow-xl shrink-0 bg-zinc-900">
+              <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-white/15 shadow-xl shrink-0 bg-zinc-900 group-hover:scale-105 transition-transform duration-300">
                 <Image src="/profile.jpg" alt="Miltos Papageorgiou" fill className="object-cover object-center" priority />
               </div>
               <div>
@@ -420,17 +420,17 @@ export default function Home() {
             </div>
 
             <div className="z-10 flex flex-wrap items-center gap-3 mt-8 pt-6 border-t border-white/10">
-              <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-medium transition-all"><GithubIcon className="w-4 h-4" /><span>GitHub</span></a>
-              <a href="https://www.linkedin.com/in/miltos-papageorgiou-740990438" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A66C2]/20 hover:bg-[#0A66C2]/30 border border-[#0A66C2]/40 text-xs font-medium text-blue-300 transition-all"><LinkedinIcon className="w-4 h-4 text-[#0A66C2]" /><span>LinkedIn</span></a>
-              <a href="/cv.pdf" download="Miltos_Papageorgiou_CV.pdf" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-xs font-medium text-purple-300 transition-all"><Download className="w-4 h-4" /><span>{t.cvBtn}</span></a>
-              <a href="#contact" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-xs font-medium text-cyan-300 transition-all"><Mail className="w-4 h-4" /><span>{t.contactBtn}</span></a>
+              <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-medium transition-all hover:scale-105"><GithubIcon className="w-4 h-4" /><span>GitHub</span></a>
+              <a href="https://www.linkedin.com/in/miltos-papageorgiou-740990438" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A66C2]/20 hover:bg-[#0A66C2]/30 border border-[#0A66C2]/40 text-xs font-medium text-blue-300 transition-all hover:scale-105"><LinkedinIcon className="w-4 h-4 text-[#0A66C2]" /><span>LinkedIn</span></a>
+              <a href="/cv.pdf" download="Miltos_Papageorgiou_CV.pdf" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-xs font-medium text-purple-300 transition-all hover:scale-105"><Download className="w-4 h-4" /><span>{t.cvBtn}</span></a>
+              <a href="#contact" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-xs font-medium text-cyan-300 transition-all hover:scale-105"><Mail className="w-4 h-4" /><span>{t.contactBtn}</span></a>
             </div>
           </div>
 
-          <div className={`rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-colors`}>
+          <div className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.15)]`}>
             <div>
-              <div className="flex items-center justify-between opacity-70 mb-4"><Server className="w-5 h-5 text-cyan-400" /><span className="text-[10px] font-mono uppercase tracking-wider">Infrastructure</span></div>
-              <h3 className="text-lg font-bold mb-1">Self-Hosted</h3>
+              <div className="flex items-center justify-between opacity-70 mb-4"><Server className="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform duration-300" /><span className="text-[10px] font-mono uppercase tracking-wider">Infrastructure</span></div>
+              <h3 className="text-lg font-bold mb-1 group-hover:text-cyan-300 transition-colors">Self-Hosted</h3>
               <p className="text-xs opacity-80 mb-3">{t.infraDesc}</p>
               {infraOpen && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.infraList1}</p><p>• {t.infraList2}</p></div>)}
             </div>
@@ -440,10 +440,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className={`rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-colors`}>
+          <div className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-purple-500/50 hover:shadow-[0_10px_30px_-10px_rgba(168,85,247,0.15)]`}>
             <div>
-              <div className="flex items-center justify-between opacity-70 mb-4"><Code2 className="w-5 h-5 text-purple-400" /><span className="text-[10px] font-mono uppercase tracking-wider">Development</span></div>
-              <h3 className="text-lg font-bold mb-1">Modern Stack</h3>
+              <div className="flex items-center justify-between opacity-70 mb-4"><Code2 className="w-5 h-5 text-purple-400 group-hover:scale-110 transition-transform duration-300" /><span className="text-[10px] font-mono uppercase tracking-wider">Development</span></div>
+              <h3 className="text-lg font-bold mb-1 group-hover:text-purple-300 transition-colors">Modern Stack</h3>
               <p className="text-xs opacity-80 mb-3">{t.webDesc}</p>
               {webOpen && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.webList1}</p><p>• {t.webList2}</p></div>)}
             </div>
@@ -453,10 +453,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className={`md:col-span-2 lg:col-span-2 rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-colors`}>
+          <div className={`group md:col-span-2 lg:col-span-2 rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-emerald-500/50 hover:shadow-[0_10px_30px_-10px_rgba(16,185,129,0.15)]`}>
             <div>
-              <div className="flex items-center justify-between opacity-70 mb-3"><Cpu className="w-5 h-5 text-emerald-400" /><span className="text-[10px] font-mono uppercase tracking-wider">Work Ethic</span></div>
-              <h3 className="text-lg font-bold mb-2">{t.ethicTitle}</h3>
+              <div className="flex items-center justify-between opacity-70 mb-3"><Cpu className="w-5 h-5 text-emerald-400 group-hover:scale-110 transition-transform duration-300" /><span className="text-[10px] font-mono uppercase tracking-wider">Work Ethic</span></div>
+              <h3 className="text-lg font-bold mb-2 group-hover:text-emerald-300 transition-colors">{t.ethicTitle}</h3>
               <p className="text-xs opacity-90 leading-relaxed mb-3">{t.ethicDesc}</p>
               {ethicOpen && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.ethicList1}</p><p>• {t.ethicList2}</p></div>)}
             </div>
@@ -481,22 +481,22 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
             {t.learningItems.map((item, idx) => (
-              <div key={idx} className="rounded-2xl bg-white/[0.03] border border-white/10 p-4 flex flex-col justify-between hover:border-purple-500/40 transition-all">
+              <div key={idx} className="group rounded-2xl bg-white/[0.03] border border-white/10 p-4 flex flex-col justify-between hover:border-purple-500/50 hover:bg-white/[0.05] transition-all duration-300 hover:-translate-y-1">
                 <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 w-fit mb-2 font-bold">{item.date}</span>
-                <p className="text-xs opacity-90 leading-relaxed">{item.text}</p>
+                <p className="text-xs opacity-90 leading-relaxed group-hover:text-purple-200 transition-colors">{item.text}</p>
               </div>
             ))}
           </div>
         </section>
 
         {/* LINK TO COMMERCIAL SERVICES PAGE */}
-        <section className="rounded-3xl border border-cyan-500/40 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 p-8 flex flex-col sm:flex-row items-center justify-between gap-6 animate-fade-in-up text-center sm:text-left">
+        <section className="group rounded-3xl border border-cyan-500/40 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 p-8 flex flex-col sm:flex-row items-center justify-between gap-6 animate-fade-in-up text-center sm:text-left transition-all duration-300 hover:border-cyan-400 hover:shadow-[0_15px_40px_-15px_rgba(6,182,212,0.25)]">
           <div className="space-y-2">
             <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider font-bold">Commercial Hub</span>
             <h2 className="text-xl sm:text-2xl font-bold text-white">{t.servicesBannerTitle}</h2>
             <p className="text-xs sm:text-sm text-zinc-300 max-w-xl">{t.servicesBannerDesc}</p>
           </div>
-          <a href="/services" className="px-6 py-3.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs sm:text-sm transition-all shadow-lg shadow-cyan-500/25 shrink-0 flex items-center gap-2 cursor-pointer">
+          <a href="/services" className="px-6 py-3.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs sm:text-sm transition-all duration-300 shadow-lg shadow-cyan-500/25 shrink-0 flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95">
             <span>{t.servicesBannerBtn}</span>
           </a>
         </section>
@@ -525,13 +525,13 @@ export default function Home() {
 
         {/* ABOUT ME + TERMINAL */}
         <section id="about-me" className="grid grid-cols-1 lg:grid-cols-2 gap-4 animate-fade-in-up delay-200">
-          <div className={`rounded-3xl ${cardBg} p-8 flex flex-col justify-center transition-colors`}>
-            <h2 className="text-xl font-bold mb-4">{t.aboutTitle}</h2>
+          <div className={`group rounded-3xl ${cardBg} p-8 flex flex-col justify-center transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.15)]`}>
+            <h2 className="text-xl font-bold mb-4 group-hover:text-cyan-300 transition-colors">{t.aboutTitle}</h2>
             <p className="text-sm opacity-90 leading-relaxed mb-4">{t.aboutP1}</p>
             <p className="text-sm opacity-80 leading-relaxed">{t.aboutP2}</p>
           </div>
 
-          <div className="rounded-3xl border border-white/10 bg-[#0a0a0a] p-5 font-mono text-xs shadow-2xl relative overflow-hidden group flex flex-col h-[350px]">
+          <div className="rounded-3xl border border-white/10 bg-[#0a0a0a] p-5 font-mono text-xs shadow-2xl relative overflow-hidden group flex flex-col h-[350px] hover:border-purple-500/50 transition-all duration-300">
             <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/5 shrink-0">
               <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
               <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
@@ -557,9 +557,9 @@ export default function Home() {
         </section>
 
         {/* INFRASTRUCTURE */}
-        <section id="infrastructure" className={`rounded-3xl ${cardBg} p-8 space-y-4 transition-colors`}>
+        <section id="infrastructure" className={`group rounded-3xl ${cardBg} p-8 space-y-4 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.15)]`}>
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3"><Server className="w-6 h-6 text-cyan-400" /><h2 className="text-xl font-bold">Infrastructure & Homelab Stack</h2></div>
+            <div className="flex items-center gap-3"><Server className="w-6 h-6 text-cyan-400 group-hover:scale-110 transition-transform duration-300" /><h2 className="text-xl font-bold group-hover:text-cyan-300 transition-colors">Infrastructure & Homelab Stack</h2></div>
             <button onClick={() => setStackOpen(!stackOpen)} className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer"><span>{stackOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${stackOpen ? "rotate-180" : ""}`} /></button>
           </div>
           <p className="text-sm opacity-90 leading-relaxed">{t.stackDesc}</p>
@@ -567,9 +567,9 @@ export default function Home() {
         </section>
 
         {/* RESILIENCE */}
-        <section id="resilience" className={`rounded-3xl ${cardBg} p-8 space-y-4 transition-colors`}>
+        <section id="resilience" className={`group rounded-3xl ${cardBg} p-8 space-y-4 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/50 hover:shadow-[0_10px_30px_-10px_rgba(16,185,129,0.15)]`}>
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3"><Cpu className="w-6 h-6 text-emerald-400" /><h2 className="text-xl font-bold">{t.resTitle}</h2></div>
+            <div className="flex items-center gap-3"><Cpu className="w-6 h-6 text-emerald-400 group-hover:scale-110 transition-transform duration-300" /><h2 className="text-xl font-bold group-hover:text-emerald-300 transition-colors">{t.resTitle}</h2></div>
             <button onClick={() => setResilienceOpen(!resilienceOpen)} className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer"><span>{resilienceOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${resilienceOpen ? "rotate-180" : ""}`} /></button>
           </div>
           <p className="text-sm opacity-90 leading-relaxed">{t.resDesc}</p>
@@ -578,10 +578,10 @@ export default function Home() {
 
         {/* PROJECTS */}
         <section id="projects" className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in-up delay-300">
-          <div className={`rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-colors`}>
+          <div className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.15)]`}>
             <div>
-              <div className="flex items-center justify-between mb-4"><span className="text-xs font-mono text-cyan-400">Infrastructure</span><Server className="w-4 h-4 opacity-70" /></div>
-              <h3 className="text-base font-bold mb-2">Self-Hosted Homelab & Nextcloud</h3>
+              <div className="flex items-center justify-between mb-4"><span className="text-xs font-mono text-cyan-400">Infrastructure</span><Server className="w-4 h-4 opacity-70 group-hover:scale-110 transition-transform duration-300" /></div>
+              <h3 className="text-base font-bold mb-2 group-hover:text-cyan-300 transition-colors">Self-Hosted Homelab & Nextcloud</h3>
               <p className="text-xs opacity-90 leading-relaxed mb-3">{t.proj1Desc}</p>
               {project1Open && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.proj1List1}</p><p>• {t.proj1List2}</p></div>)}
             </div>
@@ -591,10 +591,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className={`rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-colors`}>
+          <div className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-purple-500/50 hover:shadow-[0_10px_30px_-10px_rgba(168,85,247,0.15)]`}>
             <div>
-              <div className="flex items-center justify-between mb-4"><span className="text-xs font-mono text-purple-400">Web App</span><Code2 className="w-4 h-4 opacity-70" /></div>
-              <h3 className="text-base font-bold mb-2">High-Performance Portfolio</h3>
+              <div className="flex items-center justify-between mb-4"><span className="text-xs font-mono text-purple-400">Web App</span><Code2 className="w-4 h-4 opacity-70 group-hover:scale-110 transition-transform duration-300" /></div>
+              <h3 className="text-base font-bold mb-2 group-hover:text-purple-300 transition-colors">High-Performance Portfolio</h3>
               <p className="text-xs opacity-90 leading-relaxed mb-3">{t.proj2Desc}</p>
               {project2Open && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.proj2List1}</p><p>• {t.proj2List2}</p></div>)}
             </div>
@@ -602,14 +602,14 @@ export default function Home() {
               <div className="flex flex-wrap gap-1.5 py-3 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Next.js</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailwind</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">TypeScript</span></div>
               <div className="flex gap-2">
                 <button onClick={() => setProject2Open(!project2Open)} className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all font-medium cursor-pointer"><span>{project2Open ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-200 ${project2Open ? "rotate-180" : ""}`} /></button>
-                <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs transition-all"><GithubIcon className="w-3.5 h-3.5" /><span>Code</span></a>
+                <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs transition-all hover:scale-105"><GithubIcon className="w-3.5 h-3.5" /><span>Code</span></a>
               </div>
             </div>
           </div>
         </section>
 
         {/* TECH STACK GUARANTEE BAR */}
-        <section className="rounded-2xl border border-cyan-500/20 bg-cyan-500/[0.03] p-4 flex items-center justify-center gap-3 text-center animate-fade-in-up">
+        <section className="rounded-2xl border border-cyan-500/20 bg-cyan-500/[0.03] p-4 flex items-center justify-center gap-3 text-center animate-fade-in-up hover:border-cyan-400 transition-all duration-300">
           <ShieldCheck className="w-5 h-5 text-cyan-400 shrink-0" />
           <span className="text-xs font-mono font-medium tracking-wide opacity-90">{t.guaranteeText}</span>
         </section>
@@ -630,42 +630,20 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="rounded-2xl bg-white/[0.03] border border-white/5 p-5 space-y-3 flex flex-col justify-between">
-              <p className="text-xs sm:text-sm opacity-90 leading-relaxed italic">{t.test1}</p>
-              <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 pt-3 border-t border-white/5">
-                <span>Verified Client</span>
-                <span className="text-cyan-400">★★★★★</span>
+            {[t.test1, t.test2, t.test3, t.test4].map((testText, idx) => (
+              <div key={idx} className="group rounded-2xl bg-white/[0.03] border border-white/5 p-5 space-y-3 flex flex-col justify-between hover:border-amber-500/40 hover:bg-white/[0.05] transition-all duration-300 hover:-translate-y-1">
+                <p className="text-xs sm:text-sm opacity-90 leading-relaxed italic group-hover:text-amber-200/90 transition-colors">{testText}</p>
+                <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 pt-3 border-t border-white/5">
+                  <span>Verified Client</span>
+                  <span className="text-cyan-400">★★★★★</span>
+                </div>
               </div>
-            </div>
-
-            <div className="rounded-2xl bg-white/[0.03] border border-white/5 p-5 space-y-3 flex flex-col justify-between">
-              <p className="text-xs sm:text-sm opacity-90 leading-relaxed italic">{t.test2}</p>
-              <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 pt-3 border-t border-white/5">
-                <span>Verified Client</span>
-                <span className="text-cyan-400">★★★★★</span>
-              </div>
-            </div>
-
-            <div className="rounded-2xl bg-white/[0.03] border border-white/5 p-5 space-y-3 flex flex-col justify-between">
-              <p className="text-xs sm:text-sm opacity-90 leading-relaxed italic">{t.test3}</p>
-              <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 pt-3 border-t border-white/5">
-                <span>Verified Client</span>
-                <span className="text-cyan-400">★★★★★</span>
-              </div>
-            </div>
-
-            <div className="rounded-2xl bg-white/[0.03] border border-white/5 p-5 space-y-3 flex flex-col justify-between">
-              <p className="text-xs sm:text-sm opacity-90 leading-relaxed italic">{t.test4}</p>
-              <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 pt-3 border-t border-white/5">
-                <span>Verified Client</span>
-                <span className="text-cyan-400">★★★★★</span>
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 
-        {/* FAQ SLIDER SECTION (6 seconds interval) */}
-        <section className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 transition-colors relative overflow-hidden`}>
+        {/* FAQ SLIDER SECTION */}
+        <section className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 transition-colors relative overflow-hidden hover:border-cyan-500/40 transition-all duration-300`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <HelpCircle className="w-6 h-6 text-cyan-400" />
@@ -717,7 +695,7 @@ export default function Home() {
         </section>
 
         {/* CONTACT FORM */}
-        <section id="contact" className={`rounded-3xl ${cardBg} p-8 space-y-6 transition-colors`}>
+        <section id="contact" className={`rounded-3xl ${cardBg} p-8 space-y-6 transition-colors hover:border-cyan-500/40 transition-all duration-300`}>
           <div>
             <h2 className="text-xl font-bold mb-1">{t.contactTitle}</h2>
             <p className="text-xs opacity-70 mb-6">{t.contactSub}</p>
@@ -745,7 +723,7 @@ export default function Home() {
               <textarea required rows={4} placeholder={t.formPlaceholder} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-sm placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 transition-all resize-none" />
             </div>
 
-            <button type="submit" disabled={isSubmitting} className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-black font-bold text-sm transition-all shadow-[0_0_20px_rgba(6,182,212,0.3)] cursor-pointer">
+            <button type="submit" disabled={isSubmitting} className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-black font-bold text-sm transition-all shadow-[0_0_20px_rgba(6,182,212,0.3)] cursor-pointer hover:scale-[1.01] active:scale-95">
               <Send className="w-4 h-4" />
               <span>{isSubmitting ? t.sending : t.submitBtn}</span>
             </button>
