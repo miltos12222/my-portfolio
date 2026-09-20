@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ShoppingCart, X, Plus, Minus, Trash2, ArrowRight, Send } from "lucide-react";
+import { ShoppingCart, X, Plus, Minus, Trash2, ArrowRight, FileText, Send, Briefcase } from "lucide-react";
 import { toast } from "sonner";
 
 export interface CartItem {
@@ -16,7 +16,17 @@ export default function GlobalCart() {
     const [isOpen, setIsOpen] = useState(false);
     const [items, setItems] = useState<CartItem[]>([]);
     const [isCheckingOut, setIsCheckingOut] = useState(false);
-    const [formData, setFormData] = useState({ name: "", email: "", phone: "", notes: "" });
+
+    // Recruiter Contract Generator Form State
+    const [formData, setFormData] = useState({
+        companyName: "",
+        recruiterName: "",
+        email: "",
+        contractType: "Full-Time Position / Job Offer",
+        budgetOrSalary: "",
+        notes: ""
+    });
+
     const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
@@ -65,48 +75,48 @@ export default function GlobalCart() {
     const removeItem = (id: string) => {
         const updated = items.filter(item => item.id !== id);
         saveCart(updated);
-        toast.info("Το προϊόν αφαιρέθηκε από το καλάθι.");
+        toast.info("Το στοιχείο αφαιρέθηκε από το καλάθι.");
     };
 
     const totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const totalCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
-    const handleCheckoutSubmit = async (e: React.FormEvent) => {
+    const handleContractSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (items.length === 0) {
-            toast.error("Το καλάθι σας είναι άδειο.");
+            toast.error("Το καλάθι είναι άδειο.");
             return;
         }
 
         setSubmitting(true);
-        const cartSummary = items.map(i => `${i.quantity}x ${i.title} (${i.price * i.quantity}€)`).join("\n");
+        const cartSummary = items.map(i => `• ${i.quantity}x ${i.title} (${i.price * i.quantity}€)`).join("\n");
 
         try {
             const res = await fetch("/api/contact", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    name: formData.name,
+                    name: formData.recruiterName || formData.companyName,
                     email: formData.email,
-                    serviceTitle: `Cart Order (${totalCount} items)`,
-                    servicePrice: `${totalPrice}€`,
-                    message: `Client Details:\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nNotes: ${formData.notes}\n\nOrdered Items:\n${cartSummary}\n\nTotal: ${totalPrice}€`,
+                    serviceTitle: `💼 Recruiter Contract Offer: ${formData.contractType}`,
+                    servicePrice: `${totalPrice ? totalPrice + '€ / Est.' : 'Negotiable'}`,
+                    message: `========================================\nOFFICIAL RECRUITER CONTRACT / JOB OFFER\n========================================\nCompany: ${formData.companyName}\nRecruiter / Contact: ${formData.recruiterName}\nEmail: ${formData.email}\nCollaboration Type: ${formData.contractType}\nProposed Budget / Salary: ${formData.budgetOrSalary || "N/A"}\n\nSelected Package / Items & Services:\n${cartSummary}\n\nEstimated Value: ${totalPrice}€\n\nAdditional Notes & Requirements:\n${formData.notes}\n========================================`,
                 }),
             });
 
             if (res.ok) {
-                toast.success("Η παραγγελία/αίτημα στάλθηκε με επιτυχία!");
+                toast.success("Η πρόταση συνεργασίας/σύμβαση στάλθηκε με επιτυχία!");
                 localStorage.removeItem("miltos_agency_cart");
                 setItems([]);
                 setIsCheckingOut(false);
                 setIsOpen(false);
-                setFormData({ name: "", email: "", phone: "", notes: "" });
+                setFormData({ companyName: "", recruiterName: "", email: "", contractType: "Full-Time Position / Job Offer", budgetOrSalary: "", notes: "" });
                 window.dispatchEvent(new Event("storage-updated"));
             } else {
-                toast.error("Σφάλμα αποστολής παραγγελίας.");
+                toast.error("Σφάλμα αποστολής σύμβασης.");
             }
         } catch (err) {
-            toast.error("Σφάλμα σύνδεσης.");
+            toast.error("Σφάλμα σύνδεσης με τον διακομιστή.");
         } finally {
             setSubmitting(false);
         }
@@ -118,7 +128,7 @@ export default function GlobalCart() {
             <button
                 onClick={() => setIsOpen(true)}
                 className="fixed bottom-24 right-6 z-40 flex items-center gap-2 px-4 py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-purple-500 text-black font-bold shadow-2xl hover:scale-105 transition-transform cursor-pointer"
-                title="Το Καλάθι μου"
+                title="Recruiter Hub & Cart"
             >
                 <ShoppingCart className="w-5 h-5 text-black" />
                 <span className="text-xs font-mono bg-black text-white px-2 py-0.5 rounded-full">
@@ -126,7 +136,7 @@ export default function GlobalCart() {
                 </span>
             </button>
 
-            {/* Cart Drawer Modal */}
+            {/* Cart & Contract Drawer Modal */}
             {isOpen && (
                 <div className="fixed inset-0 z-50 flex justify-end bg-black/80 backdrop-blur-sm animate-fade-in">
                     <div className="w-full max-w-md bg-[#12131c] border-l border-white/15 h-full flex flex-col justify-between shadow-2xl p-6 text-xs">
@@ -135,8 +145,8 @@ export default function GlobalCart() {
                         <div>
                             <div className="flex items-center justify-between pb-4 border-b border-white/10">
                                 <div className="flex items-center gap-2">
-                                    <ShoppingCart className="w-5 h-5 text-cyan-400" />
-                                    <h2 className="text-sm font-bold text-white uppercase tracking-wider font-mono">Το Καλάθι Υπηρεσιών & Hardware</h2>
+                                    <Briefcase className="w-5 h-5 text-cyan-400" />
+                                    <h2 className="text-sm font-bold text-white uppercase tracking-wider font-mono">Recruiter Checkout & SOW</h2>
                                 </div>
                                 <button
                                     onClick={() => { setIsOpen(false); setIsCheckingOut(false); }}
@@ -146,14 +156,14 @@ export default function GlobalCart() {
                                 </button>
                             </div>
 
-                            {/* Items List or Checkout Form */}
+                            {/* Items List or Contract Generator Form */}
                             {!isCheckingOut ? (
                                 <div className="py-4 space-y-3 max-h-[calc(100vh-280px)] overflow-y-auto">
                                     {items.length === 0 ? (
                                         <div className="text-center py-16 space-y-3">
                                             <ShoppingCart className="w-12 h-12 text-zinc-600 mx-auto opacity-50" />
-                                            <p className="text-zinc-400 font-mono">Το καλάθι σας είναι άδειο.</p>
-                                            <p className="text-[11px] text-zinc-600">Προσθέστε υπηρεσίες από το Web Agency, DevOps ή Hardware Lab!</p>
+                                            <p className="text-zinc-400 font-mono">Το καλάθι υπηρεσιών είναι άδειο.</p>
+                                            <p className="text-[11px] text-zinc-600">Προσθέστε υπηρεσίες, Homelab setups ή Hardware για να δημιουργήσετε προσφορά συνεργασίας!</p>
                                         </div>
                                     ) : (
                                         items.map((item) => (
@@ -182,42 +192,70 @@ export default function GlobalCart() {
                                     )}
                                 </div>
                             ) : (
-                                <form onSubmit={handleCheckoutSubmit} className="py-4 space-y-3">
-                                    <h3 className="font-bold text-white text-xs font-mono uppercase tracking-wider mb-2">Στοιχεία Αποστολής Αιτήματος</h3>
-                                    <input type="text" required placeholder="Ονοματεπώνυμο" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full p-3 rounded-xl bg-white/[0.05] border border-white/10 text-white text-xs focus:outline-none focus:border-cyan-500" />
-                                    <input type="email" required placeholder="Email Επικοινωνίας" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full p-3 rounded-xl bg-white/[0.05] border border-white/10 text-white text-xs focus:outline-none focus:border-cyan-500" />
-                                    <input type="text" placeholder="Τηλέφωνο (Προαιρετικό)" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full p-3 rounded-xl bg-white/[0.05] border border-white/10 text-white text-xs focus:outline-none focus:border-cyan-500" />
-                                    <textarea rows={3} placeholder="Τυχόν σχόλια ή παρατηρήσεις..." value={formData.notes} onChange={(e) => setFormData({ ...formData, notes: e.target.value })} className="w-full p-3 rounded-xl bg-white/[0.05] border border-white/10 text-white text-xs focus:outline-none focus:border-cyan-500 resize-none" />
+                                <form onSubmit={handleContractSubmit} className="py-4 space-y-3">
+                                    <div className="p-3 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 mb-2">
+                                        <p className="text-[11px] font-mono">📝 Δημιουργία επίσημης πρότασης συνεργασίας (Statement of Work / Job Offer).</p>
+                                    </div>
+                                    <div>
+                                        <label className="block text-zinc-400 mb-1 text-[11px]">Όνομα Εταιρείας</label>
+                                        <input type="text" required placeholder="Tech Corp SA" value={formData.companyName} onChange={(e) => setFormData({ ...formData, companyName: e.target.value })} className="w-full p-3 rounded-xl bg-white/[0.05] border border-white/10 text-white text-xs focus:outline-none focus:border-cyan-500" />
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <label className="block text-zinc-400 mb-1 text-[11px]">Υπεύθυνος / Recruiter</label>
+                                            <input type="text" required placeholder="John Doe" value={formData.recruiterName} onChange={(e) => setFormData({ ...formData, recruiterName: e.target.value })} className="w-full p-3 rounded-xl bg-white/[0.05] border border-white/10 text-white text-xs focus:outline-none focus:border-cyan-500" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-zinc-400 mb-1 text-[11px]">Email Επικοινωνίας</label>
+                                            <input type="email" required placeholder="hr@company.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full p-3 rounded-xl bg-white/[0.05] border border-white/10 text-white text-xs focus:outline-none focus:border-cyan-500" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-zinc-400 mb-1 text-[11px]">Τύπος Συνεργασίας</label>
+                                        <select value={formData.contractType} onChange={(e) => setFormData({ ...formData, contractType: e.target.value })} className="w-full p-3 rounded-xl bg-zinc-900 border border-white/10 text-white text-xs font-mono focus:outline-none focus:border-cyan-500 cursor-pointer">
+                                            <option value="Full-Time Position / Job Offer">Full-Time Position / Job Offer</option>
+                                            <option value="Contract / Freelance SOW">Contract / Freelance SOW</option>
+                                            <option value="DevOps & Infrastructure Audit">DevOps & Infrastructure Audit</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className="block text-zinc-400 mb-1 text-[11px]">Εκτιμώμενο Budget / Μισθός (Προαιρετικό)</label>
+                                        <input type="text" placeholder="Π.χ. 2500€ / μήνα ή Project based" value={formData.budgetOrSalary} onChange={(e) => setFormData({ ...formData, budgetOrSalary: e.target.value })} className="w-full p-3 rounded-xl bg-white/[0.05] border border-white/10 text-white text-xs focus:outline-none focus:border-cyan-500" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-zinc-400 mb-1 text-[11px]">Λεπτομέρειες / Όροι Συνεργασίας</label>
+                                        <textarea rows={2} placeholder="Περιγράψτε το ρόλο ή τις απαιτήσεις..." value={formData.notes} onChange={(e) => setFormData({ ...formData, notes: e.target.value })} className="w-full p-3 rounded-xl bg-white/[0.05] border border-white/10 text-white text-xs focus:outline-none focus:border-cyan-500 resize-none" />
+                                    </div>
 
                                     <button type="button" onClick={() => setIsCheckingOut(false)} className="text-xs text-zinc-400 underline cursor-pointer">← Επιστροφή στο καλάθι</button>
                                 </form>
                             )}
                         </div>
 
-                        {/* Footer Summary & Checkout */}
+                        {/* Footer Summary & Action */}
                         {items.length > 0 && (
                             <div className="pt-4 border-t border-white/10 space-y-4">
                                 <div className="flex justify-between items-center text-sm font-mono">
-                                    <span className="text-zinc-400">Συνολικό Κόστος:</span>
+                                    <span className="text-zinc-400">Εκτιμώμενη Αξία:</span>
                                     <span className="text-xl font-bold text-emerald-400">{totalPrice}€</span>
                                 </div>
 
                                 {!isCheckingOut ? (
                                     <button
                                         onClick={() => setIsCheckingOut(true)}
-                                        className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-black font-bold text-xs transition-all shadow-lg cursor-pointer flex items-center justify-center gap-2"
+                                        className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-black font-bold text-xs transition-all shadow-lg cursor-pointer flex items-center justify-center gap-2 hover:scale-[1.02]"
                                     >
-                                        <span>Ταμείο & Αποστολή Αιτήματος</span>
-                                        <ArrowRight className="w-4 h-4" />
+                                        <FileText className="w-4 h-4 text-black" />
+                                        <span>Generate Job Offer / Contract ➔</span>
                                     </button>
                                 ) : (
                                     <button
-                                        onClick={handleCheckoutSubmit}
+                                        onClick={handleContractSubmit}
                                         disabled={submitting}
-                                        className="w-full py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold text-xs transition-all shadow-lg cursor-pointer flex items-center justify-center gap-2"
+                                        className="w-full py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold text-xs transition-all shadow-lg cursor-pointer flex items-center justify-center gap-2 hover:scale-[1.02]"
                                     >
                                         <Send className="w-3.5 h-3.5" />
-                                        <span>{submitting ? "Αποστολή..." : "Οριστική Υποβολή Παραγγελίας"}</span>
+                                        <span>{submitting ? "Αποστολή Σύμβασης..." : "Υποβολή Πρότασης & Σύμβασης"}</span>
                                     </button>
                                 )}
                             </div>
