@@ -2,13 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Check, Compass, Command, Search, ArrowRight, X } from "lucide-react";
-import { GithubIcon } from "@/components/SocialIcons";
+import { Mail, Compass, Command, Search, ArrowRight, X } from "lucide-react";
 import LocationBadge from "@/components/LocationBadge";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [copied, setCopied] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [cmdOpen, setCmdOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -37,12 +35,6 @@ export default function Navbar() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const copyEmail = () => {
-    navigator.clipboard.writeText("miltospapageorgiou066@gmail.com");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2200);
-  };
-
   const navLinks = [
     { label: "Overview", href: "#overview", category: "Navigation" },
     { label: "About Me", href: "#about-me", category: "Navigation" },
@@ -64,8 +56,8 @@ export default function Navbar() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className={`w-full max-w-6xl pointer-events-auto transition-all duration-300 rounded-3xl px-6 py-4 flex items-center justify-between ${scrolled
-            ? "bg-[#0c0d14]/85 backdrop-blur-2xl border border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.7)]"
-            : "bg-black/40 backdrop-blur-xl border border-white/10 shadow-lg"
+              ? "bg-[#0c0d14]/85 backdrop-blur-2xl border border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.7)]"
+              : "bg-black/40 backdrop-blur-xl border border-white/10 shadow-lg"
             }`}
         >
           {/* Brand / Monogram & Location Badge */}
@@ -94,13 +86,13 @@ export default function Navbar() {
               </div>
             </a>
 
-            {/* Dynamic Ioannina Location Badge (Εμφανίζεται πάντα σε Laptop/Desktop XL) */}
+            {/* Dynamic Ioannina Location Badge (Εμφανίζεται πάντα σε XL) */}
             <div className="hidden xl:block border-l border-white/10 pl-3.5">
               <LocationBadge />
             </div>
           </div>
 
-          {/* Desktop Links */}
+          {/* Desktop Nav Links */}
           <div className="hidden lg:flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-full px-4 py-1.5 text-xs shadow-inner">
             {navLinks.map((link) => (
               <a
@@ -113,15 +105,12 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Right Actions & Location Badge (Για Laptop/Tablet μεγέθη) */}
-          <div className="hidden sm:flex items-center gap-2.5">
-            <div className="hidden sm:block xl:hidden">
-              <LocationBadge />
-            </div>
-
+          {/* Right Actions: Καθαρός σχεδιασμός χωρίς να ξεφεύγουν στοιχεία */}
+          <div className="flex items-center gap-2.5">
+            {/* Quick Search Ctrl+K Button */}
             <button
               onClick={() => setCmdOpen(true)}
-              className="flex items-center gap-2 px-3 py-2 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-gray-400 hover:text-white text-xs transition-all shadow-sm"
+              className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-gray-400 hover:text-white text-xs transition-all shadow-sm"
               title="Quick Search (Ctrl+K)"
             >
               <Command className="h-3.5 w-3.5 text-cyan-400" />
@@ -130,44 +119,25 @@ export default function Navbar() {
               </span>
             </button>
 
-            <button
-              onClick={copyEmail}
-              className="group relative flex items-center gap-2 rounded-2xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 px-4 py-2 text-xs font-medium text-gray-200 transition-all active:scale-95 shadow-sm"
-            >
-              {copied ? (
-                <>
-                  <Check className="h-4 w-4 text-emerald-400" />
-                  <span className="text-emerald-400 font-mono">Copied!</span>
-                </>
-              ) : (
-                <>
-                  <Mail className="h-4 w-4 text-cyan-400 group-hover:scale-110 transition-transform" />
-                  <span>Contact</span>
-                </>
-              )}
-            </button>
-
+            {/* Contact Button -> Scroll κατευθείαν στο #contact (Footer) */}
             <a
-              href="https://github.com/miltos12222"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-9 w-9 items-center justify-center rounded-2xl bg-white/[0.05] border border-white/15 text-gray-400 hover:text-white hover:bg-white/[0.1] transition-colors shadow-sm"
+              href="#contact"
+              className="flex items-center gap-2 rounded-2xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 px-4 py-2 text-xs font-medium text-cyan-300 transition-all active:scale-95 shadow-sm"
             >
-              <GithubIcon className="h-4 w-4" />
+              <Mail className="h-4 w-4 text-cyan-400" />
+              <span>Contact</span>
             </a>
-          </div>
 
-          {/* Mobile Menu Button */}
-          <div className="flex lg:hidden">
+            {/* Mobile Menu Button */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-white/10 border border-white/15 text-gray-200 hover:text-white transition-all text-xs font-medium"
+              className="flex lg:hidden items-center gap-2 px-3 py-2 rounded-2xl bg-white/10 border border-white/15 text-gray-200 hover:text-white transition-all text-xs font-medium"
             >
               <Compass
                 className={`h-4 w-4 text-cyan-400 transition-transform duration-500 ${menuOpen ? "rotate-90" : ""
                   }`}
               />
-              <span>Menu</span>
+              <span className="hidden sm:inline">Menu</span>
             </button>
           </div>
         </motion.nav>
@@ -221,30 +191,11 @@ export default function Navbar() {
                     </span>
                   </a>
                 ))}
-
-                <div className="pt-2 px-3 py-1.5 text-[10px] font-mono text-gray-500 uppercase tracking-wider">
-                  Actions
-                </div>
-                <button
-                  onClick={() => {
-                    copyEmail();
-                    setCmdOpen(false);
-                  }}
-                  className="w-full flex items-center justify-between px-3 py-2.5 rounded-2xl hover:bg-white/[0.08] text-gray-300 hover:text-cyan-400 text-sm transition-all text-left"
-                >
-                  <span className="flex items-center gap-2">
-                    <Mail className="h-3.5 w-3.5 text-cyan-400" />
-                    Copy Email Address
-                  </span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400">
-                    Quick Action
-                  </span>
-                </button>
               </div>
 
               <div className="px-4 py-3 bg-white/[0.02] border-t border-white/10 flex items-center justify-between text-[11px] text-gray-500 font-mono">
                 <span>Use arrows to navigate</span>
-                <span className="text-cyan-400">Miltos Papageorgiou Port 2026</span>
+                <span className="text-cyan-400">Miltos Papageorgiou</span>
               </div>
             </motion.div>
           </div>
@@ -272,7 +223,6 @@ export default function Navbar() {
               </button>
             </div>
 
-            {/* Location Badge inside Mobile Menu */}
             <div className="flex items-center justify-center py-1">
               <LocationBadge />
             </div>
