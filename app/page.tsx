@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, Star, Send, Check, Terminal, Globe, Download, Calendar, Calculator, Sparkles, Sun, Moon, Zap, History, ShieldCheck, HelpCircle } from "lucide-react";
+import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Check, Terminal, Globe, Download, Calendar, Calculator, Sparkles, Sun, Moon, Zap, History, ShieldCheck, HelpCircle } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
 
@@ -45,24 +45,17 @@ const translations = {
 
     faqTitle: "Συχνές Ερωτήσεις (FAQ)",
     faqSub: "Όλες οι απαντήσεις σχετικά με τη διαδικασία συνεργασίας και τις τεχνικές λεπτομέρειες.",
-    q1: "Πώς γίνεται η πληρωμή;",
-    a1: "Η διαδικασία περιλαμβάνει 50% προκαταβολή για την έναρξη του έργου και 50% εξόφληση με την παράδοση και τον έλεγχο της εφαρμογής.",
-    q2: "Χρειάζομαι hosting;",
-    a2: "Όχι απαραίτητα. Σας τα στήνω και τα παραδίδω πλήρως λειτουργικά (σε Vercel για τα web apps ή σε δικό σας Proxmox server για self-hosted λύσεις).",
-    q3: "Πόσες αλλαγές περιλαμβάνονται;",
-    a3: "Κάθε πακέτο περιλαμβάνει δωρεάν αναθεωρήσεις και διορθώσεις κατά τη διάρκεια της ανάπτυξης, καθώς και υποστήριξη για τυχόν παρατηρήσεις μετά την παράδοση.",
-    q4: "Πόσος χρόνος χρειάζεται για την ολοκλήρωση;",
-    a4: "Συνήθως από 5 έως 10 εργάσιμες ημέρες ανάλογα με την πολυπλοκότητα του project (Landing Pages παραδίδονται συχνά σε 3-5 ημέρες).",
-    q5: "Είναι φιλικό προς τις μηχανές αναζήτησης (SEO);",
-    a5: "Ναι, απόλυτα. Χρησιμοποιώ Next.js server-side rendering, sitemaps και βέλτιστες πρακτικές για κορυφαίες επιδόσεις σε Google Lighthouse scores.",
-    q6: "Παρέχετε τεχνική υποστήριξη μετά την παράδοση;",
-    a6: "Φυσικά. Υπάρχει δυνατότητα μηνιαίας συντήρησης, ασφάλειας και ενημερώσεων ή υποστήριξη με την ώρα (Consulting & Audit).",
-    q7: "Μπορώ να ενημερώνω μόνος μου το περιεχόμενο;",
-    a7: "Ναι, μπορούμε να ενσωματώσουμε εύκολο CMS ή Markdown δομή ώστε να αλλάζετε κείμενα και φωτογραφίες χωρίς κώδικα.",
-    q8: "Τι γίνεται αν χρειαστώ κάτι πιο σύνθετο;",
-    a8: "Μπορούμε να προσαρμόσουμε το πακέτο ακριβώς στις απαιτήσεις σας (Custom Full-Stack App) με βάση τις ανάγκες της επιχείρησής σας.",
-    q9: "Πώς μπορούμε να ξεκινήσουμε;",
-    a9: "Απλώς συμπληρώστε τη φόρμα επικοινωνίας ή κλείστε ένα απευθείας 15λεπτο ραντεβού (Book a Call) για να συζητήσουμε το project σας.",
+    faqList: [
+      { q: "Πώς γίνεται η πληρωμή;", a: "Η διαδικασία περιλαμβάνει 50% προκαταβολή για την έναρξη του έργου και 50% εξόφληση με την παράδοση και τον έλεγχο της εφαρμογής." },
+      { q: "Χρειάζομαι hosting;", a: "Όχι απαραίτητα. Σας τα στήνω και τα παραδίδω πλήρως λειτουργικά (σε Vercel για τα web apps ή σε δικό σας Proxmox server για self-hosted λύσεις)." },
+      { q: "Πόσες αλλαγές περιλαμβάνονται;", a: "Κάθε πακέτο περιλαμβάνει δωρεάν αναθεωρήσεις και διορθώσεις κατά τη διάρκεια της ανάπτυξης, καθώς και υποστήριξη για τυχόν παρατηρήσεις μετά την παράδοση." },
+      { q: "Πόσος χρόνος χρειάζεται για την ολοκλήρωση;", a: "Συνήθως από 5 έως 10 εργάσιμες ημέρες ανάλογα με την πολυπλοκότητα του project (Landing Pages παραδίδονται συχνά σε 3-5 ημέρες)." },
+      { q: "Είναι φιλικό προς τις μηχανές αναζήτησης (SEO);", a: "Ναι, απόλυτα. Χρησιμοποιώ Next.js server-side rendering, sitemaps και βέλτιστες πρακτικές για κορυφαίες επιδόσεις σε Google Lighthouse scores." },
+      { q: "Παρέχετε τεχνική υποστήριξη μετά την παράδοση;", a: "Φυσικά. Υπάρχει δυνατότητα μηνιαίας συντήρησης, ασφάλειας και ενημερώσεων ή υποστήριξη με την ώρα (Consulting & Audit)." },
+      { q: "Μπορώ να ενημερώνω μόνος μου το περιεχόμενο;", a: "Ναι, μπορούμε να ενσωματώσουμε εύκολο CMS ή Markdown δομή ώστε να αλλάζετε κείμενα και φωτογραφίες χωρίς κώδικα." },
+      { q: "Τι γίνεται αν χρειαστώ κάτι πιο σύνθετο;", a: "Μπορούμε να προσαρμόσουμε το πακέτο ακριβώς στις απαιτήσεις σας (Custom Full-Stack App) με βάση τις ανάγκες της επιχείρησής σας." },
+      { q: "Πώς μπορούμε να ξεκινήσουμε;", a: "Απλώς συμπληρώστε τη φόρμα επικοινωνίας ή κλείστε ένα απευθείας 15λεπτο ραντεβού (Book a Call) για να συζητήσουμε το project σας." }
+    ],
 
     testimonialsTitle: "Συστάσεις & Real Testimonials",
     test1Text: '"Ο Μίλτος έδειξε εξαιρετική αφοσίωση και τεχνική κατάρτιση στο στήσιμο των δικτύων και των containers. Επαγγελματίας σε όλα του."',
@@ -217,24 +210,17 @@ const translations = {
 
     faqTitle: "Frequently Asked Questions (FAQ)",
     faqSub: "Everything you need to know about our collaboration process and technical details.",
-    q1: "How does payment work?",
-    a1: "A 50% deposit is required to kick off the project, and the remaining 50% is paid upon delivery and final testing.",
-    q2: "Do I need hosting?",
-    a2: "Not necessarily. I set everything up and deliver it fully operational (on Vercel for web apps or your own Proxmox server for self-hosted solutions).",
-    q3: "How many revisions are included?",
-    a3: "Each package includes free iterations and adjustments during development, plus post-launch support.",
-    q4: "What is the typical turnaround time?",
-    a4: "Usually between 5 to 10 business days depending on project complexity (Landing pages are often delivered in 3-5 days).",
-    q5: "Is it SEO friendly?",
-    a5: "Yes, absolutely. I utilize Next.js server-side rendering, sitemaps, and best practices for top Google Lighthouse scores.",
-    q6: "Do you provide post-launch support?",
-    a6: "Yes, monthly maintenance, security updates, or hourly consulting & audit are available.",
-    q7: "Can I update the content myself?",
-    a7: "Yes, we can integrate an easy-to-use CMS or Markdown setup so you can update texts and images without code.",
-    q8: "What if I need something custom or advanced?",
-    a8: "We can tailor a custom full-stack app specifically matching your unique business requirements.",
-    q9: "How do we get started?",
-    a9: "Simply fill out the contact form below or book a direct 15-minute discovery call to discuss your project.",
+    faqList: [
+      { q: "How does payment work?", a: "A 50% deposit is required to kick off the project, and the remaining 50% is paid upon delivery and final testing." },
+      { q: "Do I need hosting?", a: "Not necessarily. I set everything up and deliver it fully operational (on Vercel for web apps or your own Proxmox server for self-hosted solutions)." },
+      { q: "How many revisions are included?", a: "Each package includes free iterations and adjustments during development, plus post-launch support." },
+      { q: "What is the typical turnaround time?", a: "Usually between 5 to 10 business days depending on project complexity (Landing pages are often delivered in 3-5 days)." },
+      { q: "Is it SEO friendly?", a: "Yes, absolutely. I utilize Next.js server-side rendering, sitemaps, and best practices for top Google Lighthouse scores." },
+      { q: "Do you provide post-launch support?", a: "Yes, monthly maintenance, security updates, or hourly consulting & audit are available." },
+      { q: "Can I update the content myself?", a: "Yes, we can integrate an easy-to-use CMS or Markdown setup so you can update texts and images without code." },
+      { q: "What if I need something custom or advanced?", a: "We can tailor a custom full-stack app specifically matching your unique business requirements." },
+      { q: "How do we get started?", a: "Simply fill out the contact form below or book a direct 15-minute discovery call to discuss your project." }
+    ],
 
     testimonialsTitle: "Recommendations & Real Testimonials",
     test1Text: '"Miltos showed exceptional dedication and technical skill in setting up network systems and containers. A true professional."',
@@ -381,6 +367,38 @@ export default function Home() {
   const [calcAddonVpn, setCalcAddonVpn] = useState(false);
 
   const calculatedTotal = calcBasePrice + (calcAddonSeo ? 70 : 0) + (calcAddonVpn ? 100 : 0);
+
+  // --- FAQ SLIDER STATE ---
+  const [faqIndex, setFaqIndex] = useState(0);
+  const [faqFade, setFaqFade] = useState(true);
+
+  // Auto slide FAQ every 4 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFaqFade(false);
+      setTimeout(() => {
+        setFaqIndex((prev) => (prev + 1) % t.faqList.length);
+        setFaqFade(true);
+      }, 300);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [t.faqList.length]);
+
+  const handleNextFaq = () => {
+    setFaqFade(false);
+    setTimeout(() => {
+      setFaqIndex((prev) => (prev + 1) % t.faqList.length);
+      setFaqFade(true);
+    }, 300);
+  };
+
+  const handlePrevFaq = () => {
+    setFaqFade(false);
+    setTimeout(() => {
+      setFaqIndex((prev) => (prev - 1 + t.faqList.length) % t.faqList.length);
+      setFaqFade(true);
+    }, 300);
+  };
 
   // --- TERMINAL STATES ---
   const terminalEndRef = useRef<HTMLDivElement>(null);
@@ -1223,26 +1241,66 @@ export default function Home() {
           </div>
         </section>
 
-        {/* FAQ SECTION (9 COMPREHENSIVE QUESTIONS) */}
-        <section className={`rounded-3xl ${cardBg} p-8 space-y-6 transition-colors`}>
-          <div className="flex items-center gap-3">
-            <HelpCircle className="w-6 h-6 text-cyan-400" />
-            <div>
-              <h2 className="text-xl font-bold">{t.faqTitle}</h2>
-              <p className="text-xs opacity-70">{t.faqSub}</p>
+        {/* FAQ SLIDER SECTION (SINGLE RECTANGLE CARD WITH AUTO-SLIDE, FADE ANIMATION & ARROWS) */}
+        <section className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 transition-colors relative overflow-hidden`}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <HelpCircle className="w-6 h-6 text-cyan-400" />
+              <div>
+                <h2 className="text-lg sm:text-xl font-bold">{t.faqTitle}</h2>
+                <p className="text-xs opacity-70">{t.faqSub}</p>
+              </div>
+            </div>
+
+            {/* Navigation Arrows */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handlePrevFaq}
+                className="p-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 transition-all cursor-pointer"
+                title="Previous"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <span className="text-xs font-mono opacity-60">
+                {faqIndex + 1} / {t.faqList.length}
+              </span>
+              <button
+                onClick={handleNextFaq}
+                className="p-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 transition-all cursor-pointer"
+                title="Next"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
-            <div className="space-y-2 bg-white/[0.02] p-5 rounded-2xl border border-white/5"><h3 className="text-sm font-bold text-cyan-400">{t.q1}</h3><p className="text-xs opacity-80 leading-relaxed">{t.a1}</p></div>
-            <div className="space-y-2 bg-white/[0.02] p-5 rounded-2xl border border-white/5"><h3 className="text-sm font-bold text-cyan-400">{t.q2}</h3><p className="text-xs opacity-80 leading-relaxed">{t.a2}</p></div>
-            <div className="space-y-2 bg-white/[0.02] p-5 rounded-2xl border border-white/5"><h3 className="text-sm font-bold text-cyan-400">{t.q3}</h3><p className="text-xs opacity-80 leading-relaxed">{t.a3}</p></div>
-            <div className="space-y-2 bg-white/[0.02] p-5 rounded-2xl border border-white/5"><h3 className="text-sm font-bold text-cyan-400">{t.q4}</h3><p className="text-xs opacity-80 leading-relaxed">{t.a4}</p></div>
-            <div className="space-y-2 bg-white/[0.02] p-5 rounded-2xl border border-white/5"><h3 className="text-sm font-bold text-cyan-400">{t.q5}</h3><p className="text-xs opacity-80 leading-relaxed">{t.a5}</p></div>
-            <div className="space-y-2 bg-white/[0.02] p-5 rounded-2xl border border-white/5"><h3 className="text-sm font-bold text-cyan-400">{t.q6}</h3><p className="text-xs opacity-80 leading-relaxed">{t.a6}</p></div>
-            <div className="space-y-2 bg-white/[0.02] p-5 rounded-2xl border border-white/5"><h3 className="text-sm font-bold text-cyan-400">{t.q7}</h3><p className="text-xs opacity-80 leading-relaxed">{t.a7}</p></div>
-            <div className="space-y-2 bg-white/[0.02] p-5 rounded-2xl border border-white/5"><h3 className="text-sm font-bold text-cyan-400">{t.q8}</h3><p className="text-xs opacity-80 leading-relaxed">{t.a8}</p></div>
-            <div className="space-y-2 bg-white/[0.02] p-5 rounded-2xl border border-white/5"><h3 className="text-sm font-bold text-cyan-400">{t.q9}</h3><p className="text-xs opacity-80 leading-relaxed">{t.a9}</p></div>
+          {/* FAQ Card with Smooth Fade Animation */}
+          <div className="bg-white/[0.02] border border-white/10 p-6 rounded-2xl min-h-[140px] flex flex-col justify-center relative">
+            <div className={`space-y-2 transition-opacity duration-300 ${faqFade ? "opacity-100" : "opacity-0"}`}>
+              <h3 className="text-sm sm:text-base font-bold text-cyan-400">
+                {t.faqList[faqIndex].q}
+              </h3>
+              <p className="text-xs sm:text-sm opacity-90 leading-relaxed">
+                {t.faqList[faqIndex].a}
+              </p>
+            </div>
+          </div>
+
+          {/* Dots Indicator */}
+          <div className="flex justify-center gap-1.5 pt-1">
+            {t.faqList.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  setFaqFade(false);
+                  setTimeout(() => {
+                    setFaqIndex(i);
+                    setFaqFade(true);
+                  }, 300);
+                }}
+                className={`h-1.5 rounded-full transition-all cursor-pointer ${faqIndex === i ? "w-6 bg-cyan-400" : "w-1.5 bg-white/20 hover:bg-white/40"}`}
+              />
+            ))}
           </div>
         </section>
 
