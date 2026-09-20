@@ -1,13 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ServicesSection from "@/components/ServicesSection";
-import Testimonials from "@/components/Testimonials";
 import Image from "next/image";
-import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown } from "lucide-react";
+import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, Star } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 
 export default function Home() {
@@ -24,7 +21,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-[#0b0c10] text-[#e5e7eb] selection:bg-cyan-500/25 selection:text-white w-full">
+    <div className="relative min-h-screen bg-[#0b0c10] text-[#e5e7eb] selection:bg-cyan-500/25 selection:text-white w-full overflow-x-hidden">
       <div id="top" className="absolute top-0 left-0 h-px w-px pointer-events-none" />
 
       <Navbar />
@@ -36,8 +33,6 @@ export default function Home() {
 
           {/* Profile Card */}
           <div className="md:col-span-2 md:row-span-2 rounded-3xl bg-white/[0.03] border border-white/10 p-8 flex flex-col justify-between relative overflow-hidden">
-            <div className="absolute -right-10 -bottom-10 w-60 h-60 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
-
             <div className="flex items-center justify-between z-10 mb-6">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono">
                 <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
@@ -108,22 +103,12 @@ export default function Home() {
               <h3 className="text-lg font-bold text-white mb-1">Self-Hosted</h3>
               <p className="text-xs text-zinc-400 mb-3">Proxmox VE, Docker containers, Nextcloud & MariaDB orchestration.</p>
 
-              <AnimatePresence>
-                {infraOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs text-zinc-300">
-                      <p>• Αυτόματος συγχρονισμός και backup 6.000+ φωτογραφιών.</p>
-                      <p>• Διαχείριση δικτύου και ασφαλής πρόσβαση μέσω Tailscale VPN.</p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {infraOpen && (
+                <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs text-zinc-300">
+                  <p>• Αυτόματος συγχρονισμός και backup 6.000+ φωτογραφιών.</p>
+                  <p>• Διαχείριση δικτύου και ασφαλής πρόσβαση μέσω Tailscale VPN.</p>
+                </div>
+              )}
             </div>
 
             <div>
@@ -137,7 +122,7 @@ export default function Home() {
                 className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium"
               >
                 <span>{infraOpen ? "Λιγότερα" : "Ανάλυση"}</span>
-                <ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-300 ${infraOpen ? "rotate-180" : ""}`} />
+                <ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${infraOpen ? "rotate-180" : ""}`} />
               </button>
             </div>
           </div>
@@ -152,22 +137,12 @@ export default function Home() {
               <h3 className="text-lg font-bold text-white mb-1">Modern Stack</h3>
               <p className="text-xs text-zinc-400 mb-3">Next.js, TypeScript, Tailwind CSS, high-performance web apps.</p>
 
-              <AnimatePresence>
-                {webOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs text-zinc-300">
-                      <p>• Αρχιτεκτονική φιλική προς SEO και άμεση απόκριση (zero lags).</p>
-                      <p>• Responsive σχεδίαση με Tailwind CSS και modular λογική.</p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {webOpen && (
+                <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs text-zinc-300">
+                  <p>• Αρχιτεκτονική φιλική προς SEO και άμεση απόκριση (zero lags).</p>
+                  <p>• Responsive σχεδίαση με Tailwind CSS και modular λογική.</p>
+                </div>
+              )}
             </div>
 
             <div>
@@ -181,7 +156,7 @@ export default function Home() {
                 className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium"
               >
                 <span>{webOpen ? "Λιγότερα" : "Ανάλυση"}</span>
-                <ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-300 ${webOpen ? "rotate-180" : ""}`} />
+                <ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-200 ${webOpen ? "rotate-180" : ""}`} />
               </button>
             </div>
           </div>
@@ -198,22 +173,12 @@ export default function Home() {
                 Διαθέτω εξαιρετική οργάνωση, προσαρμοστικότητα και αποδεδειγμένη αντοχή σε απαιτητικά περιβάλλοντα εργασίας με αυξημένη πίεση και σύνθετα τεχνικά ζητήματα.
               </p>
 
-              <AnimatePresence>
-                {ethicOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs text-zinc-300">
-                      <p>• Μεθοδική αντιμετώπιση προβλημάτων σε περιβάλλοντα Linux/Homelab.</p>
-                      <p>• Συνεχής εκμάθηση νέων τεχνολογιών και αυτοματισμών ροών εργασίας.</p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {ethicOpen && (
+                <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs text-zinc-300">
+                  <p>• Μεθοδική αντιμετώπιση προβλημάτων σε περιβάλλοντα Linux/Homelab.</p>
+                  <p>• Συνεχής εκμάθηση νέων τεχνολογιών και αυτοματισμών ροών εργασίας.</p>
+                </div>
+              )}
             </div>
 
             <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/5">
@@ -230,7 +195,7 @@ export default function Home() {
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium"
               >
                 <span>{ethicOpen ? "Λιγότερα" : "Ανάλυση"}</span>
-                <ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-300 ${ethicOpen ? "rotate-180" : ""}`} />
+                <ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${ethicOpen ? "rotate-180" : ""}`} />
               </button>
             </div>
           </div>
@@ -260,7 +225,7 @@ export default function Home() {
               className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium"
             >
               <span>{stackOpen ? "Λιγότερα" : "Ανάλυση"}</span>
-              <ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-300 ${stackOpen ? "rotate-180" : ""}`} />
+              <ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${stackOpen ? "rotate-180" : ""}`} />
             </button>
           </div>
 
@@ -268,23 +233,13 @@ export default function Home() {
             Ανάπτυξη και διαχείριση εικονικών μηχανών σε Proxmox VE, παραμετροποίηση Docker containers για αυτόματο backup φωτογραφιών και αρχείων με ασφαλή πρόσβαση μέσω Tailscale VPN.
           </p>
 
-          <AnimatePresence>
-            {stackOpen && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="overflow-hidden"
-              >
-                <div className="pt-4 border-t border-white/10 space-y-2 text-xs text-zinc-300">
-                  <p>• **Proxmox VE:** Ρύθμιση αποθηκευτικών χώρων (ext4 mounts) και οργάνωση LXC containers.</p>
-                  <p>• **Nextcloud & MariaDB:** Αυτόματος συγχρονισμός και ασφαλής αποθήκευση πάνω από 6.000 αρχείων και φωτογραφιών.</p>
-                  <p>• **Tailscale Mesh VPN:** Ασφαλής σύνδεση απομακρυσμένης πρόσβασης χωρίς exposed ports.</p>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {stackOpen && (
+            <div className="pt-4 border-t border-white/10 space-y-2 text-xs text-zinc-300">
+              <p>• <strong>Proxmox VE:</strong> Ρύθμιση αποθηκευτικών χώρων (ext4 mounts) και οργάνωση LXC containers.</p>
+              <p>• <strong>Nextcloud & MariaDB:</strong> Αυτόματος συγχρονισμός και ασφαλής αποθήκευση πάνω από 6.000 αρχείων και φωτογραφιών.</p>
+              <p>• <strong>Tailscale Mesh VPN:</strong> Ασφαλής σύνδεση απομακρυσμένης πρόσβασης χωρίς exposed ports.</p>
+            </div>
+          )}
         </section>
 
         {/* RESILIENCE */}
@@ -299,7 +254,7 @@ export default function Home() {
               className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium"
             >
               <span>{resilienceOpen ? "Λιγότερα" : "Ανάλυση"}</span>
-              <ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-300 ${resilienceOpen ? "rotate-180" : ""}`} />
+              <ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${resilienceOpen ? "rotate-180" : ""}`} />
             </button>
           </div>
 
@@ -307,23 +262,13 @@ export default function Home() {
             Σχεδιασμός με έμφαση στη συνεχή λειτουργία, τα αυτόματα backups και την ανθεκτικότητα απέναντι σε αστοχίες υλικού ή δικτύου.
           </p>
 
-          <AnimatePresence>
-            {resilienceOpen && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="overflow-hidden"
-              >
-                <div className="pt-4 border-t border-white/10 space-y-2 text-xs text-zinc-300">
-                  <p>• **Αυτόματα Backups:** Τακτικά snapshots και αντίγραφα ασφαλείας κρίσιμων δεδομένων.</p>
-                  <p>• **Fault Tolerance:** Προστασία υποδομής έναντι διακοπών δικτύου και απώλειας πακέτων.</p>
-                  <p>• **Monitoring:** Συνεχής παρακολούθηση υγείας συστημάτων και containers.</p>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {resilienceOpen && (
+            <div className="pt-4 border-t border-white/10 space-y-2 text-xs text-zinc-300">
+              <p>• <strong>Αυτόματα Backups:</strong> Τακτικά snapshots και αντίγραφα ασφαλείας κρίσιμων δεδομένων.</p>
+              <p>• <strong>Fault Tolerance:</strong> Προστασία υποδομής έναντι διακοπών δικτύου και απώλειας πακέτων.</p>
+              <p>• <strong>Monitoring:</strong> Συνεχής παρακολούθηση υγείας συστημάτων και containers.</p>
+            </div>
+          )}
         </section>
 
         {/* PROJECTS */}
@@ -341,22 +286,12 @@ export default function Home() {
                 Ανάπτυξη και διαχείριση εικονικών μηχανών σε Proxmox VE, παραμετροποίηση Docker containers για αυτόματο backup φωτογραφιών και αρχείων με ασφαλή πρόσβαση μέσω Tailscale VPN.
               </p>
 
-              <AnimatePresence>
-                {project1Open && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs text-zinc-300">
-                      <p>• Υλοποίηση εξωτερικών mounts (ext4) και διαχείριση δικαιωμάτων χρηστών.</p>
-                      <p>• Αποφυγή exposure ports στο internet χάρη στη χρήση Mesh VPN δικτύου.</p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {project1Open && (
+                <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs text-zinc-300">
+                  <p>• Υλοποίηση εξωτερικών mounts (ext4) και διαχείριση δικαιωμάτων χρηστών.</p>
+                  <p>• Αποφυγή exposure ports στο internet χάρη στη χρήση Mesh VPN δικτύου.</p>
+                </div>
+              )}
             </div>
 
             <div>
@@ -370,7 +305,7 @@ export default function Home() {
                 className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium"
               >
                 <span>{project1Open ? "Λιγότερα" : "Ανάλυση"}</span>
-                <ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-300 ${project1Open ? "rotate-180" : ""}`} />
+                <ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${project1Open ? "rotate-180" : ""}`} />
               </button>
             </div>
           </div>
@@ -387,22 +322,12 @@ export default function Home() {
                 Σύγχρονο, ελαφρύ και πλήρως βελτιστοποιημένο portfolio κατασκευασμένο με Next.js, Tailwind CSS και TypeScript, σχεδιασμένο για άμεση φόρτωση και μηδενικά lags.
               </p>
 
-              <AnimatePresence>
-                {project2Open && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs text-zinc-300">
-                      <p>• Βελτιστοποίηση εικόνων και assets για κορυφαία επίδοση σε Lighthouse score.</p>
-                      <p>• Αξιοποίηση Server Components και σύγχρονων hooks για ομαλό UX.</p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {project2Open && (
+                <div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs text-zinc-300">
+                  <p>• Βελτιστοποίηση εικόνων και assets για κορυφαία επίδοση σε Lighthouse score.</p>
+                  <p>• Αξιοποίηση Server Components και σύγχρονων hooks για ομαλό UX.</p>
+                </div>
+              )}
             </div>
 
             <div>
@@ -416,18 +341,60 @@ export default function Home() {
                 className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs text-zinc-200 transition-all font-medium"
               >
                 <span>{project2Open ? "Λιγότερα" : "Ανάλυση"}</span>
-                <ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-300 ${project2Open ? "rotate-180" : ""}`} />
+                <ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-200 ${project2Open ? "rotate-180" : ""}`} />
               </button>
             </div>
           </div>
 
         </section>
 
-        {/* SERVICES SECTION */}
-        <ServicesSection />
+        {/* REVIEWS & TESTIMONIALS SECTION */}
+        <section id="reviews" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-bold text-white mb-1">Αξιολογήσεις & Βαθμολογία</h2>
+              <p className="text-xs text-zinc-400">Συνεργασίες, feedback και εμπειρία εργασίας</p>
+            </div>
+            <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 px-3.5 py-1.5 rounded-xl text-amber-400 w-fit">
+              <div className="flex gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                ))}
+              </div>
+              <span className="text-xs font-bold font-mono">5.0 / 5.0</span>
+            </div>
+          </div>
 
-        {/* TESTIMONIALS / ΒΑΘΜΟΛΟΓΙΑ SECTION */}
-        <Testimonials />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="rounded-2xl bg-white/[0.03] border border-white/5 p-5 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold text-white">Infrastructure Systems</span>
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+              </div>
+              <p className="text-xs text-zinc-300 leading-relaxed">
+                "Άψογη παραμετροποίηση Homelab και Docker υποδομών. Μεθοδικός, γρήγορος και με εξαιρετική κατανόηση της ασφάλειας δικτύων."
+              </p>
+            </div>
+
+            <div className="rounded-2xl bg-white/[0.03] border border-white/5 p-5 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold text-white">Full Stack Web Project</span>
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+              </div>
+              <p className="text-xs text-zinc-300 leading-relaxed">
+                "Εξαιρετικό αποτέλεσμα στο Next.js web application. Άμεση ανταπόκριση, καθαρός κώδικας και προσοχή στη λεπτομέρεια."
+              </p>
+            </div>
+          </div>
+        </section>
 
         <div id="contact" className="h-px w-px" />
 
