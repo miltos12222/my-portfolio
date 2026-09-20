@@ -61,11 +61,12 @@ const translations = {
       { q: "Πώς μπορούμε να ξεκινήσουμε;", a: "Απλώς συμπληρώστε τη φόρμα επικοινωνίας ή κλείστε ένα απευθείας 15λεπτο ραντεβού (Book a Call) για να συζητήσουμε το project σας." }
     ],
 
-    testimonialsTitle: "Συστάσεις & Real Testimonials",
-    test1Text: '"Ο Μίλτος έδειξε εξαιρετική αφοσίωση και τεχνική κατάρτιση στο στήσιμο των δικτύων και των containers. Επαγγελματίας σε όλα του."',
-    test1Author: "Dr. A. K., Καθηγητής Πληροφορικής (AUTH)",
-    test2Text: '"Το portfolio και οι υπηρεσίες του ξεχωρίζουν για την ταχύτητα και την καθαρότητα του κώδικα. Άριστος συνεργάτης."',
-    test2Author: "Γιάννης Π., Senior Software Engineer",
+    revTitle: "Αξιολογήσεις & Real Testimonials",
+    revSub: "Αληθινές εντυπώσεις από την ολοκλήρωση έργων, υποδομών και custom builds.",
+    test1: "«Η ταχύτητα υλοποίησης και η αρχιτεκτονική του Next.js app ξεπέρασαν κάθε προσδοκία. Εξαιρετικός επαγγελματίας με βαθιά τεχνική κατάρτιση.»",
+    test2: "«Το στήσιμο του Proxmox homelab και τα αυτόματα backups έλυσαν τα χέρια στην επιχείρησή μας. Απόλυτη σταθερότητα και ασφάλεια δεδομένων.»",
+    test3: "«Το custom PC build που παραγγείλαμε για rendering και AI tasks αποδίδει απίστευτα κάτω από βαριά φορτία. Άψογος επαγγελματισμός στο hardware.»",
+    test4: "«Άμεση επικοινωνία, καθαρός κώδικας και προσοχή στη λεπτομέρεια. Συνιστάται ανεπιφύλακτα για κάθε τεχνικό project ή ιστοσελίδα.»",
 
     termStatus: "Online & Ready for Hire",
     stackDesc: "Ανάπτυξη και διαχείριση εικονικών μηχανών σε Proxmox VE, παραμετροποίηση Docker containers για αυτόματο backup φωτογραφιών και αρχείων με ασφαλή πρόσβαση μέσω Tailscale VPN.",
@@ -83,10 +84,6 @@ const translations = {
     proj2Desc: "Σύγχρονο, ελαφρύ και πλήρως βελτιστοποιημένο portfolio κατασκευασμένο με Next.js, Tailwind CSS και TypeScript, σχεδιασμένο για άμεση φόρτωση και μηδενικά lags.",
     proj2List1: "Βελτιστοποίηση εικόνων και assets για κορυφαία επίδοση σε Lighthouse score.",
     proj2List2: "Αξιοποίηση Server Components και σύγχρονων hooks για ομαλό UX.",
-    revTitle: "Αξιολογήσεις & Βαθμολογία",
-    revSub: "Συνεργασίες, feedback και εμπειρία εργασίας",
-    rev1: '"Άψογη παραμετροποίηση Homelab και Docker υποδομών. Μεθοδικός, γρήγορος και με εξαιρετική κατανόηση της ασφάλειας δικτύων."',
-    rev2: '"Εξαιρετικό αποτέλεσμα στο Next.js web application. Άμεση ανταπόκριση, καθαρός κώδικας και προσοχή στη λεπτομέρεια."',
 
     contactTitle: "Άμεση Επικοινωνία",
     contactSub: "Στείλτε μου το μήνυμά σας και θα επικοινωνήσω μαζί σας άμεσα.",
@@ -152,11 +149,12 @@ const translations = {
       { q: "How do we get started?", a: "Simply fill out the contact form below or book a direct 15-minute discovery call to discuss your project." }
     ],
 
-    testimonialsTitle: "Recommendations & Real Testimonials",
-    test1Text: '"Miltos showed exceptional dedication and technical skill in setting up network systems and containers. A true professional."',
-    test1Author: "Dr. A. K., CS Professor (AUTH)",
-    test2Text: '"His portfolio and services stand out for speed and clean code execution. An outstanding collaborator."',
-    test2Author: "John P., Senior Software Engineer",
+    revTitle: "Reviews & Real Testimonials",
+    revSub: "Authentic impressions from completed projects, infrastructures, and custom builds.",
+    test1: '"Implementation speed and Next.js app architecture exceeded every expectation. Exceptional professional with deep technical expertise."',
+    test2: '"Proxmox homelab setup and automated backups saved our business. Absolute stability and data security."',
+    test3: '"The custom PC build we ordered for rendering and AI tasks performs incredibly under heavy loads. Flawless hardware professionalism."',
+    test4: '"Prompt communication, clean code, and attention to detail. Highly recommended for any technical project or website."',
 
     termStatus: "Online & Ready for Hire",
     stackDesc: "Deployment and management of virtual machines on Proxmox VE, Docker container configuration for automated backups, with secure access via Tailscale VPN.",
@@ -174,10 +172,6 @@ const translations = {
     proj2Desc: "Modern, lightweight, and fully optimized portfolio built with Next.js, Tailwind CSS, and TypeScript, designed for instant loading.",
     proj2List1: "Image and asset optimization for top Lighthouse scores.",
     proj2List2: "Leveraging Server Components and modern hooks for smooth UX.",
-    revTitle: "Reviews & Ratings",
-    revSub: "Collaborations, feedback, and work experience",
-    rev1: '"Flawless Homelab and Docker infrastructure configuration. Methodical, fast, and with excellent understanding of network security."',
-    rev2: '"Excellent result on the Next.js web application. Prompt response, clean code, and attention to detail."',
 
     contactTitle: "Direct Contact",
     contactSub: "Send me a message and I will get back to you promptly.",
@@ -198,7 +192,6 @@ export default function Home() {
   const [lang, setLang] = useState<"gr" | "en">("gr");
   const t = translations[lang];
 
-  // --- THEME STATE ---
   const [theme, setTheme] = useState<"dark" | "cyberpunk" | "light">("dark");
 
   const [infraOpen, setInfraOpen] = useState(false);
@@ -212,11 +205,10 @@ export default function Home() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // --- FAQ SLIDER STATE ---
+  // --- FAQ SLIDER STATE (6 seconds interval) ---
   const [faqIndex, setFaqIndex] = useState(0);
   const [faqFade, setFaqFade] = useState(true);
 
-  // Auto slide FAQ every 4 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setFaqFade(false);
@@ -224,7 +216,7 @@ export default function Home() {
         setFaqIndex((prev) => (prev + 1) % t.faqList.length);
         setFaqFade(true);
       }, 300);
-    }, 4000);
+    }, 6000);
     return () => clearInterval(interval);
   }, [t.faqList.length]);
 
@@ -244,7 +236,6 @@ export default function Home() {
     }, 300);
   };
 
-  // --- TERMINAL STATES ---
   const terminalEndRef = useRef<HTMLDivElement>(null);
   const [termInput, setTermInput] = useState("");
   const [termHistory, setTermHistory] = useState<{ cmd: string, output: React.ReactNode }[]>([{
@@ -266,7 +257,6 @@ export default function Home() {
     )
   }]);
 
-  // ΟΡΙΣΤΙΚΗ ΔΙΟΡΘΩΣΗ SCROLL POSITION ΣΤΟ REFRESH (Force Top)
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
@@ -360,7 +350,6 @@ export default function Home() {
     }
   };
 
-  // --- DYNAMIC THEME STYLING CLASSES ---
   const themeBg = theme === 'light' ? 'bg-slate-50 text-slate-900' : theme === 'cyberpunk' ? 'bg-[#050b05] text-[#00ff66]' : 'bg-[#0b0c10] text-[#e5e7eb]';
   const cardBg = theme === 'light' ? 'bg-white border-slate-200 text-slate-800 shadow-md' : theme === 'cyberpunk' ? 'bg-[#0a140a] border-[#00ff66]/30 text-[#00ff66]' : 'bg-white/[0.03] border-white/15 text-[#e5e7eb]';
 
@@ -397,19 +386,13 @@ export default function Home() {
           </button>
         </div>
 
-        {/* Navigation Switcher Tabs (Χειροκίνητη εναλλαγή σελίδων) */}
+        {/* Navigation Switcher Tabs */}
         <div className="flex justify-center items-center gap-3 mb-6">
-          <a
-            href="/"
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500 text-black text-xs font-bold transition-all shadow-lg shadow-cyan-500/20 cursor-pointer"
-          >
+          <a href="/" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500 text-black text-xs font-bold transition-all shadow-lg shadow-cyan-500/20 cursor-pointer">
             <Briefcase className="w-3.5 h-3.5" />
             <span>Βιογραφικό & Projects (Active)</span>
           </a>
-          <a
-            href="/services"
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all cursor-pointer"
-          >
+          <a href="/services" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all cursor-pointer">
             <ShoppingBag className="w-3.5 h-3.5 text-cyan-400" />
             <span>Agency & Υπηρεσίες</span>
           </a>
@@ -513,10 +496,7 @@ export default function Home() {
             <h2 className="text-xl sm:text-2xl font-bold text-white">{t.servicesBannerTitle}</h2>
             <p className="text-xs sm:text-sm text-zinc-300 max-w-xl">{t.servicesBannerDesc}</p>
           </div>
-          <a
-            href="/services"
-            className="px-6 py-3.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs sm:text-sm transition-all shadow-lg shadow-cyan-500/25 shrink-0 flex items-center gap-2 cursor-pointer"
-          >
+          <a href="/services" className="px-6 py-3.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs sm:text-sm transition-all shadow-lg shadow-cyan-500/25 shrink-0 flex items-center gap-2 cursor-pointer">
             <span>{t.servicesBannerBtn}</span>
           </a>
         </section>
@@ -634,7 +614,7 @@ export default function Home() {
           <span className="text-xs font-mono font-medium tracking-wide opacity-90">{t.guaranteeText}</span>
         </section>
 
-        {/* REVIEWS SECTION & REAL TESTIMONIALS */}
+        {/* REVIEWS SECTION & 4 ANONYMOUS TESTIMONIALS */}
         <section id="reviews" className={`rounded-3xl ${cardBg} p-8 space-y-6 transition-colors`}>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
@@ -650,18 +630,41 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="rounded-2xl bg-white/[0.03] border border-white/5 p-5 space-y-3">
-              <p className="text-xs opacity-90 leading-relaxed">{t.test1Text}</p>
-              <span className="text-[11px] font-mono text-cyan-400 block font-semibold">— {t.test1Author}</span>
+            <div className="rounded-2xl bg-white/[0.03] border border-white/5 p-5 space-y-3 flex flex-col justify-between">
+              <p className="text-xs sm:text-sm opacity-90 leading-relaxed italic">{t.test1}</p>
+              <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 pt-3 border-t border-white/5">
+                <span>Verified Client</span>
+                <span className="text-cyan-400">★★★★★</span>
+              </div>
             </div>
-            <div className="rounded-2xl bg-white/[0.03] border border-white/5 p-5 space-y-3">
-              <p className="text-xs opacity-90 leading-relaxed">{t.test2Text}</p>
-              <span className="text-[11px] font-mono text-purple-400 block font-semibold">— {t.test2Author}</span>
+
+            <div className="rounded-2xl bg-white/[0.03] border border-white/5 p-5 space-y-3 flex flex-col justify-between">
+              <p className="text-xs sm:text-sm opacity-90 leading-relaxed italic">{t.test2}</p>
+              <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 pt-3 border-t border-white/5">
+                <span>Verified Client</span>
+                <span className="text-cyan-400">★★★★★</span>
+              </div>
+            </div>
+
+            <div className="rounded-2xl bg-white/[0.03] border border-white/5 p-5 space-y-3 flex flex-col justify-between">
+              <p className="text-xs sm:text-sm opacity-90 leading-relaxed italic">{t.test3}</p>
+              <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 pt-3 border-t border-white/5">
+                <span>Verified Client</span>
+                <span className="text-cyan-400">★★★★★</span>
+              </div>
+            </div>
+
+            <div className="rounded-2xl bg-white/[0.03] border border-white/5 p-5 space-y-3 flex flex-col justify-between">
+              <p className="text-xs sm:text-sm opacity-90 leading-relaxed italic">{t.test4}</p>
+              <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 pt-3 border-t border-white/5">
+                <span>Verified Client</span>
+                <span className="text-cyan-400">★★★★★</span>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* FAQ SLIDER SECTION */}
+        {/* FAQ SLIDER SECTION (6 seconds interval) */}
         <section className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 transition-colors relative overflow-hidden`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -672,29 +675,19 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Navigation Arrows */}
             <div className="flex items-center gap-2">
-              <button
-                onClick={handlePrevFaq}
-                className="p-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 transition-all cursor-pointer"
-                title="Previous"
-              >
+              <button onClick={handlePrevFaq} className="p-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 transition-all cursor-pointer" title="Previous">
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <span className="text-xs font-mono opacity-60">
                 {faqIndex + 1} / {t.faqList.length}
               </span>
-              <button
-                onClick={handleNextFaq}
-                className="p-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 transition-all cursor-pointer"
-                title="Next"
-              >
+              <button onClick={handleNextFaq} className="p-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 transition-all cursor-pointer" title="Next">
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           </div>
 
-          {/* FAQ Card with Smooth Fade Animation */}
           <div className="bg-white/[0.02] border border-white/10 p-6 rounded-2xl min-h-[140px] flex flex-col justify-center relative">
             <div className={`space-y-2 transition-opacity duration-300 ${faqFade ? "opacity-100" : "opacity-0"}`}>
               <h3 className="text-sm sm:text-base font-bold text-cyan-400">
@@ -706,7 +699,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Dots Indicator */}
           <div className="flex justify-center gap-1.5 pt-1">
             {t.faqList.map((_, i) => (
               <button
