@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag, Moon, Zap, Sun } from "lucide-react";
+import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag, Moon, Zap, Sun, Coffee } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
 
@@ -17,6 +17,7 @@ const translations = {
     cvBtn: "Λήψη CV",
     contactBtn: "Επικοινωνία",
     bookCall: "Κλείστε Ραντεβού",
+    donateBtn: "Support & Donate",
     more: "Ανάλυση",
     less: "Λιγότερα",
     infraDesc: "Proxmox VE, Docker containers, Nextcloud & MariaDB orchestration.",
@@ -105,6 +106,7 @@ const translations = {
     cvBtn: "Download CV",
     contactBtn: "Contact Me",
     bookCall: "Book a Call",
+    donateBtn: "Support & Donate",
     more: "Details",
     less: "Less",
     infraDesc: "Proxmox VE, Docker containers, Nextcloud & MariaDB orchestration.",
@@ -390,6 +392,11 @@ export default function Home() {
           <a href="https://calendly.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-xs font-bold text-emerald-300 transition-all shadow-lg cursor-pointer">
             <Calendar className="w-4 h-4 text-emerald-400" />
             <span>{t.bookCall}</span>
+          </a>
+
+          <a href="/donate" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-pink-500/20 hover:bg-pink-500/30 border border-pink-500/40 text-xs font-bold text-pink-300 transition-all shadow-lg cursor-pointer hover:scale-105">
+            <Coffee className="w-4 h-4 text-pink-400" />
+            <span>{t.donateBtn}</span>
           </a>
 
           <button onClick={() => window.dispatchEvent(new Event("open-command-palette"))} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all shadow-lg cursor-pointer group">
