@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Server, ArrowRight, Send, Briefcase, Cpu, ShoppingBag, Cloud, Database, Workflow, FileCode } from "lucide-react";
+import { Server, ArrowRight, Briefcase, Cpu, ShoppingBag, Cloud, Database, Workflow, FileCode, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 
 export default function DevopsPage() {
@@ -14,45 +14,34 @@ export default function DevopsPage() {
         window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     }, []);
 
-    const [step, setStep] = useState<1 | 2>(1);
-    const [selectedDevops, setSelectedDevops] = useState("Cloud & VPS Migration (από 180€)");
-    const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
     const devopsPackages = [
-        { title: "Cloud & VPS Migration", price: 180, desc: "Μεταφορά εφαρμογών σε γρήγορους Cloud Servers.", cat: "DEVOPS / CLOUD", icon: Cloud },
-        { title: "Business Backups & Disaster Recovery", price: 140, desc: "Επαγγελματικά κρυπτογραφημένα backups.", cat: "INFRASTRUCTURE", icon: Database },
-        { title: "API & Webhook Automations", price: 220, desc: "Σύνδεση με CRM, ERP, Google Sheets.", cat: "AUTOMATION", icon: Workflow },
-        { title: "Headless CMS Integration", price: 320, desc: "Next.js frontend με Sanity / Strapi CMS.", cat: "WEB ARCHITECTURE", icon: FileCode }
+        { id: "dev-1", title: "Cloud & VPS Migration", price: 180, desc: "Μεταφορά εφαρμογών σε γρήγορους Cloud Servers.", cat: "DEVOPS / CLOUD", icon: Cloud },
+        { id: "dev-2", title: "Business Backups & Disaster Recovery", price: 140, desc: "Επαγγελματικά κρυπτογραφημένα backups.", cat: "INFRASTRUCTURE", icon: Database },
+        { id: "dev-3", title: "API & Webhook Automations", price: 220, desc: "Σύνδεση με CRM, ERP, Google Sheets.", cat: "AUTOMATION", icon: Workflow },
+        { id: "dev-4", title: "Headless CMS Integration", price: 320, desc: "Next.js frontend με Sanity / Strapi CMS.", cat: "WEB ARCHITECTURE", icon: FileCode }
     ];
 
-    const handleDevopsSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        try {
-            const res = await fetch("/api/contact", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    name: formData.name,
-                    email: formData.email,
-                    serviceTitle: `DevOps: ${selectedDevops}`,
-                    servicePrice: "DevOps Service",
-                    message: formData.message,
-                }),
+    const handleAddToCart = (pkg: { id: string; title: string; price: number; cat: string }) => {
+        const saved = localStorage.getItem("miltos_agency_cart");
+        let cart = saved ? JSON.parse(saved) : [];
+        const existing = cart.find((i: any) => i.id === pkg.id);
+
+        if (existing) {
+            existing.quantity += 1;
+        } else {
+            cart.push({
+                id: pkg.id,
+                title: pkg.title,
+                price: pkg.price,
+                quantity: 1,
+                category: pkg.cat
             });
-            const data = await res.json();
-            if (res.ok && !data.error) {
-                toast.success("Το αίτημά σας στάλθηκε με επιτυχία!");
-                setFormData({ name: "", email: "", message: "" });
-            } else {
-                toast.error("Αποτυχία αποστολής.");
-            }
-        } catch (err) {
-            toast.error("Σφάλμα σύνδεσης.");
-        } finally {
-            setIsSubmitting(false);
         }
+
+        localStorage.setItem("miltos_agency_cart", JSON.stringify(cart));
+        window.dispatchEvent(new Event("storage-updated"));
+        toast.success(`Προστέθηκε στο καλάθι: ${pkg.title}`);
+        window.dispatchEvent(new Event("open-global-cart"));
     };
 
     return (
@@ -88,54 +77,38 @@ export default function DevopsPage() {
                     <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
                         Υπηρεσίες Cloud, Migration & Αυτοματισμών
                     </h1>
-                    <p className="text-sm text-zinc-400">Προηγμένες λύσεις υποδομής για επιχειρήσεις.</p>
+                    <p className="text-sm text-zinc-400">Επιλέξτε τις υπηρεσίες υποδομής που χρειάζεστε και προσθέστε τες στο καλάθι.</p>
                 </div>
 
-                {step === 1 ? (
-                    <div className="space-y-8">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {devopsPackages.map((pkg, i) => {
-                                const itemStr = `${pkg.title} (από ${pkg.price}€)`;
-                                const isSelected = selectedDevops === itemStr;
-                                const IconComponent = pkg.icon;
-                                return (
-                                    <div key={i} onClick={() => setSelectedDevops(itemStr)} className={`p-6 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between ${isSelected ? "bg-purple-500/10 border-purple-500 shadow-lg" : "bg-white/[0.02] border-white/10 hover:border-white/20"}`}>
-                                        <div>
-                                            <div className="flex justify-between items-center mb-3">
-                                                <span className="text-[10px] font-mono text-purple-400 font-bold">{pkg.cat}</span>
-                                                <IconComponent className="w-4 h-4 text-purple-300" />
-                                            </div>
-                                            <h3 className="text-lg font-bold text-white">{pkg.title}</h3>
-                                            <p className="text-xs text-zinc-400 mt-1 mb-4">{pkg.desc}</p>
+                <div className="space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {devopsPackages.map((pkg, i) => {
+                            const IconComponent = pkg.icon;
+                            return (
+                                <div key={i} className="p-6 rounded-3xl border bg-white/[0.02] border-white/10 hover:border-white/20 transition-all flex flex-col justify-between">
+                                    <div>
+                                        <div className="flex justify-between items-center mb-3">
+                                            <span className="text-[10px] font-mono text-purple-400 font-bold">{pkg.cat}</span>
+                                            <IconComponent className="w-4 h-4 text-purple-300" />
                                         </div>
-                                        <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                                            <span className="text-xl font-bold font-mono text-white">από {pkg.price}€</span>
-                                            <span className={`text-xs px-3 py-1.5 rounded-xl font-medium ${isSelected ? "bg-purple-600 text-white font-bold" : "bg-white/10 text-white"}`}>{isSelected ? "Επιλεγμένο" : "Επιλογή"}</span>
-                                        </div>
+                                        <h3 className="text-lg font-bold text-white">{pkg.title}</h3>
+                                        <p className="text-xs text-zinc-400 mt-1 mb-4">{pkg.desc}</p>
                                     </div>
-                                );
-                            })}
-                        </div>
-                        <div className="flex justify-end pt-4 border-t border-white/10">
-                            <button onClick={() => setStep(2)} className="px-6 py-3.5 rounded-xl bg-purple-600 text-white font-bold text-xs cursor-pointer flex items-center gap-2"><span>Συνέχεια</span><ArrowRight className="w-4 h-4" /></button>
-                        </div>
-                    </div>
-                ) : (
-                    <div className="space-y-6 max-w-2xl mx-auto">
-                        <div className="bg-white/[0.02] border border-white/10 p-8 rounded-3xl space-y-6">
-                            <h2 className="text-xl font-bold text-white">Αίτημα DevOps & Cloud</h2>
-                            <form onSubmit={handleDevopsSubmit} className="space-y-5">
-                                <input type="text" required placeholder="Όνομα" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm" />
-                                <input type="email" required placeholder="Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm" />
-                                <textarea rows={3} placeholder="Λεπτομέρειες..." value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-sm resize-none" />
-                                <div className="flex gap-3">
-                                    <button type="button" onClick={() => setStep(1)} className="px-5 py-3.5 rounded-xl bg-white/10 text-white text-xs cursor-pointer">Πίσω</button>
-                                    <button type="submit" disabled={isSubmitting} className="flex-1 py-3.5 rounded-xl bg-purple-600 text-white font-bold text-sm cursor-pointer">Αποστολή</button>
+                                    <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                                        <span className="text-xl font-bold font-mono text-white">από {pkg.price}€</span>
+                                        <button
+                                            onClick={() => handleAddToCart(pkg)}
+                                            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs transition-all shadow cursor-pointer"
+                                        >
+                                            <ShoppingCart className="w-3.5 h-3.5" />
+                                            <span>Προσθήκη στο Καλάθι</span>
+                                        </button>
+                                    </div>
                                 </div>
-                            </form>
-                        </div>
+                            );
+                        })}
                     </div>
-                )}
+                </div>
 
             </main>
             <Footer />
