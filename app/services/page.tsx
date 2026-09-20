@@ -1,12 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Check, ShoppingBag, ArrowRight, ArrowLeft, Send, HelpCircle, ShieldCheck, FileText, Briefcase } from "lucide-react";
+import { Check, ShoppingBag, ArrowRight, ArrowLeft, Send, Briefcase } from "lucide-react";
 import { toast } from "sonner";
 
 export default function ServicesPage() {
+    // ΟΡΙΣΤΙΚΗ ΔΙΟΡΘΩΣΗ SCROLL POSITION ΣΤΟ REFRESH (Force Top)
+    useEffect(() => {
+        if ("scrollRestoration" in window.history) {
+            window.history.scrollRestoration = "manual";
+        }
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }, []);
+
     const [step, setStep] = useState<1 | 2 | 3>(1);
     const [selectedServices, setSelectedServices] = useState<{ title: string; price: number; hourly?: boolean }[]>([
         { title: "Full Enterprise Homelab", price: 280 }
@@ -106,7 +114,7 @@ export default function ServicesPage() {
 
             <main className="relative w-full pt-32 pb-32 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-10">
 
-                {/* Navigation Switcher Tabs (Χειροκίνητη εναλλαγή σελίδων) */}
+                {/* Navigation Switcher Tabs */}
                 <div className="flex justify-center items-center gap-3 mb-6">
                     <a
                         href="/"
@@ -337,7 +345,7 @@ export default function ServicesPage() {
 
             </main>
 
-            {/* Floating Quick Action Bar (Μόνιμη μπάρα καλαθιού κάτω-κάτω) */}
+            {/* Floating Quick Action Bar */}
             <div className="fixed bottom-0 left-0 w-full bg-[#0b0c10]/95 backdrop-blur-md border-t border-white/10 py-3 px-4 z-50 shadow-2xl flex items-center justify-between max-w-4xl mx-auto sm:rounded-t-2xl sm:left-1/2 sm:-translate-x-1/2 sm:w-[90%]">
                 <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
@@ -358,12 +366,12 @@ export default function ServicesPage() {
                             Ολοκλήρωση ➔
                         </button>
                     ) : (
-                        <a
-                            href="#contact"
+                        <button
+                            onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}
                             className="px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs transition-all shadow cursor-pointer"
                         >
                             Φόρμα Αίτησης ↓
-                        </a>
+                        </button>
                     )}
                 </div>
             </div>
