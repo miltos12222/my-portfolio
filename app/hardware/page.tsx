@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Check, Cpu, ArrowRight, ArrowLeft, Send, ShoppingBag, Briefcase, Sliders, Monitor, HardDrive, MemoryStick } from "lucide-react";
+import { Check, Cpu, ArrowRight, ArrowLeft, Send, ShoppingBag, Briefcase, Sliders, Monitor, HardDrive, MemoryStick, Terminal } from "lucide-react";
 import { toast } from "sonner";
 
 export default function HardwarePage() {
@@ -22,6 +22,7 @@ export default function HardwarePage() {
     const [selectedStorage, setSelectedStorage] = useState(2); // TB NVMe
     const [selectedGpuTier, setSelectedGpuTier] = useState("Mid-Range (RTX 4070 / RX 7800 XT)");
     const [selectedMonitor, setSelectedMonitor] = useState('27" 1440p IPS 170Hz');
+    const [selectedSoftware, setSelectedSoftware] = useState("Windows 11 Pro (Clean Install & Drivers)");
     const [assemblyFee, setAssemblyFee] = useState(120);
 
     const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -38,12 +39,14 @@ export default function HardwarePage() {
         if (selectedGpuTier.includes("Enthusiast / Dual")) base += 1200;
         if (selectedMonitor.includes("4K")) base += 380;
         if (selectedMonitor.includes("Ultrawide")) base += 450;
+        if (selectedSoftware.includes("Proxmox")) base += 30;
+        if (selectedSoftware.includes("AI / ML")) base += 50;
         return base + assemblyFee;
     };
 
     const estimatedPrice = calculateTotalEstimate();
 
-    const buildSummaryText = `Build Type: ${buildCategory.toUpperCase()} | RAM: ${selectedRam}GB | Storage: ${selectedStorage}TB NVMe | GPU: ${selectedGpuTier} | Monitor: ${selectedMonitor} | Assembly Fee: ${assemblyFee}€ | Est. Total: ${estimatedPrice}€`;
+    const buildSummaryText = `Build Type: ${buildCategory.toUpperCase()} | RAM: ${selectedRam}GB | Storage: ${selectedStorage}TB NVMe | GPU: ${selectedGpuTier} | Monitor: ${selectedMonitor} | Software: ${selectedSoftware} | Assembly Fee: ${assemblyFee}€ | Est. Total: ${estimatedPrice}€`;
 
     const handleHardwareSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -55,7 +58,7 @@ export default function HardwarePage() {
                 body: JSON.stringify({
                     name: formData.name,
                     email: formData.email,
-                    serviceTitle: `Custom PC Build Order (${buildCategory.toUpperCase()})`,
+                    serviceTitle: `Custom PC & Software Order (${buildCategory.toUpperCase()})`,
                     servicePrice: `${estimatedPrice}€`,
                     message: `Configuration:\n${buildSummaryText}\n\nClient Notes:\n${formData.message}`,
                 }),
@@ -100,20 +103,20 @@ export default function HardwarePage() {
                 {/* Header */}
                 <div className="text-center max-w-2xl mx-auto space-y-3">
                     <span className="text-xs font-mono px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
-                        Interactive PC Builder & Estimator
+                        Interactive PC & Software Builder
                     </span>
                     <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
-                        Σχεδιάστε το Custom PC ή τον Server σας
+                        Σχεδιάστε το Custom PC & το Software Stack σας
                     </h1>
                     <p className="text-sm text-zinc-400">
-                        Επιλέξτε χρήση, υποσυστήματα και δείτε ζωντανά τη ρεαλιστική εκτίμηση κόστους.
+                        Επιλέξτε υλικά, λειτουργικό σύστημα, εργαλεία λογισμικού και δείτε ζωντανά την εκτίμηση κόστους.
                     </p>
                 </div>
 
                 {/* Wizard Steps Bar */}
                 <div className="flex justify-center items-center gap-2 sm:gap-4 text-xs font-mono">
                     <button onClick={() => setStep(1)} className={`px-4 py-2 rounded-xl border cursor-pointer ${step === 1 ? "bg-emerald-500 text-black font-bold border-emerald-500" : "bg-white/[0.03] border-white/10 text-zinc-400"}`}>
-                        1. Διαμόρφωση Υλικών
+                        1. Υλικά & Λογισμικό
                     </button>
                     <button onClick={() => setStep(2)} className={`px-4 py-2 rounded-xl border cursor-pointer ${step === 2 ? "bg-emerald-500 text-black font-bold border-emerald-500" : "bg-white/[0.03] border-white/10 text-zinc-400"}`}>
                         2. Σύνοψη & Αίτηση
@@ -149,7 +152,7 @@ export default function HardwarePage() {
                         <div className="bg-white/[0.02] border border-white/10 p-6 sm:p-8 rounded-3xl space-y-6">
                             <h3 className="text-sm font-bold text-white font-mono uppercase tracking-wider flex items-center gap-2">
                                 <Sliders className="w-4 h-4 text-emerald-400" />
-                                <span>Τεχνικά Χαρακτηριστικά & Υποσυστήματα</span>
+                                <span>Τεχνικά Χαρακτηριστικά & Λογισμικό</span>
                             </h3>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -223,12 +226,30 @@ export default function HardwarePage() {
                                     </select>
                                 </div>
 
+                                {/* Software Stack Dropdown (NEW) */}
+                                <div className="space-y-2 sm:col-span-2">
+                                    <label className="text-xs font-medium text-zinc-300 flex items-center gap-1.5">
+                                        <Terminal className="w-3.5 h-3.5 text-purple-400" />
+                                        <span>Εγκατάσταση Λογισμικού & OS Setup (Software Bundle)</span>
+                                    </label>
+                                    <select
+                                        value={selectedSoftware}
+                                        onChange={(e) => setSelectedSoftware(e.target.value)}
+                                        className="w-full px-4 py-3 rounded-xl bg-white/[0.05] border border-white/10 text-xs font-mono text-white focus:outline-none focus:border-emerald-500 cursor-pointer"
+                                    >
+                                        <option value="Windows 11 Pro (Clean Install & Drivers)" className="bg-zinc-900">Windows 11 Pro (Clean Install, Drivers & Bloatware Removal)</option>
+                                        <option value="Proxmox VE Hypervisor (Homelab Ready)" className="bg-zinc-900">Proxmox VE Hypervisor (Homelab Ready & Storage Pools Setup)</option>
+                                        <option value="AI / ML Development Stack (Ubuntu Linux + CUDA + Docker)" className="bg-zinc-900">AI / ML Development Stack (Ubuntu Linux + CUDA Drivers + Docker)</option>
+                                        <option value="Dual Boot (Windows 11 Pro + Linux Ubuntu)" className="bg-zinc-900">Dual Boot (Windows 11 Pro + Linux Ubuntu Configuration)</option>
+                                    </select>
+                                </div>
+
                             </div>
 
                             {/* Live Price Estimation Banner */}
                             <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 bg-emerald-500/5 p-4 rounded-2xl border border-emerald-500/20">
                                 <div>
-                                    <span className="text-xs font-mono text-zinc-400 block">Εκτιμώμενο Συνολικό Κόστος (Υλικά + Συναρμολόγηση):</span>
+                                    <span className="text-xs font-mono text-zinc-400 block">Εκτιμώμενο Συνολικό Κόστος (Υλικά + Software + Συναρμολόγηση):</span>
                                     <span className="text-2xl font-bold font-mono text-emerald-400">{estimatedPrice}€ <span className="text-xs text-zinc-500 font-normal">(κατά προσέγγιση)</span></span>
                                 </div>
                                 <button
@@ -261,6 +282,7 @@ export default function HardwarePage() {
                                 <p>• Αποθήκευση: <strong className="text-white">{selectedStorage} TB NVMe</strong></p>
                                 <p>• Κάρτα Γραφικών: <strong className="text-white">{selectedGpuTier}</strong></p>
                                 <p>• Οθόνη: <strong className="text-white">{selectedMonitor}</strong></p>
+                                <p>• Λογισμικό: <strong className="text-purple-300">{selectedSoftware}</strong></p>
                             </div>
 
                             <div className="pt-3 border-t border-white/10 flex justify-between items-center">
