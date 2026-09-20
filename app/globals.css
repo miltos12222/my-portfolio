@@ -16,6 +16,7 @@ html {
   min-height: 100%;
   overflow-y: auto !important;
   overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -94,37 +95,10 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* Subtle Ambient Lighting */
-.bg-ambient-sheen {
-  background-image: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.03), transparent 70%);
-}
-
-/* --- ANIMATIONS ΓΙΑ FADE-IN, ΚΥΛΙΟΜΕΝΗ ΤΑΙΝΙΑ & MOBILE ENTRANCE --- */
+/* --- ΕΓΓΥΗΜΕΝΑ MOBILE & DESKTOP ANIMATIONS --- */
 @layer utilities {
   .animate-fade-in-up {
-    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  .delay-100 {
-    animation-delay: 100ms;
-  }
-
-  .delay-200 {
-    animation-delay: 200ms;
-  }
-
-  .delay-300 {
-    animation-delay: 300ms;
-  }
-
-  .delay-400 {
-    animation-delay: 400ms;
-  }
-
-  .delay-500 {
-    animation-delay: 500ms;
+    animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   .animate-marquee {
@@ -135,7 +109,7 @@ body {
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(25px);
   }
 
   to {
@@ -152,6 +126,17 @@ body {
   100% {
     transform: translateX(-50%);
   }
+}
+
+/* 
+  ΔΙΟΡΘΩΣΗ ΓΙΑ ΚΙΝΗΤΑ: 
+  Αντί να περιμένουμε JavaScript observer που συχνά κολλάει στα mobile browsers, 
+  δίνουμε άμεσο, ομαλό fade-in-up σε κάθε `.reveal-on-scroll` μολις φορτώνει η σελίδα ή γίνεται scroll.
+*/
+.reveal-on-scroll,
+.reveal-from-left,
+.reveal-from-right {
+  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Mobile Touch Active Feedback */
