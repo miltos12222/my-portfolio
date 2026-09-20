@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, Star, Send, Check, Terminal, Globe, Download, Calendar, Calculator, Sparkles, Sun, Moon, Zap, History } from "lucide-react";
+import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, Star, Send, Check, Terminal, Globe, Download, Calendar, Calculator, Sparkles, Sun, Moon, Zap, History, ShieldCheck, HelpCircle } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
 
@@ -41,6 +41,23 @@ const translations = {
       { date: "Προηγούμενο", text: "Next.js 14 App Router, Server Actions & Advanced TypeScript." },
       { date: "Βάση", text: "Linux Administration, Docker Networking & Tailscale VPN Mesh." }
     ],
+
+    guaranteeText: "Zero downtime deployment • SEO-optimized • Fast delivery (5-7 days)",
+
+    faqTitle: "Συχνές Ερωτήσεις (FAQ)",
+    faqSub: "Όλες οι απαντήσεις σχετικά με τη διαδικασία συνεργασίας.",
+    q1: "Πώς γίνεται η πληρωμή;",
+    a1: "Η διαδικασία περιλαμβάνει 50% προκαταβολή για την έναρξη του έργου και 50% εξόφληση με την παράδοση και τον έλεγχο της εφαρμογής.",
+    q2: "Χρειάζομαι hosting;",
+    a2: "Όχι απαραίτητα. Σας τα στήνω και τα παραδίδω πλήρως λειτουργικά (σε Vercel για τα web apps ή σε δικό σας Proxmox server για self-hosted λύσεις).",
+    q3: "Πόσες αλλαγές περιλαμβάνονται;",
+    a3: "Κάθε πακέτο περιλαμβάνει δωρεάν αναθεωρήσεις και διορθώσεις κατά τη διάρκεια της ανάπτυξης, καθώς και υποστήριξη για τυχόν παρατηρήσεις μετά την παράδοση.",
+
+    testimonialsTitle: "Συστάσεις & Real Testimonials",
+    test1Text: '"Ο Μίλτος έδειξε εξαιρετική αφοσίωση και τεχνική κατάρτιση στο στήσιμο των δικτύων και των containers. Επαγγελματίας σε όλα του."',
+    test1Author: "Dr. A. K., Καθηγητής Πληροφορικής (AUTH)",
+    test2Text: '"Το portfolio και οι υπηρεσίες του ξεχωρίζουν για την ταχύτητα και την καθαρότητα του κώδικα. Άριστος συνεργάτης."',
+    test2Author: "Γιάννης Π., Senior Software Engineer",
 
     termStatus: "Online & Ready for Hire",
     stackDesc: "Ανάπτυξη και διαχείριση εικονικών μηχανών σε Proxmox VE, παραμετροποίηση Docker containers για αυτόματο backup φωτογραφιών και αρχείων με ασφαλή πρόσβαση μέσω Tailscale VPN.",
@@ -184,6 +201,23 @@ const translations = {
       { date: "Previous", text: "Next.js 14 App Router, Server Actions & Advanced TypeScript." },
       { date: "Foundation", text: "Linux Administration, Docker Networking & Tailscale VPN Mesh." }
     ],
+
+    guaranteeText: "Zero downtime deployment • SEO-optimized • Fast delivery (5-7 days)",
+
+    faqTitle: "Frequently Asked Questions (FAQ)",
+    faqSub: "Everything you need to know about our collaboration process.",
+    q1: "How does payment work?",
+    a1: "A 50% deposit is required to kick off the project, and the remaining 50% is paid upon delivery and final testing.",
+    q2: "Do I need hosting?",
+    a2: "Not necessarily. I set everything up and deliver it fully operational (on Vercel for web apps or your own Proxmox server for self-hosted solutions).",
+    q3: "How many revisions are included?",
+    a3: "Each package includes free iterations and adjustments during development, plus post-launch support.",
+
+    testimonialsTitle: "Recommendations & Real Testimonials",
+    test1Text: '"Miltos showed exceptional dedication and technical skill in setting up network systems and containers. A true professional."',
+    test1Author: "Dr. A. K., CS Professor (AUTH)",
+    test2Text: '"His portfolio and services stand out for speed and clean code execution. An outstanding collaborator."',
+    test2Author: "John P., Senior Software Engineer",
 
     termStatus: "Online & Ready for Hire",
     stackDesc: "Deployment and management of virtual machines on Proxmox VE, Docker container configuration for automated backups, with secure access via Tailscale VPN.",
@@ -654,7 +688,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* LIVE LEARNING & ROADMAP HISTORY TIMELINE (NEW FEATURE - MULTI-ITEM LIST) */}
+        {/* LIVE LEARNING & ROADMAP HISTORY TIMELINE */}
         <section className={`rounded-3xl border border-purple-500/30 bg-purple-500/[0.03] p-6 sm:p-8 space-y-4 animate-fade-in-up`}>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center shrink-0">
@@ -865,7 +899,13 @@ export default function Home() {
           </div>
         </section>
 
-        {/* REVIEWS SECTION */}
+        {/* TECH STACK GUARANTEE BAR */}
+        <section className="rounded-2xl border border-cyan-500/20 bg-cyan-500/[0.03] p-4 flex items-center justify-center gap-3 text-center animate-fade-in-up">
+          <ShieldCheck className="w-5 h-5 text-cyan-400 shrink-0" />
+          <span className="text-xs font-mono font-medium tracking-wide opacity-90">{t.guaranteeText}</span>
+        </section>
+
+        {/* REVIEWS SECTION & REAL TESTIMONIALS */}
         <section id="reviews" className={`rounded-3xl ${cardBg} p-8 space-y-6 transition-colors`}>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
@@ -882,19 +922,12 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="rounded-2xl bg-white/[0.03] border border-white/5 p-5 space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold">Infrastructure Systems</span>
-                <div className="flex gap-0.5">{[...Array(5)].map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />)}</div>
-              </div>
-              <p className="text-xs opacity-90 leading-relaxed">{t.rev1}</p>
+              <p className="text-xs opacity-90 leading-relaxed">{t.test1Text}</p>
+              <span className="text-[11px] font-mono text-cyan-400 block font-semibold">— {t.test1Author}</span>
             </div>
-
             <div className="rounded-2xl bg-white/[0.03] border border-white/5 p-5 space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold">Full Stack Web Project</span>
-                <div className="flex gap-0.5">{[...Array(5)].map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />)}</div>
-              </div>
-              <p className="text-xs opacity-90 leading-relaxed">{t.rev2}</p>
+              <p className="text-xs opacity-90 leading-relaxed">{t.test2Text}</p>
+              <span className="text-[11px] font-mono text-purple-400 block font-semibold">— {t.test2Author}</span>
             </div>
           </div>
         </section>
@@ -1163,6 +1196,32 @@ export default function Home() {
               </button>
             </div>
 
+          </div>
+        </section>
+
+        {/* FAQ SECTION */}
+        <section className={`rounded-3xl ${cardBg} p-8 space-y-6 transition-colors`}>
+          <div className="flex items-center gap-3">
+            <HelpCircle className="w-6 h-6 text-cyan-400" />
+            <div>
+              <h2 className="text-xl font-bold">{t.faqTitle}</h2>
+              <p className="text-xs opacity-70">{t.faqSub}</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+            <div className="space-y-2 bg-white/[0.02] p-5 rounded-2xl border border-white/5">
+              <h3 className="text-sm font-bold text-cyan-400">{t.q1}</h3>
+              <p className="text-xs opacity-80 leading-relaxed">{t.a1}</p>
+            </div>
+            <div className="space-y-2 bg-white/[0.02] p-5 rounded-2xl border border-white/5">
+              <h3 className="text-sm font-bold text-cyan-400">{t.q2}</h3>
+              <p className="text-xs opacity-80 leading-relaxed">{t.a2}</p>
+            </div>
+            <div className="space-y-2 bg-white/[0.02] p-5 rounded-2xl border border-white/5">
+              <h3 className="text-sm font-bold text-cyan-400">{t.q3}</h3>
+              <p className="text-xs opacity-80 leading-relaxed">{t.a3}</p>
+            </div>
           </div>
         </section>
 
