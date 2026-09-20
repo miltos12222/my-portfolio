@@ -4,6 +4,7 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import LiveChatWidget from "@/components/LiveChatWidget";
+import GlobalCart from "@/components/GlobalCart";
 
 const inter = Inter({ subsets: ["latin", "greek"] });
 
@@ -40,6 +41,7 @@ export default function RootLayout({
       <body className={`${inter.className} bg-[#0b0c10] text-[#e5e7eb] antialiased min-h-screen`}>
         {children}
         <LiveChatWidget />
+        <GlobalCart />
         <Analytics />
         <SpeedInsights />
       </body>
