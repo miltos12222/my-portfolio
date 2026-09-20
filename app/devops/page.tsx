@@ -51,7 +51,7 @@ export default function DevopsPage() {
             <main className="relative w-full pt-32 pb-32 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-10">
 
                 {/* Unified Hub Switcher */}
-                <div className="flex flex-wrap justify-center items-center gap-2 mb-6">
+                <div className="flex flex-wrap justify-center items-center gap-2 mb-6 reveal-on-scroll">
                     <a href="/" className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all cursor-pointer">
                         <Briefcase className="w-3.5 h-3.5 text-purple-400" />
                         <span>Βιογραφικό</span>
@@ -70,7 +70,7 @@ export default function DevopsPage() {
                     </a>
                 </div>
 
-                <div className="text-center max-w-2xl mx-auto space-y-3">
+                <div className="text-center max-w-2xl mx-auto space-y-3 reveal-on-scroll">
                     <span className="text-xs font-mono px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400">
                         Cloud Architecture & DevOps
                     </span>
@@ -80,7 +80,7 @@ export default function DevopsPage() {
                     <p className="text-sm text-zinc-400">Επιλέξτε τις υπηρεσίες υποδομής που χρειάζεστε και προσθέστε τες στο καλάθι.</p>
                 </div>
 
-                <div className="space-y-8">
+                <div className="space-y-8 reveal-on-scroll">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {devopsPackages.map((pkg, i) => {
                             const IconComponent = pkg.icon;

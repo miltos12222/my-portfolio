@@ -158,7 +158,7 @@ export default function HardwarePage() {
             <main className="relative w-full pt-32 pb-32 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-10">
 
                 {/* Navigation Switcher Tabs */}
-                <div className="flex flex-wrap justify-center items-center gap-2 mb-6">
+                <div className="flex flex-wrap justify-center items-center gap-2 mb-6 reveal-on-scroll">
                     <a href="/" className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all cursor-pointer">
                         <Briefcase className="w-3.5 h-3.5 text-purple-400" />
                         <span>Βιογραφικό</span>
@@ -174,7 +174,7 @@ export default function HardwarePage() {
                 </div>
 
                 {/* Header & Mode Switcher (Builder vs Repairs) */}
-                <div className="text-center max-w-2xl mx-auto space-y-4">
+                <div className="text-center max-w-2xl mx-auto space-y-4 reveal-on-scroll">
                     <span className="text-xs font-mono px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
                         Professional Hardware Store & Lab
                     </span>
@@ -206,7 +206,7 @@ export default function HardwarePage() {
 
                 {/* ===================== MODE A: CUSTOM PC BUILDER ===================== */}
                 {mode === "builder" && (
-                    <div className="space-y-8 animate-fade-in max-w-3xl mx-auto">
+                    <div className="space-y-8 animate-fade-in max-w-3xl mx-auto reveal-on-scroll">
 
                         {/* Wizard Steps Bar */}
                         <div className="flex justify-center items-center gap-2 sm:gap-4 text-xs font-mono">
@@ -429,7 +429,7 @@ export default function HardwarePage() {
 
                 {/* ===================== MODE B: REPAIRS & SERVICE ===================== */}
                 {mode === "repair" && (
-                    <div className="space-y-8 animate-fade-in max-w-3xl mx-auto">
+                    <div className="space-y-8 animate-fade-in max-w-3xl mx-auto reveal-on-scroll">
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {repairServices.map((rep, idx) => {

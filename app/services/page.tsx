@@ -104,7 +104,7 @@ export default function ServicesPage() {
             <main className="relative w-full pt-32 pb-32 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-12">
 
                 {/* Unified Hub Switcher */}
-                <div className="flex flex-wrap justify-center items-center gap-2 mb-6">
+                <div className="flex flex-wrap justify-center items-center gap-2 mb-6 reveal-on-scroll">
                     <a href="/" className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all cursor-pointer">
                         <Briefcase className="w-3.5 h-3.5 text-purple-400" />
                         <span>Βιογραφικό</span>
@@ -123,7 +123,7 @@ export default function ServicesPage() {
                     </a>
                 </div>
 
-                <div className="text-center max-w-2xl mx-auto space-y-3">
+                <div className="text-center max-w-2xl mx-auto space-y-3 reveal-on-scroll">
                     <span className="text-xs font-mono px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
                         Commercial Hub • Web Agency
                     </span>
@@ -133,8 +133,8 @@ export default function ServicesPage() {
                     <p className="text-sm text-zinc-400">Επιλέξτε όσες υπηρεσίες θέλετε και προσθέστε τες απευθείας στο ενιαίο καλάθι σας.</p>
                 </div>
 
-                {/* Web Development Catalog Grid with Interactive Hover Animations */}
-                <div className="space-y-6">
+                {/* Web Development Catalog Grid with Reveal Animations */}
+                <div className="space-y-6 reveal-on-scroll">
                     <h2 className="text-lg font-bold text-white font-mono uppercase tracking-wider">1. Υπηρεσίες Ανάπτυξης</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {catalog.map((item, i) => (
@@ -165,8 +165,8 @@ export default function ServicesPage() {
                     </div>
                 </div>
 
-                {/* Add-ons Section with Hover Animations */}
-                <div className="space-y-6 max-w-3xl mx-auto pt-8">
+                {/* Add-ons Section with Reveal Animations */}
+                <div className="space-y-6 max-w-3xl mx-auto pt-8 reveal-on-scroll">
                     <h2 className="text-lg font-bold text-white font-mono uppercase tracking-wider">2. Προαιρετικά Add-ons</h2>
                     <div className="bg-white/[0.02] border border-white/10 p-6 sm:p-8 rounded-3xl space-y-4">
                         {addonsList.map((addon) => {
