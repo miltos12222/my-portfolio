@@ -17,9 +17,21 @@ export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [hackerMode, setHackerMode] = useState(false);
 
-  // --- KONAMI CODE EASTER EGG LISTENER ---
+  // --- CONTROL + KONAMI CODE EASTER EGG (MAC/WINDOWS FRIENDLY) ---
   useEffect(() => {
-    const konamiKeys = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+    // Απαιτείται συνδυασμός με Control (Ctrl) για τα βέλη ώστε να μην κάνει scroll η σελίδα
+    const konamiSequence = [
+      { key: "ArrowUp", ctrl: true },
+      { key: "ArrowUp", ctrl: true },
+      { key: "ArrowDown", ctrl: true },
+      { key: "ArrowDown", ctrl: true },
+      { key: "ArrowLeft", ctrl: true },
+      { key: "ArrowRight", ctrl: true },
+      { key: "ArrowLeft", ctrl: true },
+      { key: "ArrowRight", ctrl: true },
+      { key: "b", ctrl: false },
+      { key: "a", ctrl: false },
+    ];
     let cursor = 0;
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -27,27 +39,32 @@ export default function Navbar() {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         setIsCmdOpen(prev => !prev);
+        return;
       }
       if (e.key === "Escape") {
         setIsCmdOpen(false);
+        return;
       }
 
-      // Konami Code Sequence Check
-      const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
-      const expected = konamiKeys[cursor].toLowerCase();
+      const expected = konamiSequence[cursor];
+      const keyMatch = e.key.toLowerCase() === expected.key.toLowerCase() || e.key === expected.key;
+      const ctrlMatch = expected.ctrl ? (e.ctrlKey || e.metaKey) : true;
 
-      if (key === expected) {
+      if (keyMatch && ctrlMatch) {
+        if (expected.ctrl) e.preventDefault(); // Αποφυγή default scroll στο Mac
         cursor++;
-        if (cursor === konamiKeys.length) {
+        if (cursor === konamiSequence.length) {
           setHackerMode(prev => !prev);
-          toast.success("🔓 KONAMI CODE UNLOCKED: Matrix Hacker Mode Activated!", {
-            description: "Root privileges granted. Welcome to the core system, Miltos.",
+          toast.success("🔓 CONTROL + KONAMI UNLOCKED: Matrix Hacker Mode Activated!", {
+            description: "Root privileges granted via Control sequence, Miltos.",
             duration: 5000,
           });
           cursor = 0;
         }
       } else {
-        cursor = 0;
+        if (!["Shift", "Control", "Alt", "Meta"].includes(e.key)) {
+          cursor = 0;
+        }
       }
     };
 
