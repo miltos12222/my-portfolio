@@ -11,7 +11,6 @@ import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown } from "lucide-reac
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 
 export default function Home() {
-  // States για όλα τα collapsible cards & sections
   const [infraOpen, setInfraOpen] = useState(false);
   const [webOpen, setWebOpen] = useState(false);
   const [ethicOpen, setEthicOpen] = useState(false);
@@ -20,25 +19,22 @@ export default function Home() {
   const [stackOpen, setStackOpen] = useState(false);
   const [resilienceOpen, setResilienceOpen] = useState(false);
 
-  // Ασφαλές Scroll Reset κατά το αρχικό mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-[#0b0c10] text-[#e5e7eb] selection:bg-cyan-500/25 selection:text-white overflow-x-hidden">
-      {/* Top Anchor */}
+    <div className="relative min-h-screen bg-[#0b0c10] text-[#e5e7eb] selection:bg-cyan-500/25 selection:text-white w-full">
       <div id="top" className="absolute top-0 left-0 h-px w-px pointer-events-none" />
 
-      {/* Navigation */}
       <Navbar />
 
       <main className="relative w-full pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-8">
 
-        {/* SECTION: BENTO GRID HERO (Overview) */}
+        {/* OVERVIEW SECTION */}
         <section id="overview" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
 
-          {/* 1. Main Profile Card (Spans 2 columns, 2 rows) */}
+          {/* Profile Card */}
           <div className="md:col-span-2 md:row-span-2 rounded-3xl bg-white/[0.03] border border-white/10 p-8 flex flex-col justify-between relative overflow-hidden">
             <div className="absolute -right-10 -bottom-10 w-60 h-60 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -51,7 +47,6 @@ export default function Home() {
             </div>
 
             <div className="z-10 flex flex-col sm:flex-row items-center gap-6 my-auto">
-              {/* Profile Image */}
               <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-white/15 shadow-xl shrink-0 bg-zinc-900">
                 <Image
                   src="/profile.jpg"
@@ -83,7 +78,6 @@ export default function Home() {
                 <span>GitHub Profile</span>
               </a>
 
-              {/* LinkedIn Button */}
               <a
                 href="https://www.linkedin.com/in/miltos-papageorgiou"
                 target="_blank"
@@ -104,7 +98,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* 2. Tech Stack Card (Collapsible) */}
+          {/* Infrastructure Card */}
           <div className="rounded-3xl bg-white/[0.03] border border-white/10 p-6 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between text-zinc-400 mb-4">
@@ -148,7 +142,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* 3. Code & Web Dev Card (Collapsible) */}
+          {/* Development Card */}
           <div className="rounded-3xl bg-white/[0.03] border border-white/10 p-6 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between text-zinc-400 mb-4">
@@ -192,7 +186,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* 4. Work Ethic & Productivity Card (Collapsible) */}
+          {/* Work Ethic Card */}
           <div className="md:col-span-2 lg:col-span-2 rounded-3xl bg-white/[0.03] border border-white/10 p-6 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between text-zinc-400 mb-3">
@@ -243,7 +237,7 @@ export default function Home() {
 
         </section>
 
-        {/* SECTION: ABOUT ME */}
+        {/* ABOUT ME */}
         <section id="about-me" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8">
           <h2 className="text-xl font-bold text-white mb-3">Σχετικά με Εμένα</h2>
           <p className="text-sm text-zinc-300 leading-relaxed mb-3">
@@ -254,7 +248,7 @@ export default function Home() {
           </p>
         </section>
 
-        {/* SECTION: INFRASTRUCTURE (Collapsible) */}
+        {/* INFRASTRUCTURE */}
         <section id="infrastructure" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -293,7 +287,7 @@ export default function Home() {
           </AnimatePresence>
         </section>
 
-        {/* SECTION: RESILIENCE (Collapsible) */}
+        {/* RESILIENCE */}
         <section id="resilience" className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -332,10 +326,10 @@ export default function Home() {
           </AnimatePresence>
         </section>
 
-        {/* SECTION: PROJECTS / SYSTEMS */}
+        {/* PROJECTS */}
         <section id="projects" className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-          {/* Project 1 (Collapsible) */}
+          {/* Project 1 */}
           <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -381,7 +375,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Project 2 (Collapsible) */}
+          {/* Project 2 */}
           <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -429,18 +423,16 @@ export default function Home() {
 
         </section>
 
-        {/* SECTION: SERVICES & PACKAGES */}
+        {/* SERVICES SECTION */}
         <ServicesSection />
 
-        {/* SECTION: TESTIMONIALS & RATINGS */}
+        {/* TESTIMONIALS / ΒΑΘΜΟΛΟΓΙΑ SECTION */}
         <Testimonials />
 
-        {/* Contact Anchor */}
         <div id="contact" className="h-px w-px" />
 
       </main>
 
-      {/* Footer */}
       <Footer />
     </div>
   );
