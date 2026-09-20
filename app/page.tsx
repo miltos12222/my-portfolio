@@ -207,6 +207,32 @@ export default function Home() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // --- MECHANICAL KEYBOARD TYPING SOUND SYNTHESIZER ---
+  const playKeyClick = () => {
+    try {
+      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = "triangle";
+      // Mechanical switch pitch simulation
+      osc.frequency.setValueAtTime(120 + Math.random() * 80, ctx.currentTime);
+
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start();
+      osc.stop(ctx.currentTime + 0.04);
+    } catch {
+      // Audio context policy fallback
+    }
+  };
+
   // --- LIVE TELEMETRY STATE WITH UPTIME ---
   const [telemetry, setTelemetry] = useState<{
     status: string;
@@ -605,7 +631,18 @@ export default function Home() {
 
               <form onSubmit={handleTerminalSubmit} className="flex items-center gap-2 mt-2">
                 <span className="text-emerald-400 shrink-0">miltos@admin:~$</span>
-                <input id="term-input" type="text" value={termInput} onChange={(e) => setTermInput(e.target.value)} className="flex-1 bg-transparent outline-none border-none text-white focus:ring-0 p-0 m-0 min-w-0" autoComplete="off" spellCheck="false" />
+                <input
+                  id="term-input"
+                  type="text"
+                  value={termInput}
+                  onChange={(e) => {
+                    setTermInput(e.target.value);
+                    playKeyClick();
+                  }}
+                  className="flex-1 bg-transparent outline-none border-none text-white focus:ring-0 p-0 m-0 min-w-0"
+                  autoComplete="off"
+                  spellCheck="false"
+                />
               </form>
               <div ref={terminalEndRef} />
             </div>
