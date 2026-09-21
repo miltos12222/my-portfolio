@@ -4,12 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import {
-  Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight,
-  Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle,
-  Briefcase, ShoppingBag, Network, HardDrive, Shield, Database, Coffee,
-  Layers, User, CreditCard, ArrowRight, RefreshCw, Zap, Menu, X, Clock
-} from "lucide-react";
+import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag, Network, HardDrive, Shield, Database, Coffee, Menu, X, Clock, RefreshCw, CreditCard, ArrowRight, User } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
 import { motion, type Variants } from "framer-motion";
@@ -681,9 +676,144 @@ export default function Home() {
               </motion.div>
             </motion.section>
 
-            {/* RESTORED INTERACTIVE TERMINAL SECTION */}
-            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="grid grid-cols-1 gap-4">
-              <div className="rounded-3xl border border-white/10 bg-[#0a0a0a] p-5 font-mono text-xs shadow-2xl relative overflow-hidden group flex flex-col h-[350px]">
+            {/* INTERACTIVE HOMELAB ARCHITECTURE TOPOLOGY SECTION */}
+            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 transition-colors`}>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center shrink-0">
+                  <Network className="w-5 h-5 text-cyan-400" />
+                </div>
+                <div>
+                  <h2 className="text-lg sm:text-xl font-bold">{t.topoTitle}</h2>
+                  <p className="text-xs opacity-70">{t.topoSub}</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                {topologyNodes.map((node, i) => (
+                  <button
+                    key={i}
+                    onClick={() => { playNeuralSound('click'); setSelectedNode(node); }}
+                    className={`p-4 rounded-2xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between space-y-3 hover:-translate-y-1.5 hover:scale-[1.04] active:scale-95 ${selectedNode?.name === node.name
+                      ? "bg-cyan-500/15 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.2)]"
+                      : "bg-white/[0.02] border-white/10 hover:border-cyan-500/50 hover:shadow-[0_10px_25px_-5px_rgba(6,182,212,0.3)]"
+                      }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="p-2 rounded-xl bg-black/40 border border-white/10">{node.icon}</div>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-cyan-300">{node.type}</span>
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-bold text-white mb-1">{node.name}</h3>
+                      <p className="text-[11px] font-mono text-cyan-400">{node.specs}</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {selectedNode && (
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-5 rounded-2xl bg-black/40 border border-cyan-500/30 flex items-start gap-4 font-mono text-xs shadow-[0_0_20px_rgba(6,182,212,0.1)]">
+                  <Shield className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5 animate-pulse" />
+                  <div className="space-y-1">
+                    <span className="text-cyan-400 font-bold uppercase tracking-wider">&gt; node_inspect --target={selectedNode.name}</span>
+                    <p className="text-zinc-300 font-sans leading-relaxed pt-1">{selectedNode.desc}</p>
+                  </div>
+                </motion.div>
+              )}
+            </motion.section>
+
+            {/* LIVE LEARNING & ROADMAP HISTORY */}
+            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl border border-purple-500/30 bg-purple-500/[0.03] p-6 sm:p-8 space-y-4`}>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center shrink-0">
+                  <History className="w-5 h-5 text-purple-400 animate-pulse" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold">{t.learningTitle}</h2>
+                  <p className="text-xs opacity-70">{t.learningSubtitle} <span className="text-cyan-400">(Click cards for tech notes)</span></p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                {t.learningItems.map((item, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => {
+                      playNeuralSound('open');
+                      setActiveBubble({
+                        title: item.text,
+                        date: item.date,
+                        content: `Αναλυτικές πληροφορίες για την ενότητα "${item.text}". Υλοποίηση με έμφαση στην υψηλή διαθεσιμότητα, τη βελτιστοποίηση κώδικα και τη σωστή αρχιτεκτονική συστημάτων.`
+                      });
+                    }}
+                    className="group rounded-2xl bg-white/[0.03] border border-white/10 p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.04] hover:border-purple-500/50 hover:shadow-[0_15px_30px_-5px_rgba(168,85,247,0.3)] active:scale-95 cursor-pointer relative overflow-hidden"
+                  >
+                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full">
+                      ✨ Click bubble
+                    </div>
+                    <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 w-fit mb-3 font-bold">{item.date}</span>
+                    <p className="text-xs sm:text-sm opacity-90 leading-relaxed group-hover:text-purple-200 transition-colors">{item.text}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.section>
+
+            {/* LIVE GIT CONTRIBUTION STREAM */}
+            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-4`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center shrink-0">
+                    <Terminal className="w-5 h-5 text-emerald-400" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-bold">Live Git Contribution Stream</h2>
+                    <p className="text-xs opacity-70">Recent commits, deployments & homelab scripts (GitHub API synced)</p>
+                  </div>
+                </div>
+                <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold hidden sm:inline-block">
+                  🟢 Active Today
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                <div className="group p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-emerald-500/50 cursor-pointer">
+                  <span className="text-[10px] text-cyan-400 uppercase font-bold">commit #492763d</span>
+                  <p className="text-white text-xs font-sans">feat: upgrade framer motion typescript variants & types</p>
+                  <span className="text-[10px] text-zinc-500">2 hours ago • main branch</span>
+                </div>
+                <div className="group p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-purple-500/50 cursor-pointer">
+                  <span className="text-[10px] text-purple-400 uppercase font-bold">commit #8b192fa</span>
+                  <p className="text-white text-xs font-sans">fix: optimize 3d spline lazy loading & dynamic import</p>
+                  <span className="text-[10px] text-zinc-500">Yesterday • production</span>
+                </div>
+                <div className="group p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-emerald-500/50 cursor-pointer">
+                  <span className="text-[10px] text-emerald-400 uppercase font-bold">script #proxmox_zfs</span>
+                  <p className="text-white text-xs font-sans">Automated ZFS snapshot backup & Tailscale mesh sync</p>
+                  <span className="text-[10px] text-zinc-500">3 days ago • homelab</span>
+                </div>
+              </div>
+            </motion.section>
+
+            {/* COMMERCIAL SERVICES BANNER */}
+            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="group rounded-3xl border border-cyan-500/40 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left transition-all duration-300 hover:scale-[1.01] hover:-translate-y-1 hover:border-cyan-400">
+              <div className="space-y-2">
+                <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider font-bold">Commercial Hub</span>
+                <h2 className="text-xl sm:text-2xl font-bold text-white">{t.servicesBannerTitle}</h2>
+                <p className="text-xs sm:text-sm text-zinc-300 max-w-xl">{t.servicesBannerDesc}</p>
+              </div>
+              <button onClick={() => setActiveTab('marketplace')} className="px-6 py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs sm:text-sm transition-all duration-300 shadow-lg shadow-cyan-500/25 shrink-0 flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95">
+                <span>{t.servicesBannerBtn}</span>
+              </button>
+            </motion.section>
+
+            {/* ABOUT ME + INTERACTIVE TERMINAL */}
+            <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="about-me" className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-8 flex flex-col justify-center transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60`}>
+                <h2 className="text-xl font-bold mb-4 group-hover:text-cyan-300 transition-colors">{t.aboutTitle}</h2>
+                <p className="text-sm opacity-90 leading-relaxed mb-4">{t.aboutP1}</p>
+                <p className="text-sm opacity-80 leading-relaxed">{t.aboutP2}</p>
+              </motion.div>
+
+              <motion.div variants={fadeUp} className="rounded-3xl border border-white/10 bg-[#0a0a0a] p-5 font-mono text-xs shadow-2xl relative overflow-hidden group flex flex-col h-[350px]">
                 <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/5 shrink-0">
                   <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
                   <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
@@ -716,14 +846,161 @@ export default function Home() {
                   </form>
                   <div ref={terminalEndRef} />
                 </div>
+              </motion.div>
+            </motion.section>
+
+            {/* INFRASTRUCTURE & RESILIENCE */}
+            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="infrastructure" className={`group rounded-3xl ${cardBg} p-8 space-y-4`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3"><Server className="w-6 h-6 text-cyan-400" /><h2 className="text-xl font-bold">Infrastructure & Homelab Stack</h2></div>
+                <button onClick={() => { playNeuralSound('click'); setStackOpen(!stackOpen); }} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs font-medium cursor-pointer"><span>{stackOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform ${stackOpen ? "rotate-180" : ""}`} /></button>
+              </div>
+              <p className="text-sm opacity-90 leading-relaxed">{t.stackDesc}</p>
+              {stackOpen && (<div className="pt-4 border-t border-white/10 space-y-2 text-xs opacity-90"><p>• {t.stackList1}</p><p>• {t.stackList2}</p><p>• {t.stackList3}</p></div>)}
+            </motion.section>
+
+            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="resilience" className={`group rounded-3xl ${cardBg} p-8 space-y-4`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3"><Cpu className="w-6 h-6 text-emerald-400" /><h2 className="text-xl font-bold">{t.resTitle}</h2></div>
+                <button onClick={() => { playNeuralSound('click'); setResilienceOpen(!resilienceOpen); }} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs font-medium cursor-pointer"><span>{resilienceOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform ${resilienceOpen ? "rotate-180" : ""}`} /></button>
+              </div>
+              <p className="text-sm opacity-90 leading-relaxed">{t.resDesc}</p>
+              {resilienceOpen && (<div className="pt-4 border-t border-white/10 space-y-2 text-xs opacity-90"><p>• {t.resList1}</p><p>• {t.resList2}</p><p>• {t.resList3}</p></div>)}
+            </motion.section>
+
+            {/* PROJECTS SECTION */}
+            <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="projects" className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between`}>
+                <div>
+                  <div className="flex items-center justify-between mb-4"><span className="text-xs font-mono text-cyan-400">Infrastructure</span><Server className="w-4 h-4 opacity-70" /></div>
+                  <h3 className="text-base font-bold mb-2">Self-Hosted Homelab & Nextcloud</h3>
+                  <p className="text-xs opacity-90 leading-relaxed mb-3">{t.proj1Desc}</p>
+                  {project1Open && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.proj1List1}</p><p>• {t.proj1List2}</p></div>)}
+                </div>
+                <div>
+                  <div className="flex flex-wrap gap-1.5 py-3 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Proxmox</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Docker</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailscale</span></div>
+                  <button onClick={() => { playNeuralSound('click'); setProject1Open(!project1Open); }} className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs font-medium cursor-pointer"><span>{project1Open ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform ${project1Open ? "rotate-180" : ""}`} /></button>
+                </div>
+              </motion.div>
+
+              <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between`}>
+                <div>
+                  <div className="flex items-center justify-between mb-4"><span className="text-xs font-mono text-purple-400">Web App</span><Code2 className="w-4 h-4 opacity-70" /></div>
+                  <h3 className="text-base font-bold mb-2">High-Performance Portfolio</h3>
+                  <p className="text-xs opacity-90 leading-relaxed mb-3">{t.proj2Desc}</p>
+                  {project2Open && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.proj2List1}</p><p>• {t.proj2List2}</p></div>)}
+                </div>
+                <div>
+                  <div className="flex flex-wrap gap-1.5 py-3 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Next.js</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailwind</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">TypeScript</span></div>
+                  <div className="flex gap-2">
+                    <button onClick={() => { playNeuralSound('click'); setProject2Open(!project2Open); }} className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs font-medium cursor-pointer"><span>{project2Open ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform ${project2Open ? "rotate-180" : ""}`} /></button>
+                    <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs"><GithubIcon className="w-3.5 h-3.5" /><span>Code</span></a>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.section>
+
+            {/* TECH STACK GUARANTEE BAR */}
+            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="rounded-2xl border border-cyan-500/20 bg-cyan-500/[0.03] p-4 flex items-center justify-center gap-3 text-center">
+              <ShieldCheck className="w-5 h-5 text-cyan-400 shrink-0" />
+              <span className="text-xs font-mono font-medium tracking-wide opacity-90">{t.guaranteeText}</span>
+            </motion.section>
+
+            {/* REVIEWS SECTION */}
+            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="reviews" className={`rounded-3xl ${cardBg} p-8 space-y-6`}>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <h2 className="text-xl font-bold mb-1">{t.revTitle}</h2>
+                  <p className="text-xs opacity-70">{t.revSub}</p>
+                </div>
+                <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 px-3.5 py-1.5 rounded-xl text-amber-400 w-fit">
+                  <div className="flex gap-1">
+                    {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />)}
+                  </div>
+                  <span className="text-xs font-bold font-mono">5.0 / 5.0</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {[t.test1, t.test2, t.test3, t.test4].map((testText, idx) => (
+                  <div key={idx} className="rounded-2xl bg-white/[0.03] border border-white/5 p-6 space-y-3 flex flex-col justify-between">
+                    <p className="text-xs sm:text-sm opacity-90 leading-relaxed italic">{testText}</p>
+                    <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 pt-4 border-t border-white/5">
+                      <span>Verified Client</span>
+                      <span className="text-cyan-400">★★★★★</span>
+                    </div>
+                  </div>
+                ))}
               </div>
             </motion.section>
 
-            {/* Restored Live Athens Time Bar */}
+            {/* FAQ SLIDER SECTION */}
+            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 relative overflow-hidden`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <HelpCircle className="w-6 h-6 text-cyan-400 animate-pulse" />
+                  <div>
+                    <h2 className="text-lg sm:text-xl font-bold">{t.faqTitle}</h2>
+                    <p className="text-xs opacity-70">{t.faqSub}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button onClick={handlePrevFaq} className="p-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.15] border border-white/10 cursor-pointer" title="Previous"><ChevronLeft className="w-4 h-4" /></button>
+                  <span className="text-xs font-mono opacity-60">{faqIndex + 1} / {t.faqList.length}</span>
+                  <button onClick={handleNextFaq} className="p-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.15] border border-white/10 cursor-pointer" title="Next"><ChevronRight className="w-4 h-4" /></button>
+                </div>
+              </div>
+
+              <div className="bg-white/[0.02] border border-white/10 p-6 rounded-2xl min-h-[140px] flex flex-col justify-center relative cursor-pointer" onClick={handleNextFaq}>
+                <div className={`space-y-2 transition-opacity duration-300 ${faqFade ? "opacity-100" : "opacity-0"}`}>
+                  <h3 className="text-sm sm:text-base font-bold text-cyan-400">{t.faqList[faqIndex].q}</h3>
+                  <p className="text-xs sm:text-sm opacity-90 leading-relaxed">{t.faqList[faqIndex].a}</p>
+                </div>
+              </div>
+            </motion.section>
+
+            {/* CONTACT FORM SECTION */}
+            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="contact" className={`rounded-3xl ${cardBg} p-8 space-y-6`}>
+              <div>
+                <h2 className="text-xl font-bold mb-1">{t.contactTitle}</h2>
+                <p className="text-xs opacity-70 mb-6">{t.contactSub}</p>
+              </div>
+
+              <form onSubmit={handleContactSubmit} className="space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-xs font-medium opacity-80 mb-2">{t.formName}</label>
+                    <input type="text" required placeholder="Γιάννης Παπαδόπουλος" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-sm placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium opacity-80 mb-2">{t.formEmail}</label>
+                    <input type="email" required placeholder="example@domain.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-sm placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500" />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium opacity-80 mb-2">{t.formService}</label>
+                  <input type="text" required placeholder="Θέμα επικοινωνίας" value={formData.service} onChange={(e) => setFormData({ ...formData, service: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-sm placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500" />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium opacity-80 mb-2">{t.formMsg}</label>
+                  <textarea required rows={4} placeholder={t.formPlaceholder} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-sm placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 resize-none" />
+                </div>
+
+                <button type="submit" disabled={isSubmitting} className="flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-black font-bold text-sm transition-all shadow cursor-pointer">
+                  <Send className="w-4 h-4" />
+                  <span>{isSubmitting ? t.sending : t.submitBtn}</span>
+                </button>
+              </form>
+            </motion.section>
+
+            {/* LIVE ATHENS TIME BAR */}
             <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="rounded-2xl border border-cyan-500/20 bg-cyan-500/[0.03] p-4 flex items-center justify-center gap-3 text-center">
               <Clock className="w-4 h-4 text-cyan-400 animate-pulse shrink-0" />
               <span className="text-xs font-mono font-medium tracking-wide opacity-90">
-                Athens, GR (EET) • <span className="text-cyan-400 font-bold">{athensTime || "15:47:34"}</span>
+                Athens, GR (EET) • <span className="text-cyan-400 font-bold">{athensTime || "15:49:46"}</span>
               </span>
             </motion.section>
           </div>
