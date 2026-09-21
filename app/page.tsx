@@ -7,7 +7,7 @@ import Image from "next/image";
 import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag, Network, HardDrive, Shield, Database, Coffee } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import Spline from '@splinetool/react-spline';
 
 // --- ΛΕΞΙΚΟ ΜΕΤΑΦΡΑΣΕΩΝ ---
@@ -183,12 +183,12 @@ const translations = {
 };
 
 // FRAMER MOTION CONFIG
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } }
 };
 
-const staggerContainer = {
+const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
 };
