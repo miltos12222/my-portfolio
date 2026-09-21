@@ -437,7 +437,7 @@ export default function HardwarePage() {
                                 return (
                                     <div
                                         key={idx}
-                                        className={`group p-6 rounded-3xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.15)] flex flex-col justify-between ${isSelected ? "bg-cyan-500/10 border-cyan-500 shadow-[0_0_25px_-5px_rgba(6,182,212,0.2)]" : "bg-white/[0.02] border-white/10 hover:border-cyan-500/40 hover:bg-white/[0.04]"}`}
+                                        className={`group p-6 rounded-3xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.15)] flex flex-col justify-between ${isSelected ? "bg-cyan-500/10 border-cyan-500 shadow-[0_0_25px_-5px_rgba(6,182,212,0.2)]" : "bg-white/[0.05] border-white/20 hover:border-cyan-500/40 hover:bg-white/[0.1]"}`}
                                     >
                                         <div onClick={() => {
                                             setSelectedRepair(`${rep.title} (${rep.price}€)`);
@@ -448,9 +448,9 @@ export default function HardwarePage() {
                                                 {isSelected && <span className="text-xs font-mono bg-cyan-500 text-black px-2 py-0.5 rounded-full font-bold flex items-center gap-1 animate-pulse"><Check className="w-3 h-3" /> Επιλεγμένο</span>}
                                             </div>
                                             <h3 className="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors">{rep.title}</h3>
-                                            <p className="text-xs text-zinc-400 mt-1 mb-4 leading-relaxed">{rep.desc}</p>
+                                            <p className="text-xs text-zinc-300 mt-1 mb-4 leading-relaxed">{rep.desc}</p>
                                         </div>
-                                        <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                                        <div className="flex items-center justify-between pt-4 border-t border-white/10">
                                             <span className="text-xl font-bold font-mono text-white group-hover:scale-105 transition-transform">Κόστος: {rep.price}€</span>
                                             <div className="flex items-center gap-2">
                                                 <button
@@ -471,26 +471,26 @@ export default function HardwarePage() {
                         </div>
 
                         {/* Repair Contact Form */}
-                        <div className="bg-white/[0.02] border border-white/10 p-8 rounded-3xl space-y-6 shadow-xl">
+                        <div className="bg-white/[0.05] border border-white/20 p-8 rounded-3xl space-y-6 shadow-xl">
                             <h2 className="text-xl font-bold text-white">Κλείστε Ραντεβού για Service / Επισκευή</h2>
                             <form onSubmit={handleSubmitOrder} className="space-y-5">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                     <div>
                                         <label className="block text-xs font-medium text-zinc-300 mb-2">Ονοματεπώνυμο</label>
-                                        <input type="text" required placeholder="Γιάννης Παπαδόπουλος" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500 transition-colors" />
+                                        <input type="text" required placeholder="Γιάννης Παπαδόπουλος" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.05] border border-white/20 text-white text-sm focus:outline-none focus:border-cyan-500 transition-colors" />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-medium text-zinc-300 mb-2">Email</label>
-                                        <input type="email" required placeholder="example@domain.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500 transition-colors" />
+                                        <input type="email" required placeholder="example@domain.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.05] border border-white/20 text-white text-sm focus:outline-none focus:border-cyan-500 transition-colors" />
                                     </div>
                                 </div>
                                 <div>
                                     <label className="block text-xs font-medium text-zinc-300 mb-2">Επιλεγμένη Υπηρεσία Service</label>
-                                    <input type="text" readOnly value={selectedRepair} className="w-full px-4 py-3 rounded-xl bg-cyan-500/5 border border-cyan-500/20 text-cyan-400 font-mono text-xs cursor-not-allowed" />
+                                    <input type="text" readOnly value={selectedRepair} className="w-full px-4 py-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-xs cursor-not-allowed" />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-medium opacity-80 mb-2">Περιγραφή Βλάβης / Συσκευής</label>
-                                    <textarea rows={3} placeholder="Π.χ. Το λάπτοπ δεν ανοίγει ή κάνει θόρυβο ο ανεμιστήρας..." value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-sm focus:outline-none focus:border-cyan-500 transition-colors resize-none" />
+                                    <label className="block text-xs font-medium opacity-80 mb-2 text-zinc-300">Περιγραφή Βλάβης / Συσκευής</label>
+                                    <textarea rows={3} placeholder="Π.χ. Το λάπτοπ δεν ανοίγει ή κάνει θόρυβο ο ανεμιστήρας..." value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.05] border border-white/20 text-white text-sm focus:outline-none focus:border-cyan-500 transition-colors resize-none" />
                                 </div>
                                 <button type="submit" disabled={isSubmitting} className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-black font-bold text-sm shadow cursor-pointer hover:scale-[1.01] active:scale-95 transition-all">
                                     <Send className="w-4 h-4" />
