@@ -174,3 +174,24 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Απενεργοποίηση επιλογής και αντιγραφής κειμένου παντού στο main site */
+body {
+  -webkit-user-select: none;
+  /* Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE10+ */
+  user-select: none;
+  /* Standard */
+}
+
+/* Εξαίρεση για φόρμες/inputs αν υπάρχουν */
+input,
+textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
