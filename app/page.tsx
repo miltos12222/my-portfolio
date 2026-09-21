@@ -668,8 +668,8 @@ export default function Home() {
           </div>
         </motion.section>
 
-        {/* 2030 LIVE GIT ACTIVITY STREAM */}
-        <section className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-4`}>
+        {/* 2030 LIVE GIT ACTIVITY STREAM WITH ANIMATION */}
+        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-4`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center shrink-0">
@@ -702,7 +702,7 @@ export default function Home() {
               <span className="text-[10px] text-zinc-500">3 days ago • homelab</span>
             </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* LINK TO COMMERCIAL SERVICES PAGE */}
         <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="group rounded-3xl border border-cyan-500/40 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left transition-all duration-300 hover:scale-[1.01] hover:-translate-y-1 hover:border-cyan-400 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.35)] active:scale-[0.98]">
