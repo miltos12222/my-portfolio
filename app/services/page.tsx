@@ -105,19 +105,19 @@ export default function ServicesPage() {
 
                 {/* Unified Hub Switcher */}
                 <div className="flex flex-wrap justify-center items-center gap-2 mb-6 reveal-on-scroll">
-                    <a href="/" className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all cursor-pointer">
+                    <a href="/" className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all duration-300 hover:-translate-y-1 hover:scale-105 active:scale-95 cursor-pointer">
                         <Briefcase className="w-3.5 h-3.5 text-purple-400" />
                         <span>Βιογραφικό</span>
                     </a>
-                    <a href="/services" className="flex items-center gap-2 px-3 py-2 rounded-xl bg-cyan-500 text-black text-xs font-bold transition-all shadow-lg shadow-cyan-500/20 cursor-pointer">
+                    <a href="/services" className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-500 text-black text-xs font-bold transition-all duration-300 hover:-translate-y-1 hover:scale-105 active:scale-95 shadow-lg shadow-cyan-500/30 cursor-pointer">
                         <ShoppingBag className="w-3.5 h-3.5" />
                         <span>Agency Web (Active)</span>
                     </a>
-                    <a href="/devops" className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all cursor-pointer">
+                    <a href="/devops" className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all duration-300 hover:-translate-y-1 hover:scale-105 active:scale-95 cursor-pointer">
                         <Server className="w-3.5 h-3.5 text-purple-400" />
                         <span>DevOps & Cloud</span>
                     </a>
-                    <a href="/hardware" className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all cursor-pointer">
+                    <a href="/hardware" className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all duration-300 hover:-translate-y-1 hover:scale-105 active:scale-95 cursor-pointer">
                         <Cpu className="w-3.5 h-3.5 text-emerald-400" />
                         <span>Hardware Lab</span>
                     </a>
@@ -133,31 +133,31 @@ export default function ServicesPage() {
                     <p className="text-sm text-zinc-400">Επιλέξτε όσες υπηρεσίες θέλετε και προσθέστε τες απευθείας στο ενιαίο καλάθι σας.</p>
                 </div>
 
-                {/* Web Development Catalog Grid with Reveal Animations */}
+                {/* Web Development Catalog Grid with Intense Reveal Animations */}
                 <div className="space-y-6 reveal-on-scroll">
                     <h2 className="text-lg font-bold text-white font-mono uppercase tracking-wider">1. Υπηρεσίες Ανάπτυξης</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         {catalog.map((item, i) => (
                             <div
                                 key={i}
-                                className="group relative p-6 rounded-3xl border bg-white/[0.02] border-white/10 hover:border-cyan-500/50 hover:bg-white/[0.04] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.15)] flex flex-col justify-between cursor-pointer"
+                                className="group relative p-6 sm:p-8 rounded-3xl border bg-white/[0.02] border-white/10 hover:border-cyan-500/60 hover:bg-cyan-500/5 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.03] hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.35)] active:scale-[0.97] flex flex-col justify-between cursor-pointer"
                             >
                                 <div>
                                     <div className="flex justify-between items-center mb-1">
                                         <span className="text-[10px] font-mono text-cyan-400 font-bold group-hover:tracking-wider transition-all duration-300">{item.cat}</span>
                                         <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 opacity-0 group-hover:opacity-150 transition-opacity duration-300 animate-pulse" />
                                     </div>
-                                    <h3 className="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors duration-300">{item.title}</h3>
-                                    <p className="text-xs text-zinc-400 mt-1 mb-4 leading-relaxed">{item.desc}</p>
+                                    <h3 className="text-xl font-bold text-white group-hover:text-cyan-300 transition-colors duration-300">{item.title}</h3>
+                                    <p className="text-sm text-zinc-400 mt-2 mb-5 leading-relaxed">{item.desc}</p>
                                 </div>
-                                <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                                    <span className="text-xl font-bold font-mono text-white group-hover:scale-105 transition-transform duration-300">{item.price}€</span>
+                                <div className="flex items-center justify-between pt-5 border-t border-white/5">
+                                    <span className="text-2xl font-bold font-mono text-white group-hover:scale-105 transition-transform duration-300">{item.price}€</span>
                                     <button
-                                        onClick={() => handleAddToCart(item)}
-                                        className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs transition-all duration-300 shadow hover:shadow-lg hover:shadow-cyan-500/25 active:scale-95 cursor-pointer"
+                                        onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
+                                        className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs transition-all duration-300 shadow-md hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] hover:-translate-y-1 hover:scale-110 active:scale-90 cursor-pointer"
                                     >
-                                        <ShoppingCart className="w-3.5 h-3.5" />
-                                        <span>Προσθήκη στο Καλάθι</span>
+                                        <ShoppingCart className="w-4 h-4" />
+                                        <span>Στο Καλάθι</span>
                                     </button>
                                 </div>
                             </div>
@@ -175,7 +175,7 @@ export default function ServicesPage() {
                                 <div
                                     key={addon.id}
                                     onClick={() => toggleAddon(addon.id)}
-                                    className={`group p-4 rounded-2xl border cursor-pointer flex items-center justify-between transition-all duration-300 hover:-translate-y-1 ${isChecked ? "bg-purple-500/10 border-purple-500 shadow-[0_5px_20px_-5px_rgba(168,85,247,0.2)]" : "bg-white/[0.02] border-white/10 hover:border-purple-500/40 hover:bg-white/[0.04]"}`}
+                                    className={`group p-5 rounded-2xl border cursor-pointer flex items-center justify-between transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.02] active:scale-[0.98] ${isChecked ? "bg-purple-500/10 border-purple-500 shadow-[0_10px_30px_-5px_rgba(168,85,247,0.3)]" : "bg-white/[0.02] border-white/10 hover:border-purple-500/50 hover:shadow-[0_10px_25px_-5px_rgba(168,85,247,0.2)] hover:bg-white/[0.04]"}`}
                                 >
                                     <div className="flex items-center gap-3">
                                         <div className={`w-5 h-5 rounded-lg border flex items-center justify-center transition-transform duration-300 group-hover:scale-110 ${isChecked ? "bg-purple-500 border-purple-500 text-black" : "border-white/20"}`}>
@@ -183,18 +183,18 @@ export default function ServicesPage() {
                                         </div>
                                         <span className="text-sm font-medium text-white group-hover:text-purple-300 transition-colors">{addon.name}</span>
                                     </div>
-                                    <span className="text-sm font-mono font-bold text-purple-400">+{addon.price}€</span>
+                                    <span className="text-sm font-mono font-bold text-purple-400 group-hover:scale-105 transition-transform duration-300">+{addon.price}€</span>
                                 </div>
                             );
                         })}
 
-                        <div className="pt-4 flex justify-end">
+                        <div className="pt-6 flex justify-end">
                             <button
                                 onClick={handleAddAddonsToCart}
-                                className="px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs transition-all duration-300 shadow hover:shadow-lg hover:shadow-purple-500/25 active:scale-95 cursor-pointer flex items-center gap-2"
+                                className="px-6 py-3.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm transition-all duration-300 shadow-md hover:shadow-[0_0_25px_rgba(168,85,247,0.5)] hover:-translate-y-1 hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-2"
                             >
                                 <ShoppingCart className="w-4 h-4" />
-                                <span>Προσθήκη Επιλεγμένων Add-ons στο Καλάθι</span>
+                                <span>Προσθήκη Επιλεγμένων Add-ons</span>
                             </button>
                         </div>
                     </div>
