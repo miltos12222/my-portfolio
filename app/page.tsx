@@ -8,7 +8,7 @@ import {
   Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight,
   Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle,
   Briefcase, ShoppingBag, Network, HardDrive, Shield, Database, Coffee,
-  Layers, User, CreditCard, ArrowRight, RefreshCw, Zap, Menu, X
+  Layers, User, CreditCard, ArrowRight, RefreshCw, Zap, Menu, X, Clock
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
@@ -227,6 +227,24 @@ export default function Home() {
   const [selectedWebPackage, setSelectedWebPackage] = useState(1);
   const [selectedSubPackage, setSelectedSubPackage] = useState<number | null>(null);
   const [checkoutComplete, setCheckoutComplete] = useState(false);
+
+  // Live Athens Time State
+  const [athensTime, setAthensTime] = useState("");
+  useEffect(() => {
+    const updateTime = () => {
+      const options: Intl.DateTimeFormatOptions = {
+        timeZone: 'Europe/Athens',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      };
+      setAthensTime(new Intl.DateTimeFormat('el-GR', options).format(new Date()));
+    };
+    updateTime();
+    const timer = setInterval(updateTime, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   const webPackages = [
     { id: 1, name: "One-Page / Landing Page", pages: "1 Σελίδα", price: 190, desc: "Ιδανικό για γρήγορη προβολή, freelancers & startups." },
@@ -595,6 +613,7 @@ export default function Home() {
                   </div>
                 </div>
 
+                {/* Restored Social & Contact Links */}
                 <div className="z-10 flex flex-wrap justify-center sm:justify-start items-center gap-3 mt-8 pt-6 border-t border-white/10">
                   <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-medium transition-all"><GithubIcon className="w-4 h-4" /><span>GitHub</span></a>
                   <a href="https://www.linkedin.com/in/miltos-papageorgiou-740990438" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A66C2]/20 hover:bg-[#0A66C2]/30 border border-[#0A66C2]/40 text-xs font-medium text-blue-300 transition-all"><LinkedinIcon className="w-4 h-4 text-[#0A66C2]" /><span>LinkedIn</span></a>
@@ -698,6 +717,14 @@ export default function Home() {
                   <div ref={terminalEndRef} />
                 </div>
               </div>
+            </motion.section>
+
+            {/* Restored Live Athens Time Bar */}
+            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="rounded-2xl border border-cyan-500/20 bg-cyan-500/[0.03] p-4 flex items-center justify-center gap-3 text-center">
+              <Clock className="w-4 h-4 text-cyan-400 animate-pulse shrink-0" />
+              <span className="text-xs font-mono font-medium tracking-wide opacity-90">
+                Athens, GR (EET) • <span className="text-cyan-400 font-bold">{athensTime || "15:47:34"}</span>
+              </span>
             </motion.section>
           </div>
         )}
