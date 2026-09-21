@@ -335,7 +335,7 @@ export default function Home() {
     output: (
       <div className="pl-2 pt-1 flex gap-4">
         <div className="text-cyan-500 font-bold hidden sm:block">
-          <pre>{`   .---.\n  /   <span> </span> \\\n  \\.@-@./\n  /  _  \\\n //     \\\\`}</pre>
+          <pre>{`   .---.\n  /     \\\n  \\.@-@./\n  /  _  \\\n //     \\\\`}</pre>
         </div>
         <div className="space-y-1">
           <p><span className="text-cyan-400 font-bold">OS:</span> Debian GNU/Linux 12 (bookworm)</p>
@@ -454,7 +454,7 @@ export default function Home() {
 
       <Navbar />
 
-      {/* TOP-LEFT FLOATING NAVIGATION (UI 2030) */}
+      {/* TOP-LEFT FLOATING NAVIGATION (DESKTOP & MOBILE RESPONSIVE DRAWER) */}
       <header className="fixed top-20 left-4 z-50 flex items-center gap-4">
         <nav className="hidden md:flex items-center gap-1 bg-[#0b0c10]/90 backdrop-blur-xl border border-white/15 p-1.5 rounded-full shadow-2xl">
           <button
@@ -467,13 +467,13 @@ export default function Home() {
             onClick={() => { playNeuralSound('click'); setActiveTab('cv'); }}
             className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'cv' ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/30' : 'text-zinc-400 hover:text-white hover:bg-white/5'}`}
           >
-            <User className="w-4 h-4" /> Βιογραφικό & Testimonials
+            <User className="w-4 h-4" /> Βιογραφικό & Projects
           </button>
           <button
             onClick={() => { playNeuralSound('click'); setActiveTab('marketplace'); }}
             className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'marketplace' ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/30' : 'text-zinc-400 hover:text-white hover:bg-white/5'}`}
           >
-            <ShoppingBag className="w-4 h-4" /> Marketplace & Υπηρεσίες
+            <ShoppingBag className="w-4 h-4" /> Agency Web & Cloud
           </button>
           <button
             onClick={() => { playNeuralSound('click'); setActiveTab('contact'); }}
@@ -483,29 +483,49 @@ export default function Home() {
           </button>
         </nav>
 
-        {/* Mobile Hamburger Button */}
+        {/* Mobile Hamburger Button (Top-Left 3 dots / lines menu) */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-3 bg-black/80 backdrop-blur-xl border border-white/15 rounded-full text-white shadow-xl"
+          className="md:hidden p-3 bg-[#0b0c10]/95 backdrop-blur-2xl border border-white/20 rounded-full text-white shadow-2xl flex items-center justify-center"
+          aria-label="Mobile Menu"
         >
-          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          {mobileMenuOpen ? <X className="w-5 h-5 text-cyan-400" /> : <Menu className="w-5 h-5 text-cyan-400" />}
         </button>
       </header>
 
-      {/* Mobile Dropdown Menu */}
+      {/* COMPREHENSIVE MOBILE FULL MENU (DROPDOWN / DRAWER) CONTAINING EVERYTHING */}
       {mobileMenuOpen && (
-        <div className="fixed inset-x-4 top-36 z-50 bg-[#0b0c10]/95 backdrop-blur-2xl border border-white/15 rounded-3xl p-4 flex flex-col gap-2 shadow-2xl md:hidden">
-          <button onClick={() => { setActiveTab('home'); setMobileMenuOpen(false); }} className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 text-left text-xs font-bold">
-            <Globe className="w-4 h-4 text-cyan-400" /> Αρχική
+        <div className="fixed inset-x-4 top-36 z-50 bg-[#0b0c10]/95 backdrop-blur-2xl border border-cyan-500/40 rounded-3xl p-5 flex flex-col gap-3 shadow-2xl md:hidden animate-in fade-in slide-in-from-top-4">
+          <div className="text-[10px] font-mono text-cyan-400 uppercase font-bold tracking-wider pb-1 border-b border-white/10">
+            [ 📱 Mobile Navigation Hub ]
+          </div>
+
+          <button onClick={() => { setActiveTab('home'); setMobileMenuOpen(false); }} className="flex items-center gap-3 p-3 rounded-2xl bg-white/[0.04] hover:bg-cyan-500/20 border border-white/10 text-left text-xs font-bold transition-all">
+            <Globe className="w-4 h-4 text-cyan-400" /> <span>Αρχική & Overview</span>
           </button>
-          <button onClick={() => { setActiveTab('cv'); setMobileMenuOpen(false); }} className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 text-left text-xs font-bold">
-            <User className="w-4 h-4 text-cyan-400" /> Βιογραφικό & Testimonials
+
+          <button onClick={() => { setActiveTab('cv'); setMobileMenuOpen(false); }} className="flex items-center gap-3 p-3 rounded-2xl bg-white/[0.04] hover:bg-cyan-500/20 border border-white/10 text-left text-xs font-bold transition-all">
+            <User className="w-4 h-4 text-purple-400" /> <span>Βιογραφικό & Projects</span>
           </button>
-          <button onClick={() => { setActiveTab('marketplace'); setMobileMenuOpen(false); }} className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 text-left text-xs font-bold">
-            <ShoppingBag className="w-4 h-4 text-cyan-400" /> Marketplace & Υπηρεσίες
+
+          <button onClick={() => { setActiveTab('marketplace'); setMobileMenuOpen(false); }} className="flex items-center gap-3 p-3 rounded-2xl bg-white/[0.04] hover:bg-cyan-500/20 border border-white/10 text-left text-xs font-bold transition-all">
+            <ShoppingBag className="w-4 h-4 text-emerald-400" /> <span>Agency Web & Cloud (Marketplace)</span>
           </button>
-          <button onClick={() => { setActiveTab('contact'); setMobileMenuOpen(false); }} className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 text-left text-xs font-bold">
-            <Mail className="w-4 h-4 text-cyan-400" /> Επικοινωνία / Αίτηση
+
+          <a href="/services" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-2xl bg-white/[0.04] hover:bg-cyan-500/20 border border-white/10 text-left text-xs font-bold transition-all">
+            <Server className="w-4 h-4 text-blue-400" /> <span>DevOps & Cloud Solutions</span>
+          </a>
+
+          <a href="/services" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-2xl bg-white/[0.04] hover:bg-cyan-500/20 border border-white/10 text-left text-xs font-bold transition-all">
+            <Cpu className="w-4 h-4 text-amber-400" /> <span>Custom PC & Hardware</span>
+          </a>
+
+          <a href="/donate" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-2xl bg-white/[0.04] hover:bg-pink-500/20 border border-white/10 text-left text-xs font-bold transition-all">
+            <Coffee className="w-4 h-4 text-pink-400" /> <span>Support & Donate ☕</span>
+          </a>
+
+          <button onClick={() => { setActiveTab('contact'); setMobileMenuOpen(false); }} className="flex items-center gap-3 p-3 rounded-2xl bg-cyan-500 text-black text-left text-xs font-bold transition-all shadow-lg shadow-cyan-500/30">
+            <Mail className="w-4 h-4" /> <span>Επικοινωνία / Αίτηση</span>
           </button>
         </div>
       )}
