@@ -8,7 +8,17 @@ import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, Chevr
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
 import { motion, type Variants } from "framer-motion";
-import Spline from '@splinetool/react-spline';
+import dynamic from 'next/dynamic';
+
+const Spline = dynamic(() => import('@splinetool/react-spline'), {
+  ssr: false,
+  loading: () => (
+    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#0b0c10]">
+      <div className="w-6 h-6 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
+      <span className="text-cyan-400 font-mono text-[10px] animate-pulse">LOADING 3D RENDER ENGINE...</span>
+    </div>
+  )
+});
 
 // --- ΛΕΞΙΚΟ ΜΕΤΑΦΡΑΣΕΩΝ ---
 const translations = {
