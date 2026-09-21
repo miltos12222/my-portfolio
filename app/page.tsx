@@ -619,7 +619,6 @@ export default function Home() {
                   <h3 className="text-lg font-bold mb-1">Self-Hosted</h3>
                   <p className="text-xs opacity-80 mb-3">{t.infraDesc}</p>
 
-                  {/* Restored Live HUD telemetry box */}
                   <div className="my-3 p-3.5 rounded-2xl bg-black/60 border border-cyan-500/30 font-mono text-[11px] space-y-2 text-zinc-300 shadow-[inset_0_0_20px_rgba(6,182,212,0.1)] relative overflow-hidden">
                     <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse" />
                     <div className="flex justify-between items-center">
@@ -661,6 +660,44 @@ export default function Home() {
                   <button onClick={() => setActiveTab('marketplace')} className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-xs font-medium text-purple-300 transition-all"><span>Marketplace Websites</span><ArrowRight className="w-3.5 h-3.5" /></button>
                 </div>
               </motion.div>
+            </motion.section>
+
+            {/* RESTORED INTERACTIVE TERMINAL SECTION */}
+            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="grid grid-cols-1 gap-4">
+              <div className="rounded-3xl border border-white/10 bg-[#0a0a0a] p-5 font-mono text-xs shadow-2xl relative overflow-hidden group flex flex-col h-[350px]">
+                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/5 shrink-0">
+                  <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                  <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
+                  <div className="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+                  <span className="ml-2 text-zinc-500 flex items-center gap-1"><Terminal className="w-3 h-3" /> root@miltos-server:~</span>
+                </div>
+
+                <div className="flex-1 overflow-y-auto space-y-3 text-zinc-300 pr-2 pb-4 scrollbar-thin scrollbar-thumb-white/10" onClick={() => document.getElementById('term-input')?.focus()}>
+                  {termHistory.map((item, i) => (
+                    <div key={i} className="space-y-1">
+                      <p><span className="text-emerald-400">miltos@admin:~$</span> {item.cmd}</p>
+                      {item.output}
+                    </div>
+                  ))}
+
+                  <form onSubmit={handleTerminalSubmit} className="flex items-center gap-2 mt-2">
+                    <span className="text-emerald-400 shrink-0">miltos@admin:~$</span>
+                    <input
+                      id="term-input"
+                      type="text"
+                      value={termInput}
+                      onChange={(e) => {
+                        setTermInput(e.target.value);
+                        playKeyClick();
+                      }}
+                      className="flex-1 bg-transparent outline-none border-none text-white focus:ring-0 p-0 m-0 min-w-0"
+                      autoComplete="off"
+                      spellCheck="false"
+                    />
+                  </form>
+                  <div ref={terminalEndRef} />
+                </div>
+              </div>
             </motion.section>
           </div>
         )}
@@ -825,7 +862,7 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label className="text-xs font-medium opacity-80 mb-1 block">{t.formEmail}</label>
+                  <label className="block text-xs font-medium opacity-80 mb-1">{t.formEmail}</label>
                   <input type="email" required placeholder="example@domain.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-xs placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500" />
                 </div>
 
