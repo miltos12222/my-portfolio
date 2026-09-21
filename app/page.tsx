@@ -603,7 +603,7 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              {/* Self-Hosted Card */}
+              {/* Self-Hosted Card with Restored Live Telemetry HUD */}
               <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60`}>
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -618,6 +618,26 @@ export default function Home() {
                   </div>
                   <h3 className="text-lg font-bold mb-1">Self-Hosted</h3>
                   <p className="text-xs opacity-80 mb-3">{t.infraDesc}</p>
+
+                  {/* Restored Live HUD telemetry box */}
+                  <div className="my-3 p-3.5 rounded-2xl bg-black/60 border border-cyan-500/30 font-mono text-[11px] space-y-2 text-zinc-300 shadow-[inset_0_0_20px_rgba(6,182,212,0.1)] relative overflow-hidden">
+                    <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse" />
+                    <div className="flex justify-between items-center">
+                      <span className="text-zinc-500">Core Node:</span>
+                      <span className="text-cyan-400 font-bold flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+                        {telemetry ? telemetry.node : "Proxmox-VE-Main"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-zinc-500">CPU / RAM:</span>
+                      <span className="text-emerald-400">{telemetry ? `${telemetry.cpuUsage} / ${telemetry.memoryUsage}` : "18% / 42%"}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-zinc-500">Uptime:</span>
+                      <span className="text-purple-400 font-bold">{telemetry ? telemetry.uptime : "14d 7h (99.9%)"}</span>
+                    </div>
+                  </div>
                 </div>
                 <div>
                   <div className="flex flex-wrap gap-1.5 py-2 border-t border-white/5 mb-3">
@@ -805,7 +825,7 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium opacity-80 mb-1">{t.formEmail}</label>
+                  <label className="text-xs font-medium opacity-80 mb-1 block">{t.formEmail}</label>
                   <input type="email" required placeholder="example@domain.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-xs placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500" />
                 </div>
 
