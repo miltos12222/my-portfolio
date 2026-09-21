@@ -683,8 +683,14 @@ export default function Home() {
               </motion.div>
             </motion.section>
 
-            {/* ================= NEW DEDICATED SECTION: NEXT-GEN AI UTILITY HUB SPOTLIGHT ================= */}
-            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="relative rounded-3xl border border-cyan-500/30 bg-gradient-to-br from-cyan-950/20 via-[#0b0c10] to-purple-950/20 p-8 sm:p-10 overflow-hidden shadow-2xl">
+            {/* ================= NEW DEDICATED SECTION: NEXT-GEN AI UTILITY HUB SPOTLIGHT WITH ANIMATIONS ================= */}
+            <motion.section
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+              className="relative rounded-3xl border border-cyan-500/30 bg-gradient-to-br from-cyan-950/20 via-[#0b0c10] to-purple-950/20 p-8 sm:p-10 overflow-hidden shadow-2xl transition-all duration-300 hover:border-cyan-500/50"
+            >
               <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
               <div className="relative z-10 space-y-6">
@@ -701,19 +707,34 @@ export default function Home() {
                   </p>
                 </div>
 
+                {/* ANIMATED INFO BOXES */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                  <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1">
+                  <motion.div
+                    variants={fadeUp}
+                    whileHover={{ scale: 1.03, y: -4 }}
+                    className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 transition-all shadow-md hover:border-cyan-500/40"
+                  >
                     <span className="text-cyan-400 font-bold text-xs font-mono">⚡ True Client-Side AI</span>
                     <p className="text-xs text-zinc-400">Δυναμική παραγωγή επαγγελματικών εγγράφων χωρίς εξωτερικά κόστη API billing.</p>
-                  </div>
-                  <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1">
+                  </motion.div>
+
+                  <motion.div
+                    variants={fadeUp}
+                    whileHover={{ scale: 1.03, y: -4 }}
+                    className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 transition-all shadow-md hover:border-purple-500/40"
+                  >
                     <span className="text-purple-400 font-bold text-xs font-mono">💳 Revolut Pay Integration</span>
                     <p className="text-xs text-zinc-400">Απλό, άμεσο και ασφαλές μοντέλο Pay-Per-Use μέσω προσωπικού Revolut link.</p>
-                  </div>
-                  <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1">
+                  </motion.div>
+
+                  <motion.div
+                    variants={fadeUp}
+                    whileHover={{ scale: 1.03, y: -4 }}
+                    className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 transition-all shadow-md hover:border-emerald-500/40"
+                  >
                     <span className="text-emerald-400 font-bold text-xs font-mono">🛡️ Anti-Screenshot Previews</span>
                     <p className="text-xs text-zinc-400">Προστατευμένες προεπισκοπήσεις με θόλωση και ξεκλείδωμα καθαρού PDF με window.print().</p>
-                  </div>
+                  </motion.div>
                 </div>
 
                 <div className="pt-4 flex flex-wrap items-center gap-4">
@@ -721,7 +742,7 @@ export default function Home() {
                     href="https://miltos-utility-hub.vercel.app"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs sm:text-sm transition-all shadow-lg shadow-cyan-500/25 cursor-pointer"
+                    className="flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs sm:text-sm transition-all shadow-lg shadow-cyan-500/25 cursor-pointer hover:scale-105 active:scale-95"
                   >
                     <span>Επίσκεψη στο Live Utility Hub</span>
                     <ExternalLink className="w-4 h-4" />
@@ -730,7 +751,7 @@ export default function Home() {
                     href="https://github.com/miltos12222/utility-hub"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/15 text-xs sm:text-sm font-semibold text-white transition-all"
+                    className="flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/15 text-xs sm:text-sm font-semibold text-white transition-all hover:scale-105 active:scale-95"
                   >
                     <GithubIcon className="w-4 h-4" />
                     <span>Προβολή Source Code (GitHub)</span>
