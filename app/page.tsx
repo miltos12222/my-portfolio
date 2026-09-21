@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag, Network, HardDrive, Shield, Database, Coffee, Menu, X, Clock, RefreshCw, CreditCard, ArrowRight, User } from "lucide-react";
+import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag, Network, HardDrive, Shield, Database, Coffee, Menu, X, Clock, RefreshCw, CreditCard, ArrowRight, User, Sparkles, ExternalLink } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
 import { motion, type Variants } from "framer-motion";
@@ -348,7 +348,7 @@ export default function Home() {
     output: (
       <div className="pl-2 pt-1 flex gap-4">
         <div className="text-cyan-500 font-bold hidden sm:block">
-          <pre>{`   .---.\n  /     \\\n  \\.@-@./\n  /  _  \\\n //     \\\\`}</pre>
+          <pre>{`   .---.\n  /   <span> </span> \\\n  \\.@-@./\n  /   _   \\\n //     \\\\`}</pre>
         </div>
         <div className="space-y-1">
           <p><span className="text-cyan-400 font-bold">OS:</span> Debian GNU/Linux 12 (bookworm)</p>
@@ -608,11 +608,18 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Restored Social & Contact Links */}
+                {/* Restored Social & Contact Links + NEW AI UTILITY HUB LINK */}
                 <div className="z-10 flex flex-wrap justify-center sm:justify-start items-center gap-3 mt-8 pt-6 border-t border-white/10">
                   <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-medium transition-all"><GithubIcon className="w-4 h-4" /><span>GitHub</span></a>
                   <a href="https://www.linkedin.com/in/miltos-papageorgiou-740990438" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A66C2]/20 hover:bg-[#0A66C2]/30 border border-[#0A66C2]/40 text-xs font-medium text-blue-300 transition-all"><LinkedinIcon className="w-4 h-4 text-[#0A66C2]" /><span>LinkedIn</span></a>
                   <a href="/cv.pdf" download className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-xs font-medium text-purple-300 transition-all"><Download className="w-4 h-4" /><span>{t.cvBtn}</span></a>
+
+                  {/* NEW UTILITY HUB BUTTON */}
+                  <a href="https://miltos-utility-hub.vercel.app" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500/20 to-purple-500/20 hover:from-cyan-500/30 hover:to-purple-500/30 border border-cyan-500/40 text-xs font-bold text-cyan-300 transition-all shadow-[0_0_20px_rgba(6,182,212,0.15)]">
+                    <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
+                    <span>AI Utility Hub</span>
+                  </a>
+
                   <button onClick={() => setActiveTab('contact')} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-xs font-medium text-cyan-300 transition-all"><Mail className="w-4 h-4" /><span>{t.contactBtn}</span></button>
                 </div>
               </motion.div>
@@ -674,6 +681,62 @@ export default function Home() {
                   <button onClick={() => setActiveTab('marketplace')} className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-xs font-medium text-purple-300 transition-all"><span>Marketplace Websites</span><ArrowRight className="w-3.5 h-3.5" /></button>
                 </div>
               </motion.div>
+            </motion.section>
+
+            {/* ================= NEW DEDICATED SECTION: NEXT-GEN AI UTILITY HUB SPOTLIGHT ================= */}
+            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="relative rounded-3xl border border-cyan-500/30 bg-gradient-to-br from-cyan-950/20 via-[#0b0c10] to-purple-950/20 p-8 sm:p-10 overflow-hidden shadow-2xl">
+              <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+
+              <div className="relative z-10 space-y-6">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono font-bold">
+                  <Sparkles className="w-4 h-4" /> Project Spotlight & Micro-SaaS
+                </div>
+
+                <div className="space-y-3">
+                  <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                    Next-Gen AI Utility Hub (2030 Edition)
+                  </h2>
+                  <p className="text-sm sm:text-base text-zinc-300 leading-relaxed max-w-3xl">
+                    Αυτή η νέα πλατφόρμα δημιουργήθηκε με στόχο να προσφέρει μια αστραπιαία, μηδενικών διαφημίσεων (zero-ads) σουίτα εργαλείων, συνδυάζοντας βασικά καθημερινά utilities (όπως URL Shortener, Password & QR Generators) με προηγμένες υπηρεσίες Τεχνητής Νοημοσύνης (AI Business Plans, Smart Contracts & CV Builders).
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                  <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1">
+                    <span className="text-cyan-400 font-bold text-xs font-mono">⚡ True Client-Side AI</span>
+                    <p className="text-xs text-zinc-400">Δυναμική παραγωγή επαγγελματικών εγγράφων χωρίς εξωτερικά κόστη API billing.</p>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1">
+                    <span className="text-purple-400 font-bold text-xs font-mono">💳 Revolut Pay Integration</span>
+                    <p className="text-xs text-zinc-400">Απλό, άμεσο και ασφαλές μοντέλο Pay-Per-Use μέσω προσωπικού Revolut link.</p>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1">
+                    <span className="text-emerald-400 font-bold text-xs font-mono">🛡️ Anti-Screenshot Previews</span>
+                    <p className="text-xs text-zinc-400">Προστατευμένες προεπισκοπήσεις με θόλωση και ξεκλείδωμα καθαρού PDF με window.print().</p>
+                  </div>
+                </div>
+
+                <div className="pt-4 flex flex-wrap items-center gap-4">
+                  <a
+                    href="https://miltos-utility-hub.vercel.app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs sm:text-sm transition-all shadow-lg shadow-cyan-500/25 cursor-pointer"
+                  >
+                    <span>Επίσκεψη στο Live Utility Hub</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                  <a
+                    href="https://github.com/miltos12222/utility-hub"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/15 text-xs sm:text-sm font-semibold text-white transition-all"
+                  >
+                    <GithubIcon className="w-4 h-4" />
+                    <span>Προβολή Source Code (GitHub)</span>
+                  </a>
+                </div>
+              </div>
             </motion.section>
 
             {/* INTERACTIVE HOMELAB ARCHITECTURE TOPOLOGY SECTION */}
