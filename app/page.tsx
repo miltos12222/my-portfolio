@@ -7,6 +7,8 @@ import Image from "next/image";
 import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag, Network, HardDrive, Shield, Database, Coffee } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
+import Spline from '@splinetool/react-spline';
 
 // --- ΛΕΞΙΚΟ ΜΕΤΑΦΡΑΣΕΩΝ ---
 const translations = {
@@ -33,7 +35,6 @@ const translations = {
     aboutTitle: "Σχετικά με Εμένα",
     aboutP1: "Είμαι απόφοιτος Πληροφορικής με έντονο ενδιαφέρον και πρακτική εμπειρία στις υποδομές δικτύων, τη διαχείριση συστημάτων Linux και την ανάπτυξη λογισμικού.",
     aboutP2: "Στόχος μου είναι η δημιουργία ασφαλών, γρήγορων και κλιμακούμενων εφαρμογών, αξιοποιώντας σύγχρονα εργαλεία αυτοματισμού και self-hosted αρχιτεκτονικές. Συνδυάζω το DevOps mindset με το σύγχρονο Web Development.",
-
     learningTitle: "Live Tech Roadmap & History",
     learningSubtitle: "Η συνεχής πορεία μάθησης και τεχνολογικής εξέλιξης:",
     learningItems: [
@@ -41,37 +42,31 @@ const translations = {
       { date: "Προηγούμενο", text: "Next.js 14 App Router, Server Actions & Advanced TypeScript." },
       { date: "Βάση", text: "Linux Administration, Docker Networking & Tailscale VPN Mesh." }
     ],
-
     guaranteeText: "Zero downtime deployment • SEO-optimized • Fast delivery (5-7 days)",
-
     servicesBannerTitle: "Ψάχνετε Υπηρεσίες Web Development & Homelab?",
     servicesBannerDesc: "Επισκεφθείτε τον εμπορικό μας κατάλογο, επιλέξτε πολλαπλές υπηρεσίες και φτιάξτε το custom πακέτο σας ζωντανά.",
     servicesBannerBtn: "Μετάβαση στον Κατάλογο Υπηρεσιών ➔",
-
     topoTitle: "Interactive Homelab Architecture Topology",
     topoSub: "Κάντε κλικ σταnodes της υποδομής για να δείτε τα live specs και τους ρόλους τους.",
-
     faqTitle: "Συχνές Ερωτήσεις (FAQ)",
     faqSub: "Όλες οι απαντήσεις σχετικά με τη διαδικασία συνεργασίας και τις τεχνικές λεπτομέρειες.",
     faqList: [
-      { q: "Πώς γίνεται η πληρωμή;", a: "Η διαδικασία περιλαμβάνει 50% προκαταβολή για την έναρξη του έργου και 50% εξόφληση με την παράδοση και τον έλεγχο της εφαρμογής." },
-      { q: "Χρειάζομαι hosting;", a: "Όχι απαραίτητα. Σας τα στήνω και τα παραδίδω πλήρως λειτουργικά (σε Vercel για τα web apps ή σε δικό σας Proxmox server για self-hosted λύσεις)." },
-      { q: "Πόσες αλλαγές περιλαμβάνονται;", a: "Κάθε πακέτο περιλαμβάνει δωρεάν αναθεωρήσεις και διορθώσεις κατά τη διάρκεια της ανάπτυξης, καθώς και υποστήριξη για τυχόν παρατηρήσεις μετά την παράδοση." },
-      { q: "Πόσος χρόνος χρειάζεται για την ολοκλήρωση;", a: "Συνήθως από 5 έως 10 εργάσιμες ημέρες ανάλογα με την πολυπλοκότητα του project (Landing Pages παραδίδονται συχνά σε 3-5 ημέρες)." },
-      { q: "Είναι φιλικό προς τις μηχανές αναζήτησης (SEO);", a: "Ναι, απόλυτα. Χρησιμοποιώ Next.js server-side rendering, sitemaps και βέλτιστες πρακτικές για κορυφαίες επιδόσεις σε Google Lighthouse scores." },
-      { q: "Παρέχετε τεχνική υποστήριξη μετά την παράδοση;", a: "Φυσικά. Υπάρχει δυνατότητα μηνιαίας συντήρησης, ασφάλειας και ενημερώσεων ή υποστήριξη με την ώρα (Consulting & Audit)." },
-      { q: "Μπορώ να ενημερώνω μόνος μου το περιεχόμενο;", a: "Ναι, μπορούμε να ενσωματώσουμε εύκολο CMS ή Markdown δομή ώστε να αλλάζετε κείμενα και φωτογραφίες χωρίς κώδικα." },
-      { q: "Τι γίνεται αν χρειαστώ κάτι πιο σύνθετο;", a: "Μπορούμε να προσαρμόσουμε το πακέτο ακριβώς στις απαιτήσεις σας (Custom Full-Stack App) με βάση τις ανάγκες της επιχείρησής σας." },
-      { q: "Πώς μπορούμε να ξεκινήσουμε;", a: "Απλώς συμπληρώστε τη φόρμα επικοινωνίας ή κλείστε ένα απευθείας 15λεπτο ραντεβού (Book a Call) για να συζητήσουμε το project σας." }
+      { q: "Πώς γίνεται η πληρωμή;", a: "Η διαδικασία περιλαμβάνει 50% προκαταβολή για την έναρξη του έργου και 50% εξόφληση με την παράδοση." },
+      { q: "Χρειάζομαι hosting;", a: "Όχι απαραίτητα. Σας τα στήνω και τα παραδίδω πλήρως λειτουργικά (σε Vercel για web apps ή στο δικό σας Proxmox)." },
+      { q: "Πόσες αλλαγές περιλαμβάνονται;", a: "Κάθε πακέτο περιλαμβάνει δωρεάν αναθεωρήσεις και διορθώσεις κατά τη διάρκεια της ανάπτυξης." },
+      { q: "Πόσος χρόνος χρειάζεται για την ολοκλήρωση;", a: "Συνήθως από 5 έως 10 εργάσιμες ημέρες ανάλογα με την πολυπλοκότητα (Landing Pages σε 3-5 ημέρες)." },
+      { q: "Είναι φιλικό προς τις μηχανές αναζήτησης (SEO);", a: "Ναι, απόλυτα. Χρησιμοποιώ Next.js SSR και βέλτιστες πρακτικές για top Google Lighthouse scores." },
+      { q: "Παρέχετε τεχνική υποστήριξη μετά την παράδοση;", a: "Φυσικά. Παρέχεται δυνατότητα μηνιαίας συντήρησης και ασφάλειας." },
+      { q: "Μπορώ να ενημερώνω μόνος μου το περιεχόμενο;", a: "Ναι, ενσωματώνουμε Headless CMS ή Markdown δομή ώστε να αλλάζετε κείμενα/φωτογραφίες." },
+      { q: "Τι γίνεται αν χρειαστώ κάτι πιο σύνθετο;", a: "Προσαρμόζουμε το πακέτο στις απαιτήσεις σας (Custom Full-Stack App)." },
+      { q: "Πώς μπορούμε να ξεκινήσουμε;", a: "Συμπληρώστε τη φόρμα ή κλείστε ένα 15λεπτο ραντεβού (Book a Call)." }
     ],
-
     revTitle: "Αξιολογήσεις & Real Testimonials",
     revSub: "Αληθινές εντυπώσεις από την ολοκλήρωση έργων, υποδομών και custom builds.",
     test1: "«Η ταχύτητα υλοποίησης και η αρχιτεκτονική του Next.js app ξεπέρασαν κάθε προσδοκία. Εξαιρετικός επαγγελματίας με βαθιά τεχνική κατάρτιση.»",
     test2: "«Το στήσιμο του Proxmox homelab και τα αυτόματα backups έλυσαν τα χέρια στην επιχείρησή μας. Απόλυτη σταθερότητα και ασφάλεια δεδομένων.»",
-    test3: "«Το custom PC build που παραγγείλαμε για rendering και AI tasks αποδίδει απίστευτα κάτω από βαριά φορτία. Άψογος επαγγελματισμός στο hardware.»",
+    test3: "«Το custom PC build που παραγγείλαμε αποδίδει απίστευτα κάτω από βαριά φορτία. Άψογος επαγγελματισμός στο hardware.»",
     test4: "«Άμεση επικοινωνία, καθαρός κώδικας και προσοχή στη λεπτομέρεια. Συνιστάται ανεπιφύλακτα για κάθε τεχνικό project ή ιστοσελίδα.»",
-
     termStatus: "Online & Ready for Hire",
     stackDesc: "Ανάπτυξη και διαχείριση εικονικών μηχανών σε Proxmox VE, παραμετροποίηση Docker containers για αυτόματο backup φωτογραφιών και αρχείων με ασφαλή πρόσβαση μέσω Tailscale VPN.",
     stackList1: "Ρύθμιση αποθηκευτικών χώρων (ext4 mounts) και οργάνωση LXC containers.",
@@ -85,10 +80,9 @@ const translations = {
     proj1Desc: "Ανάπτυξη και διαχείριση εικονικών μηχανών σε Proxmox VE, παραμετροποίηση Docker containers για αυτόματο backup φωτογραφιών.",
     proj1List1: "Υλοποίηση εξωτερικών mounts (ext4) και διαχείριση δικαιωμάτων χρηστών.",
     proj1List2: "Αποφυγή exposure ports στο internet χάρη στη χρήση Mesh VPN δικτύου.",
-    proj2Desc: "Σύγχρονο, ελαφρύ και πλήρως βελτιστοποιημένο portfolio κατασκευασμένο με Next.js, Tailwind CSS και TypeScript, σχεδιασμένο για άμεση φόρτωση και μηδενικά lags.",
+    proj2Desc: "Σύγχρονο, ελαφρύ και πλήρως βελτιστοποιημένο portfolio κατασκευασμένο με Next.js, Tailwind CSS και TypeScript, σχεδιασμένο για άμεση φόρτωση.",
     proj2List1: "Βελτιστοποίηση εικόνων και assets για κορυφαία επίδοση σε Lighthouse score.",
     proj2List2: "Αξιοποίηση Server Components και σύγχρονων hooks για ομαλό UX.",
-
     contactTitle: "Άμεση Επικοινωνία",
     contactSub: "Στείλτε μου το μήνυμά σας και θα επικοινωνήσω μαζί σας άμεσα.",
     formName: "Όνομα / Επωνυμία",
@@ -124,8 +118,7 @@ const translations = {
     ethicList2: "Continuous learning of new technologies and workflow automation.",
     aboutTitle: "About Me",
     aboutP1: "I am a Computer Science graduate with a strong interest and practical experience in network infrastructure, Linux system administration, and software development.",
-    aboutP2: "My goal is to create secure, fast, and scalable applications by leveraging modern automation tools and self-hosted architectures. I combine a DevOps mindset with modern Web Development.",
-
+    aboutP2: "My goal is to create secure, fast, and scalable applications by leveraging modern automation tools and self-hosted architectures.",
     learningTitle: "Live Tech Roadmap & History",
     learningSubtitle: "Continuous learning path and technological evolution:",
     learningItems: [
@@ -133,37 +126,31 @@ const translations = {
       { date: "Previous", text: "Next.js 14 App Router, Server Actions & Advanced TypeScript." },
       { date: "Foundation", text: "Linux Administration, Docker Networking & Tailscale VPN Mesh." }
     ],
-
     guaranteeText: "Zero downtime deployment • SEO-optimized • Fast delivery (5-7 days)",
-
     servicesBannerTitle: "Looking for Web Development & Homelab Services?",
     servicesBannerDesc: "Visit our commercial catalog, select multiple services, and build your custom package live.",
     servicesBannerBtn: "Go to Services Catalog ➔",
-
     topoTitle: "Interactive Homelab Architecture Topology",
     topoSub: "Click on infrastructure nodes to view live specs and roles.",
-
     faqTitle: "Frequently Asked Questions (FAQ)",
     faqSub: "Everything you need to know about our collaboration process and technical details.",
     faqList: [
-      { q: "How does payment work?", a: "A 50% deposit is required to kick off the project, and the remaining 50% is paid upon delivery and final testing." },
-      { q: "Do I need hosting?", a: "Not necessarily. I set everything up and deliver it fully operational (on Vercel for web apps or your own Proxmox server for self-hosted solutions)." },
-      { q: "How many revisions are included?", a: "Each package includes free iterations and adjustments during development, plus post-launch support." },
-      { q: "What is the typical turnaround time?", a: "Usually between 5 to 10 business days depending on project complexity (Landing pages are often delivered in 3-5 days)." },
-      { q: "Is it SEO friendly?", a: "Yes, absolutely. I utilize Next.js server-side rendering, sitemaps, and best practices for top Google Lighthouse scores." },
-      { q: "Do you provide post-launch support?", a: "Yes, monthly maintenance, security updates, or hourly consulting & audit are available." },
-      { q: "Can I update the content myself?", a: "Yes, we can integrate an easy-to-use CMS or Markdown setup so you can update texts and images without code." },
-      { q: "What if I need something custom or advanced?", a: "We can tailor a custom full-stack app specifically matching your unique business requirements." },
-      { q: "How do we get started?", a: "Simply fill out the contact form below or book a direct 15-minute discovery call to discuss your project." }
+      { q: "How does payment work?", a: "A 50% deposit is required to kick off the project, and the remaining 50% is paid upon delivery." },
+      { q: "Do I need hosting?", a: "Not necessarily. I set everything up and deliver it fully operational." },
+      { q: "How many revisions are included?", a: "Each package includes free iterations and adjustments during development." },
+      { q: "What is the typical turnaround time?", a: "Usually between 5 to 10 business days depending on project complexity." },
+      { q: "Is it SEO friendly?", a: "Yes, absolutely. I utilize Next.js SSR and best practices for top Lighthouse scores." },
+      { q: "Do you provide post-launch support?", a: "Yes, monthly maintenance, security updates, or hourly consulting are available." },
+      { q: "Can I update the content myself?", a: "Yes, we integrate easy CMS so you can update texts and images without code." },
+      { q: "What if I need something custom?", a: "We can tailor a custom full-stack app specifically matching your business." },
+      { q: "How do we get started?", a: "Fill out the contact form or book a 15-minute discovery call." }
     ],
-
     revTitle: "Reviews & Real Testimonials",
     revSub: "Authentic impressions from completed projects, infrastructures, and custom builds.",
-    test1: '"Implementation speed and Next.js app architecture exceeded every expectation. Exceptional professional with deep technical expertise."',
-    test2: '"Proxmox homelab setup and automated backups saved our business. Absolute stability and data security."',
-    test3: '"The custom PC build we ordered for rendering and AI tasks performs incredibly under heavy loads. Flawless hardware professionalism."',
-    test4: '"Prompt communication, clean code, and attention to detail. Highly recommended for any technical project or website."',
-
+    test1: '"Implementation speed and app architecture exceeded every expectation. Exceptional professional."',
+    test2: '"Proxmox homelab setup and automated backups saved our business. Absolute stability."',
+    test3: '"The custom PC build performs incredibly under heavy loads. Flawless professionalism."',
+    test4: '"Prompt communication, clean code, and attention to detail. Highly recommended."',
     termStatus: "Online & Ready for Hire",
     stackDesc: "Deployment and management of virtual machines on Proxmox VE, Docker container configuration for automated backups, with secure access via Tailscale VPN.",
     stackList1: "Storage configuration (ext4 mounts) and LXC containers organization.",
@@ -177,10 +164,9 @@ const translations = {
     proj1Desc: "Deployment and management of virtual machines on Proxmox VE, Docker container configuration for automated backups.",
     proj1List1: "Implementation of external mounts (ext4) and user rights management.",
     proj1List2: "Avoiding exposed ports to the internet thanks to a Mesh VPN network.",
-    proj2Desc: "Modern, lightweight, and fully optimized portfolio built with Next.js, Tailwind CSS, and TypeScript, designed for instant loading.",
+    proj2Desc: "Modern, lightweight, and fully optimized portfolio built with Next.js, Tailwind CSS, and TypeScript.",
     proj2List1: "Image and asset optimization for top Lighthouse scores.",
     proj2List2: "Leveraging Server Components and modern hooks for smooth UX.",
-
     contactTitle: "Direct Contact",
     contactSub: "Send me a message and I will get back to you promptly.",
     formName: "Name / Company",
@@ -194,6 +180,17 @@ const translations = {
     errorMsg: "Failed to send.",
     serverError: "Server connection error."
   }
+};
+
+// FRAMER MOTION CONFIG
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
 };
 
 export default function Home() {
@@ -425,8 +422,8 @@ export default function Home() {
 
       <main className="relative w-full pt-28 sm:pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12">
 
-        {/* Top Controls: Perfectly Centered & Wrapped for Mobile */}
-        <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center items-center gap-2.5 sm:gap-3 mb-6 reveal-on-scroll">
+        {/* Top Controls: Framer Motion Entry */}
+        <motion.div variants={fadeUp} initial="hidden" animate="visible" className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center items-center gap-2.5 sm:gap-3 mb-6">
           <a href="https://calendly.com" target="_blank" rel="noopener noreferrer" className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-xs font-bold text-emerald-300 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_10px_20px_-5px_rgba(16,185,129,0.4)] active:scale-95 cursor-pointer">
             <Calendar className="w-4 h-4 text-emerald-400" />
             <span>{t.bookCall}</span>
@@ -446,10 +443,10 @@ export default function Home() {
             <Globe className="w-4 h-4 text-cyan-400" />
             <span>{lang === "gr" ? "🇬🇧 EN" : "🇬🇷 GR"}</span>
           </button>
-        </div>
+        </motion.div>
 
         {/* Navigation Switcher Tabs */}
-        <div className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 mb-6 reveal-on-scroll">
+        <motion.div variants={fadeUp} initial="hidden" animate="visible" className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 mb-6">
           <a href="/" className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2.5 rounded-xl bg-cyan-500 text-black text-xs font-bold transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_10px_20px_-5px_rgba(6,182,212,0.4)] active:scale-95 cursor-pointer">
             <Briefcase className="w-4 h-4" />
             <span>Βιογραφικό & Projects (Active)</span>
@@ -458,11 +455,34 @@ export default function Home() {
             <ShoppingBag className="w-4 h-4 text-cyan-400" />
             <span>Agency & Υπηρεσίες</span>
           </a>
-        </div>
+        </motion.div>
 
-        {/* OVERVIEW SECTION WITH SCROLL REVEAL */}
-        <section id="overview" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          <div className={`group reveal-from-left md:col-span-2 md:row-span-2 rounded-3xl ${cardBg} p-8 flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.3)] active:scale-[0.98]`}>
+        {/* 3D SPLINE HERO BANNER (NEW SMART FEATURE) */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="relative w-full h-[250px] sm:h-[400px] rounded-3xl overflow-hidden border border-white/10 shadow-[0_20px_50px_-10px_rgba(6,182,212,0.15)] group"
+        >
+          <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-t from-[#0b0c10] via-transparent to-transparent opacity-80" />
+          <div className="absolute top-4 left-4 z-20 pointer-events-none">
+            <span className="px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/30 text-[10px] font-mono text-cyan-400 font-bold backdrop-blur-md animate-pulse">
+              [ 3D Interactive Terminal - Drag to Rotate ]
+            </span>
+          </div>
+          <Spline scene="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode" />
+        </motion.div>
+
+        {/* OVERVIEW SECTION WITH FRAMER MOTION */}
+        <motion.section
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          id="overview"
+          className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4"
+        >
+          <motion.div variants={fadeUp} className={`group md:col-span-2 md:row-span-2 rounded-3xl ${cardBg} p-8 flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.3)] active:scale-[0.98]`}>
             <div className="flex items-center justify-between z-10 mb-6">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono">
                 <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
@@ -487,10 +507,10 @@ export default function Home() {
               <a href="/cv.pdf" download="Miltos_Papageorgiou_CV.pdf" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-xs font-medium text-purple-300 transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:shadow-[0_5px_15px_rgba(168,85,247,0.3)] active:scale-90 cursor-pointer"><Download className="w-4 h-4" /><span>{t.cvBtn}</span></a>
               <a href="#contact" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-xs font-medium text-cyan-300 transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:shadow-[0_5px_15px_rgba(6,182,212,0.3)] active:scale-90 cursor-pointer"><Mail className="w-4 h-4" /><span>{t.contactBtn}</span></a>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Self-Hosted Card with Live Telemetry & Uptime Integration */}
-          <div className={`group reveal-from-right rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.3)] active:scale-[0.98]`}>
+          {/* Self-Hosted Card */}
+          <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.3)] active:scale-[0.98]`}>
             <div>
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
@@ -502,39 +522,25 @@ export default function Home() {
                 </div>
                 <span className="text-[10px] font-mono opacity-70 uppercase tracking-wider">Infrastructure</span>
               </div>
-
               <h3 className="text-lg font-bold mb-1 group-hover:text-cyan-300 transition-colors">Self-Hosted</h3>
               <p className="text-xs opacity-80 mb-3">{t.infraDesc}</p>
-
-              {/* Live Telemetry Mini-Widget with Uptime */}
+              {/* Live Telemetry Mini-Widget */}
               <div className="my-3 p-3 rounded-2xl bg-white/[0.03] border border-white/10 font-mono text-[11px] space-y-1 text-zinc-300">
-                <div className="flex justify-between">
-                  <span className="text-zinc-500">Node:</span>
-                  <span className="text-cyan-400 font-bold">{telemetry ? telemetry.node : "Proxmox-VE-Main"}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-zinc-500">CPU / RAM:</span>
-                  <span className="text-emerald-400">{telemetry ? `${telemetry.cpuUsage} / ${telemetry.memoryUsage}` : "Loading..."}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-zinc-500">Containers:</span>
-                  <span className="text-purple-400">{telemetry ? `${telemetry.activeContainers} Active` : "6 Active"}</span>
-                </div>
-                <div className="flex justify-between pt-1 border-t border-white/5">
-                  <span className="text-zinc-500">Uptime:</span>
-                  <span className="text-amber-400 font-bold">{telemetry ? telemetry.uptime : "14d 7h"}</span>
-                </div>
+                <div className="flex justify-between"><span className="text-zinc-500">Node:</span><span className="text-cyan-400 font-bold">{telemetry ? telemetry.node : "Proxmox-VE-Main"}</span></div>
+                <div className="flex justify-between"><span className="text-zinc-500">CPU / RAM:</span><span className="text-emerald-400">{telemetry ? `${telemetry.cpuUsage} / ${telemetry.memoryUsage}` : "Loading..."}</span></div>
+                <div className="flex justify-between"><span className="text-zinc-500">Containers:</span><span className="text-purple-400">{telemetry ? `${telemetry.activeContainers} Active` : "6 Active"}</span></div>
+                <div className="flex justify-between pt-1 border-t border-white/5"><span className="text-zinc-500">Uptime:</span><span className="text-amber-400 font-bold">{telemetry ? telemetry.uptime : "14d 7h"}</span></div>
               </div>
-
               {infraOpen && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.infraList1}</p><p>• {t.infraList2}</p></div>)}
             </div>
             <div>
               <div className="flex flex-wrap gap-1.5 py-2 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Proxmox</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Docker</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailscale</span></div>
               <button onClick={() => setInfraOpen(!infraOpen)} className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{infraOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${infraOpen ? "rotate-180" : ""}`} /></button>
             </div>
-          </div>
+          </motion.div>
 
-          <div className={`group reveal-from-right rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-purple-500/60 hover:shadow-[0_20px_50px_-10px_rgba(168,85,247,0.3)] active:scale-[0.98]`}>
+          {/* Web Stack Card */}
+          <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-purple-500/60 hover:shadow-[0_20px_50px_-10px_rgba(168,85,247,0.3)] active:scale-[0.98]`}>
             <div>
               <div className="flex items-center justify-between opacity-70 mb-4"><Code2 className="w-5 h-5 text-purple-400 group-hover:scale-110 transition-transform duration-300" /><span className="text-[10px] font-mono uppercase tracking-wider">Development</span></div>
               <h3 className="text-lg font-bold mb-1 group-hover:text-purple-300 transition-colors">Modern Stack</h3>
@@ -545,9 +551,9 @@ export default function Home() {
               <div className="flex flex-wrap gap-1.5 py-2 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Next.js</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">TypeScript</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailwind</span></div>
               <button onClick={() => setWebOpen(!webOpen)} className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{webOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-200 ${webOpen ? "rotate-180" : ""}`} /></button>
             </div>
-          </div>
+          </motion.div>
 
-          <div className={`group reveal-on-scroll md:col-span-2 lg:col-span-2 rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-emerald-500/60 hover:shadow-[0_20px_50px_-10px_rgba(16,185,129,0.3)] active:scale-[0.98]`}>
+          <motion.div variants={fadeUp} className={`group md:col-span-2 lg:col-span-2 rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-emerald-500/60 hover:shadow-[0_20px_50px_-10px_rgba(16,185,129,0.3)] active:scale-[0.98]`}>
             <div>
               <div className="flex items-center justify-between opacity-70 mb-3"><Cpu className="w-5 h-5 text-emerald-400 group-hover:scale-110 transition-transform duration-300" /><span className="text-[10px] font-mono uppercase tracking-wider">Work Ethic</span></div>
               <h3 className="text-lg font-bold mb-2 group-hover:text-emerald-300 transition-colors">{t.ethicTitle}</h3>
@@ -558,11 +564,11 @@ export default function Home() {
               <div className="flex items-center gap-4 text-xs opacity-80"><span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Problem Solver</span><span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Fast Learner</span></div>
               <button onClick={() => setEthicOpen(!ethicOpen)} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{ethicOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${ethicOpen ? "rotate-180" : ""}`} /></button>
             </div>
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
 
         {/* INTERACTIVE HOMELAB ARCHITECTURE TOPOLOGY SECTION */}
-        <section className={`reveal-on-scroll rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 transition-colors`}>
+        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 transition-colors`}>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center shrink-0">
               <Network className="w-5 h-5 text-cyan-400" />
@@ -596,18 +602,18 @@ export default function Home() {
           </div>
 
           {selectedNode && (
-            <div className="p-5 rounded-2xl bg-black/40 border border-cyan-500/30 flex items-start gap-4 animate-fade-in font-mono text-xs shadow-[0_0_20px_rgba(6,182,212,0.1)]">
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-5 rounded-2xl bg-black/40 border border-cyan-500/30 flex items-start gap-4 font-mono text-xs shadow-[0_0_20px_rgba(6,182,212,0.1)]">
               <Shield className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5 animate-pulse" />
               <div className="space-y-1">
                 <span className="text-cyan-400 font-bold uppercase tracking-wider">&gt; node_inspect --target={selectedNode.name}</span>
                 <p className="text-zinc-300 font-sans leading-relaxed pt-1">{selectedNode.desc}</p>
               </div>
-            </div>
+            </motion.div>
           )}
-        </section>
+        </motion.section>
 
         {/* LIVE LEARNING & ROADMAP HISTORY */}
-        <section className={`reveal-on-scroll rounded-3xl border border-purple-500/30 bg-purple-500/[0.03] p-6 sm:p-8 space-y-4`}>
+        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl border border-purple-500/30 bg-purple-500/[0.03] p-6 sm:p-8 space-y-4`}>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center shrink-0">
               <History className="w-5 h-5 text-purple-400 animate-pulse" />
@@ -626,10 +632,10 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </section>
+        </motion.section>
 
         {/* LINK TO COMMERCIAL SERVICES PAGE */}
-        <section className="reveal-on-scroll group rounded-3xl border border-cyan-500/40 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left transition-all duration-300 hover:scale-[1.01] hover:-translate-y-1 hover:border-cyan-400 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.35)] active:scale-[0.98]">
+        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="group rounded-3xl border border-cyan-500/40 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left transition-all duration-300 hover:scale-[1.01] hover:-translate-y-1 hover:border-cyan-400 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.35)] active:scale-[0.98]">
           <div className="space-y-2">
             <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider font-bold">Commercial Hub</span>
             <h2 className="text-xl sm:text-2xl font-bold text-white">{t.servicesBannerTitle}</h2>
@@ -638,10 +644,10 @@ export default function Home() {
           <a href="/services" className="px-6 py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs sm:text-sm transition-all duration-300 shadow-lg shadow-cyan-500/25 shrink-0 flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95 hover:shadow-[0_0_20px_rgba(6,182,212,0.5)]">
             <span>{t.servicesBannerBtn}</span>
           </a>
-        </section>
+        </motion.section>
 
         {/* TECH MARQUEE */}
-        <div className="reveal-on-scroll relative w-full overflow-hidden border-y border-white/5 bg-white/[0.01] py-5 my-8 flex items-center">
+        <div className="relative w-full overflow-hidden border-y border-white/5 bg-white/[0.01] py-5 my-8 flex items-center">
           <div className="absolute left-0 top-0 z-10 w-24 h-full bg-gradient-to-r from-[#0b0c10] to-transparent pointer-events-none"></div>
           <div className="absolute right-0 top-0 z-10 w-24 h-full bg-gradient-to-l from-[#0b0c10] to-transparent pointer-events-none"></div>
 
@@ -663,14 +669,14 @@ export default function Home() {
         </div>
 
         {/* ABOUT ME + TERMINAL */}
-        <section id="about-me" className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div className={`group reveal-from-left rounded-3xl ${cardBg} p-8 flex flex-col justify-center transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.3)] active:scale-[0.98]`}>
+        <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="about-me" className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-8 flex flex-col justify-center transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.3)] active:scale-[0.98]`}>
             <h2 className="text-xl font-bold mb-4 group-hover:text-cyan-300 transition-colors">{t.aboutTitle}</h2>
             <p className="text-sm opacity-90 leading-relaxed mb-4">{t.aboutP1}</p>
             <p className="text-sm opacity-80 leading-relaxed">{t.aboutP2}</p>
-          </div>
+          </motion.div>
 
-          <div className="reveal-from-right rounded-3xl border border-white/10 bg-[#0a0a0a] p-5 font-mono text-xs shadow-2xl relative overflow-hidden group flex flex-col h-[350px] hover:border-purple-500/50 transition-all duration-300 active:scale-[0.98]">
+          <motion.div variants={fadeUp} className="rounded-3xl border border-white/10 bg-[#0a0a0a] p-5 font-mono text-xs shadow-2xl relative overflow-hidden group flex flex-col h-[350px] hover:border-purple-500/50 transition-all duration-300 active:scale-[0.98]">
             <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/5 shrink-0">
               <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
               <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
@@ -703,32 +709,32 @@ export default function Home() {
               </form>
               <div ref={terminalEndRef} />
             </div>
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
 
         {/* INFRASTRUCTURE */}
-        <section id="infrastructure" className={`reveal-from-left group rounded-3xl ${cardBg} p-8 space-y-4 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.3)] active:scale-[0.98]`}>
+        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="infrastructure" className={`group rounded-3xl ${cardBg} p-8 space-y-4 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.3)] active:scale-[0.98]`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3"><Server className="w-6 h-6 text-cyan-400 group-hover:scale-110 transition-transform duration-300" /><h2 className="text-xl font-bold group-hover:text-cyan-300 transition-colors">Infrastructure & Homelab Stack</h2></div>
             <button onClick={() => setStackOpen(!stackOpen)} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{stackOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${stackOpen ? "rotate-180" : ""}`} /></button>
           </div>
           <p className="text-sm opacity-90 leading-relaxed">{t.stackDesc}</p>
           {stackOpen && (<div className="pt-4 border-t border-white/10 space-y-2 text-xs opacity-90"><p>• {t.stackList1}</p><p>• {t.stackList2}</p><p>• {t.stackList3}</p></div>)}
-        </section>
+        </motion.section>
 
         {/* RESILIENCE */}
-        <section id="resilience" className={`reveal-from-right group rounded-3xl ${cardBg} p-8 space-y-4 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-emerald-500/60 hover:shadow-[0_20px_50px_-10px_rgba(16,185,129,0.3)] active:scale-[0.98]`}>
+        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="resilience" className={`group rounded-3xl ${cardBg} p-8 space-y-4 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-emerald-500/60 hover:shadow-[0_20px_50px_-10px_rgba(16,185,129,0.3)] active:scale-[0.98]`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3"><Cpu className="w-6 h-6 text-emerald-400 group-hover:scale-110 transition-transform duration-300" /><h2 className="text-xl font-bold group-hover:text-emerald-300 transition-colors">{t.resTitle}</h2></div>
             <button onClick={() => setResilienceOpen(!resilienceOpen)} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{resilienceOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${resilienceOpen ? "rotate-180" : ""}`} /></button>
           </div>
           <p className="text-sm opacity-90 leading-relaxed">{t.resDesc}</p>
           {resilienceOpen && (<div className="pt-4 border-t border-white/10 space-y-2 text-xs opacity-90"><p>• {t.resList1}</p><p>• {t.resList2}</p><p>• {t.resList3}</p></div>)}
-        </section>
+        </motion.section>
 
         {/* PROJECTS */}
-        <section id="projects" className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className={`group reveal-from-left rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.3)] active:scale-[0.98]`}>
+        <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="projects" className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.3)] active:scale-[0.98]`}>
             <div>
               <div className="flex items-center justify-between mb-4"><span className="text-xs font-mono text-cyan-400">Infrastructure</span><Server className="w-4 h-4 opacity-70 group-hover:scale-110 transition-transform duration-300" /></div>
               <h3 className="text-base font-bold mb-2 group-hover:text-cyan-300 transition-colors">Self-Hosted Homelab & Nextcloud</h3>
@@ -739,9 +745,9 @@ export default function Home() {
               <div className="flex flex-wrap gap-1.5 py-3 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Proxmox</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Docker</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailscale</span></div>
               <button onClick={() => setProject1Open(!project1Open)} className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{project1Open ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${project1Open ? "rotate-180" : ""}`} /></button>
             </div>
-          </div>
+          </motion.div>
 
-          <div className={`group reveal-from-right rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-purple-500/60 hover:shadow-[0_20px_50px_-10px_rgba(168,85,247,0.3)] active:scale-[0.98]`}>
+          <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-purple-500/60 hover:shadow-[0_20px_50px_-10px_rgba(168,85,247,0.3)] active:scale-[0.98]`}>
             <div>
               <div className="flex items-center justify-between mb-4"><span className="text-xs font-mono text-purple-400">Web App</span><Code2 className="w-4 h-4 opacity-70 group-hover:scale-110 transition-transform duration-300" /></div>
               <h3 className="text-base font-bold mb-2 group-hover:text-purple-300 transition-colors">High-Performance Portfolio</h3>
@@ -755,17 +761,17 @@ export default function Home() {
                 <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs transition-all duration-300 active:scale-90 hover:scale-105"><GithubIcon className="w-3.5 h-3.5" /><span>Code</span></a>
               </div>
             </div>
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
 
         {/* TECH STACK GUARANTEE BAR */}
-        <section className="reveal-on-scroll rounded-2xl border border-cyan-500/20 bg-cyan-500/[0.03] p-4 flex items-center justify-center gap-3 text-center hover:border-cyan-400 transition-all duration-300">
+        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="rounded-2xl border border-cyan-500/20 bg-cyan-500/[0.03] p-4 flex items-center justify-center gap-3 text-center hover:border-cyan-400 transition-all duration-300">
           <ShieldCheck className="w-5 h-5 text-cyan-400 shrink-0" />
           <span className="text-xs font-mono font-medium tracking-wide opacity-90">{t.guaranteeText}</span>
-        </section>
+        </motion.section>
 
         {/* REVIEWS SECTION & 4 ANONYMOUS TESTIMONIALS */}
-        <section id="reviews" className={`reveal-on-scroll rounded-3xl ${cardBg} p-8 space-y-6 transition-colors`}>
+        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="reviews" className={`rounded-3xl ${cardBg} p-8 space-y-6 transition-colors`}>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h2 className="text-xl font-bold mb-1">{t.revTitle}</h2>
@@ -790,10 +796,10 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </section>
+        </motion.section>
 
         {/* FAQ SLIDER SECTION */}
-        <section className={`reveal-on-scroll rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 transition-colors relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-cyan-500/50 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.2)] active:scale-[0.99]`}>
+        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 transition-colors relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-cyan-500/50 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.2)] active:scale-[0.99]`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <HelpCircle className="w-6 h-6 text-cyan-400 animate-pulse" />
@@ -842,10 +848,10 @@ export default function Home() {
               />
             ))}
           </div>
-        </section>
+        </motion.section>
 
         {/* CONTACT FORM */}
-        <section id="contact" className={`reveal-on-scroll rounded-3xl ${cardBg} p-8 space-y-6 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-500/50 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.2)]`}>
+        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="contact" className={`rounded-3xl ${cardBg} p-8 space-y-6 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-500/50 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.2)]`}>
           <div>
             <h2 className="text-xl font-bold mb-1">{t.contactTitle}</h2>
             <p className="text-xs opacity-70 mb-6">{t.contactSub}</p>
@@ -878,7 +884,7 @@ export default function Home() {
               <span>{isSubmitting ? t.sending : t.submitBtn}</span>
             </button>
           </form>
-        </section>
+        </motion.section>
 
       </main>
 
