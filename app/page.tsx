@@ -9,6 +9,7 @@ import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
 import { motion, type Variants } from "framer-motion";
 import dynamic from 'next/dynamic';
+import TechBubbleModal from "@/components/TechBubbleModal";
 
 const Spline = dynamic(() => import('@splinetool/react-spline'), {
   ssr: false,
@@ -44,7 +45,7 @@ const translations = {
     ethicList2: "Συνεχής εκμάθηση νέων τεχνολογιών και αυτοματισμών ροών εργασίας.",
     aboutTitle: "Σχετικά με Εμένα",
     aboutP1: "Είμαι απόφοιτος Πληροφορικής με έντονο ενδιαφέρον και πρακτική εμπειρία στις υποδομές δικτύων, τη διαχείριση συστημάτων Linux και την ανάπτυξη λογισμικού.",
-    aboutP2: "Στόχος μου είναι η δημιουργία ασφαλών, γρήγορων και κλιμακούμενων εφαρμογών, αξιοποιώντας σύγχρονα εργαλεία αυτοματισμού και self-hosted αρχιτεκτονικές. Συνδυάζω το DevOps mindset με το σύγχρονο Web Development.",
+    aboutP2: "Στόχος μου είναι η δημιουργία ασφαλών, γρήγορων και κλιμακούμενων εφαρμογών, αξιοποιώντας σύγχρονα εργαλεία αυτοματισμού και self-hosted αρχιτεκτονικές.",
     learningTitle: "Live Tech Roadmap & History",
     learningSubtitle: "Η συνεχής πορεία μάθησης και τεχνολογικής εξέλιξης:",
     learningItems: [
@@ -57,12 +58,12 @@ const translations = {
     servicesBannerDesc: "Επισκεφθείτε τον εμπορικό μας κατάλογο, επιλέξτε πολλαπλές υπηρεσίες και φτιάξτε το custom πακέτο σας ζωντανά.",
     servicesBannerBtn: "Μετάβαση στον Κατάλογο Υπηρεσιών ➔",
     topoTitle: "Interactive Homelab Architecture Topology",
-    topoSub: "Κάντε κλικ σταnodes της υποδομής για να δείτε τα live specs και τους ρόλους τους.",
+    topoSub: "Κάντε κλικ στα nodes της υποδομής για να δείτε τα live specs και τους ρόλους τους.",
     faqTitle: "Συχνές Ερωτήσεις (FAQ)",
     faqSub: "Όλες οι απαντήσεις σχετικά με τη διαδικασία συνεργασίας και τις τεχνικές λεπτομέρειες.",
     faqList: [
       { q: "Πώς γίνεται η πληρωμή;", a: "Η διαδικασία περιλαμβάνει 50% προκαταβολή για την έναρξη του έργου και 50% εξόφληση με την παράδοση." },
-      { q: "Χρειάζομαι hosting;", a: "Όχι απαραίτητα. Σας τα στήνω και τα παραδίδω πλήρως λειτουργικά (σε Vercel για web apps ή στο δικό σας Proxmox)." },
+      { q: "Χρειάζομαι hosting;", a: "Όχι απαραίτητα. Σας τα στήνω και τα παραδίδω πλήρως λειτουργικά (σε Vercel για τα web apps ή στο δικό σας Proxmox)." },
       { q: "Πόσες αλλαγές περιλαμβάνονται;", a: "Κάθε πακέτο περιλαμβάνει δωρεάν αναθεωρήσεις και διορθώσεις κατά τη διάρκεια της ανάπτυξης." },
       { q: "Πόσος χρόνος χρειάζεται για την ολοκλήρωση;", a: "Συνήθως από 5 έως 10 εργάσιμες ημέρες ανάλογα με την πολυπλοκότητα (Landing Pages σε 3-5 ημέρες)." },
       { q: "Είναι φιλικό προς τις μηχανές αναζήτησης (SEO);", a: "Ναι, απόλυτα. Χρησιμοποιώ Next.js SSR και βέλτιστες πρακτικές για top Google Lighthouse scores." },
@@ -195,7 +196,14 @@ const translations = {
 // FRAMER MOTION CONFIG
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } }
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1] as [number, number, number, number]
+    }
+  }
 };
 
 const staggerContainer: Variants = {
@@ -214,6 +222,9 @@ export default function Home() {
   const [project2Open, setProject2Open] = useState(false);
   const [stackOpen, setStackOpen] = useState(false);
   const [resilienceOpen, setResilienceOpen] = useState(false);
+
+  // --- TECH BUBBLE MODAL STATE ---
+  const [activeBubble, setActiveBubble] = useState<{ title: string; date: string; content: string } | null>(null);
 
   // --- TOPOLOGY INTERACTIVE STATE ---
   const [selectedNode, setSelectedNode] = useState<{ name: string; type: string; specs: string; desc: string } | null>({
@@ -432,7 +443,7 @@ export default function Home() {
 
       <main className="relative w-full pt-28 sm:pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12">
 
-        {/* Top Controls: Framer Motion Entry */}
+        {/* Top Controls */}
         <motion.div variants={fadeUp} initial="hidden" animate="visible" className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center items-center gap-2.5 sm:gap-3 mb-6">
           <a href="https://calendly.com" target="_blank" rel="noopener noreferrer" className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-xs font-bold text-emerald-300 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_10px_20px_-5px_rgba(16,185,129,0.4)] active:scale-95 cursor-pointer">
             <Calendar className="w-4 h-4 text-emerald-400" />
@@ -467,7 +478,7 @@ export default function Home() {
           </a>
         </motion.div>
 
-        {/* 3D SPLINE HERO BANNER (NEW SMART FEATURE) */}
+        {/* 3D SPLINE HERO BANNER */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
@@ -483,7 +494,7 @@ export default function Home() {
           <Spline scene="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode" />
         </motion.div>
 
-        {/* OVERVIEW SECTION WITH FRAMER MOTION */}
+        {/* OVERVIEW SECTION */}
         <motion.section
           variants={staggerContainer}
           initial="hidden"
@@ -534,7 +545,7 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-bold mb-1 group-hover:text-cyan-300 transition-colors">Self-Hosted</h3>
               <p className="text-xs opacity-80 mb-3">{t.infraDesc}</p>
-              {/* Live Telemetry Mini-Widget */}
+
               <div className="my-3 p-3 rounded-2xl bg-white/[0.03] border border-white/10 font-mono text-[11px] space-y-1 text-zinc-300">
                 <div className="flex justify-between"><span className="text-zinc-500">Node:</span><span className="text-cyan-400 font-bold">{telemetry ? telemetry.node : "Proxmox-VE-Main"}</span></div>
                 <div className="flex justify-between"><span className="text-zinc-500">CPU / RAM:</span><span className="text-emerald-400">{telemetry ? `${telemetry.cpuUsage} / ${telemetry.memoryUsage}` : "Loading..."}</span></div>
@@ -622,7 +633,7 @@ export default function Home() {
           )}
         </motion.section>
 
-        {/* LIVE LEARNING & ROADMAP HISTORY */}
+        {/* LIVE LEARNING & ROADMAP HISTORY WITH INTERACTIVE BUBBLES */}
         <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl border border-purple-500/30 bg-purple-500/[0.03] p-6 sm:p-8 space-y-4`}>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center shrink-0">
@@ -630,13 +641,24 @@ export default function Home() {
             </div>
             <div>
               <h2 className="text-lg font-bold">{t.learningTitle}</h2>
-              <p className="text-xs opacity-70">{t.learningSubtitle}</p>
+              <p className="text-xs opacity-70">{t.learningSubtitle} <span className="text-cyan-400">(Click cards for tech notes)</span></p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
             {t.learningItems.map((item, idx) => (
-              <div key={idx} className="group rounded-2xl bg-white/[0.03] border border-white/10 p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.04] hover:border-purple-500/50 hover:shadow-[0_15px_30px_-5px_rgba(168,85,247,0.3)] active:scale-95 cursor-pointer">
+              <div
+                key={idx}
+                onClick={() => setActiveBubble({
+                  title: item.text,
+                  date: item.date,
+                  content: `Αναλυτικές πληροφορίες για την ενότητα "${item.text}". Υλοποίηση με έμφαση στην υψηλή διαθεσιμότητα, τη βελτιστοποίηση κώδικα και τη σωστή αρχιτεκτονική συστημάτων.`
+                })}
+                className="group rounded-2xl bg-white/[0.03] border border-white/10 p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.04] hover:border-purple-500/50 hover:shadow-[0_15px_30px_-5px_rgba(168,85,247,0.3)] active:scale-95 cursor-pointer relative overflow-hidden"
+              >
+                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full">
+                  ✨ Click bubble
+                </div>
                 <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 w-fit mb-3 font-bold">{item.date}</span>
                 <p className="text-xs sm:text-sm opacity-90 leading-relaxed group-hover:text-purple-200 transition-colors">{item.text}</p>
               </div>
@@ -780,7 +802,7 @@ export default function Home() {
           <span className="text-xs font-mono font-medium tracking-wide opacity-90">{t.guaranteeText}</span>
         </motion.section>
 
-        {/* REVIEWS SECTION & 4 ANONYMOUS TESTIMONIALS */}
+        {/* REVIEWS SECTION */}
         <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="reviews" className={`rounded-3xl ${cardBg} p-8 space-y-6 transition-colors`}>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
@@ -897,6 +919,15 @@ export default function Home() {
         </motion.section>
 
       </main>
+
+      {/* TECH BUBBLE MODAL RENDER */}
+      <TechBubbleModal
+        isOpen={!!activeBubble}
+        onClose={() => setActiveBubble(null)}
+        title={activeBubble?.title || ""}
+        date={activeBubble?.date || ""}
+        content={activeBubble?.content || ""}
+      />
 
       <Footer />
     </div>
