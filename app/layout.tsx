@@ -6,6 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import LiveChatWidget from "@/components/LiveChatWidget";
 import GlobalCart from "@/components/GlobalCart";
 import ScrollProgress from "@/components/ScrollProgress";
+import MiltosAIAssistant from "@/components/MiltosAIAssistant";
 
 const inter = Inter({ subsets: ["latin", "greek"] });
 
@@ -49,6 +50,7 @@ export default function RootLayout({
         <ScrollProgress />
         {children}
         <LiveChatWidget />
+        <MiltosAIAssistant />
         <GlobalCart />
         <Analytics />
         <SpeedInsights />

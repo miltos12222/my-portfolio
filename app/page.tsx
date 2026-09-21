@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { motion, type Variants } from "framer-motion";
 import dynamic from 'next/dynamic';
 import TechBubbleModal from "@/components/TechBubbleModal";
+import { playNeuralSound } from "@/utils/useSoundFX";
 
 const Spline = dynamic(() => import('@splinetool/react-spline'), {
   ssr: false,
@@ -21,7 +22,6 @@ const Spline = dynamic(() => import('@splinetool/react-spline'), {
   )
 });
 
-// --- ΛΕΞΙΚΟ ΜΕΤΑΦΡΑΣΕΩΝ ---
 const translations = {
   gr: {
     available: "AVAILABLE FOR HIRE",
@@ -193,7 +193,6 @@ const translations = {
   }
 };
 
-// FRAMER MOTION CONFIG
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
   visible: {
@@ -223,10 +222,8 @@ export default function Home() {
   const [stackOpen, setStackOpen] = useState(false);
   const [resilienceOpen, setResilienceOpen] = useState(false);
 
-  // --- TECH BUBBLE MODAL STATE ---
   const [activeBubble, setActiveBubble] = useState<{ title: string; date: string; content: string } | null>(null);
 
-  // --- TOPOLOGY INTERACTIVE STATE ---
   const [selectedNode, setSelectedNode] = useState<{ name: string; type: string; specs: string; desc: string } | null>({
     name: "Proxmox VE Hypervisor",
     type: "Core Host",
@@ -244,32 +241,10 @@ export default function Home() {
   const [formData, setFormData] = useState({ name: "", email: "", service: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // --- MECHANICAL KEYBOARD TYPING SOUND SYNTHESIZER ---
   const playKeyClick = () => {
-    try {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      if (!AudioCtx) return;
-      const ctx = new AudioCtx();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-
-      osc.type = "triangle";
-      osc.frequency.setValueAtTime(120 + Math.random() * 80, ctx.currentTime);
-
-      gain.gain.setValueAtTime(0.08, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start();
-      osc.stop(ctx.currentTime + 0.04);
-    } catch {
-      // Audio context policy fallback
-    }
+    playNeuralSound('hover');
   };
 
-  // --- LIVE TELEMETRY STATE WITH UPTIME & 2030 AI SENTINEL ---
   const [telemetry, setTelemetry] = useState<{
     status: string;
     node: string;
@@ -289,7 +264,6 @@ export default function Home() {
       .catch((err) => console.error("Failed to load telemetry:", err));
   }, []);
 
-  // --- FAQ SLIDER STATE (6 seconds interval) ---
   const [faqIndex, setFaqIndex] = useState(0);
   const [faqFade, setFaqFade] = useState(true);
 
@@ -305,6 +279,7 @@ export default function Home() {
   }, [t.faqList.length]);
 
   const handleNextFaq = () => {
+    playNeuralSound('click');
     setFaqFade(false);
     setTimeout(() => {
       setFaqIndex((prev) => (prev + 1) % t.faqList.length);
@@ -313,6 +288,7 @@ export default function Home() {
   };
 
   const handlePrevFaq = () => {
+    playNeuralSound('click');
     setFaqFade(false);
     setTimeout(() => {
       setFaqIndex((prev) => (prev - 1 + t.faqList.length) % t.faqList.length);
@@ -356,6 +332,7 @@ export default function Home() {
 
   const handleTerminalSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    playNeuralSound('click');
     const cmd = termInput.trim().toLowerCase();
     if (!cmd) return;
 
@@ -421,6 +398,7 @@ export default function Home() {
       });
       const data = await res.json();
       if (res.ok && !data.error) {
+        playNeuralSound('success');
         toast.success(t.successMsg);
         setFormData({ name: "", email: "", service: "", message: "" });
       } else {
@@ -447,22 +425,22 @@ export default function Home() {
 
         {/* Top Controls */}
         <motion.div variants={fadeUp} initial="hidden" animate="visible" className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center items-center gap-2.5 sm:gap-3 mb-6">
-          <a href="https://calendly.com" target="_blank" rel="noopener noreferrer" className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-xs font-bold text-emerald-300 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_10px_20px_-5px_rgba(16,185,129,0.4)] active:scale-95 cursor-pointer">
+          <a href="https://calendly.com" target="_blank" rel="noopener noreferrer" onClick={() => playNeuralSound('click')} className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-xs font-bold text-emerald-300 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_10px_20px_-5px_rgba(16,185,129,0.4)] active:scale-95 cursor-pointer">
             <Calendar className="w-4 h-4 text-emerald-400" />
             <span>{t.bookCall}</span>
           </a>
 
-          <a href="/donate" className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-pink-500/20 hover:bg-pink-500/30 border border-pink-500/40 text-xs font-bold text-pink-300 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_10px_20px_-5px_rgba(236,72,153,0.4)] active:scale-95 cursor-pointer">
+          <a href="/donate" onClick={() => playNeuralSound('click')} className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-pink-500/20 hover:bg-pink-500/30 border border-pink-500/40 text-xs font-bold text-pink-300 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_10px_20px_-5px_rgba(236,72,153,0.4)] active:scale-95 cursor-pointer">
             <Coffee className="w-4 h-4 text-pink-400" />
             <span>{t.donateBtn}</span>
           </a>
 
-          <button onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true }))} className="col-span-2 sm:col-span-1 flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_10px_20px_-5px_rgba(255,255,255,0.1)] active:scale-95 cursor-pointer group">
+          <button onClick={() => { playNeuralSound('click'); window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true })); }} className="col-span-2 sm:col-span-1 flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_10px_20px_-5px_rgba(255,255,255,0.1)] active:scale-95 cursor-pointer group">
             <Terminal className="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform" />
             <span>Μενού (⌘K)</span>
           </button>
 
-          <button onClick={() => setLang(lang === "gr" ? "en" : "gr")} className="col-span-2 sm:col-span-1 flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_10px_20px_-5px_rgba(255,255,255,0.1)] active:scale-95 cursor-pointer">
+          <button onClick={() => { playNeuralSound('click'); setLang(lang === "gr" ? "en" : "gr"); }} className="col-span-2 sm:col-span-1 flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_10px_20px_-5px_rgba(255,255,255,0.1)] active:scale-95 cursor-pointer">
             <Globe className="w-4 h-4 text-cyan-400" />
             <span>{lang === "gr" ? "🇬🇧 EN" : "🇬🇷 GR"}</span>
           </button>
@@ -470,11 +448,11 @@ export default function Home() {
 
         {/* Navigation Switcher Tabs */}
         <motion.div variants={fadeUp} initial="hidden" animate="visible" className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 mb-6">
-          <a href="/" className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2.5 rounded-xl bg-cyan-500 text-black text-xs font-bold transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_10px_20px_-5px_rgba(6,182,212,0.4)] active:scale-95 cursor-pointer">
+          <a href="/" onClick={() => playNeuralSound('click')} className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2.5 rounded-xl bg-cyan-500 text-black text-xs font-bold transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_10px_20px_-5px_rgba(6,182,212,0.4)] active:scale-95 cursor-pointer">
             <Briefcase className="w-4 h-4" />
             <span>Βιογραφικό & Projects (Active)</span>
           </a>
-          <a href="/services" className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all duration-300 hover:-translate-y-1 hover:scale-105 active:scale-95 cursor-pointer">
+          <a href="/services" onClick={() => playNeuralSound('click')} className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all duration-300 hover:-translate-y-1 hover:scale-105 active:scale-95 cursor-pointer">
             <ShoppingBag className="w-4 h-4 text-cyan-400" />
             <span>Agency & Υπηρεσίες</span>
           </a>
@@ -525,10 +503,10 @@ export default function Home() {
             </div>
 
             <div className="z-10 flex flex-wrap justify-center sm:justify-start items-center gap-3 mt-8 pt-6 border-t border-white/10">
-              <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-medium transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:shadow-[0_5px_15px_rgba(255,255,255,0.2)] active:scale-90 cursor-pointer"><GithubIcon className="w-4 h-4" /><span>GitHub</span></a>
-              <a href="https://www.linkedin.com/in/miltos-papageorgiou-740990438" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A66C2]/20 hover:bg-[#0A66C2]/30 border border-[#0A66C2]/40 text-xs font-medium text-blue-300 transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:shadow-[0_5px_15px_rgba(10,102,194,0.3)] active:scale-90 cursor-pointer"><LinkedinIcon className="w-4 h-4 text-[#0A66C2]" /><span>LinkedIn</span></a>
-              <a href="/cv.pdf" download="Miltos_Papageorgiou_CV.pdf" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-xs font-medium text-purple-300 transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:shadow-[0_5px_15px_rgba(168,85,247,0.3)] active:scale-90 cursor-pointer"><Download className="w-4 h-4" /><span>{t.cvBtn}</span></a>
-              <a href="#contact" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-xs font-medium text-cyan-300 transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:shadow-[0_5px_15px_rgba(6,182,212,0.3)] active:scale-90 cursor-pointer"><Mail className="w-4 h-4" /><span>{t.contactBtn}</span></a>
+              <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" onClick={() => playNeuralSound('click')} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-medium transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:shadow-[0_5px_15px_rgba(255,255,255,0.2)] active:scale-90 cursor-pointer"><GithubIcon className="w-4 h-4" /><span>GitHub</span></a>
+              <a href="https://www.linkedin.com/in/miltos-papageorgiou-740990438" target="_blank" rel="noopener noreferrer" onClick={() => playNeuralSound('click')} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A66C2]/20 hover:bg-[#0A66C2]/30 border border-[#0A66C2]/40 text-xs font-medium text-blue-300 transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:shadow-[0_5px_15px_rgba(10,102,194,0.3)] active:scale-90 cursor-pointer"><LinkedinIcon className="w-4 h-4 text-[#0A66C2]" /><span>LinkedIn</span></a>
+              <a href="/cv.pdf" download="Miltos_Papageorgiou_CV.pdf" onClick={() => playNeuralSound('click')} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-xs font-medium text-purple-300 transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:shadow-[0_5px_15px_rgba(168,85,247,0.3)] active:scale-90 cursor-pointer"><Download className="w-4 h-4" /><span>{t.cvBtn}</span></a>
+              <a href="#contact" onClick={() => playNeuralSound('click')} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-xs font-medium text-cyan-300 transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:shadow-[0_5px_15px_rgba(6,182,212,0.3)] active:scale-90 cursor-pointer"><Mail className="w-4 h-4" /><span>{t.contactBtn}</span></a>
             </div>
           </motion.div>
 
@@ -548,13 +526,8 @@ export default function Home() {
               <h3 className="text-lg font-bold mb-1 group-hover:text-cyan-300 transition-colors">Self-Hosted</h3>
               <p className="text-xs opacity-80 mb-3">{t.infraDesc}</p>
 
-              {/* 2030 Futuristic AI Sentinel & Telemetry HUD */}
-              <motion.div
-                whileHover={{ scale: 1.01 }}
-                className="my-3 p-3.5 rounded-2xl bg-black/60 border border-cyan-500/30 font-mono text-[11px] space-y-2 text-zinc-300 shadow-[inset_0_0_20px_rgba(6,182,212,0.1)] relative overflow-hidden"
-              >
+              <div className="my-3 p-3.5 rounded-2xl bg-black/60 border border-cyan-500/30 font-mono text-[11px] space-y-2 text-zinc-300 shadow-[inset_0_0_20px_rgba(6,182,212,0.1)] relative overflow-hidden">
                 <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse" />
-
                 <div className="flex justify-between items-center">
                   <span className="text-zinc-500">Core Node:</span>
                   <span className="text-cyan-400 font-bold flex items-center gap-1.5">
@@ -576,13 +549,13 @@ export default function Home() {
                     {telemetry && telemetry.aiSentinel ? telemetry.aiSentinel : "AI Sentinel: Optimal (0 anomalies)"}
                   </span>
                 </div>
-              </motion.div>
+              </div>
 
               {infraOpen && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.infraList1}</p><p>• {t.infraList2}</p></div>)}
             </div>
             <div>
               <div className="flex flex-wrap gap-1.5 py-2 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Proxmox</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Docker</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailscale</span></div>
-              <button onClick={() => setInfraOpen(!infraOpen)} className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{infraOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${infraOpen ? "rotate-180" : ""}`} /></button>
+              <button onClick={() => { playNeuralSound('click'); setInfraOpen(!infraOpen); }} className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{infraOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${infraOpen ? "rotate-180" : ""}`} /></button>
             </div>
           </motion.div>
 
@@ -596,7 +569,7 @@ export default function Home() {
             </div>
             <div>
               <div className="flex flex-wrap gap-1.5 py-2 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Next.js</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">TypeScript</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailwind</span></div>
-              <button onClick={() => setWebOpen(!webOpen)} className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{webOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-200 ${webOpen ? "rotate-180" : ""}`} /></button>
+              <button onClick={() => { playNeuralSound('click'); setWebOpen(!webOpen); }} className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{webOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-200 ${webOpen ? "rotate-180" : ""}`} /></button>
             </div>
           </motion.div>
 
@@ -609,7 +582,7 @@ export default function Home() {
             </div>
             <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/5">
               <div className="flex items-center gap-4 text-xs opacity-80"><span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Problem Solver</span><span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Fast Learner</span></div>
-              <button onClick={() => setEthicOpen(!ethicOpen)} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{ethicOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${ethicOpen ? "rotate-180" : ""}`} /></button>
+              <button onClick={() => { playNeuralSound('click'); setEthicOpen(!ethicOpen); }} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{ethicOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${ethicOpen ? "rotate-180" : ""}`} /></button>
             </div>
           </motion.div>
         </motion.section>
@@ -630,7 +603,7 @@ export default function Home() {
             {topologyNodes.map((node, i) => (
               <button
                 key={i}
-                onClick={() => setSelectedNode(node)}
+                onClick={() => { playNeuralSound('click'); setSelectedNode(node); }}
                 className={`p-4 rounded-2xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between space-y-3 hover:-translate-y-1.5 hover:scale-[1.04] active:scale-95 ${selectedNode?.name === node.name
                   ? "bg-cyan-500/15 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.2)]"
                   : "bg-white/[0.02] border-white/10 hover:border-cyan-500/50 hover:shadow-[0_10px_25px_-5px_rgba(6,182,212,0.3)]"
@@ -675,11 +648,14 @@ export default function Home() {
             {t.learningItems.map((item, idx) => (
               <div
                 key={idx}
-                onClick={() => setActiveBubble({
-                  title: item.text,
-                  date: item.date,
-                  content: `Αναλυτικές πληροφορίες για την ενότητα "${item.text}". Υλοποίηση με έμφαση στην υψηλή διαθεσιμότητα, τη βελτιστοποίηση κώδικα και τη σωστή αρχιτεκτονική συστημάτων.`
-                })}
+                onClick={() => {
+                  playNeuralSound('open');
+                  setActiveBubble({
+                    title: item.text,
+                    date: item.date,
+                    content: `Αναλυτικές πληροφορίες για την ενότητα "${item.text}". Υλοποίηση με έμφαση στην υψηλή διαθεσιμότητα, τη βελτιστοποίηση κώδικα και τη σωστή αρχιτεκτονική συστημάτων.`
+                  });
+                }}
                 className="group rounded-2xl bg-white/[0.03] border border-white/10 p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.04] hover:border-purple-500/50 hover:shadow-[0_15px_30px_-5px_rgba(168,85,247,0.3)] active:scale-95 cursor-pointer relative overflow-hidden"
               >
                 <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full">
@@ -692,6 +668,42 @@ export default function Home() {
           </div>
         </motion.section>
 
+        {/* 2030 LIVE GIT ACTIVITY STREAM */}
+        <section className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-4`}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center shrink-0">
+                <Terminal className="w-5 h-5 text-emerald-400" />
+              </div>
+              <div>
+                <h2 className="text-lg font-bold">Live Git Contribution Stream</h2>
+                <p className="text-xs opacity-70">Recent commits, deployments & homelab scripts (GitHub API synced)</p>
+              </div>
+            </div>
+            <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold hidden sm:inline-block">
+              🟢 Active Today
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+            <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs">
+              <span className="text-[10px] text-cyan-400 uppercase font-bold">commit #492763d</span>
+              <p className="text-white text-xs font-sans">feat: upgrade framer motion typescript variants & types</p>
+              <span className="text-[10px] text-zinc-500">2 hours ago • main branch</span>
+            </div>
+            <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs">
+              <span className="text-[10px] text-purple-400 uppercase font-bold">commit #8b192fa</span>
+              <p className="text-white text-xs font-sans">fix: optimize 3d spline lazy loading & dynamic import</p>
+              <span className="text-[10px] text-zinc-500">Yesterday • production</span>
+            </div>
+            <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs">
+              <span className="text-[10px] text-emerald-400 uppercase font-bold">script #proxmox_zfs</span>
+              <p className="text-white text-xs font-sans">Automated ZFS snapshot backup & Tailscale mesh sync</p>
+              <span className="text-[10px] text-zinc-500">3 days ago • homelab</span>
+            </div>
+          </div>
+        </section>
+
         {/* LINK TO COMMERCIAL SERVICES PAGE */}
         <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="group rounded-3xl border border-cyan-500/40 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left transition-all duration-300 hover:scale-[1.01] hover:-translate-y-1 hover:border-cyan-400 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.35)] active:scale-[0.98]">
           <div className="space-y-2">
@@ -699,32 +711,10 @@ export default function Home() {
             <h2 className="text-xl sm:text-2xl font-bold text-white">{t.servicesBannerTitle}</h2>
             <p className="text-xs sm:text-sm text-zinc-300 max-w-xl">{t.servicesBannerDesc}</p>
           </div>
-          <a href="/services" className="px-6 py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs sm:text-sm transition-all duration-300 shadow-lg shadow-cyan-500/25 shrink-0 flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95 hover:shadow-[0_0_20px_rgba(6,182,212,0.5)]">
+          <a href="/services" onClick={() => playNeuralSound('click')} className="px-6 py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs sm:text-sm transition-all duration-300 shadow-lg shadow-cyan-500/25 shrink-0 flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95 hover:shadow-[0_0_20px_rgba(6,182,212,0.5)]">
             <span>{t.servicesBannerBtn}</span>
           </a>
         </motion.section>
-
-        {/* TECH MARQUEE */}
-        <div className="relative w-full overflow-hidden border-y border-white/5 bg-white/[0.01] py-5 my-8 flex items-center">
-          <div className="absolute left-0 top-0 z-10 w-24 h-full bg-gradient-to-r from-[#0b0c10] to-transparent pointer-events-none"></div>
-          <div className="absolute right-0 top-0 z-10 w-24 h-full bg-gradient-to-l from-[#0b0c10] to-transparent pointer-events-none"></div>
-
-          <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
-            {[...Array(2)].map((_, i) => (
-              <div key={i} className="flex gap-10 items-center justify-around whitespace-nowrap px-5 text-sm font-mono opacity-70 uppercase tracking-widest cursor-default">
-                <span className="hover:text-cyan-400 transition-colors">Next.js</span> <span className="text-cyan-500/30">•</span>
-                <span className="hover:text-purple-400 transition-colors">TypeScript</span> <span className="text-cyan-500/30">•</span>
-                <span className="hover:text-cyan-300 transition-colors">Tailwind CSS</span> <span className="text-cyan-500/30">•</span>
-                <span className="hover:text-orange-400 transition-colors">Proxmox VE</span> <span className="text-cyan-500/30">•</span>
-                <span className="hover:text-blue-400 transition-colors">Docker</span> <span className="text-cyan-500/30">•</span>
-                <span className="hover:text-emerald-400 transition-colors">Linux</span> <span className="text-cyan-500/30">•</span>
-                <span className="hover:text-zinc-300 transition-colors">Tailscale</span> <span className="text-cyan-500/30">•</span>
-                <span className="hover:text-blue-300 transition-colors">Nextcloud</span> <span className="text-cyan-500/30">•</span>
-                <span className="hover:text-red-400 transition-colors">MariaDB</span> <span className="text-cyan-500/30">•</span>
-              </div>
-            ))}
-          </div>
-        </div>
 
         {/* ABOUT ME + TERMINAL */}
         <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="about-me" className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -774,7 +764,7 @@ export default function Home() {
         <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="infrastructure" className={`group rounded-3xl ${cardBg} p-8 space-y-4 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.3)] active:scale-[0.98]`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3"><Server className="w-6 h-6 text-cyan-400 group-hover:scale-110 transition-transform duration-300" /><h2 className="text-xl font-bold group-hover:text-cyan-300 transition-colors">Infrastructure & Homelab Stack</h2></div>
-            <button onClick={() => setStackOpen(!stackOpen)} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{stackOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${stackOpen ? "rotate-180" : ""}`} /></button>
+            <button onClick={() => { playNeuralSound('click'); setStackOpen(!stackOpen); }} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{stackOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${stackOpen ? "rotate-180" : ""}`} /></button>
           </div>
           <p className="text-sm opacity-90 leading-relaxed">{t.stackDesc}</p>
           {stackOpen && (<div className="pt-4 border-t border-white/10 space-y-2 text-xs opacity-90"><p>• {t.stackList1}</p><p>• {t.stackList2}</p><p>• {t.stackList3}</p></div>)}
@@ -784,7 +774,7 @@ export default function Home() {
         <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="resilience" className={`group rounded-3xl ${cardBg} p-8 space-y-4 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-emerald-500/60 hover:shadow-[0_20px_50px_-10px_rgba(16,185,129,0.3)] active:scale-[0.98]`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3"><Cpu className="w-6 h-6 text-emerald-400 group-hover:scale-110 transition-transform duration-300" /><h2 className="text-xl font-bold group-hover:text-emerald-300 transition-colors">{t.resTitle}</h2></div>
-            <button onClick={() => setResilienceOpen(!resilienceOpen)} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{resilienceOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${resilienceOpen ? "rotate-180" : ""}`} /></button>
+            <button onClick={() => { playNeuralSound('click'); setResilienceOpen(!resilienceOpen); }} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{resilienceOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${resilienceOpen ? "rotate-180" : ""}`} /></button>
           </div>
           <p className="text-sm opacity-90 leading-relaxed">{t.resDesc}</p>
           {resilienceOpen && (<div className="pt-4 border-t border-white/10 space-y-2 text-xs opacity-90"><p>• {t.resList1}</p><p>• {t.resList2}</p><p>• {t.resList3}</p></div>)}
@@ -801,7 +791,7 @@ export default function Home() {
             </div>
             <div>
               <div className="flex flex-wrap gap-1.5 py-3 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Proxmox</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Docker</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailscale</span></div>
-              <button onClick={() => setProject1Open(!project1Open)} className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{project1Open ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${project1Open ? "rotate-180" : ""}`} /></button>
+              <button onClick={() => { playNeuralSound('click'); setProject1Open(!project1Open); }} className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{project1Open ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${project1Open ? "rotate-180" : ""}`} /></button>
             </div>
           </motion.div>
 
@@ -815,8 +805,8 @@ export default function Home() {
             <div>
               <div className="flex flex-wrap gap-1.5 py-3 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Next.js</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailwind</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">TypeScript</span></div>
               <div className="flex gap-2">
-                <button onClick={() => setProject2Open(!project2Open)} className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{project2Open ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-200 ${project2Open ? "rotate-180" : ""}`} /></button>
-                <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs transition-all duration-300 active:scale-90 hover:scale-105"><GithubIcon className="w-3.5 h-3.5" /><span>Code</span></a>
+                <button onClick={() => { playNeuralSound('click'); setProject2Open(!project2Open); }} className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{project2Open ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-200 ${project2Open ? "rotate-180" : ""}`} /></button>
+                <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" onClick={() => playNeuralSound('click')} className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs transition-all duration-300 active:scale-90 hover:scale-105"><GithubIcon className="w-3.5 h-3.5" /><span>Code</span></a>
               </div>
             </div>
           </motion.div>
@@ -896,6 +886,7 @@ export default function Home() {
               <button
                 key={i}
                 onClick={() => {
+                  playNeuralSound('click');
                   setFaqFade(false);
                   setTimeout(() => {
                     setFaqIndex(i);
