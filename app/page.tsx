@@ -668,7 +668,7 @@ export default function Home() {
           </div>
         </motion.section>
 
-        {/* 2030 LIVE GIT ACTIVITY STREAM WITH ANIMATION */}
+        {/* 2030 LIVE GIT ACTIVITY STREAM WITH ANIMATIONS & GLOW */}
         <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-4`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -686,23 +686,24 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-            <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs">
-              <span className="text-[10px] text-cyan-400 uppercase font-bold">commit #492763d</span>
+            <div className="group p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-emerald-500/50 hover:shadow-[0_10px_25px_-5px_rgba(16,185,129,0.3)] cursor-pointer">
+              <span className="text-[10px] text-cyan-400 uppercase font-bold group-hover:text-cyan-300">commit #492763d</span>
               <p className="text-white text-xs font-sans">feat: upgrade framer motion typescript variants & types</p>
               <span className="text-[10px] text-zinc-500">2 hours ago • main branch</span>
             </div>
-            <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs">
-              <span className="text-[10px] text-purple-400 uppercase font-bold">commit #8b192fa</span>
+            <div className="group p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-purple-500/50 hover:shadow-[0_10px_25px_-5px_rgba(168,85,247,0.3)] cursor-pointer">
+              <span className="text-[10px] text-purple-400 uppercase font-bold group-hover:text-purple-300">commit #8b192fa</span>
               <p className="text-white text-xs font-sans">fix: optimize 3d spline lazy loading & dynamic import</p>
               <span className="text-[10px] text-zinc-500">Yesterday • production</span>
             </div>
-            <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs">
-              <span className="text-[10px] text-emerald-400 uppercase font-bold">script #proxmox_zfs</span>
+            <div className="group p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-emerald-500/50 hover:shadow-[0_10px_25px_-5px_rgba(16,185,129,0.3)] cursor-pointer">
+              <span className="text-[10px] text-emerald-400 uppercase font-bold group-hover:text-emerald-300">script #proxmox_zfs</span>
               <p className="text-white text-xs font-sans">Automated ZFS snapshot backup & Tailscale mesh sync</p>
               <span className="text-[10px] text-zinc-500">3 days ago • homelab</span>
             </div>
           </div>
         </motion.section>
+
 
         {/* LINK TO COMMERCIAL SERVICES PAGE */}
         <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="group rounded-3xl border border-cyan-500/40 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left transition-all duration-300 hover:scale-[1.01] hover:-translate-y-1 hover:border-cyan-400 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.35)] active:scale-[0.98]">
