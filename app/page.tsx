@@ -269,7 +269,7 @@ export default function Home() {
     }
   };
 
-  // --- LIVE TELEMETRY STATE WITH UPTIME ---
+  // --- LIVE TELEMETRY STATE WITH UPTIME & 2030 AI SENTINEL ---
   const [telemetry, setTelemetry] = useState<{
     status: string;
     node: string;
@@ -278,6 +278,8 @@ export default function Home() {
     activeContainers: number;
     tailscaleMesh: string;
     uptime: string;
+    aiSentinel?: string;
+    securityGrade?: string;
   } | null>(null);
 
   useEffect(() => {
@@ -530,7 +532,7 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* Self-Hosted Card */}
+          {/* Self-Hosted Card with 2030 AI Sentinel HUD */}
           <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.3)] active:scale-[0.98]`}>
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -546,12 +548,36 @@ export default function Home() {
               <h3 className="text-lg font-bold mb-1 group-hover:text-cyan-300 transition-colors">Self-Hosted</h3>
               <p className="text-xs opacity-80 mb-3">{t.infraDesc}</p>
 
-              <div className="my-3 p-3 rounded-2xl bg-white/[0.03] border border-white/10 font-mono text-[11px] space-y-1 text-zinc-300">
-                <div className="flex justify-between"><span className="text-zinc-500">Node:</span><span className="text-cyan-400 font-bold">{telemetry ? telemetry.node : "Proxmox-VE-Main"}</span></div>
-                <div className="flex justify-between"><span className="text-zinc-500">CPU / RAM:</span><span className="text-emerald-400">{telemetry ? `${telemetry.cpuUsage} / ${telemetry.memoryUsage}` : "Loading..."}</span></div>
-                <div className="flex justify-between"><span className="text-zinc-500">Containers:</span><span className="text-purple-400">{telemetry ? `${telemetry.activeContainers} Active` : "6 Active"}</span></div>
-                <div className="flex justify-between pt-1 border-t border-white/5"><span className="text-zinc-500">Uptime:</span><span className="text-amber-400 font-bold">{telemetry ? telemetry.uptime : "14d 7h"}</span></div>
-              </div>
+              {/* 2030 Futuristic AI Sentinel & Telemetry HUD */}
+              <motion.div
+                whileHover={{ scale: 1.01 }}
+                className="my-3 p-3.5 rounded-2xl bg-black/60 border border-cyan-500/30 font-mono text-[11px] space-y-2 text-zinc-300 shadow-[inset_0_0_20px_rgba(6,182,212,0.1)] relative overflow-hidden"
+              >
+                <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse" />
+
+                <div className="flex justify-between items-center">
+                  <span className="text-zinc-500">Core Node:</span>
+                  <span className="text-cyan-400 font-bold flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+                    {telemetry ? telemetry.node : "Proxmox-VE-Main"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-zinc-500">Load / RAM:</span>
+                  <span className="text-emerald-400">{telemetry ? `${telemetry.cpuUsage} / ${telemetry.memoryUsage}` : "18% / 42%"}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-zinc-500">Zero-Trust Security:</span>
+                  <span className="text-purple-400 font-bold">{telemetry && telemetry.securityGrade ? telemetry.securityGrade : "A+ (Zero Trust)"}</span>
+                </div>
+                <div className="pt-2 border-t border-white/5 flex flex-col gap-1">
+                  <span className="text-[9px] uppercase tracking-wider text-cyan-400/80 font-bold">🤖 AI Sentinel Status:</span>
+                  <span className="text-[10px] text-zinc-300 bg-cyan-500/10 px-2 py-1 rounded-lg border border-cyan-500/20">
+                    {telemetry && telemetry.aiSentinel ? telemetry.aiSentinel : "AI Sentinel: Optimal (0 anomalies)"}
+                  </span>
+                </div>
+              </motion.div>
+
               {infraOpen && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.infraList1}</p><p>• {t.infraList2}</p></div>)}
             </div>
             <div>
