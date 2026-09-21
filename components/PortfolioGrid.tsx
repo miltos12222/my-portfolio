@@ -16,6 +16,8 @@ import {
   Flame,
   User,
   Workflow,
+  Sparkles,
+  ExternalLink,
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 
@@ -94,8 +96,21 @@ export default function PortfolioGrid() {
     },
   ];
 
-  // Expanded Personal Projects as requested
+  // Expanded Personal Projects including the new AI Utility Hub
   const projects = [
+    {
+      title: "Next-Gen AI Utility Hub (Micro-SaaS)",
+      category: "web",
+      categoryLabel: "AI & Full-Stack Web Engineering",
+      description:
+        "A lightning-fast, zero-ads utility hub featuring AI-powered business plan generators, smart contracts, and resume builders with secure preview anti-screenshot blur protection, alongside daily free utilities and Revolut Pay integration.",
+      stats: ["AI Generative Suite", "Revolut Pay Integrated", "3D Framer Motion UI"],
+      tech: ["Next.js App Router", "TypeScript", "Tailwind CSS", "Framer Motion"],
+      icon: Sparkles,
+      gradient: "from-cyan-500/25 via-purple-500/15 to-transparent",
+      liveUrl: "https://miltos-utility-hub.vercel.app",
+      githubUrl: "https://github.com/miltos12222/utility-hub",
+    },
     {
       title: "Proxmox VE Home-Lab Infrastructure",
       category: "infra",
@@ -214,7 +229,7 @@ export default function PortfolioGrid() {
       <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-radial-gradient from-cyan-500/10 via-purple-500/5 to-transparent blur-3xl" />
 
       <div className="max-w-7xl mx-auto space-y-28">
-        {/* ================= SECTION 1: ABOUT ME / LIGA LOGIA GIA MENA ================= */}
+        {/* ================= SECTION 1: ABOUT ME / ΛΙΓΑ ΛΟΓΙΑ ΓΙΑ ΜΕΝΑ ================= */}
         <div id="about" className="scroll-mt-28 space-y-8">
           <div className="border-b border-white/10 pb-6">
             <div className="inline-flex items-center gap-2 rounded-full bg-cyan-500/10 px-3.5 py-1 border border-cyan-500/20 text-cyan-400 text-xs font-mono font-medium mb-3">
@@ -365,11 +380,10 @@ export default function PortfolioGrid() {
                 <button
                   key={node.id}
                   onClick={() => setActiveNode(idx)}
-                  className={`group relative text-left p-4 rounded-2xl transition-all duration-300 border ${
-                    activeNode === idx
+                  className={`group relative text-left p-4 rounded-2xl transition-all duration-300 border ${activeNode === idx
                       ? "bg-white/[0.07] border-cyan-500/40 shadow-[0_0_25px_rgba(6,182,212,0.15)]"
                       : "bg-white/[0.02] border-white/5 hover:border-white/15 hover:bg-white/[0.04]"
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-mono text-cyan-400 font-semibold uppercase">
@@ -496,10 +510,10 @@ export default function PortfolioGrid() {
               {cliCommand === "projects" && (
                 <div className="space-y-1">
                   <p className="text-purple-400 font-bold">● ACTIVE PERSONAL PROJECTS:</p>
-                  <p>1. Proxmox VE Home-Lab (ZFS mirroring & automated snapshots)</p>
-                  <p>2. Nextcloud Private Cloud (Self-hosted media & file sync)</p>
-                  <p>3. Zero-Trust Network Mesh (Tailscale + WireGuard encrypted overlay)</p>
-                  <p>4. Interactive Scrollytelling Portfolio (Next.js 16 + HTML5 Canvas API)</p>
+                  <p>1. Next-Gen AI Utility Hub (Micro-SaaS & Revolut Pay)</p>
+                  <p>2. Proxmox VE Home-Lab (ZFS mirroring & automated snapshots)</p>
+                  <p>3. Nextcloud Private Cloud (Self-hosted media & file sync)</p>
+                  <p>4. Zero-Trust Network Mesh (Tailscale + WireGuard encrypted overlay)</p>
                 </div>
               )}
               {cliCommand === "resilience" && (
@@ -533,11 +547,10 @@ export default function PortfolioGrid() {
                 <button
                   key={btn.cmd}
                   onClick={() => setCliCommand(btn.cmd)}
-                  className={`rounded-lg px-3 py-1 text-xs font-mono transition-all border ${
-                    cliCommand === btn.cmd
+                  className={`rounded-lg px-3 py-1 text-xs font-mono transition-all border ${cliCommand === btn.cmd
                       ? "bg-cyan-500/20 border-cyan-500/40 text-cyan-300"
                       : "bg-white/[0.03] border-white/10 text-gray-400 hover:text-white hover:bg-white/[0.06]"
-                  }`}
+                    }`}
                 >
                   $ {btn.label}
                 </button>
@@ -565,16 +578,15 @@ export default function PortfolioGrid() {
                 { id: "all" as const, label: "All Projects" },
                 { id: "infra" as const, label: "Infrastructure" },
                 { id: "cloud" as const, label: "Private Cloud & Mesh" },
-                { id: "web" as const, label: "Web Engineering" },
+                { id: "web" as const, label: "Web & AI SaaS" },
               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
-                    activeTab === tab.id
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${activeTab === tab.id
                       ? "bg-white text-black font-semibold shadow-md"
                       : "bg-white/[0.05] text-gray-400 hover:text-white hover:bg-white/[0.1] border border-white/5"
-                  }`}
+                    }`}
                 >
                   {tab.label}
                 </button>
@@ -628,7 +640,7 @@ export default function PortfolioGrid() {
                       </div>
                     </div>
 
-                    <div className="mt-8 pt-5 border-t border-white/5 flex flex-wrap gap-2 items-center justify-between">
+                    <div className="mt-8 pt-5 border-t border-white/5 flex flex-wrap gap-3 items-center justify-between">
                       <div className="flex flex-wrap gap-1.5">
                         {project.tech.map((t, tIdx) => (
                           <span
@@ -639,6 +651,31 @@ export default function PortfolioGrid() {
                           </span>
                         ))}
                       </div>
+
+                      {project.liveUrl && (
+                        <div className="flex items-center gap-2">
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-3.5 py-1.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs font-mono flex items-center gap-1.5 transition-all shadow-lg shadow-cyan-500/20"
+                          >
+                            <span>Live App</span>
+                            <ExternalLink className="h-3.5 w-3.5" />
+                          </a>
+                          {project.githubUrl && (
+                            <a
+                              href={project.githubUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="px-3 py-1.5 rounded-xl bg-white/[0.08] hover:bg-white/[0.15] text-white font-mono text-xs flex items-center gap-1 transition-all border border-white/10"
+                            >
+                              <GithubIcon className="h-3.5 w-3.5" />
+                              <span>Code</span>
+                            </a>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </motion.div>
                 );
@@ -795,7 +832,7 @@ export default function PortfolioGrid() {
               {/* LinkedIn & GitHub */}
               <div className="flex items-center gap-3">
                 <a
-                  href="https://github.com"
+                  href="https://github.com/miltos12222"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-white transition-all"
