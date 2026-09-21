@@ -4,7 +4,12 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag, Network, HardDrive, Shield, Database, Coffee } from "lucide-react";
+import {
+  Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight,
+  Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle,
+  Briefcase, ShoppingBag, Network, HardDrive, Shield, Database, Coffee,
+  Layers, User, CreditCard, ArrowRight, RefreshCw, Zap, Menu, X
+} from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
 import { motion, type Variants } from "framer-motion";
@@ -214,6 +219,33 @@ export default function Home() {
   const [lang, setLang] = useState<"gr" | "en">("gr");
   const t = translations[lang];
 
+  // Tab Navigation State (Home, CV, Marketplace, Contact)
+  const [activeTab, setActiveTab] = useState<'home' | 'cv' | 'marketplace' | 'contact'>('home');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Marketplace & Subscription State
+  const [selectedWebPackage, setSelectedWebPackage] = useState(1);
+  const [selectedSubPackage, setSelectedSubPackage] = useState<number | null>(null);
+  const [checkoutComplete, setCheckoutComplete] = useState(false);
+
+  const webPackages = [
+    { id: 1, name: "One-Page / Landing Page", pages: "1 Σελίδα", price: 190, desc: "Ιδανικό για γρήγορη προβολή, freelancers & startups." },
+    { id: 2, name: "Basic Website", pages: "2 - 3 Σελίδες", price: 320, desc: "Για μικρές επιχειρήσεις που χρειάζονται τα βασικά." },
+    { id: 3, name: "Professional Website", pages: "4 - 7 Σελίδες", price: 550, desc: "Πλήρες προφίλ, υπηρεσίες, portfolio & SEO optimization." },
+    { id: 4, name: "Corporate / Advanced", pages: "8 - 10 Σελίδες", price: 850, desc: "Για μεσαίες επιχειρήσεις με εξειδικευμένες φόρμες." },
+    { id: 5, name: "Enterprise Custom Portal", pages: "10+ Σελίδες / E-shop", price: 1300, desc: "Απεριόριστες δυνατότητες, custom αρχιτεκτονική." },
+  ];
+
+  const subPackages = [
+    { id: 1, name: "Basic Care", freq: "1 έλεγχος/μήνα", price: 30, desc: "Updates σε Core/Plugins, βασικό backup ασφαλείας." },
+    { id: 2, name: "Pro Updates & Growth", freq: "2-3 updates/μήνα", price: 60, desc: "Περιλαμβάνει 1 ώρα αλλαγών περιεχομένου & uptime check." },
+    { id: 3, name: "Business VIP Care", freq: "Απεριόριστα & Άμεσα", price: 150, desc: "Καθημερινά backups, firewall & 3-4 ώρες αλλαγών ανά μήνα." },
+  ];
+
+  const currentWeb = webPackages.find(p => p.id === selectedWebPackage);
+  const currentSub = subPackages.find(p => p.id === selectedSubPackage);
+  const totalPrice = (currentWeb?.price || 0) + (currentSub?.price || 0);
+
   const [infraOpen, setInfraOpen] = useState(false);
   const [webOpen, setWebOpen] = useState(false);
   const [ethicOpen, setEthicOpen] = useState(false);
@@ -303,7 +335,7 @@ export default function Home() {
     output: (
       <div className="pl-2 pt-1 flex gap-4">
         <div className="text-cyan-500 font-bold hidden sm:block">
-          <pre>{`   .---.\n  /     \\\n  \\.@-@./\n  /  _  \\\n //     \\\\`}</pre>
+          <pre>{`   .---.\n  /   <span> </span> \\\n  \\.@-@./\n  /  _  \\\n //     \\\\`}</pre>
         </div>
         <div className="space-y-1">
           <p><span className="text-cyan-400 font-bold">OS:</span> Debian GNU/Linux 12 (bookworm)</p>
@@ -350,7 +382,7 @@ export default function Home() {
         break;
       case "hire":
         output = <div className="text-emerald-400 animate-pulse">Redirecting to contact form...</div>;
-        setTimeout(() => window.location.href = "#contact", 800);
+        setTimeout(() => setActiveTab('contact'), 800);
         break;
       case "neofetch":
         output = termHistory[0].output;
@@ -391,8 +423,8 @@ export default function Home() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          serviceTitle: formData.service,
-          servicePrice: "General Inquiry",
+          serviceTitle: formData.service || (currentWeb ? `${currentWeb.name} ${currentSub ? `+ ${currentSub.name}` : ''}` : "General Inquiry"),
+          servicePrice: totalPrice ? `${totalPrice}€` : "General Inquiry",
           message: formData.message,
         }),
       });
@@ -401,6 +433,7 @@ export default function Home() {
         playNeuralSound('success');
         toast.success(t.successMsg);
         setFormData({ name: "", email: "", service: "", message: "" });
+        setCheckoutComplete(true);
       } else {
         toast.error(`${t.errorMsg} (${data.error || "Unknown Error"})`);
       }
@@ -421,532 +454,363 @@ export default function Home() {
 
       <Navbar />
 
+      {/* TOP-LEFT FLOATING NAVIGATION (UI 2030) */}
+      <header className="fixed top-20 left-4 z-50 flex items-center gap-4">
+        <nav className="hidden md:flex items-center gap-1 bg-[#0b0c10]/90 backdrop-blur-xl border border-white/15 p-1.5 rounded-full shadow-2xl">
+          <button
+            onClick={() => { playNeuralSound('click'); setActiveTab('home'); }}
+            className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'home' ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/30' : 'text-zinc-400 hover:text-white hover:bg-white/5'}`}
+          >
+            <Globe className="w-4 h-4" /> Αρχική
+          </button>
+          <button
+            onClick={() => { playNeuralSound('click'); setActiveTab('cv'); }}
+            className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'cv' ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/30' : 'text-zinc-400 hover:text-white hover:bg-white/5'}`}
+          >
+            <User className="w-4 h-4" /> Βιογραφικό & Testimonials
+          </button>
+          <button
+            onClick={() => { playNeuralSound('click'); setActiveTab('marketplace'); }}
+            className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'marketplace' ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/30' : 'text-zinc-400 hover:text-white hover:bg-white/5'}`}
+          >
+            <ShoppingBag className="w-4 h-4" /> Marketplace & Υπηρεσίες
+          </button>
+          <button
+            onClick={() => { playNeuralSound('click'); setActiveTab('contact'); }}
+            className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'contact' ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/30' : 'text-zinc-400 hover:text-white hover:bg-white/5'}`}
+          >
+            <Mail className="w-4 h-4" /> Επικοινωνία / Αίτηση
+          </button>
+        </nav>
+
+        {/* Mobile Hamburger Button */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden p-3 bg-black/80 backdrop-blur-xl border border-white/15 rounded-full text-white shadow-xl"
+        >
+          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
+      </header>
+
+      {/* Mobile Dropdown Menu */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-x-4 top-36 z-50 bg-[#0b0c10]/95 backdrop-blur-2xl border border-white/15 rounded-3xl p-4 flex flex-col gap-2 shadow-2xl md:hidden">
+          <button onClick={() => { setActiveTab('home'); setMobileMenuOpen(false); }} className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 text-left text-xs font-bold">
+            <Globe className="w-4 h-4 text-cyan-400" /> Αρχική
+          </button>
+          <button onClick={() => { setActiveTab('cv'); setMobileMenuOpen(false); }} className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 text-left text-xs font-bold">
+            <User className="w-4 h-4 text-cyan-400" /> Βιογραφικό & Testimonials
+          </button>
+          <button onClick={() => { setActiveTab('marketplace'); setMobileMenuOpen(false); }} className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 text-left text-xs font-bold">
+            <ShoppingBag className="w-4 h-4 text-cyan-400" /> Marketplace & Υπηρεσίες
+          </button>
+          <button onClick={() => { setActiveTab('contact'); setMobileMenuOpen(false); }} className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 text-left text-xs font-bold">
+            <Mail className="w-4 h-4 text-cyan-400" /> Επικοινωνία / Αίτηση
+          </button>
+        </div>
+      )}
+
       <main className="relative w-full pt-28 sm:pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12">
 
-        {/* Top Controls */}
-        <motion.div variants={fadeUp} initial="hidden" animate="visible" className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center items-center gap-2.5 sm:gap-3 mb-6">
-          <a href="https://calendly.com" target="_blank" rel="noopener noreferrer" onClick={() => playNeuralSound('click')} className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-xs font-bold text-emerald-300 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_10px_20px_-5px_rgba(16,185,129,0.4)] active:scale-95 cursor-pointer">
-            <Calendar className="w-4 h-4 text-emerald-400" />
-            <span>{t.bookCall}</span>
-          </a>
+        {/* ================= VIEW 1: HOME ================= */}
+        {activeTab === 'home' && (
+          <div className="space-y-12 animate-in fade-in duration-300">
+            {/* Top Controls */}
+            <motion.div variants={fadeUp} initial="hidden" animate="visible" className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center items-center gap-2.5 sm:gap-3 mb-6">
+              <a href="https://calendly.com" target="_blank" rel="noopener noreferrer" onClick={() => playNeuralSound('click')} className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-xs font-bold text-emerald-300 transition-all duration-300 hover:-translate-y-1 hover:scale-105 active:scale-95 cursor-pointer">
+                <Calendar className="w-4 h-4 text-emerald-400" />
+                <span>{t.bookCall}</span>
+              </a>
 
-          <a href="/donate" onClick={() => playNeuralSound('click')} className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-pink-500/20 hover:bg-pink-500/30 border border-pink-500/40 text-xs font-bold text-pink-300 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_10px_20px_-5px_rgba(236,72,153,0.4)] active:scale-95 cursor-pointer">
-            <Coffee className="w-4 h-4 text-pink-400" />
-            <span>{t.donateBtn}</span>
-          </a>
+              <a href="/donate" onClick={() => playNeuralSound('click')} className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-pink-500/20 hover:bg-pink-500/30 border border-pink-500/40 text-xs font-bold text-pink-300 transition-all duration-300 hover:-translate-y-1 hover:scale-105 active:scale-95 cursor-pointer">
+                <Coffee className="w-4 h-4 text-pink-400" />
+                <span>{t.donateBtn}</span>
+              </a>
 
-          <button onClick={() => { playNeuralSound('click'); window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true })); }} className="col-span-2 sm:col-span-1 flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_10px_20px_-5px_rgba(255,255,255,0.1)] active:scale-95 cursor-pointer group">
-            <Terminal className="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform" />
-            <span>Μενού (⌘K)</span>
-          </button>
+              <button onClick={() => { playNeuralSound('click'); window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true })); }} className="col-span-2 sm:col-span-1 flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all duration-300 hover:-translate-y-1 hover:scale-105 active:scale-95 cursor-pointer group">
+                <Terminal className="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform" />
+                <span>Μενού (⌘K)</span>
+              </button>
 
-          <button onClick={() => { playNeuralSound('click'); setLang(lang === "gr" ? "en" : "gr"); }} className="col-span-2 sm:col-span-1 flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_10px_20px_-5px_rgba(255,255,255,0.1)] active:scale-95 cursor-pointer">
-            <Globe className="w-4 h-4 text-cyan-400" />
-            <span>{lang === "gr" ? "🇬🇧 EN" : "🇬🇷 GR"}</span>
-          </button>
-        </motion.div>
+              <button onClick={() => { playNeuralSound('click'); setLang(lang === "gr" ? "en" : "gr"); }} className="col-span-2 sm:col-span-1 flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all duration-300 hover:-translate-y-1 hover:scale-105 active:scale-95 cursor-pointer">
+                <Globe className="w-4 h-4 text-cyan-400" />
+                <span>{lang === "gr" ? "🇬🇧 EN" : "🇬🇷 GR"}</span>
+              </button>
+            </motion.div>
 
-        {/* Navigation Switcher Tabs */}
-        <motion.div variants={fadeUp} initial="hidden" animate="visible" className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 mb-6">
-          <a href="/" onClick={() => playNeuralSound('click')} className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2.5 rounded-xl bg-cyan-500 text-black text-xs font-bold transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_10px_20px_-5px_rgba(6,182,212,0.4)] active:scale-95 cursor-pointer">
-            <Briefcase className="w-4 h-4" />
-            <span>Βιογραφικό & Projects (Active)</span>
-          </a>
-          <a href="/services" onClick={() => playNeuralSound('click')} className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all duration-300 hover:-translate-y-1 hover:scale-105 active:scale-95 cursor-pointer">
-            <ShoppingBag className="w-4 h-4 text-cyan-400" />
-            <span>Agency & Υπηρεσίες</span>
-          </a>
-        </motion.div>
-
-        {/* 3D SPLINE HERO BANNER */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="relative w-full h-[250px] sm:h-[400px] rounded-3xl overflow-hidden border border-white/10 shadow-[0_20px_50px_-10px_rgba(6,182,212,0.15)] group"
-        >
-          <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-t from-[#0b0c10] via-transparent to-transparent opacity-80" />
-          <div className="absolute top-4 left-4 z-20 pointer-events-none">
-            <span className="px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/30 text-[10px] font-mono text-cyan-400 font-bold backdrop-blur-md animate-pulse">
-              [ 3D Interactive Terminal - Drag to Rotate ]
-            </span>
-          </div>
-          <Spline scene="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode" />
-        </motion.div>
-
-        {/* OVERVIEW SECTION */}
-        <motion.section
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          id="overview"
-          className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4"
-        >
-          <motion.div variants={fadeUp} className={`group md:col-span-2 md:row-span-2 rounded-3xl ${cardBg} p-8 flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.3)] active:scale-[0.98]`}>
-            <div className="flex items-center justify-between z-10 mb-6">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                {t.available}
-              </span>
-              <span className="text-xs font-mono opacity-70">{t.location}</span>
-            </div>
-
-            <div className="z-10 flex flex-col sm:flex-row items-center gap-6 my-auto text-center sm:text-left">
-              <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-white/15 shadow-xl shrink-0 bg-zinc-900 group-hover:scale-105 transition-transform duration-300">
-                <Image src="/profile.jpg" alt="Miltos Papageorgiou" fill className="object-cover object-center" priority />
+            {/* 3D SPLINE HERO BANNER */}
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              className="relative w-full h-[250px] sm:h-[400px] rounded-3xl overflow-hidden border border-white/10 shadow-[0_20px_50px_-10px_rgba(6,182,212,0.15)] group"
+            >
+              <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-t from-[#0b0c10] via-transparent to-transparent opacity-80" />
+              <div className="absolute top-4 left-4 z-20 pointer-events-none">
+                <span className="px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/30 text-[10px] font-mono text-cyan-400 font-bold backdrop-blur-md animate-pulse">
+                  [ 3D Interactive Terminal - Drag to Rotate ]
+                </span>
               </div>
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">Miltos Papageorgiou</h1>
-                <p className="text-sm opacity-90 leading-relaxed">{t.roleDesc}</p>
-              </div>
-            </div>
+              <Spline scene="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode" />
+            </motion.div>
 
-            <div className="z-10 flex flex-wrap justify-center sm:justify-start items-center gap-3 mt-8 pt-6 border-t border-white/10">
-              <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" onClick={() => playNeuralSound('click')} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-medium transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:shadow-[0_5px_15px_rgba(255,255,255,0.2)] active:scale-90 cursor-pointer"><GithubIcon className="w-4 h-4" /><span>GitHub</span></a>
-              <a href="https://www.linkedin.com/in/miltos-papageorgiou-740990438" target="_blank" rel="noopener noreferrer" onClick={() => playNeuralSound('click')} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A66C2]/20 hover:bg-[#0A66C2]/30 border border-[#0A66C2]/40 text-xs font-medium text-blue-300 transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:shadow-[0_5px_15px_rgba(10,102,194,0.3)] active:scale-90 cursor-pointer"><LinkedinIcon className="w-4 h-4 text-[#0A66C2]" /><span>LinkedIn</span></a>
-              <a href="/cv.pdf" download="Miltos_Papageorgiou_CV.pdf" onClick={() => playNeuralSound('click')} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-xs font-medium text-purple-300 transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:shadow-[0_5px_15px_rgba(168,85,247,0.3)] active:scale-90 cursor-pointer"><Download className="w-4 h-4" /><span>{t.cvBtn}</span></a>
-              <a href="#contact" onClick={() => playNeuralSound('click')} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-xs font-medium text-cyan-300 transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:shadow-[0_5px_15px_rgba(6,182,212,0.3)] active:scale-90 cursor-pointer"><Mail className="w-4 h-4" /><span>{t.contactBtn}</span></a>
-            </div>
-          </motion.div>
-
-          {/* Self-Hosted Card with 2030 AI Sentinel HUD */}
-          <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.3)] active:scale-[0.98]`}>
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <Server className="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform duration-300" />
-                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-mono text-emerald-400">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    {telemetry ? telemetry.status.toUpperCase() : "ONLINE"}
+            {/* OVERVIEW SECTION */}
+            <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <motion.div variants={fadeUp} className={`group md:col-span-2 md:row-span-2 rounded-3xl ${cardBg} p-8 flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60`}>
+                <div className="flex items-center justify-between z-10 mb-6">
+                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono">
+                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                    {t.available}
                   </span>
+                  <span className="text-xs font-mono opacity-70">{t.location}</span>
                 </div>
-                <span className="text-[10px] font-mono opacity-70 uppercase tracking-wider">Infrastructure</span>
-              </div>
-              <h3 className="text-lg font-bold mb-1 group-hover:text-cyan-300 transition-colors">Self-Hosted</h3>
-              <p className="text-xs opacity-80 mb-3">{t.infraDesc}</p>
 
-              <div className="my-3 p-3.5 rounded-2xl bg-black/60 border border-cyan-500/30 font-mono text-[11px] space-y-2 text-zinc-300 shadow-[inset_0_0_20px_rgba(6,182,212,0.1)] relative overflow-hidden">
-                <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse" />
-                <div className="flex justify-between items-center">
-                  <span className="text-zinc-500">Core Node:</span>
-                  <span className="text-cyan-400 font-bold flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
-                    {telemetry ? telemetry.node : "Proxmox-VE-Main"}
-                  </span>
+                <div className="z-10 flex flex-col sm:flex-row items-center gap-6 my-auto text-center sm:text-left">
+                  <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-white/15 shadow-xl shrink-0 bg-zinc-900 group-hover:scale-105 transition-transform duration-300">
+                    <Image src="/profile.jpg" alt="Miltos Papageorgiou" fill className="object-cover object-center" priority />
+                  </div>
+                  <div>
+                    <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">Miltos Papageorgiou</h1>
+                    <p className="text-sm opacity-90 leading-relaxed">{t.roleDesc}</p>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-zinc-500">Load / RAM:</span>
-                  <span className="text-emerald-400">{telemetry ? `${telemetry.cpuUsage} / ${telemetry.memoryUsage}` : "18% / 42%"}</span>
+
+                <div className="z-10 flex flex-wrap justify-center sm:justify-start items-center gap-3 mt-8 pt-6 border-t border-white/10">
+                  <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-medium transition-all"><GithubIcon className="w-4 h-4" /><span>GitHub</span></a>
+                  <a href="https://www.linkedin.com/in/miltos-papageorgiou-740990438" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A66C2]/20 hover:bg-[#0A66C2]/30 border border-[#0A66C2]/40 text-xs font-medium text-blue-300 transition-all"><LinkedinIcon className="w-4 h-4 text-[#0A66C2]" /><span>LinkedIn</span></a>
+                  <a href="/cv.pdf" download className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-xs font-medium text-purple-300 transition-all"><Download className="w-4 h-4" /><span>{t.cvBtn}</span></a>
+                  <button onClick={() => setActiveTab('contact')} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-xs font-medium text-cyan-300 transition-all"><Mail className="w-4 h-4" /><span>{t.contactBtn}</span></button>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-zinc-500">Zero-Trust Security:</span>
-                  <span className="text-purple-400 font-bold">{telemetry && telemetry.securityGrade ? telemetry.securityGrade : "A+ (Zero Trust)"}</span>
-                </div>
-                <div className="pt-2 border-t border-white/5 flex flex-col gap-1">
-                  <span className="text-[9px] uppercase tracking-wider text-cyan-400/80 font-bold">🤖 AI Sentinel Status:</span>
-                  <span className="text-[10px] text-zinc-300 bg-cyan-500/10 px-2 py-1 rounded-lg border border-cyan-500/20">
-                    {telemetry && telemetry.aiSentinel ? telemetry.aiSentinel : "AI Sentinel: Optimal (0 anomalies)"}
-                  </span>
-                </div>
-              </div>
+              </motion.div>
 
-              {infraOpen && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.infraList1}</p><p>• {t.infraList2}</p></div>)}
-            </div>
-            <div>
-              <div className="flex flex-wrap gap-1.5 py-2 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Proxmox</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Docker</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailscale</span></div>
-              <button onClick={() => { playNeuralSound('click'); setInfraOpen(!infraOpen); }} className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{infraOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${infraOpen ? "rotate-180" : ""}`} /></button>
-            </div>
-          </motion.div>
-
-          {/* Web Stack Card */}
-          <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-purple-500/60 hover:shadow-[0_20px_50px_-10px_rgba(168,85,247,0.3)] active:scale-[0.98]`}>
-            <div>
-              <div className="flex items-center justify-between opacity-70 mb-4"><Code2 className="w-5 h-5 text-purple-400 group-hover:scale-110 transition-transform duration-300" /><span className="text-[10px] font-mono uppercase tracking-wider">Development</span></div>
-              <h3 className="text-lg font-bold mb-1 group-hover:text-purple-300 transition-colors">Modern Stack</h3>
-              <p className="text-xs opacity-80 mb-3">{t.webDesc}</p>
-              {webOpen && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.webList1}</p><p>• {t.webList2}</p></div>)}
-            </div>
-            <div>
-              <div className="flex flex-wrap gap-1.5 py-2 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Next.js</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">TypeScript</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailwind</span></div>
-              <button onClick={() => { playNeuralSound('click'); setWebOpen(!webOpen); }} className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{webOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-200 ${webOpen ? "rotate-180" : ""}`} /></button>
-            </div>
-          </motion.div>
-
-          <motion.div variants={fadeUp} className={`group md:col-span-2 lg:col-span-2 rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-emerald-500/60 hover:shadow-[0_20px_50px_-10px_rgba(16,185,129,0.3)] active:scale-[0.98]`}>
-            <div>
-              <div className="flex items-center justify-between opacity-70 mb-3"><Cpu className="w-5 h-5 text-emerald-400 group-hover:scale-110 transition-transform duration-300" /><span className="text-[10px] font-mono uppercase tracking-wider">Work Ethic</span></div>
-              <h3 className="text-lg font-bold mb-2 group-hover:text-emerald-300 transition-colors">{t.ethicTitle}</h3>
-              <p className="text-xs opacity-90 leading-relaxed mb-3">{t.ethicDesc}</p>
-              {ethicOpen && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.ethicList1}</p><p>• {t.ethicList2}</p></div>)}
-            </div>
-            <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/5">
-              <div className="flex items-center gap-4 text-xs opacity-80"><span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Problem Solver</span><span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Fast Learner</span></div>
-              <button onClick={() => { playNeuralSound('click'); setEthicOpen(!ethicOpen); }} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{ethicOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${ethicOpen ? "rotate-180" : ""}`} /></button>
-            </div>
-          </motion.div>
-        </motion.section>
-
-        {/* INTERACTIVE HOMELAB ARCHITECTURE TOPOLOGY SECTION */}
-        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 transition-colors`}>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center shrink-0">
-              <Network className="w-5 h-5 text-cyan-400" />
-            </div>
-            <div>
-              <h2 className="text-lg sm:text-xl font-bold">{t.topoTitle}</h2>
-              <p className="text-xs opacity-70">{t.topoSub}</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            {topologyNodes.map((node, i) => (
-              <button
-                key={i}
-                onClick={() => { playNeuralSound('click'); setSelectedNode(node); }}
-                className={`p-4 rounded-2xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between space-y-3 hover:-translate-y-1.5 hover:scale-[1.04] active:scale-95 ${selectedNode?.name === node.name
-                  ? "bg-cyan-500/15 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.2)]"
-                  : "bg-white/[0.02] border-white/10 hover:border-cyan-500/50 hover:shadow-[0_10px_25px_-5px_rgba(6,182,212,0.3)]"
-                  }`}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="p-2 rounded-xl bg-black/40 border border-white/10">{node.icon}</div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-cyan-300">{node.type}</span>
+              {/* Self-Hosted Card */}
+              <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60`}>
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <Server className="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform duration-300" />
+                      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-mono text-emerald-400">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        {telemetry ? telemetry.status.toUpperCase() : "ONLINE"}
+                      </span>
+                    </div>
+                    <span className="text-[10px] font-mono opacity-70 uppercase tracking-wider">Infrastructure</span>
+                  </div>
+                  <h3 className="text-lg font-bold mb-1">Self-Hosted</h3>
+                  <p className="text-xs opacity-80 mb-3">{t.infraDesc}</p>
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-white mb-1">{node.name}</h3>
-                  <p className="text-[11px] font-mono text-cyan-400">{node.specs}</p>
+                  <div className="flex flex-wrap gap-1.5 py-2 border-t border-white/5 mb-3">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Proxmox</span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Docker</span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailscale</span>
+                  </div>
+                  <button onClick={() => setActiveTab('marketplace')} className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-xs font-medium text-cyan-300 transition-all"><span>Υπηρεσίες Υποδομής</span><ArrowRight className="w-3.5 h-3.5" /></button>
                 </div>
-              </button>
-            ))}
-          </div>
+              </motion.div>
 
-          {selectedNode && (
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-5 rounded-2xl bg-black/40 border border-cyan-500/30 flex items-start gap-4 font-mono text-xs shadow-[0_0_20px_rgba(6,182,212,0.1)]">
-              <Shield className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5 animate-pulse" />
-              <div className="space-y-1">
-                <span className="text-cyan-400 font-bold uppercase tracking-wider">&gt; node_inspect --target={selectedNode.name}</span>
-                <p className="text-zinc-300 font-sans leading-relaxed pt-1">{selectedNode.desc}</p>
-              </div>
-            </motion.div>
-          )}
-        </motion.section>
-
-        {/* LIVE LEARNING & ROADMAP HISTORY WITH INTERACTIVE BUBBLES */}
-        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl border border-purple-500/30 bg-purple-500/[0.03] p-6 sm:p-8 space-y-4`}>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center shrink-0">
-              <History className="w-5 h-5 text-purple-400 animate-pulse" />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold">{t.learningTitle}</h2>
-              <p className="text-xs opacity-70">{t.learningSubtitle} <span className="text-cyan-400">(Click cards for tech notes)</span></p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-            {t.learningItems.map((item, idx) => (
-              <div
-                key={idx}
-                onClick={() => {
-                  playNeuralSound('open');
-                  setActiveBubble({
-                    title: item.text,
-                    date: item.date,
-                    content: `Αναλυτικές πληροφορίες για την ενότητα "${item.text}". Υλοποίηση με έμφαση στην υψηλή διαθεσιμότητα, τη βελτιστοποίηση κώδικα και τη σωστή αρχιτεκτονική συστημάτων.`
-                  });
-                }}
-                className="group rounded-2xl bg-white/[0.03] border border-white/10 p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.04] hover:border-purple-500/50 hover:shadow-[0_15px_30px_-5px_rgba(168,85,247,0.3)] active:scale-95 cursor-pointer relative overflow-hidden"
-              >
-                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full">
-                  ✨ Click bubble
+              {/* Web Stack Card */}
+              <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-purple-500/60`}>
+                <div>
+                  <div className="flex items-center justify-between opacity-70 mb-4"><Code2 className="w-5 h-5 text-purple-400 group-hover:scale-110 transition-transform duration-300" /><span className="text-[10px] font-mono uppercase tracking-wider">Development</span></div>
+                  <h3 className="text-lg font-bold mb-1">Modern Stack</h3>
+                  <p className="text-xs opacity-80 mb-3">{t.webDesc}</p>
                 </div>
-                <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 w-fit mb-3 font-bold">{item.date}</span>
-                <p className="text-xs sm:text-sm opacity-90 leading-relaxed group-hover:text-purple-200 transition-colors">{item.text}</p>
-              </div>
-            ))}
+                <div>
+                  <div className="flex flex-wrap gap-1.5 py-2 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Next.js</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">TypeScript</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailwind</span></div>
+                  <button onClick={() => setActiveTab('marketplace')} className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-xs font-medium text-purple-300 transition-all"><span>Marketplace Websites</span><ArrowRight className="w-3.5 h-3.5" /></button>
+                </div>
+              </motion.div>
+            </motion.section>
           </div>
-        </motion.section>
+        )}
 
-        {/* 2030 LIVE GIT ACTIVITY STREAM WITH ANIMATIONS & GLOW */}
-        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-4`}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center shrink-0">
-                <Terminal className="w-5 h-5 text-emerald-400" />
+        {/* ================= VIEW 2: CV & TESTIMONIALS ================= */}
+        {activeTab === 'cv' && (
+          <div className="space-y-12 animate-in fade-in duration-300 max-w-4xl mx-auto">
+            <div className="text-center space-y-3">
+              <h2 className="text-3xl font-extrabold">Βιογραφικό & Testimonials</h2>
+              <p className="text-xs text-zinc-400">Η επαγγελματική πορεία, οι δεξιότητες και οι αξιολογήσεις πελατών.</p>
+            </div>
+
+            <div className={`p-8 rounded-3xl ${cardBg} space-y-6`}>
+              <h3 className="text-xl font-bold text-cyan-400">{t.aboutTitle}</h3>
+              <p className="text-sm opacity-90 leading-relaxed">{t.aboutP1}</p>
+              <p className="text-sm opacity-80 leading-relaxed">{t.aboutP2}</p>
+              <div className="pt-4 border-t border-white/10 flex flex-wrap gap-3">
+                <a href="/cv.pdf" download className="px-5 py-2.5 rounded-xl bg-cyan-500 text-black font-bold text-xs flex items-center gap-2"><Download className="w-4 h-4" /> {t.cvBtn}</a>
+                <button onClick={() => setActiveTab('contact')} className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-bold flex items-center gap-2"><Mail className="w-4 h-4" /> {t.contactBtn}</button>
               </div>
+            </div>
+
+            {/* Testimonials */}
+            <div className="space-y-6">
+              <h3 className="text-xl font-bold">{t.revTitle}</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[t.test1, t.test2, t.test3, t.test4].map((testText, idx) => (
+                  <div key={idx} className={`p-6 rounded-3xl ${cardBg} space-y-3 flex flex-col justify-between`}>
+                    <div className="flex gap-1 text-amber-400">{[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-amber-400" />)}</div>
+                    <p className="text-xs sm:text-sm opacity-90 leading-relaxed italic">{testText}</p>
+                    <span className="text-[10px] font-mono opacity-60">— Verified Client</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ================= VIEW 3: MARKETPLACE & SUBSCRIPTIONS ================= */}
+        {activeTab === 'marketplace' && (
+          <div className="space-y-12 animate-in fade-in duration-300 max-w-5xl mx-auto">
+            <div className="text-center space-y-3">
+              <span className="text-xs font-mono px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 font-bold uppercase">Commercial Sell 2030</span>
+              <h2 className="text-3xl font-extrabold">Marketplace Υπηρεσιών & Συνδρομών</h2>
+              <p className="text-xs text-zinc-400">Επιλέξτε πακέτο ιστοσελίδας και προαιρετική συνδρομή ενημερώσεων.</p>
+            </div>
+
+            {/* Web Packages Selector */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-bold flex items-center gap-2"><Globe className="w-5 h-5 text-cyan-400" /> 1. Επιλέξτε Κατηγορία Ιστοσελίδας</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {webPackages.map((pkg) => (
+                  <div
+                    key={pkg.id}
+                    onClick={() => { playNeuralSound('click'); setSelectedWebPackage(pkg.id); }}
+                    className={`p-6 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between ${selectedWebPackage === pkg.id ? 'bg-cyan-500/15 border-cyan-400 shadow-[0_0_25px_rgba(6,182,212,0.25)]' : 'bg-white/[0.02] border-white/10 hover:border-white/20'}`}
+                  >
+                    <div>
+                      <div className="flex justify-between items-start mb-3">
+                        <span className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-cyan-500/20 text-cyan-300 font-bold">{pkg.pages}</span>
+                        <span className="text-lg font-extrabold text-white">{pkg.price}€</span>
+                      </div>
+                      <h4 className="font-bold text-sm mb-1">{pkg.name}</h4>
+                      <p className="text-xs text-zinc-400 leading-relaxed">{pkg.desc}</p>
+                    </div>
+                    <div className="mt-6 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono">
+                      <span className="text-zinc-500">Επιλογή</span>
+                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${selectedWebPackage === pkg.id ? 'bg-cyan-400 border-cyan-400 text-black' : 'border-zinc-600'}`}>
+                        {selectedWebPackage === pkg.id && <CheckCircle2 className="w-3 h-3" />}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Maintenance Subscriptions Selector */}
+            <div className="space-y-4 pt-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-bold flex items-center gap-2"><RefreshCw className="w-5 h-5 text-purple-400" /> 2. Συνδρομή Ενημερώσεων & Υποστήριξης (Maintenance Care)</h3>
+                {selectedSubPackage !== null && (
+                  <button onClick={() => setSelectedSubPackage(null)} className="text-xs text-zinc-400 hover:text-white underline">Αφαίρεση</button>
+                )}
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {subPackages.map((sub) => (
+                  <div
+                    key={sub.id}
+                    onClick={() => { playNeuralSound('click'); setSelectedSubPackage(sub.id); }}
+                    className={`p-6 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between ${selectedSubPackage === sub.id ? 'bg-purple-500/15 border-purple-400 shadow-[0_0_25px_rgba(168,85,247,0.25)]' : 'bg-white/[0.02] border-white/10 hover:border-white/20'}`}
+                  >
+                    <div>
+                      <div className="flex justify-between items-start mb-3">
+                        <span className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 font-bold">{sub.freq}</span>
+                        <span className="text-lg font-extrabold text-white">+{sub.price}€<span className="text-[10px] font-normal text-zinc-400">/μήνα</span></span>
+                      </div>
+                      <h4 className="font-bold text-sm mb-1">{sub.name}</h4>
+                      <p className="text-xs text-zinc-400 leading-relaxed">{sub.desc}</p>
+                    </div>
+                    <div className="mt-6 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono">
+                      <span className="text-zinc-500">Συνδρομή</span>
+                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${selectedSubPackage === sub.id ? 'bg-purple-400 border-purple-400 text-black' : 'border-zinc-600'}`}>
+                        {selectedSubPackage === sub.id && <CheckCircle2 className="w-3 h-3" />}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Checkout Bottom Bar */}
+            <div className={`p-6 rounded-3xl ${cardBg} flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl border border-cyan-500/30 bg-gradient-to-r from-cyan-500/5 to-purple-500/5`}>
               <div>
-                <h2 className="text-lg font-bold">Live Git Contribution Stream</h2>
-                <p className="text-xs opacity-70">Recent commits, deployments & homelab scripts (GitHub API synced)</p>
-              </div>
-            </div>
-            <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold hidden sm:inline-block">
-              🟢 Active Today
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-            <div className="group p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-emerald-500/50 hover:shadow-[0_10px_25px_-5px_rgba(16,185,129,0.3)] cursor-pointer">
-              <span className="text-[10px] text-cyan-400 uppercase font-bold group-hover:text-cyan-300">commit #492763d</span>
-              <p className="text-white text-xs font-sans">feat: upgrade framer motion typescript variants & types</p>
-              <span className="text-[10px] text-zinc-500">2 hours ago • main branch</span>
-            </div>
-            <div className="group p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-purple-500/50 hover:shadow-[0_10px_25px_-5px_rgba(168,85,247,0.3)] cursor-pointer">
-              <span className="text-[10px] text-purple-400 uppercase font-bold group-hover:text-purple-300">commit #8b192fa</span>
-              <p className="text-white text-xs font-sans">fix: optimize 3d spline lazy loading & dynamic import</p>
-              <span className="text-[10px] text-zinc-500">Yesterday • production</span>
-            </div>
-            <div className="group p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-emerald-500/50 hover:shadow-[0_10px_25px_-5px_rgba(16,185,129,0.3)] cursor-pointer">
-              <span className="text-[10px] text-emerald-400 uppercase font-bold group-hover:text-emerald-300">script #proxmox_zfs</span>
-              <p className="text-white text-xs font-sans">Automated ZFS snapshot backup & Tailscale mesh sync</p>
-              <span className="text-[10px] text-zinc-500">3 days ago • homelab</span>
-            </div>
-          </div>
-        </motion.section>
-
-
-        {/* LINK TO COMMERCIAL SERVICES PAGE */}
-        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="group rounded-3xl border border-cyan-500/40 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left transition-all duration-300 hover:scale-[1.01] hover:-translate-y-1 hover:border-cyan-400 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.35)] active:scale-[0.98]">
-          <div className="space-y-2">
-            <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider font-bold">Commercial Hub</span>
-            <h2 className="text-xl sm:text-2xl font-bold text-white">{t.servicesBannerTitle}</h2>
-            <p className="text-xs sm:text-sm text-zinc-300 max-w-xl">{t.servicesBannerDesc}</p>
-          </div>
-          <a href="/services" onClick={() => playNeuralSound('click')} className="px-6 py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs sm:text-sm transition-all duration-300 shadow-lg shadow-cyan-500/25 shrink-0 flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95 hover:shadow-[0_0_20px_rgba(6,182,212,0.5)]">
-            <span>{t.servicesBannerBtn}</span>
-          </a>
-        </motion.section>
-
-        {/* ABOUT ME + TERMINAL */}
-        <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="about-me" className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-8 flex flex-col justify-center transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.3)] active:scale-[0.98]`}>
-            <h2 className="text-xl font-bold mb-4 group-hover:text-cyan-300 transition-colors">{t.aboutTitle}</h2>
-            <p className="text-sm opacity-90 leading-relaxed mb-4">{t.aboutP1}</p>
-            <p className="text-sm opacity-80 leading-relaxed">{t.aboutP2}</p>
-          </motion.div>
-
-          <motion.div variants={fadeUp} className="rounded-3xl border border-white/10 bg-[#0a0a0a] p-5 font-mono text-xs shadow-2xl relative overflow-hidden group flex flex-col h-[350px] hover:border-purple-500/50 transition-all duration-300 active:scale-[0.98]">
-            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/5 shrink-0">
-              <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
-              <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
-              <div className="w-3 h-3 rounded-full bg-emerald-500/80"></div>
-              <span className="ml-2 text-zinc-500 flex items-center gap-1"><Terminal className="w-3 h-3" /> root@miltos-server:~</span>
-            </div>
-
-            <div className="flex-1 overflow-y-auto space-y-3 text-zinc-300 pr-2 pb-4 scrollbar-thin scrollbar-thumb-white/10" onClick={() => document.getElementById('term-input')?.focus()}>
-              {termHistory.map((item, i) => (
-                <div key={i} className="space-y-1">
-                  <p><span className="text-emerald-400">miltos@admin:~$</span> {item.cmd}</p>
-                  {item.output}
-                </div>
-              ))}
-
-              <form onSubmit={handleTerminalSubmit} className="flex items-center gap-2 mt-2">
-                <span className="text-emerald-400 shrink-0">miltos@admin:~$</span>
-                <input
-                  id="term-input"
-                  type="text"
-                  value={termInput}
-                  onChange={(e) => {
-                    setTermInput(e.target.value);
-                    playKeyClick();
-                  }}
-                  className="flex-1 bg-transparent outline-none border-none text-white focus:ring-0 p-0 m-0 min-w-0"
-                  autoComplete="off"
-                  spellCheck="false"
-                />
-              </form>
-              <div ref={terminalEndRef} />
-            </div>
-          </motion.div>
-        </motion.section>
-
-        {/* INFRASTRUCTURE */}
-        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="infrastructure" className={`group rounded-3xl ${cardBg} p-8 space-y-4 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.3)] active:scale-[0.98]`}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3"><Server className="w-6 h-6 text-cyan-400 group-hover:scale-110 transition-transform duration-300" /><h2 className="text-xl font-bold group-hover:text-cyan-300 transition-colors">Infrastructure & Homelab Stack</h2></div>
-            <button onClick={() => { playNeuralSound('click'); setStackOpen(!stackOpen); }} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{stackOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${stackOpen ? "rotate-180" : ""}`} /></button>
-          </div>
-          <p className="text-sm opacity-90 leading-relaxed">{t.stackDesc}</p>
-          {stackOpen && (<div className="pt-4 border-t border-white/10 space-y-2 text-xs opacity-90"><p>• {t.stackList1}</p><p>• {t.stackList2}</p><p>• {t.stackList3}</p></div>)}
-        </motion.section>
-
-        {/* RESILIENCE */}
-        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="resilience" className={`group rounded-3xl ${cardBg} p-8 space-y-4 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-emerald-500/60 hover:shadow-[0_20px_50px_-10px_rgba(16,185,129,0.3)] active:scale-[0.98]`}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3"><Cpu className="w-6 h-6 text-emerald-400 group-hover:scale-110 transition-transform duration-300" /><h2 className="text-xl font-bold group-hover:text-emerald-300 transition-colors">{t.resTitle}</h2></div>
-            <button onClick={() => { playNeuralSound('click'); setResilienceOpen(!resilienceOpen); }} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{resilienceOpen ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-emerald-400 transition-transform duration-200 ${resilienceOpen ? "rotate-180" : ""}`} /></button>
-          </div>
-          <p className="text-sm opacity-90 leading-relaxed">{t.resDesc}</p>
-          {resilienceOpen && (<div className="pt-4 border-t border-white/10 space-y-2 text-xs opacity-90"><p>• {t.resList1}</p><p>• {t.resList2}</p><p>• {t.resList3}</p></div>)}
-        </motion.section>
-
-        {/* PROJECTS */}
-        <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="projects" className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.3)] active:scale-[0.98]`}>
-            <div>
-              <div className="flex items-center justify-between mb-4"><span className="text-xs font-mono text-cyan-400">Infrastructure</span><Server className="w-4 h-4 opacity-70 group-hover:scale-110 transition-transform duration-300" /></div>
-              <h3 className="text-base font-bold mb-2 group-hover:text-cyan-300 transition-colors">Self-Hosted Homelab & Nextcloud</h3>
-              <p className="text-xs opacity-90 leading-relaxed mb-3">{t.proj1Desc}</p>
-              {project1Open && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.proj1List1}</p><p>• {t.proj1List2}</p></div>)}
-            </div>
-            <div>
-              <div className="flex flex-wrap gap-1.5 py-3 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Proxmox</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Docker</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailscale</span></div>
-              <button onClick={() => { playNeuralSound('click'); setProject1Open(!project1Open); }} className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{project1Open ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-cyan-400 transition-transform duration-200 ${project1Open ? "rotate-180" : ""}`} /></button>
-            </div>
-          </motion.div>
-
-          <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-purple-500/60 hover:shadow-[0_20px_50px_-10px_rgba(168,85,247,0.3)] active:scale-[0.98]`}>
-            <div>
-              <div className="flex items-center justify-between mb-4"><span className="text-xs font-mono text-purple-400">Web App</span><Code2 className="w-4 h-4 opacity-70 group-hover:scale-110 transition-transform duration-300" /></div>
-              <h3 className="text-base font-bold mb-2 group-hover:text-purple-300 transition-colors">High-Performance Portfolio</h3>
-              <p className="text-xs opacity-90 leading-relaxed mb-3">{t.proj2Desc}</p>
-              {project2Open && (<div className="pt-2 pb-3 border-t border-white/10 space-y-1.5 text-xs opacity-90"><p>• {t.proj2List1}</p><p>• {t.proj2List2}</p></div>)}
-            </div>
-            <div>
-              <div className="flex flex-wrap gap-1.5 py-3 border-t border-white/5 mb-3"><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Next.js</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">Tailwind</span><span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5">TypeScript</span></div>
-              <div className="flex gap-2">
-                <button onClick={() => { playNeuralSound('click'); setProject2Open(!project2Open); }} className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs transition-all duration-300 active:scale-95 font-medium cursor-pointer"><span>{project2Open ? t.less : t.more}</span><ChevronDown className={`h-3.5 w-3.5 text-purple-400 transition-transform duration-200 ${project2Open ? "rotate-180" : ""}`} /></button>
-                <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" onClick={() => playNeuralSound('click')} className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs transition-all duration-300 active:scale-90 hover:scale-105"><GithubIcon className="w-3.5 h-3.5" /><span>Code</span></a>
-              </div>
-            </div>
-          </motion.div>
-        </motion.section>
-
-        {/* TECH STACK GUARANTEE BAR */}
-        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="rounded-2xl border border-cyan-500/20 bg-cyan-500/[0.03] p-4 flex items-center justify-center gap-3 text-center hover:border-cyan-400 transition-all duration-300">
-          <ShieldCheck className="w-5 h-5 text-cyan-400 shrink-0" />
-          <span className="text-xs font-mono font-medium tracking-wide opacity-90">{t.guaranteeText}</span>
-        </motion.section>
-
-        {/* REVIEWS SECTION */}
-        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="reviews" className={`rounded-3xl ${cardBg} p-8 space-y-6 transition-colors`}>
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <h2 className="text-xl font-bold mb-1">{t.revTitle}</h2>
-              <p className="text-xs opacity-70">{t.revSub}</p>
-            </div>
-            <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 px-3.5 py-1.5 rounded-xl text-amber-400 w-fit hover:scale-105 transition-transform duration-300 cursor-default">
-              <div className="flex gap-1">
-                {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />)}
-              </div>
-              <span className="text-xs font-bold font-mono">5.0 / 5.0</span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {[t.test1, t.test2, t.test3, t.test4].map((testText, idx) => (
-              <div key={idx} className="group rounded-2xl bg-white/[0.03] border border-white/5 p-6 space-y-3 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.04] hover:border-amber-500/50 hover:shadow-[0_15px_30px_-5px_rgba(245,158,11,0.25)] active:scale-[0.97] cursor-pointer">
-                <p className="text-xs sm:text-sm opacity-90 leading-relaxed italic group-hover:text-amber-200/90 transition-colors">{testText}</p>
-                <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 pt-4 border-t border-white/5">
-                  <span>Verified Client</span>
-                  <span className="text-cyan-400">★★★★★</span>
+                <span className="text-xs text-zinc-400 block font-mono">Συνολικό Εκτιμώμενο Κόστος:</span>
+                <div className="text-2xl font-extrabold text-white">
+                  {totalPrice}€ <span className="text-xs font-normal text-zinc-400">{selectedSubPackage ? '+ μηνιαία συντήρηση' : 'εφάπαξ'}</span>
                 </div>
               </div>
-            ))}
-          </div>
-        </motion.section>
-
-        {/* FAQ SLIDER SECTION */}
-        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 transition-colors relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-cyan-500/50 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.2)] active:scale-[0.99]`}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <HelpCircle className="w-6 h-6 text-cyan-400 animate-pulse" />
-              <div>
-                <h2 className="text-lg sm:text-xl font-bold">{t.faqTitle}</h2>
-                <p className="text-xs opacity-70">{t.faqSub}</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button onClick={handlePrevFaq} className="p-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.15] border border-white/10 transition-all duration-300 active:scale-90 cursor-pointer" title="Previous">
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <span className="text-xs font-mono opacity-60">
-                {faqIndex + 1} / {t.faqList.length}
-              </span>
-              <button onClick={handleNextFaq} className="p-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.15] border border-white/10 transition-all duration-300 active:scale-90 cursor-pointer" title="Next">
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          <div className="bg-white/[0.02] border border-white/10 p-6 rounded-2xl min-h-[140px] flex flex-col justify-center relative cursor-pointer" onClick={handleNextFaq}>
-            <div className={`space-y-2 transition-opacity duration-300 ${faqFade ? "opacity-100" : "opacity-0"}`}>
-              <h3 className="text-sm sm:text-base font-bold text-cyan-400">
-                {t.faqList[faqIndex].q}
-              </h3>
-              <p className="text-xs sm:text-sm opacity-90 leading-relaxed">
-                {t.faqList[faqIndex].a}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex justify-center gap-1.5 pt-1">
-            {t.faqList.map((_, i) => (
               <button
-                key={i}
-                onClick={() => {
-                  playNeuralSound('click');
-                  setFaqFade(false);
-                  setTimeout(() => {
-                    setFaqIndex(i);
-                    setFaqFade(true);
-                  }, 300);
-                }}
-                className={`h-2 rounded-full transition-all duration-300 cursor-pointer active:scale-90 ${faqIndex === i ? "w-8 bg-cyan-400" : "w-2 bg-white/20 hover:bg-white/50"}`}
-              />
-            ))}
+                onClick={() => { playNeuralSound('click'); setActiveTab('contact'); }}
+                className="px-6 py-3.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-500/30 transition-all cursor-pointer"
+              >
+                <CreditCard className="w-4 h-4" /> <span>Προχωρήστε στην Πληρωμή / Αίτηση</span> <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
-        </motion.section>
+        )}
 
-        {/* CONTACT FORM */}
-        <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="contact" className={`rounded-3xl ${cardBg} p-8 space-y-6 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-500/50 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.2)]`}>
-          <div>
-            <h2 className="text-xl font-bold mb-1">{t.contactTitle}</h2>
-            <p className="text-xs opacity-70 mb-6">{t.contactSub}</p>
+        {/* ================= VIEW 4: CONTACT / CHECKOUT ================= */}
+        {activeTab === 'contact' && (
+          <div className="space-y-8 animate-in fade-in duration-300 max-w-2xl mx-auto">
+            <div className="text-center space-y-2">
+              <h2 className="text-3xl font-extrabold">{t.contactTitle}</h2>
+              <p className="text-xs text-zinc-400">{t.contactSub}</p>
+            </div>
+
+            {checkoutComplete ? (
+              <div className="p-8 rounded-3xl bg-emerald-950/20 border border-emerald-500/30 text-center space-y-4">
+                <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+                  <CheckCircle2 className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-emerald-300">{t.successMsg}</h3>
+                <p className="text-xs text-zinc-300">Έχουμε λάβει τις επιλογές σας και θα επικοινωνήσουμε άμεσα μαζί σας.</p>
+                <button onClick={() => setCheckoutComplete(false)} className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold">Νέα Υποβολή</button>
+              </div>
+            ) : (
+              <form onSubmit={handleContactSubmit} className={`p-8 rounded-3xl ${cardBg} space-y-4`}>
+                <div className="p-4 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-between text-xs font-mono">
+                  <div>
+                    <span className="text-zinc-500 block">Επιλεγμένο Πακέτο:</span>
+                    <strong className="text-cyan-400">{currentWeb?.name}</strong> {currentSub ? `+ ${currentSub.name}` : ''}
+                  </div>
+                  <div className="text-right">
+                    <span className="text-zinc-500 block">Σύνολο:</span>
+                    <strong className="text-white text-sm">{totalPrice}€</strong>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium opacity-80 mb-1">{t.formName}</label>
+                  <input type="text" required placeholder="Γιάννης Παπαδόπουλος" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-xs placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500" />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium opacity-80 mb-1">{t.formEmail}</label>
+                  <input type="email" required placeholder="example@domain.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-xs placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500" />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium opacity-80 mb-1">{t.formService}</label>
+                  <input type="text" placeholder="π.χ. Marketplace Website & Maintenance" value={formData.service} onChange={(e) => setFormData({ ...formData, service: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-xs placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500" />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium opacity-80 mb-1">{t.formMsg}</label>
+                  <textarea rows={4} required placeholder={t.formPlaceholder} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-xs placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 resize-none" />
+                </div>
+
+                <button type="submit" disabled={isSubmitting} className="w-full py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-black font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-lg shadow-cyan-500/20 cursor-pointer">
+                  <Send className="w-4 h-4" />
+                  <span>{isSubmitting ? t.sending : t.submitBtn}</span>
+                </button>
+              </form>
+            )}
           </div>
-
-          <form onSubmit={handleContactSubmit} className="space-y-5">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <div>
-                <label className="block text-xs font-medium opacity-80 mb-2">{t.formName}</label>
-                <input type="text" required placeholder="Γιάννης Παπαδόπουλος" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-sm placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 transition-all" />
-              </div>
-              <div>
-                <label className="block text-xs font-medium opacity-80 mb-2">{t.formEmail}</label>
-                <input type="email" required placeholder="example@domain.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-sm placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 transition-all" />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium opacity-80 mb-2">{t.formService}</label>
-              <input type="text" required placeholder="Θέμα επικοινωνίας" value={formData.service} onChange={(e) => setFormData({ ...formData, service: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-sm placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 transition-all" />
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium opacity-80 mb-2">{t.formMsg}</label>
-              <textarea required rows={4} placeholder={t.formPlaceholder} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-sm placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 transition-all resize-none" />
-            </div>
-
-            <button type="submit" disabled={isSubmitting} className="flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-black font-bold text-sm transition-all duration-300 shadow hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] hover:-translate-y-1 hover:scale-[1.01] active:scale-[0.98] sm:active:scale-95 cursor-pointer">
-              <Send className="w-4 h-4" />
-              <span>{isSubmitting ? t.sending : t.submitBtn}</span>
-            </button>
-          </form>
-        </motion.section>
+        )}
 
       </main>
 
-      {/* TECH BUBBLE MODAL RENDER */}
-      <TechBubbleModal
-        isOpen={!!activeBubble}
-        onClose={() => setActiveBubble(null)}
-        title={activeBubble?.title || ""}
-        date={activeBubble?.date || ""}
-        content={activeBubble?.content || ""}
-      />
-
+      <TechBubbleModal isOpen={!!activeBubble} onClose={() => setActiveBubble(null)} title={activeBubble?.title || ""} date={activeBubble?.date || ""} content={activeBubble?.content || ""} />
       <Footer />
     </div>
   );
