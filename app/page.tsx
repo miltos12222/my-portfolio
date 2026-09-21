@@ -200,8 +200,6 @@ export default function Home() {
   const [lang, setLang] = useState<"gr" | "en">("gr");
   const t = translations[lang];
 
-  const [theme, setTheme] = useState<"dark" | "cyberpunk" | "light">("dark");
-
   const [infraOpen, setInfraOpen] = useState(false);
   const [webOpen, setWebOpen] = useState(false);
   const [ethicOpen, setEthicOpen] = useState(false);
@@ -225,7 +223,7 @@ export default function Home() {
     { name: "MariaDB & Docker", type: "Database & Containers", icon: <Database className="w-5 h-5 text-purple-400" />, specs: "Containerized Microservices", desc: "Οργάνωση υπηρεσιών σε Docker containers με αυτόνομα persistent volumes." },
   ];
 
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", service: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // --- MECHANICAL KEYBOARD TYPING SOUND SYNTHESIZER ---
@@ -396,7 +394,7 @@ export default function Home() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          serviceTitle: formData.name,
+          serviceTitle: formData.service,
           servicePrice: "General Inquiry",
           message: formData.message,
         }),
@@ -404,7 +402,7 @@ export default function Home() {
       const data = await res.json();
       if (res.ok && !data.error) {
         toast.success(t.successMsg);
-        setFormData({ name: "", email: "", message: "" });
+        setFormData({ name: "", email: "", service: "", message: "" });
       } else {
         toast.error(`${t.errorMsg} (${data.error || "Unknown Error"})`);
       }
@@ -416,8 +414,8 @@ export default function Home() {
     }
   };
 
-  const themeBg = theme === 'light' ? 'bg-slate-50 text-slate-900' : theme === 'cyberpunk' ? 'bg-[#050b05] text-[#00ff66]' : 'bg-[#0b0c10] text-[#e5e7eb]';
-  const cardBg = theme === 'light' ? 'bg-white border-slate-200 text-slate-800 shadow-md' : theme === 'cyberpunk' ? 'bg-[#0a140a] border-[#00ff66]/30 text-[#00ff66]' : 'bg-white/[0.03] border-white/15 text-[#e5e7eb]';
+  const themeBg = "bg-[#0b0c10] text-[#e5e7eb]";
+  const cardBg = "bg-white/[0.03] border-white/15 text-[#e5e7eb]";
 
   return (
     <div className={`relative min-h-screen ${themeBg} selection:bg-cyan-500/25 selection:text-white w-full overflow-x-hidden transition-colors duration-300`}>
@@ -428,41 +426,35 @@ export default function Home() {
       <main className="relative w-full pt-28 sm:pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12">
 
         {/* Top Controls: Perfectly Centered & Wrapped for Mobile */}
-        <div className="flex flex-wrap justify-center items-center gap-2.5 sm:gap-3 mb-6 reveal-on-scroll">
-          <div className="flex items-center gap-1 bg-white/[0.05] border border-white/10 p-1 rounded-xl shadow">
-            <button onClick={() => setTheme('dark')} title="Dark Mode" className={`p-2 rounded-lg text-xs transition-all cursor-pointer ${theme === 'dark' ? 'bg-cyan-500 text-black font-bold shadow' : 'opacity-60 hover:opacity-100'}`}><Moon className="w-3.5 h-3.5" /></button>
-            <button onClick={() => setTheme('cyberpunk')} title="Cyberpunk Matrix Mode" className={`p-2 rounded-lg text-xs transition-all cursor-pointer ${theme === 'cyberpunk' ? 'bg-[#00ff66] text-black font-bold shadow' : 'opacity-60 hover:opacity-100'}`}><Zap className="w-3.5 h-3.5" /></button>
-            <button onClick={() => setTheme('light')} title="Light Mode" className={`p-2 rounded-lg text-xs transition-all cursor-pointer ${theme === 'light' ? 'bg-blue-600 text-white font-bold shadow' : 'opacity-60 hover:opacity-100'}`}><Sun className="w-3.5 h-3.5" /></button>
-          </div>
-
-          <a href="https://calendly.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-xs font-bold text-emerald-300 transition-all shadow-lg cursor-pointer">
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center items-center gap-2.5 sm:gap-3 mb-6 reveal-on-scroll">
+          <a href="https://calendly.com" target="_blank" rel="noopener noreferrer" className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-xs font-bold text-emerald-300 transition-all shadow-lg cursor-pointer">
             <Calendar className="w-4 h-4 text-emerald-400" />
             <span>{t.bookCall}</span>
           </a>
 
-          <a href="/donate" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-pink-500/20 hover:bg-pink-500/30 border border-pink-500/40 text-xs font-bold text-pink-300 transition-all shadow-lg cursor-pointer hover:scale-105">
+          <a href="/donate" className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-pink-500/20 hover:bg-pink-500/30 border border-pink-500/40 text-xs font-bold text-pink-300 transition-all shadow-lg cursor-pointer hover:scale-105">
             <Coffee className="w-4 h-4 text-pink-400" />
             <span>{t.donateBtn}</span>
           </a>
 
-          <button onClick={() => window.dispatchEvent(new Event("open-command-palette"))} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all shadow-lg cursor-pointer group">
+          <button onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true }))} className="col-span-2 sm:col-span-1 flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all shadow-lg cursor-pointer group">
             <Terminal className="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform" />
             <span>Μενού (⌘K)</span>
           </button>
 
-          <button onClick={() => setLang(lang === "gr" ? "en" : "gr")} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all shadow-lg cursor-pointer">
+          <button onClick={() => setLang(lang === "gr" ? "en" : "gr")} className="col-span-2 sm:col-span-1 flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] text-xs font-bold transition-all shadow-lg cursor-pointer">
             <Globe className="w-4 h-4 text-cyan-400" />
             <span>{lang === "gr" ? "🇬🇧 EN" : "🇬🇷 GR"}</span>
           </button>
         </div>
 
         {/* Navigation Switcher Tabs */}
-        <div className="flex justify-center items-center gap-3 mb-6 reveal-on-scroll">
-          <a href="/" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500 text-black text-xs font-bold transition-all shadow-lg shadow-cyan-500/20 cursor-pointer">
+        <div className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 mb-6 reveal-on-scroll">
+          <a href="/" className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-cyan-500 text-black text-xs font-bold transition-all shadow-lg shadow-cyan-500/20 cursor-pointer">
             <Briefcase className="w-3.5 h-3.5" />
             <span>Βιογραφικό & Projects (Active)</span>
           </a>
-          <a href="/services" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all cursor-pointer">
+          <a href="/services" className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-zinc-300 transition-all cursor-pointer">
             <ShoppingBag className="w-3.5 h-3.5 text-cyan-400" />
             <span>Agency & Υπηρεσίες</span>
           </a>
@@ -587,8 +579,8 @@ export default function Home() {
                 key={i}
                 onClick={() => setSelectedNode(node)}
                 className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between space-y-3 ${selectedNode?.name === node.name
-                    ? "bg-cyan-500/15 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.15)] scale-[1.02]"
-                    : "bg-white/[0.02] border-white/10 hover:bg-white/[0.05]"
+                  ? "bg-cyan-500/15 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.15)] scale-[1.02]"
+                  : "bg-white/[0.02] border-white/10 hover:bg-white/[0.05]"
                   }`}
               >
                 <div className="flex items-center justify-between">
@@ -873,7 +865,7 @@ export default function Home() {
 
             <div>
               <label className="block text-xs font-medium opacity-80 mb-2">{t.formService}</label>
-              <input type="text" required placeholder="Θέμα επικοινωνίας" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-sm placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 transition-all" />
+              <input type="text" required placeholder="Θέμα επικοινωνίας" value={formData.service} onChange={(e) => setFormData({ ...formData, service: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-sm placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 transition-all" />
             </div>
 
             <div>
