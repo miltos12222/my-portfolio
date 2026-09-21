@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingCart, X, Trash2, Send, CheckCircle2, Briefcase } from "lucide-react";
+import { ShoppingCart, X, Trash2, Send, Briefcase } from "lucide-react";
 import { toast } from "sonner";
 
 interface CartItem {
@@ -113,14 +113,15 @@ export default function GlobalCart() {
 
     return (
         <>
-            {/* Floating Cart Trigger Button */}
-            <div className="fixed bottom-6 right-6 z-40">
+            {/* Floating Cart Trigger Button - Υπερυψωμένο για να μην επικαλύπτει το chat widget */}
+            <div className="fixed bottom-20 sm:bottom-24 right-4 sm:right-6 z-40">
                 <button
                     onClick={() => setIsOpen(true)}
-                    className="relative flex items-center gap-2.5 px-5 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-black font-bold text-xs shadow-[0_10px_30px_rgba(6,182,212,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+                    className="relative flex items-center gap-2.5 px-4 sm:px-5 py-3 sm:py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-black font-bold text-xs shadow-[0_10px_30px_rgba(6,182,212,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
                 >
                     <ShoppingCart className="w-4 h-4" />
                     <span className="hidden sm:inline">Καλάθι / Offer Hub</span>
+                    <span className="sm:hidden">Offer Hub</span>
                     {totalCount > 0 && (
                         <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 text-white font-mono text-[10px] flex items-center justify-center font-bold shadow-md animate-bounce">
                             {totalCount}
