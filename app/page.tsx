@@ -715,7 +715,7 @@ export default function Home() {
                 ref={scrollContainerRef}
                 className="flex gap-5 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-cyan-500/30 scroll-smooth"
               >
-                {/* Card 1: Receipt Scanner */}
+                {/* Card 1: Receipt Scanner (CORRECTED LINK) */}
                 <div className="min-w-[300px] sm:min-w-[380px] snap-center p-6 rounded-3xl bg-black/60 border border-white/15 flex flex-col justify-between space-y-4 transition-all duration-300 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_rgba(6,182,212,0.2)]">
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
