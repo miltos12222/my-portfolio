@@ -599,6 +599,7 @@ export default function Home() {
                   </div>
                 </div>
 
+                {/* OVERVIEW ACTION BUTTONS (INCLUDES BOTH UTILITY HUB & RECEIPT SCANNER) */}
                 <div className="z-10 flex flex-wrap justify-center sm:justify-start items-center gap-3 mt-8 pt-6 border-t border-white/10">
                   <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-medium transition-all"><GithubIcon className="w-4 h-4" /><span>GitHub</span></a>
                   <a href="https://www.linkedin.com/in/miltos-papageorgiou-740990438" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A66C2]/20 hover:bg-[#0A66C2]/30 border border-[#0A66C2]/40 text-xs font-medium text-blue-300 transition-all"><LinkedinIcon className="w-4 h-4 text-[#0A66C2]" /><span>LinkedIn</span></a>
@@ -608,6 +609,12 @@ export default function Home() {
                   <a href="https://miltos-utility-hub.vercel.app" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500/20 to-purple-500/20 hover:from-cyan-500/30 hover:to-purple-500/30 border border-cyan-500/40 text-xs font-bold text-cyan-300 transition-all shadow-[0_0_20px_rgba(6,182,212,0.15)]">
                     <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
                     <span>AI Utility Hub</span>
+                  </a>
+
+                  {/* RECEIPT SCANNER LINK */}
+                  <a href="https://receipt-scanner-five-mu.vercel.app/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 hover:from-emerald-500/30 hover:to-cyan-500/30 border border-emerald-500/40 text-xs font-bold text-emerald-300 transition-all shadow-[0_0_20px_rgba(16,185,129,0.15)]">
+                    <Sparkles className="w-4 h-4 text-emerald-400 animate-pulse" />
+                    <span>Receipt Scanner App</span>
                   </a>
 
                   <button onClick={() => setActiveTab('contact')} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-xs font-medium text-cyan-300 transition-all"><Mail className="w-4 h-4" /><span>{t.contactBtn}</span></button>
@@ -715,7 +722,7 @@ export default function Home() {
                 ref={scrollContainerRef}
                 className="flex gap-5 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-cyan-500/30 scroll-smooth"
               >
-                {/* Card 1: Receipt Scanner (CORRECTED LINK) */}
+                {/* Card 1: Receipt Scanner */}
                 <div className="min-w-[300px] sm:min-w-[380px] snap-center p-6 rounded-3xl bg-black/60 border border-white/15 flex flex-col justify-between space-y-4 transition-all duration-300 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_rgba(6,182,212,0.2)]">
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
