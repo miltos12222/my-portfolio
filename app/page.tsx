@@ -214,16 +214,26 @@ export default function Home() {
   const [lang, setLang] = useState<"gr" | "en">("gr");
   const t = translations[lang];
 
-  // Tab Navigation State (Home, CV, Marketplace, Contact)
   const [activeTab, setActiveTab] = useState<'home' | 'cv' | 'marketplace' | 'contact'>('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Marketplace & Subscription State
   const [selectedWebPackage, setSelectedWebPackage] = useState(1);
   const [selectedSubPackage, setSelectedSubPackage] = useState<number | null>(null);
   const [checkoutComplete, setCheckoutComplete] = useState(false);
 
-  // Live Athens Time State
+  // Carousel ref for horizontal scrolling
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollCarousel = (direction: 'left' | 'right') => {
+    playNeuralSound('click');
+    if (scrollContainerRef.current) {
+      const scrollAmount = 350;
+      scrollContainerRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   const [athensTime, setAthensTime] = useState("");
   useEffect(() => {
     const updateTime = () => {
@@ -348,7 +358,7 @@ export default function Home() {
     output: (
       <div className="pl-2 pt-1 flex gap-4">
         <div className="text-cyan-500 font-bold hidden sm:block">
-          <pre>{`   .---.\n  /   <span> </span> \\\n  \\.@-@./\n  /   _   \\\n //     \\\\`}</pre>
+          <pre>{`   .---.\n  /     \\\n  \\.@-@./\n  /  _  \\\n //     \\\\`}</pre>
         </div>
         <div className="space-y-1">
           <p><span className="text-cyan-400 font-bold">OS:</span> Debian GNU/Linux 12 (bookworm)</p>
@@ -467,7 +477,7 @@ export default function Home() {
 
       <Navbar />
 
-      {/* TOP-LEFT FLOATING NAVIGATION (DESKTOP & MOBILE RESPONSIVE DRAWER) */}
+      {/* TOP-LEFT FLOATING NAVIGATION */}
       <header className="fixed top-20 left-4 z-50 flex items-center gap-4">
         <nav className="hidden md:flex items-center gap-1 bg-[#0b0c10]/90 backdrop-blur-xl border border-white/15 p-1.5 rounded-full shadow-2xl">
           <button
@@ -496,7 +506,6 @@ export default function Home() {
           </button>
         </nav>
 
-        {/* Mobile Hamburger Button (Top-Left 3 dots / lines menu) */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="md:hidden p-3 bg-[#0b0c10]/95 backdrop-blur-2xl border border-white/20 rounded-full text-white shadow-2xl flex items-center justify-center"
@@ -506,37 +515,20 @@ export default function Home() {
         </button>
       </header>
 
-      {/* COMPREHENSIVE MOBILE FULL MENU (DROPDOWN / DRAWER) CONTAINING EVERYTHING */}
       {mobileMenuOpen && (
         <div className="fixed inset-x-4 top-36 z-50 bg-[#0b0c10]/95 backdrop-blur-2xl border border-cyan-500/40 rounded-3xl p-5 flex flex-col gap-3 shadow-2xl md:hidden animate-in fade-in slide-in-from-top-4">
           <div className="text-[10px] font-mono text-cyan-400 uppercase font-bold tracking-wider pb-1 border-b border-white/10">
             [ 📱 Mobile Navigation Hub ]
           </div>
-
           <button onClick={() => { setActiveTab('home'); setMobileMenuOpen(false); }} className="flex items-center gap-3 p-3 rounded-2xl bg-white/[0.04] hover:bg-cyan-500/20 border border-white/10 text-left text-xs font-bold transition-all">
             <Globe className="w-4 h-4 text-cyan-400" /> <span>Αρχική & Overview</span>
           </button>
-
           <button onClick={() => { setActiveTab('cv'); setMobileMenuOpen(false); }} className="flex items-center gap-3 p-3 rounded-2xl bg-white/[0.04] hover:bg-cyan-500/20 border border-white/10 text-left text-xs font-bold transition-all">
             <User className="w-4 h-4 text-purple-400" /> <span>Βιογραφικό & Projects</span>
           </button>
-
           <button onClick={() => { setActiveTab('marketplace'); setMobileMenuOpen(false); }} className="flex items-center gap-3 p-3 rounded-2xl bg-white/[0.04] hover:bg-cyan-500/20 border border-white/10 text-left text-xs font-bold transition-all">
             <ShoppingBag className="w-4 h-4 text-emerald-400" /> <span>Agency Web & Cloud (Marketplace)</span>
           </button>
-
-          <a href="/services" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-2xl bg-white/[0.04] hover:bg-cyan-500/20 border border-white/10 text-left text-xs font-bold transition-all">
-            <Server className="w-4 h-4 text-blue-400" /> <span>DevOps & Cloud Solutions</span>
-          </a>
-
-          <a href="/services" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-2xl bg-white/[0.04] hover:bg-cyan-500/20 border border-white/10 text-left text-xs font-bold transition-all">
-            <Cpu className="w-4 h-4 text-amber-400" /> <span>Custom PC & Hardware</span>
-          </a>
-
-          <a href="/donate" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-2xl bg-white/[0.04] hover:bg-pink-500/20 border border-white/10 text-left text-xs font-bold transition-all">
-            <Coffee className="w-4 h-4 text-pink-400" /> <span>Support & Donate ☕</span>
-          </a>
-
           <button onClick={() => { setActiveTab('contact'); setMobileMenuOpen(false); }} className="flex items-center gap-3 p-3 rounded-2xl bg-cyan-500 text-black text-left text-xs font-bold transition-all shadow-lg shadow-cyan-500/30">
             <Mail className="w-4 h-4" /> <span>Επικοινωνία / Αίτηση</span>
           </button>
@@ -548,7 +540,6 @@ export default function Home() {
         {/* ================= VIEW 1: HOME ================= */}
         {activeTab === 'home' && (
           <div className="space-y-12 animate-in fade-in duration-300">
-            {/* Top Controls */}
             <motion.div variants={fadeUp} initial="hidden" animate="visible" className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center items-center gap-2.5 sm:gap-3 mb-6">
               <a href="https://calendly.com" target="_blank" rel="noopener noreferrer" onClick={() => playNeuralSound('click')} className="flex justify-center items-center gap-2 px-4 py-3 sm:py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-xs font-bold text-emerald-300 transition-all duration-300 hover:-translate-y-1 hover:scale-105 active:scale-95 cursor-pointer">
                 <Calendar className="w-4 h-4 text-emerald-400" />
@@ -608,13 +599,12 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Restored Social & Contact Links + NEW AI UTILITY HUB LINK */}
                 <div className="z-10 flex flex-wrap justify-center sm:justify-start items-center gap-3 mt-8 pt-6 border-t border-white/10">
                   <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-medium transition-all"><GithubIcon className="w-4 h-4" /><span>GitHub</span></a>
                   <a href="https://www.linkedin.com/in/miltos-papageorgiou-740990438" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A66C2]/20 hover:bg-[#0A66C2]/30 border border-[#0A66C2]/40 text-xs font-medium text-blue-300 transition-all"><LinkedinIcon className="w-4 h-4 text-[#0A66C2]" /><span>LinkedIn</span></a>
                   <a href="/cv.pdf" download className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-xs font-medium text-purple-300 transition-all"><Download className="w-4 h-4" /><span>{t.cvBtn}</span></a>
 
-                  {/* NEW UTILITY HUB BUTTON */}
+                  {/* UTILITY HUB LINK */}
                   <a href="https://miltos-utility-hub.vercel.app" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500/20 to-purple-500/20 hover:from-cyan-500/30 hover:to-purple-500/30 border border-cyan-500/40 text-xs font-bold text-cyan-300 transition-all shadow-[0_0_20px_rgba(6,182,212,0.15)]">
                     <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
                     <span>AI Utility Hub</span>
@@ -624,7 +614,7 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              {/* Self-Hosted Card with Restored Live Telemetry HUD */}
+              {/* Self-Hosted Card with Live Telemetry HUD */}
               <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60`}>
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -683,79 +673,106 @@ export default function Home() {
               </motion.div>
             </motion.section>
 
-            {/* ================= NEW DEDICATED SECTION: NEXT-GEN AI UTILITY HUB SPOTLIGHT WITH ANIMATIONS ================= */}
+            {/* ================= HORIZONTAL SCROLLING CAROUSEL SPOTLIGHT (UTILITY HUB & RECEIPT SCANNER) ================= */}
             <motion.section
               variants={fadeUp}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.1 }}
-              className="relative rounded-3xl border border-cyan-500/30 bg-gradient-to-br from-cyan-950/20 via-[#0b0c10] to-purple-950/20 p-8 sm:p-10 overflow-hidden shadow-2xl transition-all duration-300 hover:border-cyan-500/50"
+              className="relative rounded-3xl border border-cyan-500/30 bg-gradient-to-br from-cyan-950/20 via-[#0b0c10] to-purple-950/20 p-6 sm:p-10 overflow-hidden shadow-2xl space-y-6"
             >
-              <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
-
-              <div className="relative z-10 space-y-6">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono font-bold">
-                  <Sparkles className="w-4 h-4" /> Project Spotlight & Micro-SaaS
-                </div>
-
-                <div className="space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="space-y-2">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono font-bold">
+                    <Sparkles className="w-4 h-4" /> Project Spotlight & Micro-SaaS
+                  </div>
                   <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                    Next-Gen AI Utility Hub (2030 Edition)
+                    Featured Micro-SaaS & Live Apps
                   </h2>
-                  <p className="text-sm sm:text-base text-zinc-300 leading-relaxed max-w-3xl">
-                    Αυτή η νέα πλατφόρμα δημιουργήθηκε με στόχο να προσφέρει μια αστραπιαία, μηδενικών διαφημίσεων (zero-ads) σουίτα εργαλείων, συνδυάζοντας βασικά καθημερινά utilities (όπως URL Shortener, Password & QR Generators) με προηγμένες υπηρεσίες Τεχνητής Νοημοσύνης (AI Business Plans, Smart Contracts & CV Builders).
-                  </p>
                 </div>
 
-                {/* ANIMATED INFO BOXES */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                  <motion.div
-                    variants={fadeUp}
-                    whileHover={{ scale: 1.03, y: -4 }}
-                    className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 transition-all shadow-md hover:border-cyan-500/40"
+                {/* Carousel Navigation Buttons */}
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => scrollCarousel('left')}
+                    className="p-2.5 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 text-white transition-all active:scale-90 cursor-pointer"
+                    aria-label="Scroll Left"
                   >
-                    <span className="text-cyan-400 font-bold text-xs font-mono">⚡ True Client-Side AI</span>
-                    <p className="text-xs text-zinc-400">Δυναμική παραγωγή επαγγελματικών εγγράφων χωρίς εξωτερικά κόστη API billing.</p>
-                  </motion.div>
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={() => scrollCarousel('right')}
+                    className="p-2.5 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 text-white transition-all active:scale-90 cursor-pointer"
+                    aria-label="Scroll Right"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
 
-                  <motion.div
-                    variants={fadeUp}
-                    whileHover={{ scale: 1.03, y: -4 }}
-                    className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 transition-all shadow-md hover:border-purple-500/40"
-                  >
-                    <span className="text-purple-400 font-bold text-xs font-mono">💳 Revolut Pay Integration</span>
-                    <p className="text-xs text-zinc-400">Απλό, άμεσο και ασφαλές μοντέλο Pay-Per-Use μέσω προσωπικού Revolut link.</p>
-                  </motion.div>
-
-                  <motion.div
-                    variants={fadeUp}
-                    whileHover={{ scale: 1.03, y: -4 }}
-                    className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 transition-all shadow-md hover:border-emerald-500/40"
-                  >
-                    <span className="text-emerald-400 font-bold text-xs font-mono">🛡️ Anti-Screenshot Previews</span>
-                    <p className="text-xs text-zinc-400">Προστατευμένες προεπισκοπήσεις με θόλωση και ξεκλείδωμα καθαρού PDF με window.print().</p>
-                  </motion.div>
+              {/* Horizontal Scroll Container */}
+              <div
+                ref={scrollContainerRef}
+                className="flex gap-5 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-cyan-500/30 scroll-smooth"
+              >
+                {/* Card 1: Receipt Scanner */}
+                <div className="min-w-[300px] sm:min-w-[380px] snap-center p-6 rounded-3xl bg-black/60 border border-white/15 flex flex-col justify-between space-y-4 transition-all duration-300 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_rgba(6,182,212,0.2)]">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold">Live v1.2</span>
+                      <span className="text-xs font-mono text-cyan-400">OCR & AI</span>
+                    </div>
+                    <h3 className="text-lg font-bold text-white">Receipt Scanner App</h3>
+                    <p className="text-xs text-zinc-300 leading-relaxed">
+                      Σάρωση αποδείξεων με OCR και αυτόματη εξαγωγή οικονομικών στοιχείων για άμεσο λογιστικό έλεγχο και οργάνωση.
+                    </p>
+                  </div>
+                  <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+                    <a href="https://receipt-scanner-five-mu.vercel.app/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs transition-all shadow-md">
+                      <span>Δοκιμή App</span> <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                    <span className="text-[10px] font-mono text-zinc-500">Next.js / OCR</span>
+                  </div>
                 </div>
 
-                <div className="pt-4 flex flex-wrap items-center gap-4">
-                  <a
-                    href="https://miltos-utility-hub.vercel.app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs sm:text-sm transition-all shadow-lg shadow-cyan-500/25 cursor-pointer hover:scale-105 active:scale-95"
-                  >
-                    <span>Επίσκεψη στο Live Utility Hub</span>
-                    <ExternalLink className="w-4 h-4" />
-                  </a>
-                  <a
-                    href="https://github.com/miltos12222/utility-hub"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/15 text-xs sm:text-sm font-semibold text-white transition-all hover:scale-105 active:scale-95"
-                  >
-                    <GithubIcon className="w-4 h-4" />
-                    <span>Προβολή Source Code (GitHub)</span>
-                  </a>
+                {/* Card 2: AI Utility Hub */}
+                <div className="min-w-[300px] sm:min-w-[380px] snap-center p-6 rounded-3xl bg-black/60 border border-white/15 flex flex-col justify-between space-y-4 transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_10px_30px_rgba(168,85,247,0.2)]">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 font-bold">2030 Edition</span>
+                      <span className="text-xs font-mono text-purple-400">SaaS Suite</span>
+                    </div>
+                    <h3 className="text-lg font-bold text-white">Next-Gen AI Utility Hub</h3>
+                    <p className="text-xs text-zinc-300 leading-relaxed">
+                      Σουίτα εργαλείων παραγωγικότητας, URL shorteners, password generators και AI Business Plan generators με Revolut Pay.
+                    </p>
+                  </div>
+                  <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+                    <a href="https://miltos-utility-hub.vercel.app" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs transition-all shadow-md">
+                      <span>Επίσκεψη Hub</span> <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                    <span className="text-[10px] font-mono text-zinc-500">React / Tailwind</span>
+                  </div>
+                </div>
+
+                {/* Card 3: Custom Homelab Cloud */}
+                <div className="min-w-[300px] sm:min-w-[380px] snap-center p-6 rounded-3xl bg-black/60 border border-white/15 flex flex-col justify-between space-y-4 transition-all duration-300 hover:border-emerald-500/50 hover:shadow-[0_10px_30px_rgba(16,185,129,0.2)]">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold">Homelab</span>
+                      <span className="text-xs font-mono text-emerald-400">Proxmox VE</span>
+                    </div>
+                    <h3 className="text-lg font-bold text-white">Self-Hosted Nextcloud</h3>
+                    <p className="text-xs text-zinc-300 leading-relaxed">
+                      Private cloud υποδομή αποθήκευσης και αυτόματου συγχρονισμού χιλιάδων φωτογραφιών μέσω Docker και Tailscale VPN.
+                    </p>
+                  </div>
+                  <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+                    <button onClick={() => setActiveTab('marketplace')} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs transition-all shadow-md cursor-pointer">
+                      <span>Agency Υπηρεσίες</span> <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                    <span className="text-[10px] font-mono text-zinc-500">Linux / ZFS</span>
+                  </div>
                 </div>
               </div>
             </motion.section>
@@ -1108,7 +1125,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Testimonials */}
             <div className="space-y-6">
               <h3 className="text-xl font-bold">{t.revTitle}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1133,7 +1149,6 @@ export default function Home() {
               <p className="text-xs text-zinc-400">Επιλέξτε πακέτο ιστοσελίδας και προαιρετική συνδρομή ενημερώσεων.</p>
             </div>
 
-            {/* Web Packages Selector */}
             <div className="space-y-4">
               <h3 className="text-lg font-bold flex items-center gap-2"><Globe className="w-5 h-5 text-cyan-400" /> 1. Επιλέξτε Κατηγορία Ιστοσελίδας</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -1162,7 +1177,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Maintenance Subscriptions Selector */}
             <div className="space-y-4 pt-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-bold flex items-center gap-2"><RefreshCw className="w-5 h-5 text-purple-400" /> 2. Συνδρομή Ενημερώσεων & Υποστήριξης (Maintenance Care)</h3>
@@ -1196,7 +1210,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Checkout Bottom Bar */}
             <div className={`p-6 rounded-3xl ${cardBg} flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl border border-cyan-500/30 bg-gradient-to-r from-cyan-500/5 to-purple-500/5`}>
               <div>
                 <span className="text-xs text-zinc-400 block font-mono">Συνολικό Εκτιμώμενο Κόστος:</span>
