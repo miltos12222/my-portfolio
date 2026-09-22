@@ -269,13 +269,10 @@ export default function Home() {
   const currentSub = subPackages.find(p => p.id === selectedSubPackage);
   const totalPrice = (currentWeb?.price || 0) + (currentSub?.price || 0);
 
-  const [infraOpen, setInfraOpen] = useState(false);
-  const [webOpen, setWebOpen] = useState(false);
-  const [ethicOpen, setEthicOpen] = useState(false);
-  const [project1Open, setProject1Open] = useState(false);
-  const [project2Open, setProject2Open] = useState(false);
   const [stackOpen, setStackOpen] = useState(false);
   const [resilienceOpen, setResilienceOpen] = useState(false);
+  const [project1Open, setProject1Open] = useState(false);
+  const [project2Open, setProject2Open] = useState(false);
 
   const [activeBubble, setActiveBubble] = useState<{ title: string; date: string; content: string } | null>(null);
 
@@ -308,8 +305,6 @@ export default function Home() {
     activeContainers: number;
     tailscaleMesh: string;
     uptime: string;
-    aiSentinel?: string;
-    securityGrade?: string;
   } | null>(null);
 
   useEffect(() => {
@@ -599,7 +594,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* OVERVIEW ACTION BUTTONS (INCLUDES BOTH UTILITY HUB & RECEIPT SCANNER) */}
+                {/* OVERVIEW ACTION BUTTONS (INCLUDES UTILITY HUB, RECEIPT SCANNER & AI SITE AUDITOR) */}
                 <div className="z-10 flex flex-wrap justify-center sm:justify-start items-center gap-3 mt-8 pt-6 border-t border-white/10">
                   <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-medium transition-all"><GithubIcon className="w-4 h-4" /><span>GitHub</span></a>
                   <a href="https://www.linkedin.com/in/miltos-papageorgiou-740990438" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A66C2]/20 hover:bg-[#0A66C2]/30 border border-[#0A66C2]/40 text-xs font-medium text-blue-300 transition-all"><LinkedinIcon className="w-4 h-4 text-[#0A66C2]" /><span>LinkedIn</span></a>
@@ -615,6 +610,12 @@ export default function Home() {
                   <a href="https://receipt-scanner-five-mu.vercel.app/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 hover:from-emerald-500/30 hover:to-cyan-500/30 border border-emerald-500/40 text-xs font-bold text-emerald-300 transition-all shadow-[0_0_20px_rgba(16,185,129,0.15)]">
                     <Sparkles className="w-4 h-4 text-emerald-400 animate-pulse" />
                     <span>Receipt Scanner App</span>
+                  </a>
+
+                  {/* AI SITE AUDITOR LINK */}
+                  <a href="https://ai-site-auditor-rust.vercel.app/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/10 border border-cyan-500/30 hover:bg-cyan-500/20 text-cyan-400 font-bold text-xs transition-all shadow-md cursor-pointer">
+                    <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
+                    <span>AI Site Auditor</span>
                   </a>
 
                   <button onClick={() => setActiveTab('contact')} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-xs font-medium text-cyan-300 transition-all"><Mail className="w-4 h-4" /><span>{t.contactBtn}</span></button>
@@ -680,7 +681,7 @@ export default function Home() {
               </motion.div>
             </motion.section>
 
-            {/* ================= HORIZONTAL SCROLLING CAROUSEL SPOTLIGHT (UTILITY HUB & RECEIPT SCANNER) ================= */}
+            {/* ================= HORIZONTAL SCROLLING CAROUSEL SPOTLIGHT (UTILITY HUB, RECEIPT SCANNER & AI SITE AUDITOR) ================= */}
             <motion.section
               variants={fadeUp}
               initial="hidden"
@@ -722,6 +723,36 @@ export default function Home() {
                 ref={scrollContainerRef}
                 className="flex gap-5 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-cyan-500/30 scroll-smooth"
               >
+                {/* Card 0: AI Site Auditor */}
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  className="min-w-[300px] sm:min-w-[380px] snap-center p-6 rounded-3xl bg-white/[0.03] border border-cyan-500/30 space-y-4 backdrop-blur-xl flex flex-col justify-between shadow-2xl"
+                >
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 font-bold">
+                        AI & Outreach
+                      </span>
+                      <span className="text-xs font-mono text-zinc-500">Next.js / AI</span>
+                    </div>
+                    <h3 className="text-lg font-bold text-white">AI Site Auditor</h3>
+                    <p className="text-xs text-zinc-400 leading-relaxed">
+                      Αυτόματο εργαλείο σάρωσης ιστοσελίδων για ταχύτητα, SEO, ασφάλεια, με παραγωγή επαγγελματικών PDF reports και cold outreach emails.
+                    </p>
+                  </div>
+
+                  <div className="pt-2">
+                    <a
+                      href="https://ai-site-auditor-rust.vercel.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-lg shadow-cyan-500/20 cursor-pointer"
+                    >
+                      <span>Επίσκεψη App</span> <ArrowRight className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                </motion.div>
+
                 {/* Card 1: Receipt Scanner */}
                 <div className="min-w-[300px] sm:min-w-[380px] snap-center p-6 rounded-3xl bg-black/60 border border-white/15 flex flex-col justify-between space-y-4 transition-all duration-300 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_rgba(6,182,212,0.2)]">
                   <div className="space-y-3">
