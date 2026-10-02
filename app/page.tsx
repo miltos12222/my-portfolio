@@ -221,7 +221,6 @@ export default function Home() {
   const [selectedSubPackage, setSelectedSubPackage] = useState<number | null>(null);
   const [checkoutComplete, setCheckoutComplete] = useState(false);
 
-  // Carousel ref for horizontal scrolling
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollCarousel = (direction: 'left' | 'right') => {
     playNeuralSound('click');
@@ -250,6 +249,23 @@ export default function Home() {
     const timer = setInterval(updateTime, 1000);
     return () => clearInterval(timer);
   }, []);
+
+  // ⚡ Live Uptime Counter state (Starts at 14d 7h 14m)
+  const [liveUptimeSecs, setLiveUptimeSecs] = useState(() => (14 * 86400) + (7 * 3600) + (14 * 60));
+  useEffect(() => {
+    const uptimeInterval = setInterval(() => {
+      setLiveUptimeSecs(prev => prev + 1);
+    }, 1000);
+    return () => clearInterval(uptimeInterval);
+  }, []);
+
+  const formatUptime = (totalSeconds: number) => {
+    const d = Math.floor(totalSeconds / 86400);
+    const h = Math.floor((totalSeconds % 86400) / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
+    const s = totalSeconds % 60;
+    return `${d}d ${h}h ${m}m ${s}s`;
+  };
 
   const webPackages = [
     { id: 1, name: "One-Page / Landing Page", pages: "1 Σελίδα", price: 190, desc: "Ιδανικό για γρήγορη προβολή, freelancers & startups." },
@@ -353,12 +369,12 @@ export default function Home() {
     output: (
       <div className="pl-2 pt-1 flex gap-4">
         <div className="text-cyan-500 font-bold hidden sm:block">
-          <pre>{`   .---.\n  /     \\\n  \\.@-@./\n  /  _  \\\n //     \\\\`}</pre>
+          <pre>{`   .---.\n  /     \\\n  \\.@-@./\n  /  _   \\\n //     \\\\`}</pre>
         </div>
         <div className="space-y-1">
           <p><span className="text-cyan-400 font-bold">OS:</span> Debian GNU/Linux 12 (bookworm)</p>
           <p><span className="text-cyan-400 font-bold">Host:</span> Proxmox Virtual Environment</p>
-          <p><span className="text-cyan-400 font-bold">Uptime:</span> 14d 7h (99.9% High Availability)</p>
+          <p><span className="text-cyan-400 font-bold">Uptime:</span> {formatUptime(liveUptimeSecs)} (99.9% High Availability)</p>
           <p><span className="text-cyan-400 font-bold">Stack:</span> Next.js, Tailwind, TypeScript</p>
           <p><span className="text-cyan-400 font-bold">Services:</span> Docker, Tailscale, Nextcloud</p>
           <p><span className="text-emerald-400 bg-emerald-400/10 px-1 py-0.5 rounded">Online & Ready for Hire</span></p>
@@ -472,7 +488,6 @@ export default function Home() {
 
       <Navbar />
 
-      {/* TOP-LEFT FLOATING NAVIGATION */}
       <header className="fixed top-20 left-4 z-50 flex items-center gap-4">
         <nav className="hidden md:flex items-center gap-1 bg-[#0b0c10]/90 backdrop-blur-xl border border-white/15 p-1.5 rounded-full shadow-2xl">
           <button
@@ -532,7 +547,6 @@ export default function Home() {
 
       <main className="relative w-full pt-28 sm:pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12">
 
-        {/* ================= VIEW 1: HOME ================= */}
         {activeTab === 'home' && (
           <div className="space-y-12 animate-in fade-in duration-300">
             <motion.div variants={fadeUp} initial="hidden" animate="visible" className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center items-center gap-2.5 sm:gap-3 mb-6">
@@ -557,7 +571,6 @@ export default function Home() {
               </button>
             </motion.div>
 
-            {/* 3D SPLINE HERO BANNER */}
             <motion.div
               variants={fadeUp}
               initial="hidden"
@@ -573,7 +586,6 @@ export default function Home() {
               <Spline scene="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode" />
             </motion.div>
 
-            {/* OVERVIEW SECTION */}
             <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
               <motion.div variants={fadeUp} className={`group md:col-span-2 md:row-span-2 rounded-3xl ${cardBg} p-8 flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60`}>
                 <div className="flex items-center justify-between z-10 mb-6">
@@ -594,25 +606,21 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* OVERVIEW ACTION BUTTONS (INCLUDES UTILITY HUB, RECEIPT SCANNER & AI SITE AUDITOR) */}
                 <div className="z-10 flex flex-wrap justify-center sm:justify-start items-center gap-3 mt-8 pt-6 border-t border-white/10">
                   <a href="https://github.com/miltos12222" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-medium transition-all"><GithubIcon className="w-4 h-4" /><span>GitHub</span></a>
                   <a href="https://www.linkedin.com/in/miltos-papageorgiou-740990438" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A66C2]/20 hover:bg-[#0A66C2]/30 border border-[#0A66C2]/40 text-xs font-medium text-blue-300 transition-all"><LinkedinIcon className="w-4 h-4 text-[#0A66C2]" /><span>LinkedIn</span></a>
                   <a href="/cv.pdf" download className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-xs font-medium text-purple-300 transition-all"><Download className="w-4 h-4" /><span>{t.cvBtn}</span></a>
 
-                  {/* UTILITY HUB LINK */}
                   <a href="https://miltos-utility-hub.vercel.app" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500/20 to-purple-500/20 hover:from-cyan-500/30 hover:to-purple-500/30 border border-cyan-500/40 text-xs font-bold text-cyan-300 transition-all shadow-[0_0_20px_rgba(6,182,212,0.15)]">
                     <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
                     <span>AI Utility Hub</span>
                   </a>
 
-                  {/* RECEIPT SCANNER LINK */}
                   <a href="https://receipt-scanner-five-mu.vercel.app/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 hover:from-emerald-500/30 hover:to-cyan-500/30 border border-emerald-500/40 text-xs font-bold text-emerald-300 transition-all shadow-[0_0_20px_rgba(16,185,129,0.15)]">
                     <Sparkles className="w-4 h-4 text-emerald-400 animate-pulse" />
                     <span>Receipt Scanner App</span>
                   </a>
 
-                  {/* AI SITE AUDITOR LINK */}
                   <a href="https://ai-site-auditor-rust.vercel.app/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/10 border border-cyan-500/30 hover:bg-cyan-500/20 text-cyan-400 font-bold text-xs transition-all shadow-md cursor-pointer">
                     <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
                     <span>AI Site Auditor</span>
@@ -622,7 +630,6 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              {/* Self-Hosted Card with Live Telemetry HUD */}
               <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60`}>
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -651,9 +658,10 @@ export default function Home() {
                       <span className="text-zinc-500">CPU / RAM:</span>
                       <span className="text-emerald-400">{telemetry ? `${telemetry.cpuUsage} / ${telemetry.memoryUsage}` : "18% / 42%"}</span>
                     </div>
+                    {/* ⚡ LIVE UPTIME COUNTER */}
                     <div className="flex justify-between">
                       <span className="text-zinc-500">Uptime:</span>
-                      <span className="text-purple-400 font-bold">{telemetry ? telemetry.uptime : "14d 7h (99.9%)"}</span>
+                      <span className="text-purple-400 font-bold">{formatUptime(liveUptimeSecs)}</span>
                     </div>
                   </div>
                 </div>
@@ -667,7 +675,6 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              {/* Web Stack Card */}
               <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-purple-500/60`}>
                 <div>
                   <div className="flex items-center justify-between opacity-70 mb-4"><Code2 className="w-5 h-5 text-purple-400 group-hover:scale-110 transition-transform duration-300" /><span className="text-[10px] font-mono uppercase tracking-wider">Development</span></div>
@@ -681,7 +688,6 @@ export default function Home() {
               </motion.div>
             </motion.section>
 
-            {/* ================= HORIZONTAL SCROLLING CAROUSEL SPOTLIGHT (UTILITY HUB, RECEIPT SCANNER & AI SITE AUDITOR) ================= */}
             <motion.section
               variants={fadeUp}
               initial="hidden"
@@ -699,7 +705,6 @@ export default function Home() {
                   </h2>
                 </div>
 
-                {/* Carousel Navigation Buttons */}
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => scrollCarousel('left')}
@@ -718,12 +723,10 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Horizontal Scroll Container */}
               <div
                 ref={scrollContainerRef}
                 className="flex gap-5 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-cyan-500/30 scroll-smooth"
               >
-                {/* Card 0: AI Site Auditor */}
                 <motion.div
                   whileHover={{ scale: 1.02 }}
                   className="min-w-[300px] sm:min-w-[380px] snap-center p-6 rounded-3xl bg-white/[0.03] border border-cyan-500/30 space-y-4 backdrop-blur-xl flex flex-col justify-between shadow-2xl"
@@ -753,7 +756,6 @@ export default function Home() {
                   </div>
                 </motion.div>
 
-                {/* Card 1: Receipt Scanner */}
                 <div className="min-w-[300px] sm:min-w-[380px] snap-center p-6 rounded-3xl bg-black/60 border border-white/15 flex flex-col justify-between space-y-4 transition-all duration-300 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_rgba(6,182,212,0.2)]">
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
@@ -773,7 +775,6 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Card 2: AI Utility Hub */}
                 <div className="min-w-[300px] sm:min-w-[380px] snap-center p-6 rounded-3xl bg-black/60 border border-white/15 flex flex-col justify-between space-y-4 transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_10px_30px_rgba(168,85,247,0.2)]">
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
@@ -793,7 +794,6 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Card 3: Custom Homelab Cloud */}
                 <div className="min-w-[300px] sm:min-w-[380px] snap-center p-6 rounded-3xl bg-black/60 border border-white/15 flex flex-col justify-between space-y-4 transition-all duration-300 hover:border-emerald-500/50 hover:shadow-[0_10px_30px_rgba(16,185,129,0.2)]">
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
@@ -815,7 +815,6 @@ export default function Home() {
               </div>
             </motion.section>
 
-            {/* INTERACTIVE HOMELAB ARCHITECTURE TOPOLOGY SECTION */}
             <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 transition-colors`}>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center shrink-0">
@@ -860,7 +859,6 @@ export default function Home() {
               )}
             </motion.section>
 
-            {/* LIVE LEARNING & ROADMAP HISTORY */}
             <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl border border-purple-500/30 bg-purple-500/[0.03] p-6 sm:p-8 space-y-4`}>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center shrink-0">
@@ -896,7 +894,6 @@ export default function Home() {
               </div>
             </motion.section>
 
-            {/* LIVE GIT CONTRIBUTION STREAM */}
             <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-4`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -932,7 +929,6 @@ export default function Home() {
               </div>
             </motion.section>
 
-            {/* COMMERCIAL SERVICES BANNER */}
             <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="group rounded-3xl border border-cyan-500/40 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left transition-all duration-300 hover:scale-[1.01] hover:-translate-y-1 hover:border-cyan-400">
               <div className="space-y-2">
                 <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider font-bold">Commercial Hub</span>
@@ -944,7 +940,6 @@ export default function Home() {
               </button>
             </motion.section>
 
-            {/* ABOUT ME + INTERACTIVE TERMINAL */}
             <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="about-me" className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-8 flex flex-col justify-center transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-cyan-500/60`}>
                 <h2 className="text-xl font-bold mb-4 group-hover:text-cyan-300 transition-colors">{t.aboutTitle}</h2>
@@ -988,7 +983,6 @@ export default function Home() {
               </motion.div>
             </motion.section>
 
-            {/* INFRASTRUCTURE & RESILIENCE */}
             <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="infrastructure" className={`group rounded-3xl ${cardBg} p-8 space-y-4`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3"><Server className="w-6 h-6 text-cyan-400" /><h2 className="text-xl font-bold">Infrastructure & Homelab Stack</h2></div>
@@ -1007,7 +1001,6 @@ export default function Home() {
               {resilienceOpen && (<div className="pt-4 border-t border-white/10 space-y-2 text-xs opacity-90"><p>• {t.resList1}</p><p>• {t.resList2}</p><p>• {t.resList3}</p></div>)}
             </motion.section>
 
-            {/* PROJECTS SECTION */}
             <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="projects" className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <motion.div variants={fadeUp} className={`group rounded-3xl ${cardBg} p-6 flex flex-col justify-between`}>
                 <div>
@@ -1039,13 +1032,11 @@ export default function Home() {
               </motion.div>
             </motion.section>
 
-            {/* TECH STACK GUARANTEE BAR */}
             <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="rounded-2xl border border-cyan-500/20 bg-cyan-500/[0.03] p-4 flex items-center justify-center gap-3 text-center">
               <ShieldCheck className="w-5 h-5 text-cyan-400 shrink-0" />
               <span className="text-xs font-mono font-medium tracking-wide opacity-90">{t.guaranteeText}</span>
             </motion.section>
 
-            {/* REVIEWS SECTION */}
             <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="reviews" className={`rounded-3xl ${cardBg} p-8 space-y-6`}>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
@@ -1073,7 +1064,6 @@ export default function Home() {
               </div>
             </motion.section>
 
-            {/* FAQ SLIDER SECTION */}
             <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 relative overflow-hidden`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -1099,7 +1089,6 @@ export default function Home() {
               </div>
             </motion.section>
 
-            {/* CONTACT FORM SECTION */}
             <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} id="contact" className={`rounded-3xl ${cardBg} p-8 space-y-6`}>
               <div>
                 <h2 className="text-xl font-bold mb-1">{t.contactTitle}</h2>
@@ -1135,7 +1124,6 @@ export default function Home() {
               </form>
             </motion.section>
 
-            {/* LIVE ATHENS TIME BAR */}
             <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="rounded-2xl border border-cyan-500/20 bg-cyan-500/[0.03] p-4 flex items-center justify-center gap-3 text-center">
               <Clock className="w-4 h-4 text-cyan-400 animate-pulse shrink-0" />
               <span className="text-xs font-mono font-medium tracking-wide opacity-90">
@@ -1145,7 +1133,6 @@ export default function Home() {
           </div>
         )}
 
-        {/* ================= VIEW 2: CV & TESTIMONIALS ================= */}
         {activeTab === 'cv' && (
           <div className="space-y-12 animate-in fade-in duration-300 max-w-4xl mx-auto">
             <div className="text-center space-y-3">
@@ -1178,7 +1165,6 @@ export default function Home() {
           </div>
         )}
 
-        {/* ================= VIEW 3: MARKETPLACE & SUBSCRIPTIONS ================= */}
         {activeTab === 'marketplace' && (
           <div className="space-y-12 animate-in fade-in duration-300 max-w-5xl mx-auto">
             <div className="text-center space-y-3">
@@ -1265,7 +1251,6 @@ export default function Home() {
           </div>
         )}
 
-        {/* ================= VIEW 4: CONTACT / CHECKOUT ================= */}
         {activeTab === 'contact' && (
           <div className="space-y-8 animate-in fade-in duration-300 max-w-2xl mx-auto">
             <div className="text-center space-y-2">
