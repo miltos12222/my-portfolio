@@ -250,12 +250,12 @@ export default function Home() {
     return () => clearInterval(timer);
   }, []);
 
-  // ⚡ Live Uptime Counter με localStorage persistence (δε μηδενίζεται στο refresh)
+  // ⚡ Live Uptime Counter (Αρχική βάση: 30 ημέρες ακριβώς + localStorage persistence)
   const [liveUptimeSecs, setLiveUptimeSecs] = useState(() => {
-    if (typeof window === "undefined") return (14 * 86400) + (7 * 3600) + (14 * 60);
+    if (typeof window === "undefined") return 30 * 86400;
 
     const savedStartTime = localStorage.getItem("proxmox_uptime_start");
-    const initialBase = (14 * 86400) + (7 * 3600) + (14 * 60);
+    const initialBase = 30 * 86400; // 30 ημέρες σε δευτερόλεπτα
 
     if (savedStartTime) {
       const elapsed = Math.floor((Date.now() - Number(savedStartTime)) / 1000);
@@ -274,11 +274,18 @@ export default function Home() {
   }, []);
 
   const formatUptime = (totalSeconds: number) => {
-    const d = Math.floor(totalSeconds / 86400);
-    const h = Math.floor((totalSeconds % 86400) / 3600);
-    const m = Math.floor((totalSeconds % 3600) / 60);
-    const s = totalSeconds % 60;
-    return `${d}d ${h}h ${m}m ${s}s`;
+    const months = Math.floor(totalSeconds / (30 * 86400));
+    const remAfterMonths = totalSeconds % (30 * 86400);
+    const days = Math.floor(remAfterMonths / 86400);
+    const h = Math.floor((remAfterMonths % 86400) / 3600);
+    const m = Math.floor((remAfterMonths % 3600) / 60);
+    const s = remAfterMonths % 60;
+
+    let result = "";
+    if (months > 0) result += `${months}mo `;
+    if (days > 0 || months > 0) result += `${days}d `;
+    result += `${h}h ${m}m ${s}s`;
+    return result;
   };
 
   const webPackages = [
@@ -672,7 +679,7 @@ export default function Home() {
                       <span className="text-zinc-500">CPU / RAM:</span>
                       <span className="text-emerald-400">{telemetry ? `${telemetry.cpuUsage} / ${telemetry.memoryUsage}` : "18% / 42%"}</span>
                     </div>
-                    {/* ⚡ LIVE UPTIME COUNTER */}
+                    {/* ⚡ LIVE UPTIME COUNTER (30+ days continuous) */}
                     <div className="flex justify-between">
                       <span className="text-zinc-500">Uptime:</span>
                       <span className="text-purple-400 font-bold">{formatUptime(liveUptimeSecs)}</span>
