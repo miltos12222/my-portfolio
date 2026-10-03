@@ -250,12 +250,12 @@ export default function Home() {
     return () => clearInterval(timer);
   }, []);
 
-  // ⚡ Live Uptime Counter (Αρχική βάση: 30 ημέρες ακριβώς + localStorage persistence)
+  // ⚡ Live Uptime Counter (30+ days continuous with localStorage)
   const [liveUptimeSecs, setLiveUptimeSecs] = useState(() => {
     if (typeof window === "undefined") return 30 * 86400;
 
     const savedStartTime = localStorage.getItem("proxmox_uptime_start");
-    const initialBase = 30 * 86400; // 30 ημέρες σε δευτερόλεπτα
+    const initialBase = 30 * 86400;
 
     if (savedStartTime) {
       const elapsed = Math.floor((Date.now() - Number(savedStartTime)) / 1000);
@@ -287,6 +287,29 @@ export default function Home() {
     result += `${h}h ${m}m ${s}s`;
     return result;
   };
+
+  // ⚡ Live GitHub Commits Fetcher
+  const [githubCommits, setGithubCommits] = useState<any[]>([
+    { sha: "492763d", message: "feat: upgrade uptime counter to 30+ days and months format", date: "Just now" },
+    { sha: "8b192fa", message: "fix: optimize 3d spline lazy loading & persistent localStorage uptime", date: "1 hour ago" },
+    { sha: "prox_zfs", message: "script: automated ZFS snapshot backup & Tailscale mesh sync", date: "Yesterday" }
+  ]);
+
+  useEffect(() => {
+    fetch("https://api.github.com/repos/miltos12222/utility-hub/commits?per_page=3")
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          const formatted = data.map((item: any) => ({
+            sha: item.sha.substring(0, 7),
+            message: item.commit.message.split("\n")[0],
+            date: new Date(item.commit.author.date).toLocaleDateString("el-GR", { hour: '2-digit', minute: '2-digit' })
+          }));
+          setGithubCommits(formatted);
+        }
+      })
+      .catch(err => console.log("Using fallback static commits:", err));
+  }, []);
 
   const webPackages = [
     { id: 1, name: "One-Page / Landing Page", pages: "1 Σελίδα", price: 190, desc: "Ιδανικό για γρήγορη προβολή, freelancers & startups." },
@@ -915,6 +938,7 @@ export default function Home() {
               </div>
             </motion.section>
 
+            {/* LIVE GIT CONTRIBUTION STREAM (Auto-synced from GitHub API) */}
             <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-4`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -926,27 +950,19 @@ export default function Home() {
                     <p className="text-xs opacity-70">Recent commits, deployments & homelab scripts (GitHub API synced)</p>
                   </div>
                 </div>
-                <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold hidden sm:inline-block">
-                  🟢 Active Today
+                <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold hidden sm:inline-block animate-pulse">
+                  🟢 Live GitHub Sync
                 </span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                <div className="group p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-emerald-500/50 cursor-pointer">
-                  <span className="text-[10px] text-cyan-400 uppercase font-bold">commit #492763d</span>
-                  <p className="text-white text-xs font-sans">feat: upgrade framer motion typescript variants & types</p>
-                  <span className="text-[10px] text-zinc-500">2 hours ago • main branch</span>
-                </div>
-                <div className="group p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-purple-500/50 cursor-pointer">
-                  <span className="text-[10px] text-purple-400 uppercase font-bold">commit #8b192fa</span>
-                  <p className="text-white text-xs font-sans">fix: optimize 3d spline lazy loading & dynamic import</p>
-                  <span className="text-[10px] text-zinc-500">Yesterday • production</span>
-                </div>
-                <div className="group p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-emerald-500/50 cursor-pointer">
-                  <span className="text-[10px] text-emerald-400 uppercase font-bold">script #proxmox_zfs</span>
-                  <p className="text-white text-xs font-sans">Automated ZFS snapshot backup & Tailscale mesh sync</p>
-                  <span className="text-[10px] text-zinc-500">3 days ago • homelab</span>
-                </div>
+                {githubCommits.map((commit, idx) => (
+                  <div key={idx} className="group p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 font-mono text-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-emerald-500/50 cursor-pointer">
+                    <span className="text-[10px] text-cyan-400 uppercase font-bold">commit #{commit.sha}</span>
+                    <p className="text-white text-xs font-sans">{commit.message}</p>
+                    <span className="text-[10px] text-zinc-500">{commit.date} • main branch</span>
+                  </div>
+                ))}
               </div>
             </motion.section>
 
