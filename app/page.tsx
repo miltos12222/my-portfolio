@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag, Network, HardDrive, Shield, Database, Coffee, Menu, X, Clock, RefreshCw, CreditCard, ArrowRight, User, Sparkles, ExternalLink, Wifi, CheckCircle, XCircle, Award, Search, BookOpen, ArrowUp } from "lucide-react";
+import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag, Network, HardDrive, Shield, Database, Coffee, Menu, X, Clock, RefreshCw, CreditCard, ArrowRight, User, Sparkles, ExternalLink, Wifi, CheckCircle, XCircle, Award, Search, BookOpen, ArrowUp, FileText, Activity } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
 import { motion, type Variants, AnimatePresence } from "framer-motion";
@@ -387,7 +387,7 @@ export default function Home() {
 
   // ⚡ Live GitHub Commits Fetcher
   const [githubCommits, setGithubCommits] = useState<any[]>([
-    { sha: "492763d", message: "feat: add floating scroll-to-top button for mobile and desktop", date: "Just now" },
+    { sha: "492763d", message: "feat: add certification exam PDF download and study hub", date: "Just now" },
     { sha: "8b192fa", message: "fix: optimize 3d spline lazy loading & persistent localStorage uptime", date: "1 hour ago" },
     { sha: "prox_zfs", message: "script: automated ZFS snapshot backup & Tailscale mesh sync", date: "Yesterday" }
   ]);
@@ -861,7 +861,7 @@ export default function Home() {
               </div>
             </motion.section>
 
-            {/* ⚡ FEATURE 2 & 3: CERTIFICATION EXAM QUIZ & CHEAT SHEET HUB */}
+            {/* ⚡ FEATURE 2 & 3: CERTIFICATION EXAM QUIZ & CHEAT SHEET HUB (WITH DIRECT PDF DOWNLOAD) */}
             <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 border border-purple-500/30 bg-gradient-to-br from-purple-950/10 via-[#0b0c10] to-cyan-950/10`}>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
@@ -870,18 +870,28 @@ export default function Home() {
                   </div>
                   <div>
                     <h2 className="text-lg sm:text-xl font-bold">Certification Exam Prep & Cheat Sheet Hub</h2>
-                    <p className="text-xs opacity-70">Επίσημες ερωτήσεις πιστοποίησης ΙΕΚ (Δίκτυα, Προγραμματισμός, Υποδομές)</p>
+                    <p className="text-xs opacity-70">Επίσημες ερωτήσεις πιστοποίησης ΙΕΚ & Υλικό Μελέτης</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 bg-black/40 border border-white/10 px-3 py-1.5 rounded-xl">
-                  <Search className="w-4 h-4 text-zinc-400" />
-                  <input
-                    type="text"
-                    placeholder="Αναζήτηση ερωτήσεων..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="bg-transparent border-none text-xs text-white outline-none placeholder:text-zinc-500 w-36 sm:w-48"
-                  />
+                <div className="flex items-center gap-3">
+                  {/* DIRECT PDF DOWNLOAD BUTTON */}
+                  <a
+                    href="/certification-cheat-sheet.pdf"
+                    download
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500 hover:bg-purple-400 text-black font-bold text-xs transition-all shadow-lg shadow-purple-500/20 cursor-pointer"
+                  >
+                    <FileText className="w-4 h-4" /> <span>Λήψη PDF Ερωτήσεων</span>
+                  </a>
+                  <div className="flex items-center gap-2 bg-black/40 border border-white/10 px-3 py-1.5 rounded-xl hidden sm:flex">
+                    <Search className="w-4 h-4 text-zinc-400" />
+                    <input
+                      type="text"
+                      placeholder="Αναζήτηση..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="bg-transparent border-none text-xs text-white outline-none placeholder:text-zinc-500 w-32"
+                    />
+                  </div>
                 </div>
               </div>
 
