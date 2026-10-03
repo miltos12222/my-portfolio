@@ -4,10 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag, Network, HardDrive, Shield, Database, Coffee, Menu, X, Clock, RefreshCw, CreditCard, ArrowRight, User, Sparkles, ExternalLink, Wifi } from "lucide-react";
+import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag, Network, HardDrive, Shield, Database, Coffee, Menu, X, Clock, RefreshCw, CreditCard, ArrowRight, User, Sparkles, ExternalLink, Wifi, CheckCircle, XCircle, Award, Search, BookOpen, ArrowUp } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
-import { motion, type Variants } from "framer-motion";
+import { motion, type Variants, AnimatePresence } from "framer-motion";
 import dynamic from 'next/dynamic';
 import TechBubbleModal from "@/components/TechBubbleModal";
 import { playNeuralSound } from "@/utils/useSoundFX";
@@ -26,7 +26,7 @@ const translations = {
   gr: {
     available: "AVAILABLE FOR HIRE",
     location: "ATHENS, GR",
-    roleDesc: "Computer Science Graduate & Infrastructure Enthusiast. Εξειδίκευση σε self-hosted υποδομές, αυτοματισμούς Linux/Docker και σύγχρονη ανάπτυξη web εφαρμογών.",
+    roleDesc: "Computer Science Graduate & Infrastructure Enthusiast. Εξειδίκευση σε self-hosted υποδομές, αυτοματισμούς Linux/Docker, Δίκτυα και σύγχρονη ανάπτυξη web εφαρμογών.",
     cvBtn: "Λήψη CV",
     contactBtn: "Επικοινωνία",
     bookCall: "Κλείστε Ραντεβού",
@@ -44,12 +44,12 @@ const translations = {
     ethicList1: "Μεθοδική αντιμετώπιση προβλημάτων σε περιβάλλοντα Linux/Homelab.",
     ethicList2: "Συνεχής εκμάθηση νέων τεχνολογιών και αυτοματισμών ροών εργασίας.",
     aboutTitle: "Σχετικά με Εμένα",
-    aboutP1: "Είμαι απόφοιτος Πληροφορικής με έντονο ενδιαφέρον και πρακτική εμπειρία στις υποδομές δικτύων, τη διαχείριση συστημάτων Linux και την ανάπτυξη λογισμικού.",
+    aboutP1: "Είμαι απόφοιτος Πληροφορικής με παράλληλη εξειδίκευση στα Δίκτυα και τις Τηλεπικοινωνίες (ΙΕΚ Ακμή), συνδυάζοντας την ανάπτυξη λογισμικού με τη διαχείριση υποδομών.",
     aboutP2: "Στόχος μου είναι η δημιουργία ασφαλών, γρήγορων και κλιμακούμενων εφαρμογών, αξιοποιώντας σύγχρονα εργαλεία αυτοματισμού και self-hosted αρχιτεκτονικές.",
     learningTitle: "Live Tech Roadmap & History",
     learningSubtitle: "Η συνεχής πορεία μάθησης και τεχνολογικής εξέλιξης:",
     learningItems: [
-      { date: "Τρέχον", text: "Advanced Proxmox Clustering & Kubernetes orchestration." },
+      { date: "Τρέχον", text: "Advanced Proxmox Clustering & Δίκτυα / Τηλεπικοινωνίες (Πιστοποίηση)." },
       { date: "Προηγούμενο", text: "Next.js 14 App Router, Server Actions & Advanced TypeScript." },
       { date: "Βάση", text: "Linux Administration, Docker Networking & Tailscale VPN Mesh." }
     ],
@@ -110,7 +110,7 @@ const translations = {
   en: {
     available: "AVAILABLE FOR HIRE",
     location: "ATHENS, GR",
-    roleDesc: "Computer Science Graduate & Infrastructure Enthusiast. Specialized in self-hosted infrastructure, Linux/Docker automation, and modern web applications.",
+    roleDesc: "Computer Science Graduate & Infrastructure Enthusiast. Specialized in self-hosted infrastructure, Linux/Docker automation, Networks and modern web applications.",
     cvBtn: "Download CV",
     contactBtn: "Contact Me",
     bookCall: "Book a Call",
@@ -128,12 +128,12 @@ const translations = {
     ethicList1: "Methodical troubleshooting in Linux/Homelab environments.",
     ethicList2: "Continuous learning of new technologies and workflow automation.",
     aboutTitle: "About Me",
-    aboutP1: "I am a Computer Science graduate with a strong interest and practical experience in network infrastructure, Linux system administration, and software development.",
+    aboutP1: "I am a Computer Science graduate specializing in Networks and Telecommunications (IEK Akmi), combining software engineering with infrastructure management.",
     aboutP2: "My goal is to create secure, fast, and scalable applications by leveraging modern automation tools and self-hosted architectures.",
     learningTitle: "Live Tech Roadmap & History",
     learningSubtitle: "Continuous learning path and technological evolution:",
     learningItems: [
-      { date: "Current", text: "Advanced Proxmox Clustering & Kubernetes orchestration." },
+      { date: "Current", text: "Advanced Proxmox Clustering & Networks / Telecommunications Certification." },
       { date: "Previous", text: "Next.js 14 App Router, Server Actions & Advanced TypeScript." },
       { date: "Foundation", text: "Linux Administration, Docker Networking & Tailscale VPN Mesh." }
     ],
@@ -221,6 +221,26 @@ export default function Home() {
   const [selectedSubPackage, setSelectedSubPackage] = useState<number | null>(null);
   const [checkoutComplete, setCheckoutComplete] = useState(false);
 
+  // ⚡ Scroll-to-Top Button Visibility State
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
+      if (window.scrollY > scrollTotal * 0.75) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    playNeuralSound('click');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   // ⚡ Geo-IP Visitor State
   const [visitorLocation, setVisitorLocation] = useState("Detecting location...");
   useEffect(() => {
@@ -235,6 +255,68 @@ export default function Home() {
       })
       .catch(() => setVisitorLocation("Athens, GR"));
   }, []);
+
+  // ⚡ Certification Exam Quiz & Cheat Sheet State
+  const certificationQuestions = [
+    {
+      category: "Δίκτυα & Υποδομές",
+      question: "Ποιο πρωτόκολλο χρησιμοποιείται για ασφαλή απομακρυσμένη διαχείριση συσκευών δικτύου μέσω κρυπτογράφησης;",
+      options: ["Telnet", "SSH", "HTTP", "FTP"],
+      correct: 1,
+      explanation: "Το SSH (Secure Shell) παρέχει κρυπτογραφημένη σύνδεση σε αντίθεση με το ανασφαλές Telnet."
+    },
+    {
+      category: "Virtualization & Proxmox",
+      question: "Ποια είναι η κύρια λειτουργία ενός Hypervisor τύπου-1 (Bare-Metal) όπως το Proxmox VE;",
+      options: ["Εκτέλεση εφαρμογών γραφείου", "Απευθείας διαχείριση υλικού (hardware) και εκτέλεση VMs", "Δημιουργία ιστοσελίδων", "Προστασία από ιούς"],
+      correct: 1,
+      explanation: "Ο Hypervisor τύπου-1 τρέχει απευθείας πάνω στο hardware χωρίς ενδιάμεσο λειτουργικό σύστημα."
+    },
+    {
+      category: "VPN & Security",
+      question: "Ποια τεχνολογία αξιοποιείται από το Tailscale για τη δημιουργία secure virtual mesh networks;",
+      options: ["WireGuard", "Bluetooth", "WPA3", "IPv4 Broadcast"],
+      correct: 0,
+      explanation: "Το Tailscale βασίζεται στο υπερταχύχρονο και ασφαλές πρωτόκολλο WireGuard."
+    },
+    {
+      category: "Προγραμματισμός C",
+      question: "Τι εμφανίζει η συνάρτηση printf(\"%d\", 5 / 2); στη γλώσσα C;",
+      options: ["2.5", "2", "3", "Σφάλμα"],
+      correct: 1,
+      explanation: "Επειδή οι αριθμοί είναι ακέραιοι (integer division), η διαίρεση 5 / 2 επιστρέφει το ακέραιο μέρος 2."
+    }
+  ];
+
+  const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
+  const [selectedQuizOption, setSelectedQuizOption] = useState<number | null>(null);
+  const [quizScore, setQuizScore] = useState(0);
+  const [quizFinished, setQuizFinished] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleQuizAnswer = (optionIdx: number) => {
+    playNeuralSound('click');
+    setSelectedQuizOption(optionIdx);
+    if (optionIdx === certificationQuestions[currentQuizIndex].correct) {
+      setQuizScore(prev => prev + 1);
+      playNeuralSound('success');
+    }
+  };
+
+  const handleNextQuizQuestion = () => {
+    playNeuralSound('click');
+    setSelectedQuizOption(null);
+    if (currentQuizIndex + 1 < certificationQuestions.length) {
+      setCurrentQuizIndex(prev => prev + 1);
+    } else {
+      setQuizFinished(true);
+    }
+  };
+
+  const filteredCheatSheet = certificationQuestions.filter(q =>
+    q.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    q.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollCarousel = (direction: 'left' | 'right') => {
@@ -305,7 +387,7 @@ export default function Home() {
 
   // ⚡ Live GitHub Commits Fetcher
   const [githubCommits, setGithubCommits] = useState<any[]>([
-    { sha: "492763d", message: "feat: upgrade uptime counter to 30+ days and months format", date: "Just now" },
+    { sha: "492763d", message: "feat: add floating scroll-to-top button for mobile and desktop", date: "Just now" },
     { sha: "8b192fa", message: "fix: optimize 3d spline lazy loading & persistent localStorage uptime", date: "1 hour ago" },
     { sha: "prox_zfs", message: "script: automated ZFS snapshot backup & Tailscale mesh sync", date: "Yesterday" }
   ]);
@@ -747,6 +829,151 @@ export default function Home() {
               </motion.div>
             </motion.section>
 
+            {/* ⚡ FEATURE 1: LIVE NETWORK PACKET ANIMATOR & TOPOLOGY FLOW */}
+            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 border border-emerald-500/30 bg-gradient-to-r from-emerald-950/10 via-[#0b0c10] to-cyan-950/10`}>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center shrink-0">
+                  <Network className="w-5 h-5 text-emerald-400 animate-pulse" />
+                </div>
+                <div>
+                  <h2 className="text-lg sm:text-xl font-bold">Network & Telecommunications Packet Flow</h2>
+                  <p className="text-xs opacity-70">Live OSI Layer routing: Web Client ➔ Tailscale WireGuard VPN ➔ Proxmox VE Hypervisor</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono text-xs">
+                <div className="p-4 rounded-2xl bg-black/50 border border-white/10 space-y-2 flex flex-col justify-between">
+                  <span className="text-[10px] text-cyan-400 font-bold">[1] CLIENT LAYER</span>
+                  <p className="text-zinc-300">Next.js 14 App Router / SSR Edge Node</p>
+                  <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded w-fit">HTTPS / TLS 1.3</span>
+                </div>
+                <div className="p-4 rounded-2xl bg-black/50 border border-white/10 space-y-2 flex flex-col justify-between relative overflow-hidden">
+                  <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent animate-pulse" />
+                  <span className="text-[10px] text-emerald-400 font-bold">[2] MESH VPN TUNNEL</span>
+                  <p className="text-zinc-300">Tailscale Encrypted WireGuard Mesh Network</p>
+                  <span className="text-[10px] text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded w-fit">Zero Port Exposure</span>
+                </div>
+                <div className="p-4 rounded-2xl bg-black/50 border border-white/10 space-y-2 flex flex-col justify-between">
+                  <span className="text-[10px] text-purple-400 font-bold">[3] HOST HYPERVISOR</span>
+                  <p className="text-zinc-300">Proxmox VE Server & Docker Containers</p>
+                  <span className="text-[10px] text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded w-fit">ZFS Storage & HA</span>
+                </div>
+              </div>
+            </motion.section>
+
+            {/* ⚡ FEATURE 2 & 3: CERTIFICATION EXAM QUIZ & CHEAT SHEET HUB */}
+            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 border border-purple-500/30 bg-gradient-to-br from-purple-950/10 via-[#0b0c10] to-cyan-950/10`}>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center shrink-0">
+                    <Award className="w-5 h-5 text-purple-400 animate-pulse" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg sm:text-xl font-bold">Certification Exam Prep & Cheat Sheet Hub</h2>
+                    <p className="text-xs opacity-70">Επίσημες ερωτήσεις πιστοποίησης ΙΕΚ (Δίκτυα, Προγραμματισμός, Υποδομές)</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 bg-black/40 border border-white/10 px-3 py-1.5 rounded-xl">
+                  <Search className="w-4 h-4 text-zinc-400" />
+                  <input
+                    type="text"
+                    placeholder="Αναζήτηση ερωτήσεων..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="bg-transparent border-none text-xs text-white outline-none placeholder:text-zinc-500 w-36 sm:w-48"
+                  />
+                </div>
+              </div>
+
+              {/* Interactive Quiz Box */}
+              <div className="p-6 rounded-2xl bg-black/60 border border-cyan-500/30 space-y-4 font-mono text-xs">
+                <div className="flex justify-between items-center pb-3 border-b border-white/10">
+                  <span className="text-cyan-400 font-bold uppercase tracking-wider">&gt; interactive_exam_quiz.sh</span>
+                  <span className="text-zinc-400">Ερώτηση {currentQuizIndex + 1} / {certificationQuestions.length}</span>
+                </div>
+
+                {!quizFinished ? (
+                  <div className="space-y-4 pt-2">
+                    <span className="text-[10px] px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">{certificationQuestions[currentQuizIndex].category}</span>
+                    <h3 className="text-sm font-sans font-bold text-white leading-relaxed">
+                      {certificationQuestions[currentQuizIndex].question}
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {certificationQuestions[currentQuizIndex].options.map((option, idx) => {
+                        let btnStyle = "bg-white/[0.03] border-white/10 hover:border-cyan-400 text-zinc-300";
+                        if (selectedQuizOption !== null) {
+                          if (idx === certificationQuestions[currentQuizIndex].correct) {
+                            btnStyle = "bg-emerald-500/20 border-emerald-500 text-emerald-300";
+                          } else if (idx === selectedQuizOption) {
+                            btnStyle = "bg-red-500/20 border-red-500 text-red-300";
+                          }
+                        }
+                        return (
+                          <button
+                            key={idx}
+                            disabled={selectedQuizOption !== null}
+                            onClick={() => handleQuizAnswer(idx)}
+                            className={`p-4 rounded-xl border text-left transition-all duration-300 font-sans text-xs cursor-pointer ${btnStyle}`}
+                          >
+                            {option}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {selectedQuizOption !== null && (
+                      <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} className="p-4 rounded-xl bg-white/[0.04] border border-cyan-500/30 space-y-2">
+                        <p className="text-cyan-300 font-bold flex items-center gap-1.5">
+                          {selectedQuizOption === certificationQuestions[currentQuizIndex].correct ? <CheckCircle className="w-4 h-4 text-emerald-400" /> : <XCircle className="w-4 h-4 text-red-400" />}
+                          Επεξήγηση:
+                        </p>
+                        <p className="text-zinc-300 text-xs font-sans">{certificationQuestions[currentQuizIndex].explanation}</p>
+                        <button
+                          onClick={handleNextQuizQuestion}
+                          className="mt-3 px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs flex items-center gap-2 cursor-pointer shadow-lg shadow-cyan-500/20"
+                        >
+                          <span>Επόμενη Ερώτηση</span> <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                      </motion.div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="p-6 text-center space-y-4">
+                    <Award className="w-12 h-12 text-emerald-400 mx-auto animate-bounce" />
+                    <h3 className="text-lg font-bold text-emerald-300">Ολοκληρώσατε το Quiz Πιστοποίησης!</h3>
+                    <p className="text-xs text-zinc-300">Score: <strong className="text-cyan-400">{quizScore} / {certificationQuestions.length}</strong> σωστές απαντήσεις.</p>
+                    <button
+                      onClick={() => { setCurrentQuizIndex(0); setQuizScore(0); setQuizFinished(false); setSelectedQuizOption(null); }}
+                      className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-white cursor-pointer"
+                    >
+                      Επανάληψη Quiz ↺
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Cheat Sheet List for Classmates */}
+              <div className="space-y-3 pt-2">
+                <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 uppercase font-bold tracking-wider">
+                  <BookOpen className="w-4 h-4" /> [ Study Cheat Sheet για συμφοιτητές & εξετάσεις ]
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {filteredCheatSheet.map((item, index) => (
+                    <div key={index} className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-2 font-sans text-xs">
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold">{item.category}</span>
+                        <span className="text-[10px] font-mono text-emerald-400">✓ Απαντημένο</span>
+                      </div>
+                      <h4 className="font-bold text-white">{item.question}</h4>
+                      <p className="text-zinc-300 text-[11px] bg-white/[0.03] p-2 rounded-xl border border-white/5">
+                        <strong className="text-cyan-400">Σωστή Απάντηση:</strong> {item.options[item.correct]}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.section>
+
             <motion.section
               variants={fadeUp}
               initial="hidden"
@@ -953,7 +1180,7 @@ export default function Home() {
               </div>
             </motion.section>
 
-            {/* LIVE GIT CONTRIBUTION STREAM (Auto-synced from GitHub API) */}
+            {/* LIVE GIT CONTRIBUTION STREAM */}
             <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-4`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -1176,7 +1403,6 @@ export default function Home() {
               </form>
             </motion.section>
 
-            {/* LIVE GEO-IP TERMINAL VISITOR BADGE */}
             <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="rounded-2xl border border-cyan-500/20 bg-cyan-500/[0.03] p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-center">
               <div className="flex items-center gap-2">
                 <Wifi className="w-4 h-4 text-emerald-400 animate-pulse shrink-0" />
@@ -1366,6 +1592,22 @@ export default function Home() {
         )}
 
       </main>
+
+      {/* ⚡ FLOATING SCROLL-TO-TOP BUTTON (Mobile & Desktop Friendly) */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.5, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.5, y: 20 }}
+            onClick={scrollToTop}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 p-3.5 rounded-full bg-cyan-500 text-black shadow-[0_0_30px_rgba(6,182,212,0.5)] border border-cyan-300 hover:bg-cyan-400 transition-all cursor-pointer flex items-center justify-center group"
+            aria-label="Scroll to top"
+          >
+            <ArrowUp className="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       <TechBubbleModal isOpen={!!activeBubble} onClose={() => setActiveBubble(null)} title={activeBubble?.title || ""} date={activeBubble?.date || ""} content={activeBubble?.content || ""} />
       <Footer />
