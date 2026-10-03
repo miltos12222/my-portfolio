@@ -387,7 +387,7 @@ export default function Home() {
 
   // ⚡ Live GitHub Commits Fetcher
   const [githubCommits, setGithubCommits] = useState<any[]>([
-    { sha: "492763d", message: "feat: add smooth hover animations and security headers", date: "Just now" },
+    { sha: "492763d", message: "feat: add smooth hover animations to network & cheat sheet cards", date: "Just now" },
     { sha: "8b192fa", message: "fix: optimize 3d spline lazy loading & persistent localStorage uptime", date: "1 hour ago" },
     { sha: "prox_zfs", message: "script: automated ZFS snapshot backup & Tailscale mesh sync", date: "Yesterday" }
   ]);
@@ -829,31 +829,31 @@ export default function Home() {
               </motion.div>
             </motion.section>
 
-            {/* ⚡ FEATURE 1: LIVE NETWORK PACKET ANIMATOR & TOPOLOGY FLOW */}
-            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 border border-emerald-500/30 bg-gradient-to-r from-emerald-950/10 via-[#0b0c10] to-cyan-950/10`}>
+            {/* ⚡ FEATURE 1: LIVE NETWORK PACKET ANIMATOR & TOPOLOGY FLOW (WITH HOVER ANIMATIONS) */}
+            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`group rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 border border-emerald-500/30 bg-gradient-to-r from-emerald-950/10 via-[#0b0c10] to-cyan-950/10 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.01] hover:border-emerald-500/60 hover:shadow-[0_15px_30px_-5px_rgba(16,185,129,0.2)] cursor-pointer`}>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                   <Network className="w-5 h-5 text-emerald-400 animate-pulse" />
                 </div>
                 <div>
-                  <h2 className="text-lg sm:text-xl font-bold">Network & Telecommunications Packet Flow</h2>
+                  <h2 className="text-lg sm:text-xl font-bold group-hover:text-emerald-300 transition-colors">Network & Telecommunications Packet Flow</h2>
                   <p className="text-xs opacity-70">Live OSI Layer routing: Web Client ➔ Tailscale WireGuard VPN ➔ Proxmox VE Hypervisor</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono text-xs">
-                <div className="p-4 rounded-2xl bg-black/50 border border-white/10 space-y-2 flex flex-col justify-between">
+                <div className="p-4 rounded-2xl bg-black/50 border border-white/10 space-y-2 flex flex-col justify-between transition-all duration-300 hover:border-cyan-400 hover:scale-[1.02]">
                   <span className="text-[10px] text-cyan-400 font-bold">[1] CLIENT LAYER</span>
                   <p className="text-zinc-300">Next.js 14 App Router / SSR Edge Node</p>
                   <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded w-fit">HTTPS / TLS 1.3</span>
                 </div>
-                <div className="p-4 rounded-2xl bg-black/50 border border-white/10 space-y-2 flex flex-col justify-between relative overflow-hidden">
+                <div className="p-4 rounded-2xl bg-black/50 border border-white/10 space-y-2 flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:border-emerald-400 hover:scale-[1.02]">
                   <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent animate-pulse" />
                   <span className="text-[10px] text-emerald-400 font-bold">[2] MESH VPN TUNNEL</span>
                   <p className="text-zinc-300">Tailscale Encrypted WireGuard Mesh Network</p>
                   <span className="text-[10px] text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded w-fit">Zero Port Exposure</span>
                 </div>
-                <div className="p-4 rounded-2xl bg-black/50 border border-white/10 space-y-2 flex flex-col justify-between">
+                <div className="p-4 rounded-2xl bg-black/50 border border-white/10 space-y-2 flex flex-col justify-between transition-all duration-300 hover:border-purple-400 hover:scale-[1.02]">
                   <span className="text-[10px] text-purple-400 font-bold">[3] HOST HYPERVISOR</span>
                   <p className="text-zinc-300">Proxmox VE Server & Docker Containers</p>
                   <span className="text-[10px] text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded w-fit">ZFS Storage & HA</span>
