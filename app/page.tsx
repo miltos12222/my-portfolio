@@ -387,7 +387,7 @@ export default function Home() {
 
   // ⚡ Live GitHub Commits Fetcher
   const [githubCommits, setGithubCommits] = useState<any[]>([
-    { sha: "492763d", message: "feat: add certification exam PDF download and study hub", date: "Just now" },
+    { sha: "492763d", message: "feat: add smooth hover animations to cheat sheet cards", date: "Just now" },
     { sha: "8b192fa", message: "fix: optimize 3d spline lazy loading & persistent localStorage uptime", date: "1 hour ago" },
     { sha: "prox_zfs", message: "script: automated ZFS snapshot backup & Tailscale mesh sync", date: "Yesterday" }
   ]);
@@ -861,7 +861,7 @@ export default function Home() {
               </div>
             </motion.section>
 
-            {/* ⚡ FEATURE 2 & 3: CERTIFICATION EXAM QUIZ & CHEAT SHEET HUB (WITH DIRECT PDF DOWNLOAD) */}
+            {/* ⚡ FEATURE 2 & 3: CERTIFICATION EXAM QUIZ & CHEAT SHEET HUB (WITH SMOOTH HOVER ANIMATED CARDS) */}
             <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 border border-purple-500/30 bg-gradient-to-br from-purple-950/10 via-[#0b0c10] to-cyan-950/10`}>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
@@ -874,11 +874,11 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  {/* DIRECT PDF DOWNLOAD BUTTON */}
+                  {/* DIRECT PDF DOWNLOAD BUTTON WITH SMOOTH HOVER ANIMATION */}
                   <a
                     href="/certification-cheat-sheet.pdf"
                     download
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500 hover:bg-purple-400 text-black font-bold text-xs transition-all shadow-lg shadow-purple-500/20 cursor-pointer"
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-purple-500 hover:bg-purple-400 text-black font-bold text-xs transition-all duration-300 shadow-lg shadow-purple-500/20 hover:-translate-y-1 hover:scale-105 active:scale-95 cursor-pointer"
                   >
                     <FileText className="w-4 h-4" /> <span>Λήψη PDF Ερωτήσεων</span>
                   </a>
@@ -962,20 +962,23 @@ export default function Home() {
                 )}
               </div>
 
-              {/* Cheat Sheet List for Classmates */}
+              {/* Cheat Sheet List with Smooth Hover Animations */}
               <div className="space-y-3 pt-2">
                 <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 uppercase font-bold tracking-wider">
                   <BookOpen className="w-4 h-4" /> [ Study Cheat Sheet για συμφοιτητές & εξετάσεις ]
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {filteredCheatSheet.map((item, index) => (
-                    <div key={index} className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-2 font-sans text-xs">
+                    <div
+                      key={index}
+                      className="group p-5 rounded-2xl bg-black/40 border border-white/10 space-y-2 font-sans text-xs transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-purple-500/60 hover:shadow-[0_15px_30px_-5px_rgba(168,85,247,0.25)] cursor-pointer"
+                    >
                       <div className="flex justify-between items-center">
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold">{item.category}</span>
+                        <span className="text-[10px] font-mono px-2.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold">{item.category}</span>
                         <span className="text-[10px] font-mono text-emerald-400">✓ Απαντημένο</span>
                       </div>
-                      <h4 className="font-bold text-white">{item.question}</h4>
-                      <p className="text-zinc-300 text-[11px] bg-white/[0.03] p-2 rounded-xl border border-white/5">
+                      <h4 className="font-bold text-white group-hover:text-purple-200 transition-colors">{item.question}</h4>
+                      <p className="text-zinc-300 text-[11px] bg-white/[0.03] p-2.5 rounded-xl border border-white/5">
                         <strong className="text-cyan-400">Σωστή Απάντηση:</strong> {item.options[item.correct]}
                       </p>
                     </div>
@@ -1592,7 +1595,7 @@ export default function Home() {
                   <textarea rows={4} required placeholder={t.formPlaceholder} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/15 text-xs placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500 resize-none" />
                 </div>
 
-                <button type="submit" disabled={isSubmitting} className="w-full py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-black font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-lg shadow-cyan-500/20 cursor-pointer">
+                <button type="submit" disabled={isSubmitting} className="w-full py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-black font-bold text-sm flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
                   <Send className="w-4 h-4" />
                   <span>{isSubmitting ? t.sending : t.submitBtn}</span>
                 </button>
