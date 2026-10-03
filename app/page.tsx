@@ -861,7 +861,7 @@ export default function Home() {
               </div>
             </motion.section>
 
-            {/* ⚡ FEATURE 2 & 3: CERTIFICATION EXAM QUIZ & CHEAT SHEET HUB (WITH SMOOTH HOVER ANIMATED CARDS) */}
+            {/* ⚡ FEATURE 2 & 3: CERTIFICATION EXAM QUIZ & CHEAT SHEET HUB (WITH SMOOTH HOVER ANIMATIONS) */}
             <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 border border-purple-500/30 bg-gradient-to-br from-purple-950/10 via-[#0b0c10] to-cyan-950/10`}>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
@@ -1622,7 +1622,7 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      <TechBubbleModal isOpen={!!activeBubble} onClose={() => setActiveBubble(null)} title={activeBubble?.title || ""} date={activeBubble?.date || ""} content={activeBubble?.content || ""} />
+      <TechBubbleModal isOpen={!!activeBubble} onClose={() => setActiveBubble(null)} title={activeBubble?.title || ""} date={activeBubble?.date || ""} content={active`_` || ""} />
       <Footer />
     </div>
   );
