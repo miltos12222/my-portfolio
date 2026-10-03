@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag, Network, HardDrive, Shield, Database, Coffee, Menu, X, Clock, RefreshCw, CreditCard, ArrowRight, User, Sparkles, ExternalLink } from "lucide-react";
+import { Mail, Server, Code2, Cpu, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Star, Send, Terminal, Globe, Download, Calendar, History, ShieldCheck, HelpCircle, Briefcase, ShoppingBag, Network, HardDrive, Shield, Database, Coffee, Menu, X, Clock, RefreshCw, CreditCard, ArrowRight, User, Sparkles, ExternalLink, Wifi } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { toast } from "sonner";
 import { motion, type Variants } from "framer-motion";
@@ -220,6 +220,21 @@ export default function Home() {
   const [selectedWebPackage, setSelectedWebPackage] = useState(1);
   const [selectedSubPackage, setSelectedSubPackage] = useState<number | null>(null);
   const [checkoutComplete, setCheckoutComplete] = useState(false);
+
+  // ⚡ Geo-IP Visitor State
+  const [visitorLocation, setVisitorLocation] = useState("Detecting location...");
+  useEffect(() => {
+    fetch("https://ipapi.co/json/")
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.city && data.country_code) {
+          setVisitorLocation(`${data.city}, ${data.country_code}`);
+        } else {
+          setVisitorLocation("Athens, GR");
+        }
+      })
+      .catch(() => setVisitorLocation("Athens, GR"));
+  }, []);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollCarousel = (direction: 'left' | 'right') => {
@@ -1161,11 +1176,15 @@ export default function Home() {
               </form>
             </motion.section>
 
-            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="rounded-2xl border border-cyan-500/20 bg-cyan-500/[0.03] p-4 flex items-center justify-center gap-3 text-center">
-              <Clock className="w-4 h-4 text-cyan-400 animate-pulse shrink-0" />
-              <span className="text-xs font-mono font-medium tracking-wide opacity-90">
-                Athens, GR (EET) • <span className="text-cyan-400 font-bold">{athensTime || "15:49:46"}</span>
-              </span>
+            {/* LIVE GEO-IP TERMINAL VISITOR BADGE */}
+            <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="rounded-2xl border border-cyan-500/20 bg-cyan-500/[0.03] p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-center">
+              <div className="flex items-center gap-2">
+                <Wifi className="w-4 h-4 text-emerald-400 animate-pulse shrink-0" />
+                <span className="text-xs font-mono font-medium tracking-wide opacity-90">
+                  &gt; Connected from <span className="text-cyan-400 font-bold">{visitorLocation}</span> | Secure Tunnel Established via Tailscale VPN
+                </span>
+              </div>
+              <span className="text-[10px] font-mono opacity-60">Athens, GR (EET) • {athensTime || "15:49:46"}</span>
             </motion.section>
           </div>
         )}
