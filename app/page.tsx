@@ -250,8 +250,22 @@ export default function Home() {
     return () => clearInterval(timer);
   }, []);
 
-  // ⚡ Live Uptime Counter state (Starts at 14d 7h 14m)
-  const [liveUptimeSecs, setLiveUptimeSecs] = useState(() => (14 * 86400) + (7 * 3600) + (14 * 60));
+  // ⚡ Live Uptime Counter με localStorage persistence (δε μηδενίζεται στο refresh)
+  const [liveUptimeSecs, setLiveUptimeSecs] = useState(() => {
+    if (typeof window === "undefined") return (14 * 86400) + (7 * 3600) + (14 * 60);
+
+    const savedStartTime = localStorage.getItem("proxmox_uptime_start");
+    const initialBase = (14 * 86400) + (7 * 3600) + (14 * 60);
+
+    if (savedStartTime) {
+      const elapsed = Math.floor((Date.now() - Number(savedStartTime)) / 1000);
+      return initialBase + elapsed;
+    } else {
+      localStorage.setItem("proxmox_uptime_start", Date.now().toString());
+      return initialBase;
+    }
+  });
+
   useEffect(() => {
     const uptimeInterval = setInterval(() => {
       setLiveUptimeSecs(prev => prev + 1);
