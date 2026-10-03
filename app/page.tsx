@@ -387,7 +387,7 @@ export default function Home() {
 
   // ⚡ Live GitHub Commits Fetcher
   const [githubCommits, setGithubCommits] = useState<any[]>([
-    { sha: "492763d", message: "feat: add smooth hover animations to cheat sheet cards", date: "Just now" },
+    { sha: "492763d", message: "feat: add smooth hover animations and security headers", date: "Just now" },
     { sha: "8b192fa", message: "fix: optimize 3d spline lazy loading & persistent localStorage uptime", date: "1 hour ago" },
     { sha: "prox_zfs", message: "script: automated ZFS snapshot backup & Tailscale mesh sync", date: "Yesterday" }
   ]);
@@ -861,7 +861,7 @@ export default function Home() {
               </div>
             </motion.section>
 
-            {/* ⚡ FEATURE 2 & 3: CERTIFICATION EXAM QUIZ & CHEAT SHEET HUB (WITH SMOOTH HOVER ANIMATIONS) */}
+            {/* ⚡ FEATURE 2 & 3: CERTIFICATION EXAM QUIZ & CHEAT SHEET HUB (WITH SMOOTH HOVER ANIMATED CARDS) */}
             <motion.section variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className={`rounded-3xl ${cardBg} p-6 sm:p-8 space-y-6 border border-purple-500/30 bg-gradient-to-br from-purple-950/10 via-[#0b0c10] to-cyan-950/10`}>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
@@ -1622,7 +1622,7 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      <TechBubbleModal isOpen={!!activeBubble} onClose={() => setActiveBubble(null)} title={activeBubble?.title || ""} date={activeBubble?.date || ""} content={active`_` || ""} />
+      <TechBubbleModal isOpen={!!activeBubble} onClose={() => setActiveBubble(null)} title={activeBubble?.title || ""} date={activeBubble?.date || ""} content={activeBubble?.content || ""} />
       <Footer />
     </div>
   );
