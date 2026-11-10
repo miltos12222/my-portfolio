@@ -90,8 +90,8 @@ export default function DonatePage() {
                                         key={amt}
                                         onClick={() => setCustomAmount(amt.replace("€", ""))}
                                         className={`flex-1 py-2 rounded-xl text-xs font-mono font-bold border transition-all cursor-pointer ${customAmount === amt.replace("€", "")
-                                                ? "bg-purple-500 text-black border-purple-400 shadow-lg"
-                                                : "bg-white/5 border-white/10 text-zinc-300 hover:bg-white/10"
+                                            ? "bg-purple-500 text-black border-purple-400 shadow-lg"
+                                            : "bg-white/5 border-white/10 text-zinc-300 hover:bg-white/10"
                                             }`}
                                     >
                                         {amt}
@@ -100,7 +100,7 @@ export default function DonatePage() {
                             </div>
 
                             <a
-                                href={`https://revolut.me/miltospap`}
+                                href={`https://revolut.me/miltos12222`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer"
