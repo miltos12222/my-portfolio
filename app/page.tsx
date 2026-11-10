@@ -737,11 +737,11 @@ export default function Home() {
                   <span className="text-xs font-mono opacity-70">{t.location}</span>
                 </div>
 
-                <div className="z-10 flex flex-col sm:flex-row items-center gap-6 my-auto text-center sm:text-left">
-                  <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-white/15 shadow-xl shrink-0 bg-zinc-900 group-hover:scale-105 transition-transform duration-300">
-                    <Image src="/profile.jpg" alt="Miltos Papageorgiou" fill className="object-cover object-center" priority />
+                <div className="z-10 flex flex-col sm:flex-row items-center sm:items-start gap-6 my-auto text-center sm:text-left w-full py-2">
+                  <div className="relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-2xl overflow-hidden border-2 border-white/15 shadow-xl shrink-0 bg-zinc-900 group-hover:scale-105 transition-transform duration-300">
+                    <Image src="/profile.jpg" alt="Miltos Papageorgiou" fill sizes="(max-width: 768px) 112px, 144px" className="object-cover object-center" priority />
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">Miltos Papageorgiou</h1>
                     <p className="text-sm opacity-90 leading-relaxed">{t.roleDesc}</p>
                   </div>
